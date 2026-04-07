@@ -1,0 +1,81 @@
+---
+const materials = [
+  { name: "MDF, Triplay y Chapas de madera", icon: "🪵" },
+  { name: "Acrílico (gran gama de colores)", icon: "🔷" },
+  { name: "Papeles (cualquier textura)", icon: "📄" },
+  { name: "Cuero y Tela", icon: "🧵" },
+  { name: "Goma, Foamy y similares", icon: "🟩" },
+  { name: "Vidrio — solo grabado", icon: "🪟" },
+  { name: "Piedra y Mármol — solo grabado", icon: "🪨" },
+  { name: "Cerámica — solo grabado", icon: "🏺" },
+];
+---
+
+<section class="section materials" id="materiales">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">La materia prima de la creatividad</h2>
+      <p class="section-subtitle">
+        Trabajamos con una amplia variedad de materiales que se adaptan a tus
+        ideas y necesidades
+      </p>
+    </div>
+    <ul class="materials-grid" role="list">
+      {
+        materials.map((m) => (
+          <li class="material-card">
+            <span class="material-icon" aria-hidden="true">{m.icon}</span>
+            <span class="material-name">{m.name}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .materials {
+    background: var(--color-bg-alt);
+  }
+
+  .materials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    list-style: none;
+  }
+
+  .material-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    padding: 28px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .material-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 20px rgba(179, 64, 0, 0.08);
+  }
+
+  .material-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .material-name {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--color-text);
+  }
+
+  @media (max-width: 480px) {
+    .materials-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

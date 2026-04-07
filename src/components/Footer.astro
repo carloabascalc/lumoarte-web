@@ -1,0 +1,139 @@
+---
+const affiliates = [
+  { name: "The Line Laser Print", url: "https://thelinelaserprint.com/" },
+  { name: "Abascal Arquitectos", url: "https://abascalarquitectos.com/" },
+  { name: "Prospective Vision", url: "https://www.prospective-vision.org/" },
+];
+---
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="/" aria-label="Lumo Arte">
+        <img
+          src="/images/logo-footer.png"
+          alt="Lumo Arte"
+          width="80"
+          height="96"
+          loading="lazy"
+        />
+      </a>
+      <p class="footer-tagline">
+        No solo cortamos: diseñamos, transformamos y damos vida a las ideas.
+      </p>
+    </div>
+
+    <div class="footer-affiliates">
+      <p class="footer-affiliate-label">Empresas afiliadas</p>
+      <ul role="list">
+        {
+          affiliates.map((a) => (
+            <li>
+              <a
+                href={a.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-affiliate-link"
+              >
+                {a.name}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container">
+      <p>® 2025 Lumo Arte Impression — Cancún, México</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: #0d0d0d;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.875rem;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 48px;
+    padding-top: 56px;
+    padding-bottom: 48px;
+    flex-wrap: wrap;
+  }
+
+  .footer-brand {
+    max-width: 320px;
+  }
+
+  .footer-brand img {
+    height: 64px;
+    width: auto;
+    filter: brightness(0) invert(0.85);
+    margin-bottom: 20px;
+  }
+
+  .footer-tagline {
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .footer-affiliates {
+    min-width: 200px;
+  }
+
+  .footer-affiliate-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+    margin-bottom: 16px;
+  }
+
+  .footer-affiliates ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-affiliate-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.6);
+    transition: color 0.2s;
+  }
+
+  .footer-affiliate-link:hover {
+    color: #fff;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 20px 0;
+  }
+
+  .footer-bottom p {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.8125rem;
+  }
+
+  @media (max-width: 640px) {
+    .footer-inner {
+      flex-direction: column;
+      gap: 40px;
+    }
+  }
+</style>
