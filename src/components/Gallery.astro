@@ -41,6 +41,12 @@ const images = [
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg>
     </button>
   </div>
+
+  <div class="filmstrip-dots" id="filmstripDots" aria-hidden="true">
+    {images.map((_, i) => (
+      <button class={`dot${i === 0 ? " dot--active" : ""}`} data-dot={i} aria-label={`Imagen ${i + 1}`} />
+    ))}
+  </div>
 </section>
 
 <!-- Lightbox -->
@@ -216,6 +222,32 @@ const images = [
     color: #fff;
   }
 
+  /* ── Progress dots ─────────────────────────────────── */
+  .filmstrip-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 0 24px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .dot--active {
+    background: var(--color-accent);
+    transform: scale(1.4);
+  }
+
   /* ── Responsive ────────────────────────────────────── */
   @media (max-width: 768px) {
     .gallery {
@@ -306,5 +338,24 @@ const images = [
   // Guard against registering a click during a drag
   filmstrip.addEventListener("mouseup", () => {
     setTimeout(() => { isDragging = false; }, 0);
+  });
+
+  // ── Progress dots ─────────────────────────────────────
+  const dots = document.querySelectorAll<HTMLButtonElement>(".dot");
+
+  function updateDots() {
+    const itemWidth = filmstrip.querySelector<HTMLElement>(".film-item")?.offsetWidth ?? 0;
+    const gap = 8;
+    const index = Math.round(filmstrip.scrollLeft / (itemWidth + gap));
+    dots.forEach((dot, i) => dot.classList.toggle("dot--active", i === index));
+  }
+
+  filmstrip.addEventListener("scroll", updateDots, { passive: true });
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener("click", () => {
+      const itemWidth = filmstrip.querySelector<HTMLElement>(".film-item")?.offsetWidth ?? 0;
+      filmstrip.scrollTo({ left: i * (itemWidth + 8), behavior: "smooth" });
+    });
   });
 </script>
