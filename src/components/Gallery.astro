@@ -10,20 +10,21 @@ const images = [
 ];
 ---
 
-<section class="section gallery" id="galeria">
+<section class="gallery" id="galeria">
   <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Nuestras obras</h2>
+    <div class="gallery-header">
+      <h2 class="section-title gallery-title">Nuestras obras</h2>
     </div>
     <div class="gallery-grid">
       {
         images.map((img, i) => (
-          <div class="gallery-item">
+          <div class={`gallery-item gallery-item--${i + 1}`}>
             <img
               src={img.src}
               alt={img.alt}
               loading={i < 3 ? "eager" : "lazy"}
             />
+            <div class="gallery-overlay" aria-hidden="true" />
           </div>
         ))
       }
@@ -32,39 +33,128 @@ const images = [
 </section>
 
 <style>
+  .gallery {
+    background: #0d0d0d;
+    padding: 120px 0;
+  }
+
+  .gallery-header {
+    margin-bottom: 48px;
+  }
+
+  .gallery-title {
+    color: #ffffff;
+  }
+
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    grid-template-rows: auto;
+    gap: 8px;
   }
 
   .gallery-item {
+    position: relative;
     overflow: hidden;
-    border-radius: 6px;
-    background: var(--color-surface);
-    aspect-ratio: 4 / 3;
+    border-radius: 4px;
+    background: #1a1a1a;
   }
 
   .gallery-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 0.4s ease;
   }
 
   .gallery-item:hover img {
-    transform: scale(1.04);
+    transform: scale(1.06);
   }
 
+  .gallery-item:hover .gallery-overlay {
+    opacity: 1;
+  }
+
+  /* ── Explicit grid placement ───────────────────────── */
+
+  /* Item 1: col-span 2, 16:9 */
+  .gallery-item--1 {
+    grid-column: 1 / 3;
+    grid-row: 1;
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Item 2: col-span 1, 1:1 */
+  .gallery-item--2 {
+    grid-column: 3;
+    grid-row: 1;
+    aspect-ratio: 1 / 1;
+  }
+
+  /* Item 3: col-span 1, 1:1 */
+  .gallery-item--3 {
+    grid-column: 1;
+    grid-row: 2;
+    aspect-ratio: 1 / 1;
+  }
+
+  /* Item 4: col-span 1, 1:1 */
+  .gallery-item--4 {
+    grid-column: 2;
+    grid-row: 2;
+    aspect-ratio: 1 / 1;
+  }
+
+  /* Item 6 fills the open slot at row 2 col 3 (4:3) */
+  .gallery-item--6 {
+    grid-column: 3;
+    grid-row: 2;
+    aspect-ratio: 4 / 3;
+  }
+
+  /* Item 5: col-span 2, 16:9 — second hero */
+  .gallery-item--5 {
+    grid-column: 1 / 3;
+    grid-row: 3;
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Item 7: col-span 1, 4:3 */
+  .gallery-item--7 {
+    grid-column: 3;
+    grid-row: 3;
+    aspect-ratio: 4 / 3;
+  }
+
+  /* ── Responsive ──────────────────────────────────────── */
   @media (max-width: 768px) {
+    .gallery {
+      padding: 80px 0;
+    }
+
     .gallery-grid {
       grid-template-columns: repeat(2, 1fr);
     }
-  }
 
-  @media (max-width: 480px) {
-    .gallery-grid {
-      grid-template-columns: 1fr;
+    .gallery-item--1,
+    .gallery-item--2,
+    .gallery-item--3,
+    .gallery-item--4,
+    .gallery-item--5,
+    .gallery-item--6,
+    .gallery-item--7 {
+      grid-column: auto;
+      grid-row: auto;
+      aspect-ratio: 4 / 3;
     }
   }
 </style>
