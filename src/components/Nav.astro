@@ -6,7 +6,13 @@
     <a href="/" class="nav-logo" aria-label="Lumo Arte">
       <img src="/images/logo-nav.png" alt="Lumo Arte" width="80" height="48" />
     </a>
-    <nav>
+    <nav class="nav-actions">
+      <a
+        href="/precios-lumoarte.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn nav-pdf"
+      >Lista de precios ↓</a>
       <a href="#cotiza" class="btn btn-primary nav-cta">Solicita tu proyecto</a>
     </nav>
   </div>
@@ -47,9 +53,47 @@
     filter: none;
   }
 
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .nav-pdf {
+    padding: 10px 20px;
+    font-size: 0.875rem;
+    border: 1.5px solid var(--color-accent);
+    color: var(--color-accent);
+    background: transparent;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .nav-pdf:hover {
+    background: var(--color-accent);
+    color: #fff;
+  }
+
+  /* Keep PDF link visible on dark (hero) background */
+  .nav:not(.scrolled) .nav-pdf {
+    border-color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .nav:not(.scrolled) .nav-pdf:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border-color: #fff;
+  }
+
   .nav-cta {
     padding: 10px 24px;
     font-size: 0.875rem;
+  }
+
+  @media (max-width: 540px) {
+    .nav-pdf {
+      display: none;
+    }
   }
 </style>
 
