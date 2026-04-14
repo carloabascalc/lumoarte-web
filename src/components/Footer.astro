@@ -155,16 +155,17 @@ const affiliates = [
 
   .about-trigger {
     font-size: 0.8125rem;
-    color: rgba(255, 255, 255, 0.35);
+    color: var(--color-accent);
     background: none;
     border: none;
     cursor: pointer;
     padding: 0;
-    transition: color 0.2s;
+    transition: opacity 0.2s;
+    opacity: 0.8;
   }
 
   .about-trigger:hover {
-    color: rgba(255, 255, 255, 0.75);
+    opacity: 1;
   }
 
   /* ── About overlay ─────────────────────────────────── */
