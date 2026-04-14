@@ -19,6 +19,7 @@
         rel="noopener noreferrer"
         class="btn nav-pdf"
       >¿Cómo enviar tu proyecto? ↓</a>
+      <a href="#cotiza" class="btn nav-cta-mobile">Solicita tu proyecto</a>
     </nav>
   </div>
 </header>
@@ -90,9 +91,26 @@
     border-color: #fff;
   }
 
+  .nav-cta-mobile {
+    display: none;
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    background: var(--color-accent);
+    color: #fff;
+    transition: background 0.2s;
+  }
+
+  .nav-cta-mobile:hover {
+    background: var(--color-accent-dark);
+  }
+
   @media (max-width: 540px) {
     .nav-pdf {
       display: none;
+    }
+
+    .nav-cta-mobile {
+      display: inline-flex;
     }
   }
 </style>

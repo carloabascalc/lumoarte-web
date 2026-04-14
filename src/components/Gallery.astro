@@ -282,11 +282,13 @@ const images = [
 
   // ── Drag to scroll ────────────────────────────────────
   let isDragging = false;
+  let didDrag = false;
   let startX = 0;
   let scrollStart = 0;
 
   filmstrip.addEventListener("mousedown", (e) => {
     isDragging = true;
+    didDrag = false;
     startX = e.pageX;
     scrollStart = filmstrip.scrollLeft;
     filmstrip.classList.add("is-dragging");
@@ -295,6 +297,7 @@ const images = [
   window.addEventListener("mousemove", (e) => {
     if (!isDragging) return;
     const delta = e.pageX - startX;
+    if (Math.abs(delta) > 4) didDrag = true;
     filmstrip.scrollLeft = scrollStart - delta;
   });
 
@@ -308,7 +311,7 @@ const images = [
 
   items.forEach((item) => {
     item.addEventListener("click", () => {
-      if (isDragging) return; // ignore drag-end clicks
+      if (didDrag) { didDrag = false; return; }
       const img = item.querySelector("img")!;
       lightboxImg.src = img.src;
       lightboxImg.alt = img.alt;
@@ -333,11 +336,6 @@ const images = [
     if (e.key === "Escape" && !lightbox.hasAttribute("hidden")) {
       closeLightbox();
     }
-  });
-
-  // Guard against registering a click during a drag
-  filmstrip.addEventListener("mouseup", () => {
-    setTimeout(() => { isDragging = false; }, 0);
   });
 
   // ── Progress dots ─────────────────────────────────────
