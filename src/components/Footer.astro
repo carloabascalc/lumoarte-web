@@ -21,6 +21,10 @@ const affiliates = [
       <p class="footer-tagline">
         No solo cortamos: diseñamos, transformamos y damos vida a las ideas.
       </p>
+      <button class="about-trigger" id="aboutTrigger" aria-haspopup="dialog">
+        Quiénes somos
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
     </div>
 
     <div class="footer-affiliates">
@@ -50,9 +54,8 @@ const affiliates = [
   </div>
 
   <div class="footer-bottom">
-    <div class="container footer-bottom-inner">
+    <div class="container">
       <p>© 2026 Lumo Arte Impression — Cancún, México</p>
-      <button class="about-trigger" id="aboutTrigger" aria-haspopup="dialog">Quiénes somos</button>
     </div>
   </div>
 </footer>
@@ -141,31 +144,35 @@ const affiliates = [
     padding: 20px 0;
   }
 
-  .footer-bottom-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-  }
-
   .footer-bottom p {
     color: rgba(255, 255, 255, 0.3);
     font-size: 0.8125rem;
   }
 
   .about-trigger {
-    font-size: 0.8125rem;
-    color: var(--color-accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 20px;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.55);
     background: none;
     border: none;
     cursor: pointer;
     padding: 0;
-    transition: opacity 0.2s;
-    opacity: 0.8;
+    transition: color 0.2s;
   }
 
   .about-trigger:hover {
-    opacity: 1;
+    color: #fff;
+  }
+
+  .about-trigger svg {
+    transition: transform 0.2s;
+  }
+
+  .about-trigger:hover svg {
+    transform: translateX(3px);
   }
 
   /* ── About overlay ─────────────────────────────────── */
