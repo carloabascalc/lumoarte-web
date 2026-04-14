@@ -184,10 +184,16 @@ const materials = [
     justify-content: center;
     padding: 24px;
     backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity 0.22s ease;
   }
 
   .mat-overlay[hidden] {
     display: none;
+  }
+
+  .mat-overlay.is-open {
+    opacity: 1;
   }
 
   /* ── Modal card ────────────────────────────────────── */
@@ -200,6 +206,16 @@ const materials = [
     width: 100%;
     box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
     border-top: 3px solid var(--color-accent);
+    transform: scale(0.91) translateY(12px);
+    opacity: 0;
+    transition:
+      transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
+      opacity 0.22s ease;
+  }
+
+  .mat-overlay.is-open .mat-modal {
+    transform: scale(1) translateY(0);
+    opacity: 1;
   }
 
   .mat-close {
@@ -338,14 +354,21 @@ const materials = [
     modalExamples.innerHTML = m.ejemplos.map((e) => `<li>${e}</li>`).join("");
     overlay.removeAttribute("hidden");
     overlay.removeAttribute("aria-hidden");
+    // Force reflow so the transition fires from the initial (closed) state
+    overlay.offsetHeight;
+    overlay.classList.add("is-open");
     document.body.style.overflow = "hidden";
     closeBtn.focus();
   }
 
   function closeModal() {
-    overlay.setAttribute("hidden", "");
-    overlay.setAttribute("aria-hidden", "true");
+    overlay.classList.remove("is-open");
     document.body.style.overflow = "";
+    overlay.addEventListener("transitionend", function handler() {
+      overlay.setAttribute("hidden", "");
+      overlay.setAttribute("aria-hidden", "true");
+      overlay.removeEventListener("transitionend", handler);
+    });
   }
 
   document.querySelectorAll(".material-card").forEach((card) => {
