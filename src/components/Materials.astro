@@ -2,43 +2,59 @@
 const materials = [
   {
     name: "MDF, Triplay y Chapas de madera",
-    // Layers
     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
+    descripcion: "El material más versátil del taller. Ofrece acabados cálidos y naturales, perfecto para proyectos decorativos y arquitectónicos de cualquier escala.",
+    tecnica: "Corte y grabado",
+    ejemplos: ["Celosías y biombos", "Maquetas arquitectónicas", "Letreros decorativos", "Lámparas y luminarias", "Marcos y repisas", "Puertas y paneles calados"],
   },
   {
     name: "Acrílico (gran gama de colores)",
-    // Gem
     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 18 3 22 9 12 22 2 9"/><polyline points="2 9 12 14 22 9"/><line x1="12" y1="3" x2="12" y2="22"/><line x1="6" y1="3" x2="2" y2="9"/><line x1="18" y1="3" x2="22" y2="9"/></svg>`,
+    descripcion: "Disponible en decenas de colores, transparencias y acabados. Genera cortes limpios con bordes pulidos. Ideal para piezas modernas y con iluminación.",
+    tecnica: "Corte y grabado",
+    ejemplos: ["Letreros luminosos", "Displays y señalética", "Separadores de ambiente", "Lámparas decorativas", "Portarretratos y marcos", "Vasos y tazas grabadas"],
   },
   {
     name: "Papeles (cualquier textura)",
-    // Scroll
     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h12a2 2 0 0 0 2-2v-2H10v2a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12v4"/><path d="M10 11h8M10 15h5"/></svg>`,
+    descripcion: "Permitimos cortes muy delicados e intrincados en papeles de cualquier gramaje y textura. Ideal para piezas de papelería fina y arte en papel.",
+    tecnica: "Corte",
+    ejemplos: ["Invitaciones de boda", "Papelería personalizada", "Siluetas artísticas", "Tarjetas de presentación", "Decoraciones de eventos", "Cajas y empaque"],
   },
   {
     name: "Cuero y Tela",
-    // Scissors
     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>`,
+    descripcion: "El láser permite cortes precisos sin deformar el material y grabados que realzan la textura natural del cuero o la tela. Acabado artesanal garantizado.",
+    tecnica: "Corte y grabado",
+    ejemplos: ["Carteras y monederos", "Etiquetas para ropa", "Parches y apliques", "Portadocumentos", "Decoraciones textiles", "Accesorios personalizados"],
   },
   {
     name: "Goma, Foamy y similares",
-    // Eraser
     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg>`,
+    descripcion: "Material ligero, económico y disponible en muchos colores. Perfecto para volúmenes grandes y proyectos donde el peso y el costo son factores clave.",
+    tecnica: "Corte",
+    ejemplos: ["Letras y números volumétricos", "Props para fotografía", "Gafetes y credenciales", "Decoraciones de eventos", "Manualidades escolares", "Señalética temporal"],
   },
   {
     name: "Vidrio — solo grabado",
-    // Scan
     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="7" y1="12" x2="17" y2="12"/></svg>`,
+    descripcion: "Grabamos sobre vidrio plano y piezas terminadas creando un efecto esmerilado permanente y elegante. El cliente trae la pieza o nosotros la conseguimos.",
+    tecnica: "Solo grabado",
+    ejemplos: ["Copas y cristalería", "Espejos decorativos", "Ventanas y cancel", "Placas conmemorativas", "Regalos corporativos", "Arte en vidrio"],
   },
   {
     name: "Piedra y Mármol — solo grabado",
-    // Mountain
     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>`,
+    descripcion: "Grabado de alta precisión sobre superficies duras. El resultado es permanente, con un contraste elegante entre la zona grabada y la superficie natural.",
+    tecnica: "Solo grabado",
+    ejemplos: ["Coasters y portavasos", "Placas y reconocimientos", "Detalles arquitectónicos", "Regalos de lujo", "Lápidas y memoriales", "Vajillas de piedra"],
   },
   {
     name: "Cerámica — solo grabado",
-    // Flame
     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>`,
+    descripcion: "Grabamos sobre piezas de cerámica esmaltada y sin esmaltar. Ideal para personalizar vajillas, regalos únicos o colecciones artesanales.",
+    tecnica: "Solo grabado",
+    ejemplos: ["Tazas y platos", "Macetas decorativas", "Azulejos personalizados", "Vajillas con logo", "Regalos de boda", "Piezas de colección"],
   },
 ];
 ---
@@ -54,8 +70,8 @@ const materials = [
     </div>
     <ul class="materials-grid" role="list">
       {
-        materials.map((m) => (
-          <li class="material-card">
+        materials.map((m, i) => (
+          <li class="material-card" data-index={i} role="button" tabindex="0" aria-label={`Ver detalles de ${m.name}`}>
             <span class="material-icon" aria-hidden="true" set:html={m.svg} />
             <span class="material-name">{m.name}</span>
           </li>
@@ -64,6 +80,32 @@ const materials = [
     </ul>
   </div>
 </section>
+
+<!-- Material modal -->
+<div class="mat-overlay" id="matOverlay" hidden aria-hidden="true">
+  <div class="mat-modal" id="matModal" role="dialog" aria-modal="true" aria-labelledby="matModalTitle">
+    <button class="mat-close" id="matClose" aria-label="Cerrar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <div class="mat-modal-icon" id="matModalIcon" aria-hidden="true"></div>
+    <h3 class="mat-modal-title" id="matModalTitle"></h3>
+    <p class="mat-modal-desc" id="matModalDesc"></p>
+
+    <div class="mat-modal-body">
+      <div class="mat-info-block">
+        <p class="mat-info-label">Técnica</p>
+        <span class="mat-tag" id="matModalTag"></span>
+      </div>
+      <div class="mat-info-block">
+        <p class="mat-info-label">Podemos hacer</p>
+        <ul class="mat-examples" id="matModalExamples"></ul>
+      </div>
+    </div>
+  </div>
+</div>
 
 <style>
   .materials {
@@ -86,6 +128,7 @@ const materials = [
     align-items: center;
     gap: 16px;
     transition: border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
   }
 
   .material-card:hover {
@@ -115,4 +158,198 @@ const materials = [
     color: var(--color-text);
   }
 
+  /* ── Overlay ───────────────────────────────────────── */
+  .mat-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background: rgba(10, 6, 3, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    backdrop-filter: blur(2px);
+  }
+
+  .mat-overlay[hidden] {
+    display: none;
+  }
+
+  /* ── Modal card ────────────────────────────────────── */
+  .mat-modal {
+    position: relative;
+    background: var(--color-bg);
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+    border-top: 3px solid var(--color-accent);
+  }
+
+  .mat-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-muted);
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+  }
+
+  .mat-close:hover {
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  .mat-modal-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: rgba(165, 58, 4, 0.08);
+    border-radius: 10px;
+    color: var(--color-accent);
+    margin-bottom: 20px;
+  }
+
+  .mat-modal-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .mat-modal-title {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 12px;
+    line-height: 1.3;
+    padding-right: 24px;
+  }
+
+  .mat-modal-desc {
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+    line-height: 1.75;
+    margin-bottom: 28px;
+  }
+
+  .mat-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-top: 1px solid var(--color-surface);
+    padding-top: 24px;
+  }
+
+  .mat-info-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 10px;
+  }
+
+  .mat-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    background: rgba(165, 58, 4, 0.08);
+    color: var(--color-accent);
+    border: 1px solid rgba(165, 58, 4, 0.2);
+  }
+
+  .mat-examples {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+  }
+
+  .mat-examples li {
+    font-size: 0.875rem;
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mat-examples li::before {
+    content: "";
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 540px) {
+    .mat-modal {
+      padding: 28px 24px;
+    }
+
+    .mat-examples {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
+
+<script define:vars={{ materials }}>
+  const overlay = document.getElementById("matOverlay");
+  const modalIcon = document.getElementById("matModalIcon");
+  const modalTitle = document.getElementById("matModalTitle");
+  const modalDesc = document.getElementById("matModalDesc");
+  const modalTag = document.getElementById("matModalTag");
+  const modalExamples = document.getElementById("matModalExamples");
+  const closeBtn = document.getElementById("matClose");
+
+  function openModal(index) {
+    const m = materials[index];
+    modalIcon.innerHTML = m.svg;
+    modalTitle.textContent = m.name;
+    modalDesc.textContent = m.descripcion;
+    modalTag.textContent = m.tecnica;
+    modalExamples.innerHTML = m.ejemplos.map((e) => `<li>${e}</li>`).join("");
+    overlay.removeAttribute("hidden");
+    overlay.removeAttribute("aria-hidden");
+    document.body.style.overflow = "hidden";
+    closeBtn.focus();
+  }
+
+  function closeModal() {
+    overlay.setAttribute("hidden", "");
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  document.querySelectorAll(".material-card").forEach((card) => {
+    card.addEventListener("click", () => openModal(Number(card.dataset.index)));
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openModal(Number(card.dataset.index));
+      }
+    });
+  });
+
+  closeBtn.addEventListener("click", closeModal);
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !overlay.hasAttribute("hidden")) closeModal();
+  });
+</script>
