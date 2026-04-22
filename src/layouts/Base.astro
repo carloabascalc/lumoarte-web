@@ -1,4 +1,6 @@
 ---
+import { ClientRouter } from "astro:transitions";
+
 interface Props {
   title?: string;
   description?: string;
@@ -24,9 +26,16 @@ const {
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
+    <ClientRouter />
   </head>
   <body>
     <slot />
+
+    <script>
+      import { initAll } from "../scripts/animations";
+      initAll();
+      document.addEventListener("astro:page-load", initAll);
+    </script>
   </body>
 </html>
 
@@ -56,6 +65,30 @@ const {
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: var(--nav-h);
+  }
+
+  /* Hide reveal elements until JS animates them in */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    will-change: opacity, transform;
+  }
+
+  .materials-grid .material-card,
+  .film-item {
+    will-change: opacity, transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+    [data-reveal] {
+      opacity: 1 !important;
+      transform: none !important;
+    }
   }
 
   body {
