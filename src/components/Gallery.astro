@@ -34,8 +34,8 @@ const images = [
 <section class="gallery" id="galeria">
   <div class="container">
     <div class="gallery-header">
-      <h2 class="section-title gallery-title">Nuestras obras</h2>
-      <span class="gallery-accent" aria-hidden="true"></span>
+      <h2 class="section-title gallery-title" data-reveal>Nuestras obras</h2>
+      <span class="gallery-accent" data-reveal data-reveal-delay="0.15" aria-hidden="true"></span>
     </div>
   </div>
 
@@ -142,6 +142,8 @@ const images = [
     overflow: hidden;
     border-radius: 4px;
     background: #1a1a1a;
+    opacity: 0;
+    cursor: zoom-in;
   }
 
   .film-item img {
@@ -149,7 +151,7 @@ const images = [
     width: auto;
     object-fit: cover;
     display: block;
-    transition: transform 0.4s ease;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     pointer-events: none;
   }
 
@@ -163,7 +165,7 @@ const images = [
   }
 
   .film-item:hover img {
-    transform: scale(1.04);
+    transform: scale(1.06);
   }
 
   .film-item:hover .film-overlay {

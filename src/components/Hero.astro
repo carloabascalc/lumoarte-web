@@ -5,7 +5,10 @@
   <div class="hero-bg" aria-hidden="true"></div>
   <div class="container hero-content">
     <p class="hero-eyebrow">Arte · Precisión · Diseño</p>
-    <h1 class="hero-title">Fabricación, corte<br />láser impresión 3D</h1>
+    <h1 class="hero-title" aria-label="Fabricación, corte láser impresión 3D">
+      <span class="hero-title-mask"><span class="hero-title-line">Fabricación, corte</span></span>
+      <span class="hero-title-mask"><span class="hero-title-line">láser impresión 3D</span></span>
+    </h1>
     <p class="hero-sub">
       Transformamos materiales en esculturas, estructuras, maquetas y objetos
       personalizados combinando tecnología de precisión con mano de obra artesanal.
@@ -33,8 +36,7 @@
     background-image: url("/images/gallery/hero-bg.jpg");
     background-size: cover;
     background-position: center center;
-    transform: scale(1.03);
-    transition: transform 8s ease-out;
+    will-change: transform;
   }
 
   .hero-bg::after {
@@ -64,6 +66,8 @@
     text-transform: uppercase;
     color: var(--color-accent);
     margin-bottom: 20px;
+    opacity: 0;
+    will-change: opacity, transform;
   }
 
   .hero-title {
@@ -75,6 +79,19 @@
     letter-spacing: -0.02em;
   }
 
+  .hero-title-mask {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.04em;
+    line-height: inherit;
+  }
+
+  .hero-title-line {
+    display: block;
+    transform: translateY(110%);
+    will-change: transform;
+  }
+
   .hero-sub {
     font-size: clamp(1rem, 2vw, 1.125rem);
     color: rgba(255, 255, 255, 0.82);
@@ -82,11 +99,34 @@
     line-height: 1.75;
     margin-bottom: 40px;
     font-weight: 300;
+    opacity: 0;
+    will-change: opacity, transform;
   }
 
   .hero-cta {
     font-size: 1rem;
     padding: 16px 36px;
+    opacity: 0;
+    will-change: opacity, transform;
+  }
+
+  .hero-cta {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-cta::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.22) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 0.7s ease;
+    pointer-events: none;
+  }
+
+  .hero-cta:hover::after {
+    transform: translateX(120%);
   }
 
   .hero-scroll {
@@ -95,6 +135,7 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
+    opacity: 0;
   }
 
   .hero-scroll span {
@@ -117,9 +158,3 @@
   }
 </style>
 
-<script>
-  const bg = document.querySelector(".hero-bg") as HTMLElement;
-  if (bg) {
-    setTimeout(() => { bg.style.transform = "scale(1)"; }, 100);
-  }
-</script>

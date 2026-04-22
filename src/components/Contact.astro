@@ -4,13 +4,13 @@
 <section class="contact" id="contacto">
   <div class="container contact-inner">
     <div class="contact-header">
-      <h2 class="section-title">Contáctanos</h2>
-      <p class="contact-tagline">
+      <h2 class="section-title" data-reveal>Contáctanos</h2>
+      <p class="contact-tagline" data-reveal data-reveal-delay="0.08">
         Estamos en Cancún, listos para convertir tu idea en realidad.
       </p>
     </div>
 
-    <div class="contact-grid">
+    <div class="contact-grid" data-reveal data-reveal-delay="0.15">
       <a
         href="https://wa.me/528138913891"
         class="contact-item"
@@ -117,11 +117,24 @@
     gap: 16px;
     align-items: flex-start;
     color: #fff;
-    transition: opacity 0.2s;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   a.contact-item:hover {
-    opacity: 0.8;
+    transform: translateY(-3px);
+  }
+
+  a.contact-item:hover .contact-icon {
+    background: rgba(165, 58, 4, 0.22);
+    color: #fff;
+  }
+
+  .contact-icon {
+    transition: background 0.25s ease, color 0.25s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  a.contact-item:hover .contact-icon {
+    transform: scale(1.08);
   }
 
   .contact-icon {
