@@ -1,0 +1,179 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import ServicePageHero from "../../components/ServicePageHero.astro";
+import Materials from "../../components/Materials.astro";
+import Gallery from "../../components/Gallery.astro";
+import InstagramCTA from "../../components/InstagramCTA.astro";
+import QuoteForm from "../../components/QuoteForm.astro";
+import Contact from "../../components/Contact.astro";
+import Footer from "../../components/Footer.astro";
+import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import { getService, SITE } from "../../data/services";
+
+const service = getService("corte-laser");
+
+const sectores = [
+  {
+    label: "Arquitectura y diseño",
+    description:
+      "Maquetas a escala, paneles calados, celosías, planos en relieve y elementos decorativos para proyectos residenciales y comerciales.",
+  },
+  {
+    label: "Eventos y bodas",
+    description:
+      "Invitaciones intricadas, números de mesa, seating charts, recuerdos personalizados y elementos de decoración únicos.",
+  },
+  {
+    label: "Retail y branding",
+    description:
+      "Señalética interior y exterior, displays, escaparates, lettering volumétrico y piezas de marca a medida.",
+  },
+  {
+    label: "Regalos corporativos",
+    description:
+      "Placas de reconocimiento, premios, llaveros, kits de bienvenida grabados con el logo de tu empresa.",
+  },
+  {
+    label: "Decoración y arte",
+    description:
+      "Lámparas, esculturas, marcos, cuadros y piezas únicas para hogares, oficinas y espacios públicos.",
+  },
+  {
+    label: "Producción en serie",
+    description:
+      "Lotes de cientos o miles de piezas con la misma precisión que una pieza única — souvenirs, líneas de producto, kits.",
+  },
+];
+
+const serviceSchema = {
+  name: service.name,
+  serviceType: "Laser cutting and engraving",
+  description: service.metaDescription,
+  url: `${SITE.url}${service.slug}`,
+};
+---
+
+<Base
+  title={`${service.name} en Cancún | Lumo Arte`}
+  description={service.metaDescription}
+  canonical={service.slug}
+  ogImage="/og/corte-laser.jpg"
+  schemaType="Service"
+  schemaData={serviceSchema}
+>
+  <Nav variant="solid" />
+  <main>
+    <Breadcrumb
+      items={[
+        { label: "Inicio", href: "/" },
+        { label: "Servicios", href: "/#servicios" },
+        { label: service.name },
+      ]}
+    />
+
+    <ServicePageHero
+      eyebrow="Corte láser de precisión"
+      title="El láser le da forma a tus ideas"
+      subtitle="Cortamos y grabamos materiales con precisión milimétrica. Desde una pieza única hasta producción en serie de miles de unidades, con acabados limpios y repetibles."
+      primaryCta={{ label: "Solicita tu cotización", href: "#cotiza" }}
+      secondaryCta={{ label: "Ver materiales", href: "#materiales" }}
+    />
+
+    <Materials />
+
+    <section class="sectores section">
+      <div class="container">
+        <div class="section-header">
+          <p class="sectores-eyebrow" data-reveal>Para quién trabajamos</p>
+          <h2 class="section-title" data-reveal data-reveal-delay="0.06">
+            Sectores que confían en el corte láser
+          </h2>
+          <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
+            El láser es uno de los procesos más versátiles que existen. Estos
+            son los sectores donde más se aprovecha lo que sale de nuestro
+            taller.
+          </p>
+        </div>
+        <ul class="sectores-grid" role="list">
+          {sectores.map((s, i) => (
+            <li class="sector-card" data-reveal data-reveal-delay={`${0.04 + i * 0.04}`}>
+              <h3 class="sector-name">{s.label}</h3>
+              <p class="sector-description">{s.description}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <Gallery
+      filterService="corte-laser"
+      title="Trabajos de corte láser"
+      subtitle="Una selección del taller — productos terminados, lifestyle y trabajos a escala industrial."
+    />
+
+    <InstagramCTA />
+
+    <QuoteForm defaultService="corte-laser" />
+    <Contact />
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Base>
+
+<style>
+  .sectores {
+    background: var(--color-bg-alt);
+  }
+
+  .sectores-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+  }
+
+  .sectores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    list-style: none;
+    background: var(--color-surface);
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .sector-card {
+    background: var(--color-bg);
+    padding: 36px 32px;
+    transition: background 0.25s ease;
+  }
+
+  .sector-card:hover {
+    background: #fff;
+  }
+
+  .sector-name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 12px;
+  }
+
+  .sector-description {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 768px) {
+    .sector-card {
+      padding: 28px 24px;
+    }
+  }
+</style>

@@ -1,0 +1,312 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import ServicePageHero from "../../components/ServicePageHero.astro";
+import Gallery from "../../components/Gallery.astro";
+import InstagramCTA from "../../components/InstagramCTA.astro";
+import QuoteForm from "../../components/QuoteForm.astro";
+import Contact from "../../components/Contact.astro";
+import Footer from "../../components/Footer.astro";
+import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import { getService, SITE } from "../../data/services";
+
+const service = getService("impresion-gran-formato");
+
+const usos = [
+  {
+    label: "Lonas y banners",
+    description:
+      "Para eventos, restaurantes, hoteles, real estate y retail. Imprimimos en lona frontlit (visible con luz frontal) o blockout (totalmente opaca, ideal para colgar al aire).",
+    examples: [
+      "Banners de evento y boda",
+      "Anuncios para fachadas",
+      "Backdrops para fotografía",
+      "Lonas publicitarias para vehículos",
+      "Cortinas para stands y ferias",
+    ],
+  },
+  {
+    label: "Vinil adhesivo y wraps",
+    description:
+      "Vinil para rotulación de ventanas, pisos, vehículos y mobiliario. Trabajamos vinil de corto plazo para campañas y vinil automotriz de largo plazo para wraps completos.",
+    examples: [
+      "Wraps vehiculares completos o parciales",
+      "Rotulación de ventanas para comercios",
+      "Decals y stickers personalizados",
+      "Letras adhesivas para señalética",
+      "Vinil de piso para eventos y promociones",
+    ],
+  },
+  {
+    label: "Sublimación textil",
+    description:
+      "Imprimimos en tela para sublimación con tintas que se transfieren al textil al calor. El resultado es un estampado que no se siente al tacto y resiste lavados sin agrietarse.",
+    examples: [
+      "Playeras y uniformes deportivos",
+      "Banderas y mantas textiles",
+      "Backdrops textiles para eventos",
+      "Almohadas, fundas y artículos personalizados",
+      "Toallas y artículos para hospedaje",
+    ],
+  },
+];
+
+const specs = [
+  { label: "Ancho de impresión", value: "Hasta 1.80 m" },
+  { label: "Resolución", value: "Hasta 1440 dpi" },
+  { label: "Velocidad", value: "8 a 12 m²/h" },
+  { label: "Tintas", value: "Eco-solvente · Sublimación" },
+  { label: "Cabezal", value: "Epson XP600" },
+  { label: "Materiales", value: "Lona, vinil, tela, papel sintético" },
+];
+
+const serviceSchema = {
+  name: service.name,
+  serviceType: "Large format printing",
+  description: service.metaDescription,
+  url: `${SITE.url}${service.slug}`,
+};
+---
+
+<Base
+  title={`${service.name} en Cancún | Lumo Arte`}
+  description={service.metaDescription}
+  canonical={service.slug}
+  ogImage="/og/impresion-gran-formato.jpg"
+  schemaType="Service"
+  schemaData={serviceSchema}
+>
+  <Nav variant="solid" />
+  <main>
+    <Breadcrumb
+      items={[
+        { label: "Inicio", href: "/" },
+        { label: "Servicios", href: "/#servicios" },
+        { label: service.name },
+      ]}
+    />
+
+    <ServicePageHero
+      eyebrow="Impresión gran formato"
+      title="Hasta 1.80 m de ancho, sin salir de Cancún"
+      subtitle="Lonas, vinil y sublimación textil con tintas eco-solventes y de sublimación. Tres usos en una sola máquina industrial — desde un banner para tu evento hasta el wrap completo de tu vehículo."
+      primaryCta={{ label: "Solicita tu cotización", href: "#cotiza" }}
+      secondaryCta={{ label: "Ver usos", href: "#usos" }}
+    />
+
+    <section class="usos section" id="usos">
+      <div class="container">
+        <div class="section-header">
+          <p class="usos-eyebrow" data-reveal>Tres usos, una sola máquina</p>
+          <h2 class="section-title" data-reveal data-reveal-delay="0.06">
+            Lo que sale del plotter
+          </h2>
+          <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
+            La misma impresora cubre desde el banner para tu evento hasta el
+            uniforme deportivo de tu equipo. Cambiamos el material y el tipo de
+            tinta — no la calidad.
+          </p>
+        </div>
+        <div class="usos-grid">
+          {usos.map((u, i) => (
+            <article class="uso-card" data-reveal data-reveal-delay={`${0.04 + i * 0.08}`}>
+              <h3 class="uso-name">{u.label}</h3>
+              <p class="uso-description">{u.description}</p>
+              <p class="uso-examples-label">Ejemplos:</p>
+              <ul class="uso-examples" role="list">
+                {u.examples.map((e) => <li>{e}</li>)}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="specs section" id="especificaciones">
+      <div class="container">
+        <div class="specs-inner">
+          <div class="specs-text">
+            <p class="specs-eyebrow" data-reveal>Especificaciones técnicas</p>
+            <h2 class="specs-title" data-reveal data-reveal-delay="0.06">
+              Equipo industrial, calidad de fotograbado
+            </h2>
+            <p class="specs-description" data-reveal data-reveal-delay="0.12">
+              Trabajamos con un plotter de cabezal Epson XP600 y dos sistemas
+              de tinta independientes — uno eco-solvente para impresión directa
+              sobre lona y vinil, y uno de sublimación para textiles. Esto te
+              da en una misma cotización todas las piezas de tu campaña.
+            </p>
+          </div>
+          <ul class="specs-list" role="list" data-reveal data-reveal-delay="0.18">
+            {specs.map((s) => (
+              <li class="spec-row">
+                <span class="spec-label">{s.label}</span>
+                <span class="spec-value">{s.value}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <Gallery
+      filterService="impresion-gran-formato"
+      title="Trabajos de gran formato"
+      subtitle="Estamos documentando los proyectos del taller. Mientras tanto, sigue nuestro Instagram para ver lo más reciente."
+    />
+
+    <InstagramCTA />
+
+    <QuoteForm defaultService="impresion-gran-formato" />
+    <Contact />
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Base>
+
+<style>
+  .usos {
+    background: var(--color-bg-alt);
+  }
+
+  .usos-eyebrow,
+  .specs-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+  }
+
+  .usos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+
+  .uso-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .uso-name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .uso-description {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  .uso-examples-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    margin-bottom: -8px;
+  }
+
+  .uso-examples {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .uso-examples li {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .uso-examples li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 8px;
+    height: 1.5px;
+    background: var(--color-accent);
+  }
+
+  /* ── Specs ──────────────────────────────────────────── */
+  .specs {
+    background: var(--color-bg);
+  }
+
+  .specs-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .specs-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--color-text);
+    margin-bottom: 24px;
+  }
+
+  .specs-description {
+    color: var(--color-muted);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .specs-list {
+    list-style: none;
+    border-top: 1px solid var(--color-surface);
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--color-surface);
+    align-items: baseline;
+  }
+
+  .spec-label {
+    color: var(--color-muted);
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
+  }
+
+  .spec-value {
+    color: var(--color-text);
+    font-weight: 500;
+    font-size: 0.9375rem;
+    text-align: right;
+  }
+
+  @media (max-width: 880px) {
+    .specs-inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .uso-card {
+      padding: 28px 24px;
+    }
+  }
+</style>

@@ -1,15 +1,75 @@
 ---
 import { ClientRouter } from "astro:transitions";
+import { SITE } from "../data/services";
 
 interface Props {
   title?: string;
   description?: string;
+  canonical?: string;
+  ogImage?: string;
+  schemaType?: "WebSite" | "LocalBusiness" | "Service";
+  schemaData?: Record<string, unknown>;
 }
 
 const {
-  title = "Lumo Arte — Corte Láser Artesanal en Cancún",
-  description = "Transformamos materiales en esculturas, estructuras, maquetas y objetos personalizados combinando tecnología de precisión con mano de obra artesanal.",
+  title = "Lumo Arte — Fabricación digital en Cancún | Corte láser, impresión 3D y gran formato",
+  description = SITE.description,
+  canonical,
+  ogImage = SITE.ogDefault,
+  schemaType,
+  schemaData,
 } = Astro.props;
+
+const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site).href;
+const ogImageURL = new URL(ogImage, Astro.site).href;
+
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": `${SITE.url}#business`,
+  name: SITE.name,
+  description: SITE.description,
+  url: SITE.url,
+  telephone: `+${SITE.whatsapp}`,
+  email: SITE.email,
+  image: `${SITE.url}${SITE.ogDefault}`,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: SITE.address.street,
+    addressLocality: SITE.address.city,
+    addressRegion: SITE.address.state,
+    addressCountry: SITE.address.country,
+  },
+  sameAs: [SITE.instagram],
+  areaServed: {
+    "@type": "City",
+    name: "Cancún",
+  },
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE.url}#website`,
+  url: SITE.url,
+  name: SITE.name,
+  description: SITE.description,
+  inLanguage: "es-MX",
+  publisher: { "@id": `${SITE.url}#business` },
+};
+
+let injectedSchema: Record<string, unknown> | null = null;
+if (schemaType === "LocalBusiness") injectedSchema = localBusinessSchema;
+else if (schemaType === "WebSite") injectedSchema = websiteSchema;
+else if (schemaType === "Service" && schemaData) {
+  injectedSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    provider: { "@id": `${SITE.url}#business` },
+    areaServed: { "@type": "City", name: "Cancún" },
+    ...schemaData,
+  };
+}
 ---
 
 <!doctype html>
@@ -17,15 +77,39 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
-    <link rel="icon" type="image/png" href="/images/logo-nav.png" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <meta name="theme-color" content="#A53A04" />
+    <link rel="icon" type="image/png" href="/images/logo-nav.png" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
+
+    {injectedSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(injectedSchema)} />
+    )}
+
     <ClientRouter />
   </head>
   <body>

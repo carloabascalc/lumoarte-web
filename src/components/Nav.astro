@@ -1,12 +1,18 @@
 ---
+interface Props {
+  variant?: "overlay" | "solid";
+}
+
+const { variant = "overlay" } = Astro.props;
 ---
 
-<header class="nav" id="nav">
+<header class={`nav nav--${variant}`} id="nav" data-variant={variant}>
   <div class="nav-inner container">
     <a href="/" class="nav-logo" aria-label="Lumo Arte">
       <img src="/images/logo-nav.png" alt="Lumo Arte" width="80" height="48" />
     </a>
     <nav class="nav-actions">
+      <a href="/#servicios" class="nav-link">Servicios</a>
       <a
         href="/precios-lumoarte.pdf"
         target="_blank"
@@ -17,7 +23,7 @@
         href="/manual-lumoarte.pdf"
         target="_blank"
         rel="noopener noreferrer"
-        class="btn nav-pdf"
+        class="btn nav-pdf nav-pdf--secondary"
       >¿Cómo enviar tu proyecto? ↓</a>
     </nav>
   </div>
@@ -34,7 +40,8 @@
     transition: background 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .nav.scrolled {
+  .nav.scrolled,
+  .nav--solid {
     background: #fff;
     box-shadow: 0 1px 16px rgba(0, 0, 0, 0.07);
   }
@@ -50,18 +57,39 @@
     height: 40px;
     width: auto;
     object-fit: contain;
-    filter: brightness(0) invert(1);
     transition: filter 0.3s ease;
   }
 
-  .nav.scrolled .nav-logo img {
-    filter: none;
+  .nav--overlay:not(.scrolled) .nav-logo img {
+    filter: brightness(0) invert(1);
   }
 
   .nav-actions {
     display: flex;
     align-items: center;
     gap: 12px;
+  }
+
+  .nav-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--color-text);
+    padding: 10px 8px;
+    transition: color 0.2s;
+  }
+
+  .nav-link:hover {
+    color: var(--color-accent);
+  }
+
+  /* Keep nav link readable on dark hero background (overlay mode only) */
+  .nav--overlay:not(.scrolled) .nav-link {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .nav--overlay:not(.scrolled) .nav-link:hover {
+    color: #fff;
   }
 
   .nav-pdf {
@@ -78,21 +106,32 @@
     color: #fff;
   }
 
-  /* Keep PDF link visible on dark (hero) background */
-  .nav:not(.scrolled) .nav-pdf {
+  /* Keep PDF link visible on dark (hero) background — overlay mode only */
+  .nav--overlay:not(.scrolled) .nav-pdf {
     border-color: rgba(255, 255, 255, 0.7);
     color: rgba(255, 255, 255, 0.9);
   }
 
-  .nav:not(.scrolled) .nav-pdf:hover {
+  .nav--overlay:not(.scrolled) .nav-pdf:hover {
     background: rgba(255, 255, 255, 0.15);
     color: #fff;
     border-color: #fff;
   }
 
+  @media (max-width: 720px) {
+    .nav-pdf--secondary {
+      display: none;
+    }
+  }
+
   @media (max-width: 540px) {
     .nav-actions {
       gap: 8px;
+    }
+
+    .nav-link {
+      font-size: 0.75rem;
+      padding: 8px 4px;
     }
 
     .nav-pdf {
@@ -104,12 +143,16 @@
 
 <script>
   const nav = document.getElementById("nav")!;
+  const variant = nav.dataset.variant ?? "overlay";
   const threshold = 80;
 
   function update() {
+    if (variant === "solid") return;
     nav.classList.toggle("scrolled", window.scrollY > threshold);
   }
 
   update();
-  window.addEventListener("scroll", update, { passive: true });
+  if (variant === "overlay") {
+    window.addEventListener("scroll", update, { passive: true });
+  }
 </script>

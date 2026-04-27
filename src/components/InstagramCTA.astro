@@ -1,0 +1,114 @@
+---
+import { SITE } from "../data/services";
+---
+
+<section class="instagram">
+  <div class="container">
+    <div class="instagram-card" data-reveal>
+      <div class="instagram-text">
+        <p class="instagram-eyebrow">Síguenos en Instagram</p>
+        <h2 class="instagram-title">Lo más reciente del taller, primero en {SITE.instagramHandle}</h2>
+        <p class="instagram-body">
+          Publicamos cada proyecto que sale de las máquinas — corte láser, impresión 3D y gran formato — con foto, video y proceso. Es la forma más rápida de ver lo que estamos haciendo esta semana.
+        </p>
+      </div>
+      <a
+        href={SITE.instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="instagram-cta"
+        aria-label="Abrir Instagram de Lumo Arte en una nueva pestaña"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+        Ver {SITE.instagramHandle}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .instagram {
+    padding: 80px 0;
+    background: var(--color-bg);
+  }
+
+  .instagram-card {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-surface);
+    border-radius: 12px;
+    padding: 56px 48px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .instagram-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 12px;
+  }
+
+  .instagram-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-text);
+    margin-bottom: 16px;
+    max-width: 540px;
+  }
+
+  .instagram-body {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    max-width: 540px;
+  }
+
+  .instagram-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 18px 28px;
+    border-radius: 6px;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+
+  .instagram-cta:hover {
+    background: var(--color-accent-dark);
+  }
+
+  .instagram-cta:active {
+    transform: scale(0.98);
+  }
+
+  @media (max-width: 720px) {
+    .instagram {
+      padding: 56px 0;
+    }
+
+    .instagram-card {
+      grid-template-columns: 1fr;
+      padding: 40px 28px;
+      gap: 28px;
+    }
+
+    .instagram-cta {
+      justify-content: center;
+    }
+  }
+</style>

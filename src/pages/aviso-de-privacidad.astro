@@ -1,0 +1,171 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import Footer from "../components/Footer.astro";
+import WhatsAppButton from "../components/WhatsAppButton.astro";
+import { SITE } from "../data/services";
+---
+
+<Base
+  title="Aviso de privacidad | Lumo Arte"
+  description="Aviso de privacidad de Lumo Arte conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares."
+  canonical="/aviso-de-privacidad"
+>
+  <Nav variant="solid" />
+  <main>
+    <Breadcrumb
+      items={[
+        { label: "Inicio", href: "/" },
+        { label: "Aviso de privacidad" },
+      ]}
+    />
+
+    <article class="privacy">
+      <div class="container">
+        <header class="privacy-header">
+          <h1 class="privacy-title">Aviso de privacidad</h1>
+          <p class="privacy-updated">Última actualización: abril de 2026</p>
+        </header>
+
+        <div class="privacy-body">
+          <h2>Identidad del responsable</h2>
+          <p>
+            Lumo Arte (en adelante, "el responsable"), con domicilio en
+            {SITE.address.street}, {SITE.address.city}, {SITE.address.state},
+            México, es responsable del tratamiento de sus datos personales
+            conforme a lo dispuesto por la Ley Federal de Protección de Datos
+            Personales en Posesión de los Particulares (LFPDPPP).
+          </p>
+
+          <h2>Datos personales recabados</h2>
+          <p>
+            A través del formulario de cotización del sitio web recabamos los
+            siguientes datos: nombre, descripción del proyecto y los detalles
+            que voluntariamente nos comparta. Su número de teléfono lo recabamos
+            únicamente al momento en que usted nos contacta por WhatsApp.
+          </p>
+
+          <h2>Finalidades del tratamiento</h2>
+          <p>
+            Sus datos personales serán utilizados para las siguientes
+            finalidades primarias: responder a su solicitud de cotización,
+            preparar la propuesta comercial correspondiente, dar seguimiento al
+            proyecto y mantener comunicación con usted durante la prestación
+            del servicio.
+          </p>
+
+          <h2>Transferencia de datos</h2>
+          <p>
+            No transferimos sus datos personales a terceros. La información que
+            usted comparte por el formulario es enviada directamente a nuestro
+            número de WhatsApp y queda únicamente bajo la administración de
+            Lumo Arte.
+          </p>
+
+          <h2>Derechos ARCO</h2>
+          <p>
+            Usted tiene derecho a conocer qué datos personales tenemos de usted,
+            para qué los utilizamos y las condiciones del uso que les damos
+            (Acceso). Asimismo, es su derecho solicitar la corrección de su
+            información personal en caso de que esté desactualizada, sea inexacta
+            o incompleta (Rectificación); que la eliminemos de nuestros registros
+            o bases de datos cuando considere que la misma no está siendo
+            utilizada conforme a los principios, deberes y obligaciones
+            previstas en la normativa (Cancelación); así como oponerse al uso
+            de sus datos personales para fines específicos (Oposición). Estos
+            derechos se conocen como derechos ARCO.
+          </p>
+
+          <h2>Cómo ejercer sus derechos ARCO</h2>
+          <p>
+            Para ejercer cualquiera de los derechos ARCO, envíe un correo
+            electrónico a <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+            indicando su nombre completo, el derecho que desea ejercer y los
+            datos a los que dicha solicitud se refiere. Daremos respuesta a su
+            solicitud en un plazo no mayor a 20 días hábiles.
+          </p>
+
+          <h2>Cambios al aviso de privacidad</h2>
+          <p>
+            Cualquier modificación al presente aviso de privacidad será
+            publicada en esta misma página y comunicada de forma oportuna.
+          </p>
+
+          <h2>Contacto</h2>
+          <p>
+            Para cualquier duda relacionada con este aviso de privacidad, puede
+            contactarnos por correo a
+            <a href={`mailto:${SITE.email}`}>{SITE.email}</a> o por WhatsApp al
+            <a href={`https://wa.me/${SITE.whatsapp}`} target="_blank" rel="noopener noreferrer">{SITE.whatsappDisplay}</a>.
+          </p>
+        </div>
+      </div>
+    </article>
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Base>
+
+<style>
+  .privacy {
+    padding: 56px 0 96px;
+    background: var(--color-bg);
+  }
+
+  .privacy-header {
+    margin-bottom: 56px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--color-surface);
+  }
+
+  .privacy-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .privacy-updated {
+    color: var(--color-muted);
+    font-size: 0.875rem;
+  }
+
+  .privacy-body {
+    max-width: 720px;
+    color: var(--color-text);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .privacy-body h2 {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-top: 40px;
+    margin-bottom: 14px;
+  }
+
+  .privacy-body h2:first-child {
+    margin-top: 0;
+  }
+
+  .privacy-body p {
+    color: var(--color-muted);
+    margin-bottom: 18px;
+    line-height: 1.8;
+  }
+
+  .privacy-body a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .privacy-body a:hover {
+    color: var(--color-accent-dark);
+  }
+</style>

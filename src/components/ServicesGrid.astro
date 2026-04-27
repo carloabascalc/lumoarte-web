@@ -1,0 +1,140 @@
+---
+import { services } from "../data/services";
+---
+
+<section class="servicios" id="servicios">
+  <div class="container">
+    <div class="section-header">
+      <p class="servicios-eyebrow" data-reveal>Tres servicios, un solo taller</p>
+      <h2 class="section-title" data-reveal data-reveal-delay="0.06">
+        Lo que hacemos
+      </h2>
+      <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
+        Cubrimos todo el ciclo de la fabricación digital con corte láser,
+        impresión 3D e impresión de gran formato — desde una pieza única hasta
+        producción en serie.
+      </p>
+    </div>
+
+    <ul class="servicios-grid" role="list">
+      {services.map((s, i) => (
+        <li class="servicio-card" data-reveal data-reveal-delay={`${0.05 + i * 0.06}`}>
+          <a href={s.slug} class="servicio-link">
+            <div class="servicio-icon" aria-hidden="true" set:html={s.icon} />
+            <h3 class="servicio-name">{s.name}</h3>
+            <p class="servicio-blurb">{s.blurb}</p>
+            <span class="servicio-cta">
+              Ver más
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .servicios {
+    background: var(--color-bg);
+    padding: 120px 0;
+  }
+
+  .servicios-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+  }
+
+  .servicios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    list-style: none;
+  }
+
+  .servicio-card {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .servicio-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.06);
+  }
+
+  .servicio-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 36px 32px;
+    color: inherit;
+  }
+
+  .servicio-icon {
+    color: var(--color-accent);
+    margin-bottom: 24px;
+  }
+
+  .servicio-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .servicio-name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 12px;
+  }
+
+  .servicio-blurb {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    margin-bottom: 28px;
+    flex-grow: 1;
+  }
+
+  .servicio-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-accent);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .servicio-cta svg {
+    transition: transform 0.25s ease;
+  }
+
+  .servicio-card:hover .servicio-cta svg {
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 768px) {
+    .servicios {
+      padding: 80px 0;
+    }
+
+    .servicios-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .servicio-link {
+      padding: 28px 24px;
+    }
+  }
+</style>

@@ -50,7 +50,7 @@ export function heroIntro() {
   const eyebrow = document.querySelector<HTMLElement>(".hero-eyebrow");
   const titleLines = document.querySelectorAll<HTMLElement>(".hero-title-line");
   const sub = document.querySelector<HTMLElement>(".hero-sub");
-  const cta = document.querySelector<HTMLElement>(".hero-cta");
+  const cta = document.querySelector<HTMLElement>(".hero-ctas, .hero-cta");
   const scrollHint = document.querySelector<HTMLElement>(".hero-scroll");
 
   if (eyebrow) {

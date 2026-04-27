@@ -5,15 +5,19 @@
   <div class="hero-bg" aria-hidden="true"></div>
   <div class="container hero-content">
     <p class="hero-eyebrow">Arte · Precisión · Diseño</p>
-    <h1 class="hero-title" aria-label="Fabricación, corte láser impresión 3D">
-      <span class="hero-title-mask"><span class="hero-title-line">Fabricación, corte</span></span>
-      <span class="hero-title-mask"><span class="hero-title-line">láser impresión 3D</span></span>
+    <h1 class="hero-title" aria-label="Fabricación digital en Cancún">
+      <span class="hero-title-mask"><span class="hero-title-line">Fabricación digital</span></span>
+      <span class="hero-title-mask"><span class="hero-title-line">en Cancún</span></span>
     </h1>
     <p class="hero-sub">
-      Transformamos materiales en esculturas, estructuras, maquetas y objetos
-      personalizados combinando tecnología de precisión con mano de obra artesanal.
+      Corte láser, impresión 3D e impresión gran formato. Un solo taller, tres
+      servicios — del prototipo al producto final, con la precisión de la máquina y
+      el cuidado del oficio.
     </p>
-    <a href="#cotiza" class="btn btn-primary hero-cta">Solicita tu proyecto</a>
+    <div class="hero-ctas">
+      <a href="#servicios" class="btn btn-primary hero-cta">Ver servicios</a>
+      <a href="#cotiza" class="btn hero-cta-secondary">Solicita tu cotización →</a>
+    </div>
   </div>
   <div class="hero-scroll" aria-hidden="true">
     <span></span>
@@ -103,14 +107,18 @@
     will-change: opacity, transform;
   }
 
-  .hero-cta {
-    font-size: 1rem;
-    padding: 16px 36px;
+  .hero-ctas {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
     opacity: 0;
     will-change: opacity, transform;
   }
 
   .hero-cta {
+    font-size: 1rem;
+    padding: 16px 36px;
     position: relative;
     overflow: hidden;
   }
@@ -127,6 +135,19 @@
 
   .hero-cta:hover::after {
     transform: translateX(120%);
+  }
+
+  .hero-cta-secondary {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 8px 0;
+    transition: color 0.2s;
+  }
+
+  .hero-cta-secondary:hover {
+    color: #fff;
   }
 
   .hero-scroll {

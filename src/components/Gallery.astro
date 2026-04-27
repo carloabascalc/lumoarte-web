@@ -1,80 +1,135 @@
 ---
-const images = [
-  { src: "/images/gallery/gal-01.jpg", alt: "Logotipo GAIA grabado en mármol travertino" },
-  { src: "/images/gallery/gal-02.jpg", alt: "Cirio pascual en caja de madera con acrílico grabado" },
-  { src: "/images/gallery/gal-03.jpg", alt: "Paletas de madera corazón grabadas con logotipo L'Oreal" },
-  { src: "/images/gallery/gal-04.jpg", alt: "Caja de madera con acrílico dorado grabado" },
-  { src: "/images/gallery/gal-05.jpg", alt: "Caja de vino con corte láser de copos de nieve y palmeras" },
-  { src: "/images/gallery/gal-06.jpg", alt: "Caja de madera con acrílico rojo Te Amo" },
-  { src: "/images/gallery/gal-07.jpg", alt: "Caja de chocolates y marco de madera con corazones en jardín" },
-  { src: "/images/gallery/gal-08.jpg", alt: "Caja de madera con tapa de acrílico transparente" },
-  { src: "/images/gallery/gal-10.jpg", alt: "Cesta de madera con rosas y chocolates" },
-  { src: "/images/gallery/gal-11.jpg", alt: "Display navideño de vino y chocolates con paneles de copos de nieve iluminados" },
-  { src: "/images/gallery/gal-12.jpg", alt: "Llavero de acrílico negro grabado Club Hípico" },
-  { src: "/images/gallery/gal-13.jpg", alt: "Posavasos de madera grabados con oración sobre superficie de nogal" },
-  { src: "/images/gallery/gal-14.jpg", alt: "Grabado de logotipo en mármol travertino" },
-  { src: "/images/gallery/gal-15.jpg", alt: "Cuchara Caspian Soul Caviar con mango de madera grabado" },
-  { src: "/images/gallery/gal-16.jpg", alt: "Escultura decorativa en MDF con fondo tropical" },
-  { src: "/images/gallery/gal-17.jpg", alt: "Cajas de madera con oración grabada en cuatro tipos de madera" },
-  { src: "/images/gallery/gal-18.jpg", alt: "Cajas para vino con diseños en acrílico" },
-  { src: "/images/gallery/gal-19.jpg", alt: "Souvenirs de Cancún personalizados con nombres sobre madera" },
-  { src: "/images/gallery/gal-20.jpg", alt: "Caja corazón de MDF con iluminación cálida" },
-  { src: "/images/gallery/gal-21.jpg", alt: "Cesta de madera con ensamble de dedos cortada a láser" },
-  { src: "/images/gallery/gal-22.jpg", alt: "Cruz de madera grabada haz todo con amor" },
-  { src: "/images/gallery/gal-23.jpg", alt: "Fichas ovaladas de madera con oración grabada, producción en serie" },
-  { src: "/images/gallery/gal-24.jpg", alt: "Joyero de acrílico espejo con anillo de diamante" },
-  { src: "/images/gallery/gal-25.jpg", alt: "Placa circular de acrílico multicolor con diseño de loro" },
-  { src: "/images/gallery/gal-26.jpg", alt: "Escultura corazón de MDF contra cielo azul y palmeras" },
-  { src: "/images/gallery/gal-27.jpg", alt: "Caja larga de madera grabada Te Amo sobre mármol" },
-  { src: "/images/gallery/gal-28.jpg", alt: "Cajas corazón apiladas con plantas tropicales" },
-  { src: "/images/gallery/gal-29.jpg", alt: "Medallón de madera y acrílico negro grabado Hugo" },
+import type { ServiceId } from "../data/services";
+import { SITE } from "../data/services";
+
+interface Props {
+  filterService?: ServiceId;
+  title?: string;
+  subtitle?: string;
+}
+
+const {
+  filterService,
+  title = "Nuestras obras",
+  subtitle,
+} = Astro.props;
+
+type GalleryImage = {
+  src: string;
+  alt: string;
+  service: ServiceId;
+};
+
+const allImages: GalleryImage[] = [
+  { src: "/images/gallery/gal-01.jpg", alt: "Logotipo GAIA grabado en mármol travertino", service: "corte-laser" },
+  { src: "/images/gallery/gal-02.jpg", alt: "Cirio pascual en caja de madera con acrílico grabado", service: "corte-laser" },
+  { src: "/images/gallery/gal-03.jpg", alt: "Paletas de madera corazón grabadas con logotipo L'Oreal", service: "corte-laser" },
+  { src: "/images/gallery/gal-04.jpg", alt: "Caja de madera con acrílico dorado grabado", service: "corte-laser" },
+  { src: "/images/gallery/gal-05.jpg", alt: "Caja de vino con corte láser de copos de nieve y palmeras", service: "corte-laser" },
+  { src: "/images/gallery/gal-06.jpg", alt: "Caja de madera con acrílico rojo Te Amo", service: "corte-laser" },
+  { src: "/images/gallery/gal-07.jpg", alt: "Caja de chocolates y marco de madera con corazones en jardín", service: "corte-laser" },
+  { src: "/images/gallery/gal-08.jpg", alt: "Caja de madera con tapa de acrílico transparente", service: "corte-laser" },
+  { src: "/images/gallery/gal-10.jpg", alt: "Cesta de madera con rosas y chocolates", service: "corte-laser" },
+  { src: "/images/gallery/gal-11.jpg", alt: "Display navideño de vino y chocolates con paneles de copos de nieve iluminados", service: "corte-laser" },
+  { src: "/images/gallery/gal-12.jpg", alt: "Llavero de acrílico negro grabado Club Hípico", service: "corte-laser" },
+  { src: "/images/gallery/gal-13.jpg", alt: "Posavasos de madera grabados con oración sobre superficie de nogal", service: "corte-laser" },
+  { src: "/images/gallery/gal-14.jpg", alt: "Grabado de logotipo en mármol travertino", service: "corte-laser" },
+  { src: "/images/gallery/gal-15.jpg", alt: "Cuchara Caspian Soul Caviar con mango de madera grabado", service: "corte-laser" },
+  { src: "/images/gallery/gal-16.jpg", alt: "Escultura decorativa en MDF con fondo tropical", service: "corte-laser" },
+  { src: "/images/gallery/gal-17.jpg", alt: "Cajas de madera con oración grabada en cuatro tipos de madera", service: "corte-laser" },
+  { src: "/images/gallery/gal-18.jpg", alt: "Cajas para vino con diseños en acrílico", service: "corte-laser" },
+  { src: "/images/gallery/gal-19.jpg", alt: "Souvenirs de Cancún personalizados con nombres sobre madera", service: "corte-laser" },
+  { src: "/images/gallery/gal-20.jpg", alt: "Caja corazón de MDF con iluminación cálida", service: "corte-laser" },
+  { src: "/images/gallery/gal-21.jpg", alt: "Cesta de madera con ensamble de dedos cortada a láser", service: "corte-laser" },
+  { src: "/images/gallery/gal-22.jpg", alt: "Cruz de madera grabada haz todo con amor", service: "corte-laser" },
+  { src: "/images/gallery/gal-23.jpg", alt: "Fichas ovaladas de madera con oración grabada, producción en serie", service: "corte-laser" },
+  { src: "/images/gallery/gal-24.jpg", alt: "Joyero de acrílico espejo con anillo de diamante", service: "corte-laser" },
+  { src: "/images/gallery/gal-25.jpg", alt: "Placa circular de acrílico multicolor con diseño de loro", service: "corte-laser" },
+  { src: "/images/gallery/gal-26.jpg", alt: "Escultura corazón de MDF contra cielo azul y palmeras", service: "corte-laser" },
+  { src: "/images/gallery/gal-27.jpg", alt: "Caja larga de madera grabada Te Amo sobre mármol", service: "corte-laser" },
+  { src: "/images/gallery/gal-28.jpg", alt: "Cajas corazón apiladas con plantas tropicales", service: "corte-laser" },
+  { src: "/images/gallery/gal-29.jpg", alt: "Medallón de madera y acrílico negro grabado Hugo", service: "corte-laser" },
 ];
+
+const images = filterService
+  ? allImages.filter((img) => img.service === filterService)
+  : allImages;
+
+const isEmpty = images.length === 0;
 ---
 
 <section class="gallery" id="galeria">
   <div class="container">
     <div class="gallery-header">
-      <h2 class="section-title gallery-title" data-reveal>Nuestras obras</h2>
+      <h2 class="section-title gallery-title" data-reveal>{title}</h2>
+      {subtitle && <p class="gallery-subtitle" data-reveal data-reveal-delay="0.08">{subtitle}</p>}
       <span class="gallery-accent" data-reveal data-reveal-delay="0.15" aria-hidden="true"></span>
     </div>
   </div>
 
-  <div class="filmstrip-wrapper">
-    <button class="arrow arrow--left" id="arrowLeft" aria-label="Anterior">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-
-    <div class="filmstrip" id="filmstrip">
-      {images.map((img, i) => (
-        <div class="film-item" data-index={i}>
-          <img
-            src={img.src}
-            alt={img.alt}
-            loading={i < 2 ? "eager" : "lazy"}
-            draggable="false"
-          />
-          <div class="film-overlay" aria-hidden="true"></div>
-        </div>
-      ))}
+  {isEmpty ? (
+    <div class="container">
+      <div class="gallery-empty" data-reveal>
+        <p class="gallery-empty-eyebrow">Galería en construcción</p>
+        <h3 class="gallery-empty-title">Pronto: más trabajos de este servicio</h3>
+        <p class="gallery-empty-body">
+          Estamos documentando nuestros próximos proyectos. Mientras tanto, sigue
+          el día a día del taller en Instagram — ahí publicamos primero todo lo
+          que sale de las máquinas.
+        </p>
+        <a
+          href={SITE.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="gallery-empty-cta"
+        >
+          Ver en Instagram {SITE.instagramHandle}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
     </div>
+  ) : (
+    <>
+      <div class="filmstrip-wrapper">
+        <button class="arrow arrow--left" id="arrowLeft" aria-label="Anterior">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
 
-    <button class="arrow arrow--right" id="arrowRight" aria-label="Siguiente">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg>
-    </button>
-  </div>
+        <div class="filmstrip" id="filmstrip">
+          {images.map((img, i) => (
+            <div class="film-item" data-index={i}>
+              <img
+                src={img.src}
+                alt={img.alt}
+                loading={i < 2 ? "eager" : "lazy"}
+                draggable="false"
+              />
+              <div class="film-overlay" aria-hidden="true"></div>
+            </div>
+          ))}
+        </div>
 
-  <div class="filmstrip-dots" id="filmstripDots" aria-hidden="true">
-    {images.map((_, i) => (
-      <button class={`dot${i === 0 ? " dot--active" : ""}`} data-dot={i} aria-label={`Imagen ${i + 1}`} />
-    ))}
-  </div>
+        <button class="arrow arrow--right" id="arrowRight" aria-label="Siguiente">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+
+      <div class="filmstrip-dots" id="filmstripDots" aria-hidden="true">
+        {images.map((_, i) => (
+          <button class={`dot${i === 0 ? " dot--active" : ""}`} data-dot={i} aria-label={`Imagen ${i + 1}`} />
+        ))}
+      </div>
+    </>
+  )}
 </section>
 
 <!-- Lightbox -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Imagen ampliada" hidden>
-  <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar">✕</button>
-  <img class="lightbox-img" id="lightboxImg" src="" alt="" />
-</div>
+{!isEmpty && (
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Imagen ampliada" hidden>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar">✕</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+  </div>
+)}
 
 <style>
   .gallery {
@@ -92,6 +147,14 @@ const images = [
 
   .gallery-title {
     color: #ffffff;
+    margin-bottom: 12px;
+  }
+
+  .gallery-subtitle {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    max-width: 560px;
     margin-bottom: 12px;
   }
 
@@ -170,6 +233,60 @@ const images = [
 
   .film-item:hover .film-overlay {
     opacity: 1;
+  }
+
+  /* ── Empty state ───────────────────────────────────── */
+  .gallery-empty {
+    max-width: 640px;
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 56px 40px;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .gallery-empty-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+  }
+
+  .gallery-empty-title {
+    font-family: var(--font-display);
+    font-size: 1.625rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+
+  .gallery-empty-body {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    margin-bottom: 28px;
+  }
+
+  .gallery-empty-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-accent);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    border: 1.5px solid var(--color-accent);
+    padding: 12px 24px;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .gallery-empty-cta:hover {
+    background: var(--color-accent);
+    color: #fff;
   }
 
   /* ── Arrow buttons ─────────────────────────────────── */
@@ -284,99 +401,106 @@ const images = [
     .arrow {
       display: none;
     }
+
+    .gallery-empty {
+      padding: 40px 28px;
+    }
   }
 </style>
 
 <script>
-  const filmstrip = document.getElementById("filmstrip")!;
-  const arrowLeft = document.getElementById("arrowLeft")!;
-  const arrowRight = document.getElementById("arrowRight")!;
-  const lightbox = document.getElementById("lightbox")!;
-  const lightboxImg = document.getElementById("lightboxImg") as HTMLImageElement;
-  const lightboxClose = document.getElementById("lightboxClose")!;
+  const filmstrip = document.getElementById("filmstrip");
+  const arrowLeft = document.getElementById("arrowLeft");
+  const arrowRight = document.getElementById("arrowRight");
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg") as HTMLImageElement | null;
+  const lightboxClose = document.getElementById("lightboxClose");
 
-  // ── Arrow navigation ──────────────────────────────────
-  arrowLeft.addEventListener("click", () => {
-    filmstrip.scrollBy({ left: -400, behavior: "smooth" });
-  });
-  arrowRight.addEventListener("click", () => {
-    filmstrip.scrollBy({ left: 400, behavior: "smooth" });
-  });
-
-  // ── Drag to scroll ────────────────────────────────────
-  let isDragging = false;
-  let didDrag = false;
-  let startX = 0;
-  let scrollStart = 0;
-
-  filmstrip.addEventListener("mousedown", (e) => {
-    isDragging = true;
-    didDrag = false;
-    startX = e.pageX;
-    scrollStart = filmstrip.scrollLeft;
-    filmstrip.classList.add("is-dragging");
-  });
-
-  window.addEventListener("mousemove", (e) => {
-    if (!isDragging) return;
-    const delta = e.pageX - startX;
-    if (Math.abs(delta) > 4) didDrag = true;
-    filmstrip.scrollLeft = scrollStart - delta;
-  });
-
-  window.addEventListener("mouseup", () => {
-    isDragging = false;
-    filmstrip.classList.remove("is-dragging");
-  });
-
-  // ── Lightbox ──────────────────────────────────────────
-  const items = filmstrip.querySelectorAll<HTMLElement>(".film-item");
-
-  items.forEach((item) => {
-    item.addEventListener("click", () => {
-      if (didDrag) { didDrag = false; return; }
-      const img = item.querySelector("img")!;
-      lightboxImg.src = img.src;
-      lightboxImg.alt = img.alt;
-      lightbox.removeAttribute("hidden");
-      document.body.style.overflow = "hidden";
+  if (filmstrip && arrowLeft && arrowRight && lightbox && lightboxImg && lightboxClose) {
+    // ── Arrow navigation ──────────────────────────────────
+    arrowLeft.addEventListener("click", () => {
+      filmstrip.scrollBy({ left: -400, behavior: "smooth" });
     });
-  });
+    arrowRight.addEventListener("click", () => {
+      filmstrip.scrollBy({ left: 400, behavior: "smooth" });
+    });
 
-  function closeLightbox() {
-    lightbox.setAttribute("hidden", "");
-    document.body.style.overflow = "";
-    lightboxImg.src = "";
-  }
+    // ── Drag to scroll ────────────────────────────────────
+    let isDragging = false;
+    let didDrag = false;
+    let startX = 0;
+    let scrollStart = 0;
 
-  lightboxClose.addEventListener("click", closeLightbox);
+    filmstrip.addEventListener("mousedown", (e) => {
+      isDragging = true;
+      didDrag = false;
+      startX = (e as MouseEvent).pageX;
+      scrollStart = filmstrip.scrollLeft;
+      filmstrip.classList.add("is-dragging");
+    });
 
-  lightbox.addEventListener("click", (e) => {
-    if (e.target === lightbox) closeLightbox();
-  });
+    window.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      const delta = (e as MouseEvent).pageX - startX;
+      if (Math.abs(delta) > 4) didDrag = true;
+      filmstrip.scrollLeft = scrollStart - delta;
+    });
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !lightbox.hasAttribute("hidden")) {
-      closeLightbox();
+    window.addEventListener("mouseup", () => {
+      isDragging = false;
+      filmstrip.classList.remove("is-dragging");
+    });
+
+    // ── Lightbox ──────────────────────────────────────────
+    const items = filmstrip.querySelectorAll<HTMLElement>(".film-item");
+
+    items.forEach((item) => {
+      item.addEventListener("click", () => {
+        if (didDrag) { didDrag = false; return; }
+        const img = item.querySelector("img");
+        if (!img) return;
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.removeAttribute("hidden");
+        document.body.style.overflow = "hidden";
+      });
+    });
+
+    function closeLightbox() {
+      lightbox!.setAttribute("hidden", "");
+      document.body.style.overflow = "";
+      lightboxImg!.src = "";
     }
-  });
 
-  // ── Progress dots ─────────────────────────────────────
-  const dots = document.querySelectorAll<HTMLButtonElement>(".dot");
+    lightboxClose.addEventListener("click", closeLightbox);
 
-  function updateDots() {
-    const itemWidth = filmstrip.querySelector<HTMLElement>(".film-item")?.offsetWidth ?? 0;
-    const gap = 8;
-    const index = Math.round(filmstrip.scrollLeft / (itemWidth + gap));
-    dots.forEach((dot, i) => dot.classList.toggle("dot--active", i === index));
-  }
-
-  filmstrip.addEventListener("scroll", updateDots, { passive: true });
-
-  dots.forEach((dot, i) => {
-    dot.addEventListener("click", () => {
-      const itemWidth = filmstrip.querySelector<HTMLElement>(".film-item")?.offsetWidth ?? 0;
-      filmstrip.scrollTo({ left: i * (itemWidth + 8), behavior: "smooth" });
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
     });
-  });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !lightbox.hasAttribute("hidden")) {
+        closeLightbox();
+      }
+    });
+
+    // ── Progress dots ─────────────────────────────────────
+    const dots = document.querySelectorAll<HTMLButtonElement>(".dot");
+
+    function updateDots() {
+      const itemWidth = filmstrip!.querySelector<HTMLElement>(".film-item")?.offsetWidth ?? 0;
+      const gap = 8;
+      const index = Math.round(filmstrip!.scrollLeft / (itemWidth + gap));
+      dots.forEach((dot, i) => dot.classList.toggle("dot--active", i === index));
+    }
+
+    filmstrip.addEventListener("scroll", updateDots, { passive: true });
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener("click", () => {
+        const itemWidth = filmstrip!.querySelector<HTMLElement>(".film-item")?.offsetWidth ?? 0;
+        filmstrip!.scrollTo({ left: i * (itemWidth + 8), behavior: "smooth" });
+      });
+    });
+  }
 </script>

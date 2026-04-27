@@ -1,0 +1,347 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import ServicePageHero from "../../components/ServicePageHero.astro";
+import Gallery from "../../components/Gallery.astro";
+import InstagramCTA from "../../components/InstagramCTA.astro";
+import QuoteForm from "../../components/QuoteForm.astro";
+import Contact from "../../components/Contact.astro";
+import Footer from "../../components/Footer.astro";
+import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import { getService, SITE } from "../../data/services";
+
+const service = getService("impresion-3d");
+
+const technologies = [
+  {
+    label: "FDM — plástico fundido",
+    eyebrow: "Bambu Lab H2C · Artillery Sidewinder XL ×2",
+    description:
+      "Imprimimos con filamentos termoplásticos sobre tres máquinas profesionales. La Bambu Lab H2C imprime hasta cuatro colores en una misma pieza con una velocidad y consistencia de nivel industrial. Las dos Artillery Sidewinder XL nos permiten producir piezas de gran tamaño en un solo block.",
+    materiales: ["PLA", "PETG", "TPU (flexible)", "ABS / ASA", "PA-CF (fibra de carbono)"],
+    usos: [
+      "Prototipos funcionales",
+      "Piezas mecánicas y repuestos",
+      "Props y decoración a escala XL",
+      "Soportes y bases para producto",
+      "Producción en lote pequeño",
+    ],
+  },
+  {
+    label: "Resina — alta definición",
+    eyebrow: "Anycubic · MSLA / DLP",
+    description:
+      "La impresión por resina captura detalle a nivel de micras — superficies lisas y geometría imposible para FDM. Es nuestra herramienta para piezas pequeñas, intricadas o que necesitan un acabado premium directamente desde la máquina.",
+    materiales: ["Resina estándar", "Resina dental / joyería", "Resina ABS-like", "Resina flexible"],
+    usos: [
+      "Miniaturas y figuras coleccionables",
+      "Joyería y prototipos para fundición",
+      "Modelos dentales",
+      "Cabezas de personajes y detalle escultórico",
+      "Moldes y matrices de precisión",
+    ],
+  },
+];
+
+const machines = [
+  {
+    name: "Bambu Lab H2C",
+    spec: "Volumen 256 × 256 × 256 mm · Multi-color hasta 4 filamentos",
+    note: "Para piezas con detalle de color, lotes pequeños y prototipos rápidos.",
+  },
+  {
+    name: "Artillery Sidewinder XL ×2",
+    spec: "Volumen 300 × 300 × 400 mm",
+    note: "Para piezas grandes que normalmente requerirían dividir el modelo.",
+  },
+  {
+    name: "Anycubic Resina",
+    spec: "Volumen ≈ 150 × 80 × 165 mm · Resolución de fotograbado",
+    note: "Para detalle fino, miniaturas y piezas con superficie lisa.",
+  },
+];
+
+const serviceSchema = {
+  name: service.name,
+  serviceType: "3D printing",
+  description: service.metaDescription,
+  url: `${SITE.url}${service.slug}`,
+};
+---
+
+<Base
+  title={`${service.name} en Cancún | Lumo Arte`}
+  description={service.metaDescription}
+  canonical={service.slug}
+  ogImage="/og/impresion-3d.jpg"
+  schemaType="Service"
+  schemaData={serviceSchema}
+>
+  <Nav variant="solid" />
+  <main>
+    <Breadcrumb
+      items={[
+        { label: "Inicio", href: "/" },
+        { label: "Servicios", href: "/#servicios" },
+        { label: service.name },
+      ]}
+    />
+
+    <ServicePageHero
+      eyebrow="Impresión 3D profesional"
+      title="Del prototipo al producto final, imprimido en Cancún"
+      subtitle="Imprimimos en 3D con cuatro máquinas profesionales — multi-color FDM, formato XL y resina de alta definición. Tu pieza, en el material y la técnica que mejor se ajuste al proyecto, sin enviarla fuera de la ciudad."
+      primaryCta={{ label: "Solicita tu cotización", href: "#cotiza" }}
+      secondaryCta={{ label: "Ver tecnologías", href: "#tecnologias" }}
+    />
+
+    <section class="tech section" id="tecnologias">
+      <div class="container">
+        <div class="section-header">
+          <p class="tech-eyebrow" data-reveal>Dos tecnologías, un mismo taller</p>
+          <h2 class="section-title" data-reveal data-reveal-delay="0.06">
+            Elegimos la técnica según la pieza
+          </h2>
+          <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
+            FDM y resina son procesos complementarios. Te recomendamos cuál usar
+            sin compromiso, evaluando geometría, tamaño, detalle y uso final.
+          </p>
+        </div>
+        <div class="tech-grid">
+          {technologies.map((t, i) => (
+            <article class="tech-card" data-reveal data-reveal-delay={`${0.04 + i * 0.08}`}>
+              <p class="tech-card-eyebrow">{t.eyebrow}</p>
+              <h3 class="tech-card-name">{t.label}</h3>
+              <p class="tech-card-description">{t.description}</p>
+              <div class="tech-card-section">
+                <p class="tech-card-section-label">Materiales</p>
+                <ul class="tech-card-tags" role="list">
+                  {t.materiales.map((m) => <li class="tech-card-tag">{m}</li>)}
+                </ul>
+              </div>
+              <div class="tech-card-section">
+                <p class="tech-card-section-label">Usos típicos</p>
+                <ul class="tech-card-list" role="list">
+                  {t.usos.map((u) => <li>{u}</li>)}
+                </ul>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="machines section" id="maquinas">
+      <div class="container">
+        <div class="section-header">
+          <p class="machines-eyebrow" data-reveal>Equipo del taller</p>
+          <h2 class="section-title" data-reveal data-reveal-delay="0.06">
+            Tamaños y características
+          </h2>
+          <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
+            Cuatro máquinas trabajando en paralelo. Esto se traduce en tiempos
+            de entrega cortos, capacidad para piezas grandes y la flexibilidad
+            de dividir lotes complejos sin renegociar plazos.
+          </p>
+        </div>
+        <ul class="machines-grid" role="list">
+          {machines.map((m, i) => (
+            <li class="machine-card" data-reveal data-reveal-delay={`${0.04 + i * 0.06}`}>
+              <h3 class="machine-name">{m.name}</h3>
+              <p class="machine-spec">{m.spec}</p>
+              <p class="machine-note">{m.note}</p>
+            </li>
+          ))}
+        </ul>
+        <p class="lead-time" data-reveal>
+          <strong>Tiempos de entrega:</strong> entre 1 y 5 días hábiles según
+          tamaño y complejidad. Pedidos urgentes se cotizan en el momento.
+        </p>
+      </div>
+    </section>
+
+    <Gallery
+      filterService="impresion-3d"
+      title="Trabajos de impresión 3D"
+      subtitle="Estamos documentando los proyectos del taller. Mientras tanto, sigue nuestro Instagram para ver lo más reciente."
+    />
+
+    <InstagramCTA />
+
+    <QuoteForm defaultService="impresion-3d" />
+    <Contact />
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Base>
+
+<style>
+  .tech {
+    background: var(--color-bg-alt);
+  }
+
+  .tech-eyebrow,
+  .machines-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+  }
+
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 24px;
+  }
+
+  .tech-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    padding: 40px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .tech-card-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .tech-card-name {
+    font-family: var(--font-display);
+    font-size: 1.625rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-top: -12px;
+  }
+
+  .tech-card-description {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.75;
+  }
+
+  .tech-card-section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    margin-bottom: 12px;
+  }
+
+  .tech-card-tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tech-card-tag {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-surface);
+    color: var(--color-text);
+    font-size: 0.8125rem;
+    padding: 6px 12px;
+    border-radius: 4px;
+  }
+
+  .tech-card-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tech-card-list li {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    padding-left: 18px;
+    position: relative;
+  }
+
+  .tech-card-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 8px;
+    height: 1.5px;
+    background: var(--color-accent);
+  }
+
+  /* ── Machines ──────────────────────────────────────── */
+  .machines {
+    background: var(--color-bg);
+  }
+
+  .machines-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    list-style: none;
+    background: var(--color-surface);
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+
+  .machine-card {
+    background: var(--color-bg);
+    padding: 32px 28px;
+  }
+
+  .machine-name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 8px;
+  }
+
+  .machine-spec {
+    color: var(--color-accent);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    margin-bottom: 12px;
+  }
+
+  .machine-note {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  .lead-time {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    border-left: 3px solid var(--color-accent);
+    padding-left: 20px;
+  }
+
+  .lead-time strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .tech-card {
+      padding: 32px 28px;
+    }
+
+    .machine-card {
+      padding: 28px 24px;
+    }
+  }
+</style>

@@ -1,4 +1,6 @@
 ---
+import { services } from "../data/services";
+
 const affiliates = [
   { name: "The Line Laser Print", url: "https://thelinelaserprint.com/" },
   { name: "Abascal Arquitectos", url: "https://abascalarquitectos.com/" },
@@ -27,8 +29,21 @@ const affiliates = [
       </button>
     </div>
 
-    <div class="footer-affiliates" data-reveal data-reveal-delay="0.1">
-      <p class="footer-affiliate-label">Empresas afiliadas</p>
+    <div class="footer-col" data-reveal data-reveal-delay="0.08">
+      <p class="footer-col-label">Servicios</p>
+      <ul role="list">
+        {
+          services.map((s) => (
+            <li>
+              <a href={s.slug} class="footer-col-link">{s.name}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="footer-col" data-reveal data-reveal-delay="0.16">
+      <p class="footer-col-label">Empresas afiliadas</p>
       <ul role="list">
         {
           affiliates.map((a) => (
@@ -37,7 +52,7 @@ const affiliates = [
                 href={a.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="footer-affiliate-link"
+                class="footer-col-link"
               >
                 {a.name}
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -54,8 +69,9 @@ const affiliates = [
   </div>
 
   <div class="footer-bottom">
-    <div class="container">
+    <div class="container footer-bottom-inner">
       <p>© 2026 Lumo Arte Impression — Cancún, México</p>
+      <a href="/aviso-de-privacidad" class="footer-bottom-link">Aviso de privacidad</a>
     </div>
   </div>
 </footer>
@@ -70,7 +86,26 @@ const affiliates = [
     </button>
     <h3 class="about-title" id="aboutModalTitle">Quiénes somos</h3>
     <div class="about-body">
-      <p class="about-placeholder">Contenido próximamente.</p>
+      <p>
+        Lumo Arte es un taller de fabricación digital en Cancún, fundado por
+        Adriano Abascal — arquitecto e hijo de la ciudad.
+      </p>
+      <p>
+        Trabajamos donde se cruzan tres oficios: la precisión de la máquina,
+        la sensibilidad del diseño y la paciencia del trabajo manual. Empezamos
+        con una sola cortadora láser; hoy operamos cuatro impresoras 3D, un
+        plotter de gran formato y seguimos cortando láser todos los días.
+      </p>
+      <p>
+        Servimos a arquitectos, diseñadores, agencias, eventos, restaurantes
+        y particulares que buscan piezas que se sientan hechas — no producidas
+        en masa. Nos interesa más el detalle que el volumen, aunque producimos
+        en serie cuando tiene sentido.
+      </p>
+      <p>
+        Si tienes una idea, mándanos un mensaje. Te decimos qué máquina, qué
+        material y cuánto cuesta — sin compromiso.
+      </p>
     </div>
   </div>
 </div>
@@ -107,11 +142,11 @@ const affiliates = [
     color: rgba(255, 255, 255, 0.5);
   }
 
-  .footer-affiliates {
-    min-width: 200px;
+  .footer-col {
+    min-width: 180px;
   }
 
-  .footer-affiliate-label {
+  .footer-col-label {
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
@@ -120,14 +155,14 @@ const affiliates = [
     margin-bottom: 16px;
   }
 
-  .footer-affiliates ul {
+  .footer-col ul {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
 
-  .footer-affiliate-link {
+  .footer-col-link {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -135,7 +170,7 @@ const affiliates = [
     transition: color 0.2s;
   }
 
-  .footer-affiliate-link:hover {
+  .footer-col-link:hover {
     color: #fff;
   }
 
@@ -144,9 +179,27 @@ const affiliates = [
     padding: 20px 0;
   }
 
+  .footer-bottom-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
   .footer-bottom p {
     color: rgba(255, 255, 255, 0.3);
     font-size: 0.8125rem;
+  }
+
+  .footer-bottom-link {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.8125rem;
+    transition: color 0.2s;
+  }
+
+  .footer-bottom-link:hover {
+    color: rgba(255, 255, 255, 0.85);
   }
 
   .about-trigger {
@@ -245,11 +298,17 @@ const affiliates = [
     padding-right: 32px;
   }
 
-  .about-body { min-height: 120px; }
-
-  .about-placeholder {
+  .about-body {
     color: var(--color-muted);
     font-size: 0.9375rem;
+    line-height: 1.75;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .about-body p:last-child {
+    color: var(--color-text);
   }
 
   @media (max-width: 640px) {

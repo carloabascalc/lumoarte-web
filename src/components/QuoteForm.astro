@@ -1,23 +1,78 @@
 ---
-const WA_NUMBER = "528138913891";
+import { services, type ServiceId, SITE } from "../data/services";
 
-const materials = [
-  "MDF / Triplay / Madera",
-  "Acrílico",
-  "Cuero o Tela",
-  "Papel",
-  "Otro",
-];
+interface Props {
+  defaultService?: ServiceId;
+}
 
-const piezaTypes = [
-  "Letrero luminoso",
-  "Lámpara",
-  "Celosía o Biombo",
-  "Escultura decorativa",
-  "Maqueta arquitectónica",
-  "Regalo personalizado",
-  "Otro",
-];
+const { defaultService } = Astro.props;
+
+const WA_NUMBER = SITE.whatsapp;
+
+const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[] }> = {
+  "corte-laser": {
+    materiales: [
+      "MDF / Triplay / Madera",
+      "Acrílico",
+      "Cuero o Tela",
+      "Papel",
+      "Vidrio (solo grabado)",
+      "Mármol o Piedra (solo grabado)",
+      "Cerámica (solo grabado)",
+      "Otro",
+    ],
+    tipos: [
+      "Letrero o señalética",
+      "Lámpara o luminaria",
+      "Celosía o biombo",
+      "Escultura decorativa",
+      "Maqueta arquitectónica",
+      "Regalo personalizado",
+      "Producción en serie",
+      "Otro",
+    ],
+  },
+  "impresion-3d": {
+    materiales: [
+      "PLA (uso general)",
+      "PETG (durable, exterior)",
+      "TPU (flexible)",
+      "ABS o ASA (resistente)",
+      "PA-CF (fibra de carbono)",
+      "Resina estándar",
+      "Resina dental / joyería",
+      "No estoy seguro",
+    ],
+    tipos: [
+      "Prototipo funcional",
+      "Pieza mecánica o repuesto",
+      "Figura o miniatura",
+      "Prop o decoración grande",
+      "Joyería o pieza dental",
+      "Producción en serie",
+      "Otro",
+    ],
+  },
+  "impresion-gran-formato": {
+    materiales: [
+      "Lona (frontlit / blockout)",
+      "Vinil adhesivo (corto plazo)",
+      "Vinil para wrap vehicular",
+      "Tela para sublimación",
+      "Papel sintético",
+      "No estoy seguro",
+    ],
+    tipos: [
+      "Banner o lona para evento",
+      "Wrap vehicular",
+      "Sticker o decal",
+      "Letrero / rotulación de ventana",
+      "Playera o textil sublimado",
+      "Banner textil para evento",
+      "Otro",
+    ],
+  },
+};
 ---
 
 <section class="section quote" id="cotiza">
@@ -31,6 +86,18 @@ const piezaTypes = [
     </div>
 
     <form class="quote-form" id="quoteForm" data-reveal data-reveal-delay="0.15" novalidate>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="servicio">Servicio <span class="required">*</span></label>
+          <select id="servicio" name="servicio" required>
+            <option value="" disabled selected={!defaultService}>Selecciona un servicio</option>
+            {services.map((s) => (
+              <option value={s.id} selected={defaultService === s.id}>{s.name}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
       <div class="form-row">
         <div class="form-group">
           <label for="nombre">Nombre <span class="required">*</span></label>
@@ -47,17 +114,15 @@ const piezaTypes = [
       <div class="form-row form-row--two">
         <div class="form-group">
           <label for="material">Material <span class="required">*</span></label>
-          <select id="material" name="material" required>
-            <option value="" disabled selected>Selecciona un material</option>
-            {materials.map((m) => <option value={m}>{m}</option>)}
+          <select id="material" name="material" required disabled={!defaultService}>
+            <option value="" disabled selected>Primero elige un servicio</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="tipo">Tipo de pieza <span class="required">*</span></label>
-          <select id="tipo" name="tipo" required>
-            <option value="" disabled selected>Selecciona un tipo</option>
-            {piezaTypes.map((t) => <option value={t}>{t}</option>)}
+          <label for="tipo">Tipo de proyecto <span class="required">*</span></label>
+          <select id="tipo" name="tipo" required disabled={!defaultService}>
+            <option value="" disabled selected>Primero elige un servicio</option>
           </select>
         </div>
       </div>
@@ -178,6 +243,7 @@ const piezaTypes = [
   select:focus,
   textarea:focus {
     box-shadow: 0 0 0 4px rgba(165, 58, 4, 0.1);
+    border-color: var(--color-accent);
   }
 
   select {
@@ -187,10 +253,10 @@ const piezaTypes = [
     padding-right: 40px;
   }
 
-  input:focus,
-  select:focus,
-  textarea:focus {
-    border-color: var(--color-accent);
+  select:disabled {
+    background-color: var(--color-bg-alt);
+    color: var(--color-muted);
+    cursor: not-allowed;
   }
 
   input::placeholder,
@@ -216,34 +282,91 @@ const piezaTypes = [
   }
 </style>
 
-<script define:vars={{ WA_NUMBER }}>
+<script define:vars={{ WA_NUMBER, optionsByService, defaultService, servicesData: services }}>
   const form = document.getElementById("quoteForm");
+  if (!form) {
+    // Astro can hot-reload; bail safely.
+  } else {
+    const servicioSelect = form.servicio;
+    const materialSelect = form.material;
+    const tipoSelect = form.tipo;
 
-  form?.addEventListener("submit", (e) => {
-    e.preventDefault();
+    const serviceNameById = Object.fromEntries(
+      servicesData.map((s) => [s.id, s.name]),
+    );
 
-    const nombre = form.nombre.value.trim();
-    const material = form.material.value;
-    const tipo = form.tipo.value;
-    const medida = form.medida.value.trim() || "No especificada";
-    const cantidad = form.cantidad.value || "1";
-    const descripcion = form.descripcion.value.trim() || "Sin descripción adicional";
-
-    if (!nombre || !material || !tipo) {
-      const first = !nombre ? form.nombre : !material ? form.material : form.tipo;
-      first.focus();
-      first.reportValidity();
-      return;
+    function populateOptions(selectEl, items, placeholder) {
+      selectEl.innerHTML = "";
+      const ph = document.createElement("option");
+      ph.value = "";
+      ph.disabled = true;
+      ph.selected = true;
+      ph.textContent = placeholder;
+      selectEl.appendChild(ph);
+      items.forEach((item) => {
+        const opt = document.createElement("option");
+        opt.value = item;
+        opt.textContent = item;
+        selectEl.appendChild(opt);
+      });
+      selectEl.disabled = false;
     }
 
-    const message = `Hola, me llamo ${nombre}. Estoy interesado en un proyecto:
+    function updateForService(serviceId) {
+      const opts = optionsByService[serviceId];
+      if (!opts) {
+        materialSelect.disabled = true;
+        tipoSelect.disabled = true;
+        materialSelect.innerHTML = '<option value="" disabled selected>Primero elige un servicio</option>';
+        tipoSelect.innerHTML = '<option value="" disabled selected>Primero elige un servicio</option>';
+        return;
+      }
+      populateOptions(materialSelect, opts.materiales, "Selecciona un material");
+      populateOptions(tipoSelect, opts.tipos, "Selecciona un tipo");
+    }
+
+    if (defaultService) updateForService(defaultService);
+
+    servicioSelect.addEventListener("change", (e) => {
+      updateForService(e.target.value);
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const servicio = form.servicio.value;
+      const nombre = form.nombre.value.trim();
+      const material = form.material.value;
+      const tipo = form.tipo.value;
+      const medida = form.medida.value.trim() || "No especificada";
+      const cantidad = form.cantidad.value || "1";
+      const descripcion = form.descripcion.value.trim() || "Sin descripción adicional";
+
+      if (!servicio || !nombre || !material || !tipo) {
+        const first = !servicio
+          ? form.servicio
+          : !nombre
+            ? form.nombre
+            : !material
+              ? form.material
+              : form.tipo;
+        first.focus();
+        first.reportValidity();
+        return;
+      }
+
+      const servicioName = serviceNameById[servicio] ?? servicio;
+
+      const message = `Hola, me llamo ${nombre}. Estoy interesado en un proyecto:
+- Servicio: ${servicioName}
 - Material: ${material}
-- Tipo de pieza: ${tipo}
+- Tipo de proyecto: ${tipo}
 - Medida aproximada: ${medida}
 - Cantidad: ${cantidad}
 - Descripción: ${descripcion}`;
 
-    const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank", "noopener");
-  });
+      const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank", "noopener");
+    });
+  }
 </script>
