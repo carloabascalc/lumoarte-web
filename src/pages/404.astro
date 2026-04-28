@@ -1,0 +1,159 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import WhatsAppButton from "../components/WhatsAppButton.astro";
+import { services } from "../data/services";
+---
+
+<Base
+  title="Página no encontrada · Lumo Arte"
+  description="La página que buscas no existe o fue movida. Vuelve al inicio o explora nuestros servicios."
+  canonical="/404"
+>
+  <Nav variant="solid" />
+  <main class="not-found">
+    <div class="container not-found-inner">
+      <p class="not-found-eyebrow">Error 404</p>
+      <h1 class="not-found-title">Esta página se nos escapó del láser.</h1>
+      <p class="not-found-body">
+        La dirección que buscas no existe, fue movida o nunca fue cortada. Pero
+        no te vayas — abajo están los caminos más rápidos para llegar a donde
+        ibas.
+      </p>
+
+      <div class="not-found-actions">
+        <a href="/" class="btn btn-primary">Volver al inicio</a>
+        <a href="/#cotiza" class="btn-text">Solicitar una cotización →</a>
+      </div>
+
+      <div class="not-found-services">
+        <p class="not-found-services-label">O explora un servicio:</p>
+        <ul role="list">
+          {services.map((s) => (
+            <li>
+              <a href={s.slug}>
+                <span class="not-found-service-name">{s.name}</span>
+                <span class="not-found-service-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Base>
+
+<style>
+  .not-found {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 0 80px;
+    background: var(--color-bg);
+  }
+
+  .not-found-inner {
+    max-width: 720px;
+  }
+
+  .not-found-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 20px;
+  }
+
+  .not-found-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
+    font-weight: 600;
+    line-height: 1.12;
+    color: var(--color-text);
+    margin-bottom: 24px;
+    letter-spacing: -0.015em;
+  }
+
+  .not-found-body {
+    font-size: 1.0625rem;
+    color: var(--color-muted);
+    line-height: 1.7;
+    margin-bottom: 36px;
+    max-width: 560px;
+  }
+
+  .not-found-actions {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin-bottom: 56px;
+  }
+
+  .btn-text {
+    color: var(--color-accent);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: gap 0.2s;
+  }
+
+  .btn-text:hover {
+    color: var(--color-accent-dark);
+  }
+
+  .not-found-services {
+    border-top: 1px solid var(--color-surface);
+    padding-top: 32px;
+  }
+
+  .not-found-services-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    margin-bottom: 16px;
+  }
+
+  .not-found-services ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .not-found-services a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    border-radius: 6px;
+    color: var(--color-text);
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .not-found-services a:hover {
+    background: var(--color-bg-alt);
+    color: var(--color-accent);
+  }
+
+  .not-found-service-name {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  .not-found-service-arrow {
+    color: var(--color-accent);
+    transition: transform 0.2s;
+  }
+
+  .not-found-services a:hover .not-found-service-arrow {
+    transform: translateX(4px);
+  }
+</style>

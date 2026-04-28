@@ -1,26 +1,56 @@
 ---
+import { Image } from "astro:assets";
+import imgMain from "../assets/gallery/gal-01.jpg";
+import imgBack from "../assets/gallery/gal-04.jpg";
+import imgFront from "../assets/gallery/gal-08.jpg";
+import imgSide from "../assets/gallery/gal-07.jpg";
 ---
 
 <section class="hero">
-  <div class="hero-bg" aria-hidden="true"></div>
-  <div class="container hero-content">
-    <p class="hero-eyebrow">Arte · Precisión · Diseño</p>
-    <h1 class="hero-title" aria-label="Fabricación digital en Cancún">
-      <span class="hero-title-mask"><span class="hero-title-line">Fabricación digital</span></span>
-      <span class="hero-title-mask"><span class="hero-title-line">en Cancún</span></span>
-    </h1>
-    <p class="hero-sub">
-      Corte láser, impresión 3D e impresión gran formato. Un solo taller, tres
-      servicios — del prototipo al producto final, con la precisión de la máquina y
-      el cuidado del oficio.
-    </p>
-    <div class="hero-ctas">
-      <a href="#servicios" class="btn btn-primary hero-cta">Ver servicios</a>
-      <a href="#cotiza" class="btn hero-cta-secondary">Solicita tu cotización →</a>
+  <div class="container hero-grid">
+    <div class="hero-text">
+      <p class="hero-pill" data-reveal>
+        <span class="hero-pill-dot" aria-hidden="true"></span>
+        Especialistas en corte láser · Cancún
+      </p>
+
+      <h1 class="hero-title" data-reveal data-reveal-delay="0.06">
+        De la idea<br />al <em>objeto</em>
+      </h1>
+
+      <p class="hero-sub" data-reveal data-reveal-delay="0.12">
+        Corte láser, impresión 3D e impresión gran formato bajo un mismo techo.
+        Manufactura creativa en Cancún.
+      </p>
+
+      <div class="hero-ctas" data-reveal data-reveal-delay="0.18">
+        <a href="#cotiza" class="btn btn-primary hero-cta">Solicita tu cotización</a>
+        <a href="#servicios" class="hero-cta-text">
+          Ver servicios
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <p class="hero-proof" data-reveal data-reveal-delay="0.24">
+        <span class="hero-proof-stars" aria-hidden="true">★★★★★</span>
+        <strong>+200 proyectos</strong> entregados desde Cancún
+      </p>
     </div>
-  </div>
-  <div class="hero-scroll" aria-hidden="true">
-    <span></span>
+
+    <div class="hero-stack" data-reveal data-reveal-delay="0.10">
+      <div class="hero-card hero-card--back">
+        <Image src={imgBack} alt="Lámpara trébol cuatro corazones" widths={[400, 600]} sizes="380px" quality={80} loading="eager" decoding="async" class="hero-img" />
+      </div>
+      <div class="hero-card hero-card--side">
+        <Image src={imgSide} alt="Cajones apilados con ensamble dovetail" widths={[400, 600]} sizes="380px" quality={80} loading="eager" decoding="async" class="hero-img" />
+      </div>
+      <div class="hero-card hero-card--main">
+        <Image src={imgMain} alt="Lámparas corazón apiladas en MDF" widths={[600, 900]} sizes="500px" quality={82} loading="eager" decoding="async" fetchpriority="high" class="hero-img" />
+      </div>
+      <div class="hero-card hero-card--front">
+        <Image src={imgFront} alt="Caja corazón con rosas y chocolates" widths={[400, 600]} sizes="380px" quality={80} loading="eager" decoding="async" class="hero-img" />
+      </div>
+    </div>
   </div>
 </section>
 
@@ -28,154 +58,236 @@
   .hero {
     position: relative;
     min-height: 100svh;
+    padding: calc(var(--nav-h) + 32px) 0 80px;
     display: flex;
     align-items: center;
     overflow: hidden;
-    color: #fff;
+    background:
+      radial-gradient(ellipse 90% 65% at 100% -10%, rgba(200, 122, 42, 0.34), transparent 55%),
+      radial-gradient(ellipse 60% 80% at -10% 110%, rgba(165, 58, 4, 0.22), transparent 60%),
+      radial-gradient(ellipse 40% 40% at 30% 25%, rgba(245, 220, 180, 0.6), transparent 70%),
+      linear-gradient(180deg, #f3e7d3 0%, var(--color-bg) 65%);
   }
 
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background-image: url("/images/gallery/hero-bg.jpg");
-    background-size: cover;
-    background-position: center center;
-    will-change: transform;
-  }
-
-  .hero-bg::after {
+  /* Wood grain — horizontally stretched fractal turbulence creates flowing
+     organic lines that feel like the surface of a cut wood plank. */
+  .hero::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      120deg,
-      rgba(5, 3, 2, 0.88) 0%,
-      rgba(10, 6, 3, 0.75) 55%,
-      rgba(15, 8, 4, 0.60) 100%
-    );
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='w'><feTurbulence type='turbulence' baseFrequency='0.012 0.6' numOctaves='3' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.36  0 0 0 0 0.18  0 0 0 0 0.04  0 0 0 0.7 0'/></filter><rect width='100%' height='100%' filter='url(%23w)'/></svg>");
+    background-size: 600px 600px;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    opacity: 0.32;
   }
 
-  .hero-content {
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 50%, transparent 30%, rgba(74, 38, 8, 0.08) 95%),
+      linear-gradient(to bottom, transparent 75%, var(--color-bg));
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
     position: relative;
     z-index: 1;
-    padding-top: var(--nav-h);
-    padding-bottom: 48px;
-    max-width: 720px;
   }
 
-  .hero-eyebrow {
-    font-size: 0.8125rem;
+  /* ── Left: text ────────────────────────────────────── */
+  .hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 16px;
+    border: 1px solid rgba(165, 58, 4, 0.18);
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(6px);
+    font-size: 0.75rem;
     font-weight: 500;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--color-accent);
-    margin-bottom: 20px;
-    opacity: 0;
-    will-change: opacity, transform;
+    color: var(--color-text);
+    margin-bottom: 28px;
+  }
+
+  .hero-pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 0 4px rgba(165, 58, 4, 0.16);
   }
 
   .hero-title {
-    font-size: clamp(3rem, 8.5vw, 6.5rem);
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6.4vw, 5.25rem);
+    font-weight: 500;
     line-height: 1.04;
+    color: var(--color-text);
+    letter-spacing: -0.018em;
     margin-bottom: 28px;
-    color: #fff;
-    letter-spacing: -0.02em;
   }
 
-  .hero-title-mask {
-    display: block;
-    overflow: hidden;
-    padding-bottom: 0.04em;
-    line-height: inherit;
-  }
-
-  .hero-title-line {
-    display: block;
-    transform: translateY(110%);
-    will-change: transform;
+  .hero-title em {
+    font-style: italic;
   }
 
   .hero-sub {
-    font-size: clamp(1rem, 2vw, 1.125rem);
-    color: rgba(255, 255, 255, 0.82);
-    max-width: 540px;
-    line-height: 1.75;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+    max-width: 520px;
     margin-bottom: 40px;
-    font-weight: 300;
-    opacity: 0;
-    will-change: opacity, transform;
   }
 
   .hero-ctas {
     display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
     align-items: center;
-    opacity: 0;
-    will-change: opacity, transform;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
   }
 
   .hero-cta {
-    font-size: 1rem;
-    padding: 16px 36px;
-    position: relative;
-    overflow: hidden;
+    font-size: 0.95rem;
+    padding: 14px 28px;
   }
 
-  .hero-cta::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.22) 50%, transparent 70%);
-    transform: translateX(-120%);
-    transition: transform 0.7s ease;
-    pointer-events: none;
-  }
-
-  .hero-cta:hover::after {
-    transform: translateX(120%);
-  }
-
-  .hero-cta-secondary {
-    color: rgba(255, 255, 255, 0.92);
+  .hero-cta-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     font-size: 0.9375rem;
+    color: var(--color-text);
     font-weight: 500;
-    letter-spacing: 0.02em;
-    padding: 8px 0;
-    transition: color 0.2s;
+    transition: gap 0.2s ease, color 0.2s ease;
   }
 
-  .hero-cta-secondary:hover {
-    color: #fff;
+  .hero-cta-text:hover {
+    gap: 12px;
+    color: var(--color-accent);
   }
 
-  .hero-scroll {
+  .hero-proof {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-surface);
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+  }
+
+  .hero-proof strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .hero-proof-stars {
+    color: var(--color-accent-honey);
+    letter-spacing: 0.05em;
+    font-size: 0.875rem;
+  }
+
+  /* ── Right: photo stack ────────────────────────────── */
+  .hero-stack {
+    position: relative;
+    aspect-ratio: 1/1;
+    max-width: 540px;
+    justify-self: end;
+    width: 100%;
+  }
+
+  .hero-card {
     position: absolute;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
-    opacity: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--color-bg-alt);
+    box-shadow:
+      0 24px 56px rgba(20, 10, 4, 0.20),
+      0 0 0 1px rgba(165, 58, 4, 0.06);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .hero-scroll span {
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
-    width: 1.5px;
-    height: 48px;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.6), transparent);
-    animation: scrollLine 2s ease-in-out infinite;
   }
 
-  @keyframes scrollLine {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
+  .hero-card--main {
+    width: 70%;
+    aspect-ratio: 4/5;
+    top: 12%;
+    left: 14%;
+    z-index: 3;
+    transform: rotate(-2deg);
   }
 
-  @media (max-width: 640px) {
-    .hero-content {
-      padding-top: calc(var(--nav-h) + 24px);
+  .hero-card--back {
+    width: 52%;
+    aspect-ratio: 1/1;
+    top: 0;
+    right: 4%;
+    z-index: 1;
+    transform: rotate(7deg);
+    opacity: 0.95;
+  }
+
+  .hero-card--side {
+    width: 46%;
+    aspect-ratio: 4/5;
+    top: 36%;
+    right: 0;
+    z-index: 2;
+    transform: rotate(4deg);
+  }
+
+  .hero-card--front {
+    width: 50%;
+    aspect-ratio: 1/1;
+    bottom: 4%;
+    left: 0;
+    z-index: 4;
+    transform: rotate(-6deg);
+  }
+
+  .hero-stack:hover .hero-card--main { transform: rotate(-1deg) translateY(-4px); }
+  .hero-stack:hover .hero-card--back { transform: rotate(8deg) translateX(4px); }
+  .hero-stack:hover .hero-card--side { transform: rotate(5deg) translateX(6px); }
+  .hero-stack:hover .hero-card--front { transform: rotate(-7deg) translate(-4px, 4px); }
+
+  /* ── Responsive ────────────────────────────────────── */
+  @media (max-width: 960px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .hero-stack {
+      max-width: 420px;
+      justify-self: center;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .hero {
+      padding: calc(var(--nav-h) + 16px) 0 56px;
+    }
+
+    .hero-stack {
+      max-width: 320px;
     }
   }
 </style>
-

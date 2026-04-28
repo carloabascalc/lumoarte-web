@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import type { ServiceId } from "../data/services";
 import { SITE } from "../data/services";
 
@@ -15,40 +17,38 @@ const {
 } = Astro.props;
 
 type GalleryImage = {
-  src: string;
+  src: ImageMetadata;
   alt: string;
   service: ServiceId;
 };
 
+const galleryFiles = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/gallery/gal-*.jpg",
+  { eager: true },
+);
+
+function img(name: string): ImageMetadata {
+  const key = `../assets/gallery/${name}`;
+  const mod = galleryFiles[key];
+  if (!mod) throw new Error(`Missing gallery image: ${key}`);
+  return mod.default;
+}
+
 const allImages: GalleryImage[] = [
-  { src: "/images/gallery/gal-01.jpg", alt: "Logotipo GAIA grabado en mármol travertino", service: "corte-laser" },
-  { src: "/images/gallery/gal-02.jpg", alt: "Cirio pascual en caja de madera con acrílico grabado", service: "corte-laser" },
-  { src: "/images/gallery/gal-03.jpg", alt: "Paletas de madera corazón grabadas con logotipo L'Oreal", service: "corte-laser" },
-  { src: "/images/gallery/gal-04.jpg", alt: "Caja de madera con acrílico dorado grabado", service: "corte-laser" },
-  { src: "/images/gallery/gal-05.jpg", alt: "Caja de vino con corte láser de copos de nieve y palmeras", service: "corte-laser" },
-  { src: "/images/gallery/gal-06.jpg", alt: "Caja de madera con acrílico rojo Te Amo", service: "corte-laser" },
-  { src: "/images/gallery/gal-07.jpg", alt: "Caja de chocolates y marco de madera con corazones en jardín", service: "corte-laser" },
-  { src: "/images/gallery/gal-08.jpg", alt: "Caja de madera con tapa de acrílico transparente", service: "corte-laser" },
-  { src: "/images/gallery/gal-10.jpg", alt: "Cesta de madera con rosas y chocolates", service: "corte-laser" },
-  { src: "/images/gallery/gal-11.jpg", alt: "Display navideño de vino y chocolates con paneles de copos de nieve iluminados", service: "corte-laser" },
-  { src: "/images/gallery/gal-12.jpg", alt: "Llavero de acrílico negro grabado Club Hípico", service: "corte-laser" },
-  { src: "/images/gallery/gal-13.jpg", alt: "Posavasos de madera grabados con oración sobre superficie de nogal", service: "corte-laser" },
-  { src: "/images/gallery/gal-14.jpg", alt: "Grabado de logotipo en mármol travertino", service: "corte-laser" },
-  { src: "/images/gallery/gal-15.jpg", alt: "Cuchara Caspian Soul Caviar con mango de madera grabado", service: "corte-laser" },
-  { src: "/images/gallery/gal-16.jpg", alt: "Escultura decorativa en MDF con fondo tropical", service: "corte-laser" },
-  { src: "/images/gallery/gal-17.jpg", alt: "Cajas de madera con oración grabada en cuatro tipos de madera", service: "corte-laser" },
-  { src: "/images/gallery/gal-18.jpg", alt: "Cajas para vino con diseños en acrílico", service: "corte-laser" },
-  { src: "/images/gallery/gal-19.jpg", alt: "Souvenirs de Cancún personalizados con nombres sobre madera", service: "corte-laser" },
-  { src: "/images/gallery/gal-20.jpg", alt: "Caja corazón de MDF con iluminación cálida", service: "corte-laser" },
-  { src: "/images/gallery/gal-21.jpg", alt: "Cesta de madera con ensamble de dedos cortada a láser", service: "corte-laser" },
-  { src: "/images/gallery/gal-22.jpg", alt: "Cruz de madera grabada haz todo con amor", service: "corte-laser" },
-  { src: "/images/gallery/gal-23.jpg", alt: "Fichas ovaladas de madera con oración grabada, producción en serie", service: "corte-laser" },
-  { src: "/images/gallery/gal-24.jpg", alt: "Joyero de acrílico espejo con anillo de diamante", service: "corte-laser" },
-  { src: "/images/gallery/gal-25.jpg", alt: "Placa circular de acrílico multicolor con diseño de loro", service: "corte-laser" },
-  { src: "/images/gallery/gal-26.jpg", alt: "Escultura corazón de MDF contra cielo azul y palmeras", service: "corte-laser" },
-  { src: "/images/gallery/gal-27.jpg", alt: "Caja larga de madera grabada Te Amo sobre mármol", service: "corte-laser" },
-  { src: "/images/gallery/gal-28.jpg", alt: "Cajas corazón apiladas con plantas tropicales", service: "corte-laser" },
-  { src: "/images/gallery/gal-29.jpg", alt: "Medallón de madera y acrílico negro grabado Hugo", service: "corte-laser" },
+  { src: img("gal-01.jpg"), alt: "Lámparas corazón en MDF apiladas, corte láser de precisión", service: "corte-laser" },
+  { src: img("gal-02.jpg"), alt: "Biombo de copos de nieve en madera y acrílico sobre terraza con vista al mar", service: "corte-laser" },
+  { src: img("gal-03.jpg"), alt: "Caja de regalo en madera con corazón de acrílico y medallón de marca lumo", service: "corte-laser" },
+  { src: img("gal-04.jpg"), alt: "Lámpara trébol de cuatro corazones en MDF cortada a láser", service: "corte-laser" },
+  { src: img("gal-05.jpg"), alt: "Caja de cirio Luz del Mundo con grabado en metal dorado y madera", service: "corte-laser" },
+  { src: img("gal-06.jpg"), alt: "Letrero La Central Vinos & Licores en acrílico negro y dorado", service: "corte-laser" },
+  { src: img("gal-07.jpg"), alt: "Cajones de madera apilados con ensamble dovetail cortado a láser", service: "corte-laser" },
+  { src: img("gal-08.jpg"), alt: "Caja corazón de madera con rosas rojas y chocolates Ferrero", service: "corte-laser" },
+  { src: img("gal-09.jpg"), alt: "Panel decorativo de copo de nieve sobre sarape mexicano de colores", service: "corte-laser" },
+  { src: img("gal-10.jpg"), alt: "Paletas de madera grabadas con nombres para evento corporativo L'Oréal", service: "corte-laser" },
+  { src: img("gal-11.jpg"), alt: "Llavero de Cancún grabado con patrón maya y perforaciones decorativas", service: "corte-laser" },
+  { src: img("gal-12.jpg"), alt: "Cesta pequeña de madera oscura con ensamble de dedos cortado a láser", service: "corte-laser" },
+  { src: img("gal-13.jpg"), alt: "Caja larga de madera con tapa de dos tonos, diseño minimalista", service: "corte-laser" },
+  { src: img("gal-14.jpg"), alt: "Marco corazón de madera con corazones de acrílico sobre escultura de bronce", service: "corte-laser" },
 ];
 
 const images = filterService
@@ -70,20 +70,19 @@ const isEmpty = images.length === 0;
   {isEmpty ? (
     <div class="container">
       <div class="gallery-empty" data-reveal>
-        <p class="gallery-empty-eyebrow">Galería en construcción</p>
-        <h3 class="gallery-empty-title">Pronto: más trabajos de este servicio</h3>
-        <p class="gallery-empty-body">
-          Estamos documentando nuestros próximos proyectos. Mientras tanto, sigue
-          el día a día del taller en Instagram — ahí publicamos primero todo lo
-          que sale de las máquinas.
-        </p>
+        <div class="gallery-empty-text">
+          <span class="gallery-empty-eyebrow">Galería en construcción</span>
+          <p class="gallery-empty-body">
+            Estamos documentando los nuevos proyectos. Mientras tanto, lo más reciente del taller está en Instagram.
+          </p>
+        </div>
         <a
           href={SITE.instagram}
           target="_blank"
           rel="noopener noreferrer"
           class="gallery-empty-cta"
         >
-          Ver en Instagram {SITE.instagramHandle}
+          Ver en {SITE.instagramHandle}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
@@ -96,12 +95,16 @@ const isEmpty = images.length === 0;
         </button>
 
         <div class="filmstrip" id="filmstrip">
-          {images.map((img, i) => (
-            <div class="film-item" data-index={i}>
-              <img
-                src={img.src}
-                alt={img.alt}
+          {images.map((image, i) => (
+            <div class="film-item" data-index={i} data-fullsrc={image.src.src}>
+              <Image
+                src={image.src}
+                alt={image.alt}
+                widths={[480, 800, 1200]}
+                sizes="(max-width: 768px) 320px, 520px"
+                quality={78}
                 loading={i < 2 ? "eager" : "lazy"}
+                decoding="async"
                 draggable="false"
               />
               <div class="film-overlay" aria-hidden="true"></div>
@@ -147,11 +150,13 @@ const isEmpty = images.length === 0;
 
   .gallery-title {
     color: #ffffff;
+    font-weight: 700;
+    letter-spacing: -0.01em;
     margin-bottom: 12px;
   }
 
   .gallery-subtitle {
-    color: rgba(255, 255, 255, 0.65);
+    color: rgba(255, 255, 255, 0.72);
     font-size: 1.0625rem;
     line-height: 1.75;
     max-width: 560px;
@@ -205,7 +210,6 @@ const isEmpty = images.length === 0;
     overflow: hidden;
     border-radius: 4px;
     background: #1a1a1a;
-    opacity: 0;
     cursor: zoom-in;
   }
 
@@ -235,52 +239,51 @@ const isEmpty = images.length === 0;
     opacity: 1;
   }
 
-  /* ── Empty state ───────────────────────────────────── */
+  /* ── Empty state (slim banner) ─────────────────────── */
   .gallery-empty {
-    max-width: 640px;
-    border: 1px dashed rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    border: 1px dashed rgba(255, 255, 255, 0.18);
     border-radius: 8px;
-    padding: 56px 40px;
-    text-align: center;
-    margin: 0 auto;
+    padding: 24px 28px;
+  }
+
+  .gallery-empty-text {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   .gallery-empty-eyebrow {
-    font-size: 0.75rem;
+    display: inline-block;
+    font-size: 0.6875rem;
     font-weight: 500;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--color-accent);
-    margin-bottom: 16px;
-  }
-
-  .gallery-empty-title {
-    font-family: var(--font-display);
-    font-size: 1.625rem;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 16px;
-    line-height: 1.3;
+    margin-bottom: 6px;
   }
 
   .gallery-empty-body {
-    color: rgba(255, 255, 255, 0.65);
+    color: rgba(255, 255, 255, 0.78);
     font-size: 0.9375rem;
-    line-height: 1.75;
-    margin-bottom: 28px;
+    line-height: 1.55;
+    max-width: 600px;
   }
 
   .gallery-empty-cta {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    flex-shrink: 0;
     color: var(--color-accent);
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     font-weight: 500;
     letter-spacing: 0.02em;
     border: 1.5px solid var(--color-accent);
-    padding: 12px 24px;
-    border-radius: 4px;
+    padding: 10px 18px;
+    border-radius: 999px;
     transition: background 0.2s, color 0.2s;
   }
 
@@ -403,7 +406,10 @@ const isEmpty = images.length === 0;
     }
 
     .gallery-empty {
-      padding: 40px 28px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 22px 22px 24px;
     }
   }
 </style>
@@ -459,7 +465,8 @@ const isEmpty = images.length === 0;
         if (didDrag) { didDrag = false; return; }
         const img = item.querySelector("img");
         if (!img) return;
-        lightboxImg.src = img.src;
+        const fullsrc = (item as HTMLElement).dataset.fullsrc;
+        lightboxImg.src = fullsrc ?? img.currentSrc ?? img.src;
         lightboxImg.alt = img.alt;
         lightbox.removeAttribute("hidden");
         document.body.style.overflow = "hidden";

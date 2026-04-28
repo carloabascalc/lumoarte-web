@@ -1,4 +1,7 @@
 ---
+import { Image } from "astro:assets";
+import logoNav from "../assets/logos/logo-nav.png";
+
 interface Props {
   variant?: "overlay" | "solid";
 }
@@ -9,15 +12,15 @@ const { variant = "overlay" } = Astro.props;
 <header class={`nav nav--${variant}`} id="nav" data-variant={variant}>
   <div class="nav-inner container">
     <a href="/" class="nav-logo" aria-label="Lumo Arte">
-      <img src="/images/logo-nav.png" alt="Lumo Arte" width="80" height="48" />
+      <Image src={logoNav} alt="Lumo Arte" width={80} height={48} loading="eager" />
     </a>
-    <nav class="nav-actions">
-      <a href="/#servicios" class="nav-link">Servicios</a>
+    <nav class="nav-actions" aria-label="Navegación principal">
+      <a href="/#servicios" class="nav-link nav-link--desktop">Servicios</a>
       <a
         href="/precios-lumoarte.pdf"
         target="_blank"
         rel="noopener noreferrer"
-        class="btn nav-pdf"
+        class="btn nav-pdf nav-pdf--primary"
       >Lista de precios ↓</a>
       <a
         href="/manual-lumoarte.pdf"
@@ -25,7 +28,38 @@ const { variant = "overlay" } = Astro.props;
         rel="noopener noreferrer"
         class="btn nav-pdf nav-pdf--secondary"
       >¿Cómo enviar tu proyecto? ↓</a>
+      <button
+        class="nav-burger"
+        id="navBurger"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="navDrawer"
+        type="button"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
     </nav>
+  </div>
+  <div class="nav-drawer" id="navDrawer" hidden>
+    <a href="/#servicios" class="nav-drawer-link nav-drawer-link--head">Servicios</a>
+    <a href="/servicios/corte-laser" class="nav-drawer-link nav-drawer-sub">Corte Láser</a>
+    <a href="/servicios/impresion-3d" class="nav-drawer-link nav-drawer-sub">Impresión 3D</a>
+    <a href="/servicios/impresion-gran-formato" class="nav-drawer-link nav-drawer-sub">Impresión Gran Formato</a>
+    <a
+      href="/precios-lumoarte.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="nav-drawer-link"
+    >Lista de precios ↓</a>
+    <a
+      href="/manual-lumoarte.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="nav-drawer-link"
+    >¿Cómo enviar tu proyecto? ↓</a>
+    <a href="#cotiza" class="btn btn-primary nav-drawer-cta">Solicita tu cotización</a>
   </div>
 </header>
 
@@ -83,7 +117,6 @@ const { variant = "overlay" } = Astro.props;
     color: var(--color-accent);
   }
 
-  /* Keep nav link readable on dark hero background (overlay mode only) */
   .nav--overlay:not(.scrolled) .nav-link {
     color: rgba(255, 255, 255, 0.9);
   }
@@ -106,7 +139,6 @@ const { variant = "overlay" } = Astro.props;
     color: #fff;
   }
 
-  /* Keep PDF link visible on dark (hero) background — overlay mode only */
   .nav--overlay:not(.scrolled) .nav-pdf {
     border-color: rgba(255, 255, 255, 0.7);
     color: rgba(255, 255, 255, 0.9);
@@ -118,41 +150,188 @@ const { variant = "overlay" } = Astro.props;
     border-color: #fff;
   }
 
-  @media (max-width: 720px) {
-    .nav-pdf--secondary {
-      display: none;
-    }
+  /* ── Hamburger ─────────────────────────────────────── */
+  .nav-burger {
+    display: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid transparent;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
   }
 
-  @media (max-width: 540px) {
-    .nav-actions {
-      gap: 8px;
-    }
+  .nav-burger span {
+    display: block;
+    width: 22px;
+    height: 1.75px;
+    background: var(--color-text);
+    border-radius: 1px;
+    transition: transform 0.3s ease, opacity 0.2s ease, background 0.3s ease;
+  }
 
-    .nav-link {
-      font-size: 0.75rem;
-      padding: 8px 4px;
-    }
+  .nav--overlay:not(.scrolled) .nav-burger span {
+    background: #fff;
+  }
 
+  .nav.is-open .nav-burger span {
+    background: var(--color-accent);
+  }
+
+  .nav.is-open .nav-burger span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .nav.is-open .nav-burger span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav.is-open .nav-burger span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ── Drawer ────────────────────────────────────────── */
+  .nav-drawer {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-top: 1px solid var(--color-surface);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    padding: 16px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transform: translateY(-12px);
+    opacity: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  .nav.is-open .nav-drawer {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-drawer[hidden] {
+    display: none;
+  }
+
+  .nav-drawer-link {
+    display: block;
+    padding: 12px 8px;
+    font-size: 0.9375rem;
+    color: var(--color-text);
+    border-radius: 4px;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .nav-drawer-link:hover {
+    background: var(--color-bg-alt);
+    color: var(--color-accent);
+  }
+
+  .nav-drawer-link--head {
+    font-weight: 600;
+    color: var(--color-accent);
+    letter-spacing: 0.02em;
+    margin-top: 4px;
+  }
+
+  .nav-drawer-sub {
+    padding-left: 20px;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  .nav-drawer-cta {
+    margin-top: 12px;
+    justify-content: center;
+    padding: 14px 20px;
+  }
+
+  /* ── Breakpoints ───────────────────────────────────── */
+  @media (max-width: 720px) {
+    .nav-link--desktop,
     .nav-pdf {
-      padding: 8px 12px;
-      font-size: 0.75rem;
+      display: none;
+    }
+
+    .nav-burger {
+      display: flex;
     }
   }
 </style>
 
 <script>
-  const nav = document.getElementById("nav")!;
-  const variant = nav.dataset.variant ?? "overlay";
-  const threshold = 80;
+  function bootNav() {
+    const nav = document.getElementById("nav");
+    const burger = document.getElementById("navBurger");
+    const drawer = document.getElementById("navDrawer");
+    if (!nav || !burger || !drawer) return;
+    if (nav.dataset.booted === "1") return;
+    nav.dataset.booted = "1";
 
-  function update() {
-    if (variant === "solid") return;
-    nav.classList.toggle("scrolled", window.scrollY > threshold);
+    const variant = nav.dataset.variant ?? "overlay";
+    const threshold = 80;
+
+    function update() {
+      if (variant === "solid") return;
+      nav.classList.toggle("scrolled", window.scrollY > threshold);
+    }
+
+    update();
+    if (variant === "overlay") {
+      window.addEventListener("scroll", update, { passive: true });
+    }
+
+    function setOpen(open) {
+      nav.classList.toggle("is-open", open);
+      burger.setAttribute("aria-expanded", String(open));
+      if (open) {
+        drawer.removeAttribute("hidden");
+      } else {
+        // Allow close transition to finish before hiding from a11y tree
+        setTimeout(() => {
+          if (!nav.classList.contains("is-open")) {
+            drawer.setAttribute("hidden", "");
+          }
+        }, 260);
+      }
+    }
+
+    burger.addEventListener("click", () => {
+      const open = !nav.classList.contains("is-open");
+      setOpen(open);
+    });
+
+    drawer.addEventListener("click", (e) => {
+      if (e.target instanceof HTMLAnchorElement) {
+        setOpen(false);
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && nav.classList.contains("is-open")) {
+        setOpen(false);
+        burger.focus();
+      }
+    });
+
+    const mq = window.matchMedia("(min-width: 721px)");
+    mq.addEventListener("change", (e) => {
+      if (e.matches && nav.classList.contains("is-open")) setOpen(false);
+    });
   }
 
-  update();
-  if (variant === "overlay") {
-    window.addEventListener("scroll", update, { passive: true });
-  }
+  bootNav();
+  document.addEventListener("astro:page-load", bootNav);
 </script>

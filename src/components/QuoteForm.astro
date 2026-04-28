@@ -86,81 +86,99 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
     </div>
 
     <form class="quote-form" id="quoteForm" data-reveal data-reveal-delay="0.15" novalidate>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="servicio">Servicio <span class="required">*</span></label>
-          <select id="servicio" name="servicio" required>
-            <option value="" disabled selected={!defaultService}>Selecciona un servicio</option>
-            {services.map((s) => (
-              <option value={s.id} selected={defaultService === s.id}>{s.name}</option>
-            ))}
-          </select>
-        </div>
-      </div>
+      <fieldset class="form-section">
+        <legend class="form-section-title">Tu proyecto</legend>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label for="nombre">Nombre <span class="required">*</span></label>
-          <input
-            type="text"
-            id="nombre"
-            name="nombre"
-            required
-            placeholder="Tu nombre completo"
-          />
-        </div>
-      </div>
-
-      <div class="form-row form-row--two">
-        <div class="form-group">
-          <label for="material">Material <span class="required">*</span></label>
-          <select id="material" name="material" required disabled={!defaultService}>
-            <option value="" disabled selected>Primero elige un servicio</option>
-          </select>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="servicio">Servicio <span class="required">*</span></label>
+            <select id="servicio" name="servicio" required>
+              <option value="" disabled selected={!defaultService}>Selecciona un servicio</option>
+              {services.map((s) => (
+                <option value={s.id} selected={defaultService === s.id}>{s.name}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="tipo">Tipo de proyecto <span class="required">*</span></label>
-          <select id="tipo" name="tipo" required disabled={!defaultService}>
-            <option value="" disabled selected>Primero elige un servicio</option>
-          </select>
-        </div>
-      </div>
+        <div class="form-row form-row--two">
+          <div class="form-group">
+            <label for="material">Material <span class="required">*</span></label>
+            <select id="material" name="material" required disabled={!defaultService}>
+              <option value="" disabled selected>Primero elige un servicio</option>
+            </select>
+          </div>
 
-      <div class="form-row form-row--two">
-        <div class="form-group">
-          <label for="medida">Medida aproximada</label>
-          <input
-            type="text"
-            id="medida"
-            name="medida"
-            placeholder="Ej. 60 x 90 cm"
-          />
+          <div class="form-group">
+            <label for="tipo">Tipo de proyecto <span class="required">*</span></label>
+            <select id="tipo" name="tipo" required disabled={!defaultService}>
+              <option value="" disabled selected>Primero elige un servicio</option>
+            </select>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="cantidad">Cantidad</label>
-          <input
-            type="number"
-            id="cantidad"
-            name="cantidad"
-            min="1"
-            placeholder="1"
-          />
-        </div>
-      </div>
+        <details class="form-details">
+          <summary class="form-details-summary">
+            <span class="form-details-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            Detalles del proyecto <span class="optional">(opcional)</span>
+          </summary>
+          <div class="form-details-body">
+            <div class="form-row form-row--two">
+              <div class="form-group">
+                <label for="medida">Medida aproximada</label>
+                <input
+                  type="text"
+                  id="medida"
+                  name="medida"
+                  placeholder="Ej. 60 x 90 cm"
+                />
+              </div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label for="descripcion">Descripción breve <span class="optional">(opcional)</span></label>
-          <textarea
-            id="descripcion"
-            name="descripcion"
-            rows="4"
-            placeholder="Cuéntanos más sobre tu idea..."
-          ></textarea>
+              <div class="form-group">
+                <label for="cantidad">Cantidad</label>
+                <input
+                  type="number"
+                  id="cantidad"
+                  name="cantidad"
+                  min="1"
+                  placeholder="1"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="descripcion">Descripción breve</label>
+                <textarea
+                  id="descripcion"
+                  name="descripcion"
+                  rows="3"
+                  placeholder="Cuéntanos más sobre tu idea..."
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </details>
+      </fieldset>
+
+      <fieldset class="form-section">
+        <legend class="form-section-title">Tus datos</legend>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nombre">Nombre <span class="required">*</span></label>
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              required
+              placeholder="Tu nombre completo"
+            />
+          </div>
         </div>
-      </div>
+      </fieldset>
 
       <button type="submit" class="btn btn-primary quote-submit">
         <svg
@@ -192,14 +210,73 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
     max-width: 720px;
   }
 
+  .form-section {
+    border: none;
+    padding: 0;
+    margin: 0 0 32px;
+  }
+
+  .form-section-title {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-accent);
+    margin-bottom: 18px;
+    padding: 0;
+  }
+
   .form-row {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+  }
+
+  .form-row:last-child {
+    margin-bottom: 0;
   }
 
   .form-row--two {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 24px;
+    gap: 20px;
+  }
+
+  /* ── Optional details disclosure ───────────────────── */
+  .form-details {
+    margin-top: 8px;
+    border-top: 1px solid var(--color-surface);
+    padding-top: 16px;
+  }
+
+  .form-details-summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-accent);
+    cursor: pointer;
+    list-style: none;
+    padding: 4px 0;
+    user-select: none;
+  }
+
+  .form-details-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .form-details-icon {
+    display: inline-flex;
+    transition: transform 0.25s ease;
+  }
+
+  .form-details[open] .form-details-icon {
+    transform: rotate(180deg);
+  }
+
+  .form-details-body {
+    padding-top: 18px;
   }
 
   .form-group {

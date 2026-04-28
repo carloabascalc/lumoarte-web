@@ -1,12 +1,20 @@
 ---
 const materials = [
   {
-    label: "MDF, Triplay y Madera",
-    name: "MDF, Triplay y Chapas de madera",
+    label: "MDF y Triplay",
+    name: "MDF y Triplay",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
-    descripcion: "El material más versátil del taller. Ofrece acabados cálidos y naturales, perfecto para proyectos decorativos y arquitectónicos de cualquier escala.",
-    tecnica: "Corte y grabado",
-    ejemplos: ["Celosías y biombos", "Maquetas arquitectónicas", "Letreros decorativos", "Lámparas y luminarias", "Marcos y repisas", "Puertas y paneles calados"],
+    descripcion: "El material más versátil del taller. Corta, graba y marca con limpieza — desde piezas únicas hasta producción en serie. Acabados cálidos y económicos.",
+    tecnica: "Corte, grabado y marcar",
+    ejemplos: ["Cajas y empaque a medida", "Lámparas y luminarias", "Maquetas arquitectónicas", "Celosías y biombos", "Letreros y displays", "Souvenirs y regalos"],
+  },
+  {
+    label: "Madera",
+    name: "Madera (maciza y chapas)",
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m17 14 3 3.3a1 1 0 0 1-.7 1.7H4.7a1 1 0 0 1-.7-1.7L7 14h-.3a1 1 0 0 1-.7-1.7L9 9h-.2A1 1 0 0 1 8 7.3L12 3l4 4.3a1 1 0 0 1-.8 1.7H15l3 3.3a1 1 0 0 1-.7 1.7H17Z"/><path d="M12 22v-3"/></svg>`,
+    descripcion: "Grabamos sobre madera maciza y chapas finas. El láser realza la veta natural con detalle cálido. Ideal para piezas premium, regalos y memoriales.",
+    tecnica: "Grabado",
+    ejemplos: ["Letreros y rótulos grabados", "Placas conmemorativas", "Tablas para servir con logo", "Posavasos en madera fina", "Regalos premium personalizados", "Piezas decorativas grabadas"],
   },
   {
     label: "Acrílico",
@@ -14,55 +22,47 @@ const materials = [
     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 18 3 22 9 12 22 2 9"/><polyline points="2 9 12 14 22 9"/><line x1="12" y1="3" x2="12" y2="22"/><line x1="6" y1="3" x2="2" y2="9"/><line x1="18" y1="3" x2="22" y2="9"/></svg>`,
     descripcion: "Disponible en decenas de colores, transparencias y acabados. Genera cortes limpios con bordes pulidos. Ideal para piezas modernas y con iluminación.",
     tecnica: "Corte y grabado",
-    ejemplos: ["Letreros luminosos", "Displays y señalética", "Separadores de ambiente", "Lámparas decorativas", "Portarretratos y marcos", "Vasos y tazas grabadas"],
+    ejemplos: ["Letreros luminosos", "Displays y señalética", "Separadores de ambiente", "Lámparas decorativas", "Portarretratos y marcos", "Llaveros y accesorios"],
   },
   {
     label: "Papeles",
     name: "Papeles (cualquier textura)",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h12a2 2 0 0 0 2-2v-2H10v2a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12v4"/><path d="M10 11h8M10 15h5"/></svg>`,
-    descripcion: "Permitimos cortes muy delicados e intrincados en papeles de cualquier gramaje y textura. Ideal para piezas de papelería fina y arte en papel.",
-    tecnica: "Corte",
+    descripcion: "Cortes muy delicados e intrincados en papeles de cualquier gramaje, con grabado para detalles sutiles. Ideal para piezas de papelería fina y arte en papel.",
+    tecnica: "Corte y grabado",
     ejemplos: ["Invitaciones de boda", "Papelería personalizada", "Siluetas artísticas", "Tarjetas de presentación", "Decoraciones de eventos", "Cajas y empaque"],
   },
   {
-    label: "Cuero y Tela",
-    name: "Cuero y Tela",
+    label: "Cuero",
+    name: "Cuero",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>`,
-    descripcion: "El láser permite cortes precisos sin deformar el material y grabados que realzan la textura natural del cuero o la tela. Acabado artesanal garantizado.",
+    descripcion: "Cortes precisos sin deformar el material y grabados que realzan la textura natural del cuero. Acabado artesanal en cada pieza.",
     tecnica: "Corte y grabado",
-    ejemplos: ["Carteras y monederos", "Etiquetas para ropa", "Parches y apliques", "Portadocumentos", "Decoraciones textiles", "Accesorios personalizados"],
+    ejemplos: ["Carteras y monederos", "Llaveros y dijes", "Etiquetas para ropa", "Parches y apliques", "Portadocumentos", "Accesorios personalizados"],
   },
   {
-    label: "Goma y Foamy",
-    name: "Goma, Foamy y similares",
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg>`,
-    descripcion: "Material ligero, económico y disponible en muchos colores. Perfecto para volúmenes grandes y proyectos donde el peso y el costo son factores clave.",
+    label: "Tela",
+    name: "Tela",
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>`,
+    descripcion: "Cortes limpios sobre tela sin filete ni deformación. Ideal para apliques, patrones precisos y producción en serie de piezas textiles.",
     tecnica: "Corte",
-    ejemplos: ["Letras y números volumétricos", "Props para fotografía", "Gafetes y credenciales", "Decoraciones de eventos", "Manualidades escolares", "Señalética temporal"],
+    ejemplos: ["Apliques y patrones", "Plantillas para confección", "Recortes para parches", "Banderas y backdrops", "Etiquetas textiles", "Decoraciones de eventos"],
   },
   {
     label: "Vidrio",
-    name: "Vidrio — solo grabado",
+    name: "Vidrio",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="7" y1="12" x2="17" y2="12"/></svg>`,
-    descripcion: "Grabamos sobre vidrio plano y piezas terminadas creando un efecto esmerilado permanente y elegante. El cliente trae la pieza o nosotros la conseguimos.",
-    tecnica: "Solo grabado",
+    descripcion: "Marcamos sobre vidrio plano y piezas terminadas creando un efecto esmerilado permanente y elegante. La pieza la trae el cliente o la conseguimos.",
+    tecnica: "Marcar",
     ejemplos: ["Copas y cristalería", "Espejos decorativos", "Ventanas y cancel", "Placas conmemorativas", "Regalos corporativos", "Arte en vidrio"],
   },
   {
     label: "Piedra y Mármol",
-    name: "Piedra y Mármol — solo grabado",
+    name: "Piedra y Mármol",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>`,
-    descripcion: "Grabado de alta precisión sobre superficies duras. El resultado es permanente, con un contraste elegante entre la zona grabada y la superficie natural.",
-    tecnica: "Solo grabado",
-    ejemplos: ["Coasters y portavasos", "Placas y reconocimientos", "Detalles arquitectónicos", "Regalos de lujo", "Lápidas y memoriales", "Vajillas de piedra"],
-  },
-  {
-    label: "Cerámica",
-    name: "Cerámica — solo grabado",
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>`,
-    descripcion: "Grabamos sobre piezas de cerámica esmaltada y sin esmaltar. Ideal para personalizar vajillas, regalos únicos o colecciones artesanales.",
-    tecnica: "Solo grabado",
-    ejemplos: ["Tazas y platos", "Macetas decorativas", "Azulejos personalizados", "Vajillas con logo", "Regalos de boda", "Piezas de colección"],
+    descripcion: "Marcado de alta precisión sobre superficies duras. El resultado es permanente, con un contraste elegante entre la zona marcada y la piedra natural.",
+    tecnica: "Marcar",
+    ejemplos: ["Coasters y portavasos", "Placas y reconocimientos", "Detalles arquitectónicos", "Regalos de lujo", "Lápidas y memoriales", "Logos sobre piedra"],
   },
 ];
 ---
@@ -70,10 +70,12 @@ const materials = [
 <section class="section materials" id="materiales">
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title" data-reveal>La materia prima de la creatividad</h2>
-      <p class="section-subtitle" data-reveal data-reveal-delay="0.08">
-        Trabajamos con una amplia variedad de materiales que se adaptan a tus
-        ideas y necesidades
+      <p class="materials-eyebrow" data-reveal>Materiales para corte láser</p>
+      <h2 class="section-title" data-reveal data-reveal-delay="0.06">La materia prima de la creatividad</h2>
+      <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
+        Cortamos, grabamos y marcamos sobre madera, acrílico, papel, cuero,
+        tela, vidrio y mármol. Cada material tiene su técnica — toca una
+        tarjeta para ver el detalle.
       </p>
     </div>
     <ul class="materials-grid" role="list">
@@ -117,7 +119,48 @@ const materials = [
 
 <style>
   .materials {
-    background: var(--color-bg-alt);
+    background: var(--color-bg-ink);
+    color: var(--color-text-on-dark);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* Top + bottom soft fades — a thin warm-cream gradient that bleeds
+     out of the section into the surrounding cream so the transition
+     reads as a deliberate fade, not a hard cut. */
+  .materials::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(250, 247, 242, 0.06), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .materials .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .materials :global(.section-title) {
+    color: var(--color-text-on-dark);
+  }
+
+  .materials :global(.section-subtitle) {
+    color: rgba(245, 233, 216, 0.72);
+  }
+
+  .materials-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent-honey);
+    margin-bottom: 16px;
   }
 
   .materials-grid {
@@ -128,21 +171,37 @@ const materials = [
   }
 
   .material-card {
-    background: var(--color-bg);
-    border: 1px solid var(--color-surface);
-    border-radius: 8px;
+    position: relative;
+    background: linear-gradient(180deg, #241509 0%, #1d100707 100%);
+    background-color: #221308;
+    border: 1px solid rgba(200, 122, 42, 0.18);
+    border-radius: 10px;
     padding: 28px 24px;
     display: flex;
     flex-direction: column;
     gap: 16px;
-    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     cursor: pointer;
     opacity: 0;
+    overflow: hidden;
+  }
+
+  /* Subtle inset warm sheen on the top edge — feels like carved material */
+  .material-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(200, 122, 42, 0.06) 0%, transparent 35%);
+    pointer-events: none;
   }
 
   .material-card:hover {
-    border-color: var(--color-accent);
-    box-shadow: 0 8px 28px rgba(165, 58, 4, 0.12);
+    background-color: #2a1a0d;
+    border-color: rgba(200, 122, 42, 0.5);
+    box-shadow:
+      0 16px 36px rgba(0, 0, 0, 0.45),
+      0 0 0 1px rgba(200, 122, 42, 0.10) inset;
     transform: translateY(-4px);
   }
 
@@ -151,20 +210,24 @@ const materials = [
   }
 
   .material-icon {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: rgba(165, 58, 4, 0.07);
-    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    background: rgba(200, 122, 42, 0.14);
+    border: 1px solid rgba(200, 122, 42, 0.22);
+    border-radius: 10px;
     flex-shrink: 0;
-    color: var(--color-accent);
-    transition: background 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    color: var(--color-accent-honey);
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .material-card:hover .material-icon {
-    background: rgba(165, 58, 4, 0.13);
+    background: rgba(200, 122, 42, 0.26);
+    border-color: rgba(200, 122, 42, 0.55);
+    color: #fde0bd;
   }
 
   .material-icon svg {
@@ -176,7 +239,7 @@ const materials = [
     font-size: 1.0625rem;
     font-weight: 600;
     line-height: 1.35;
-    color: var(--color-text);
+    color: var(--color-text-on-dark);
   }
 
   /* ── Overlay ───────────────────────────────────────── */

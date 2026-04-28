@@ -124,10 +124,43 @@ export function galleryReveal() {
   }, { margin: "0px 0px -15% 0px" });
 }
 
+// Scroll-linked ambient drift: writes --glow-shift-x/y to the section so its
+// ::before radial gradients can read them and shift glow centers as the user
+// scrolls. Cheap (rAF-throttled) and pure CSS once the values land.
+function ambientDrift(selector: string, intensityX = 6, intensityY = 4) {
+  if (prefersReduced) return;
+  const section = document.querySelector<HTMLElement>(selector);
+  if (!section) return;
+
+  let raf = 0;
+  const onScroll = () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const progress = Math.max(-1, Math.min(1, (rect.top + rect.height / 2 - vh / 2) / vh));
+      section.style.setProperty("--glow-shift-x", `${progress * intensityX}%`);
+      section.style.setProperty("--glow-shift-y", `${progress * intensityY}%`);
+      raf = 0;
+    });
+  };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+}
+
+export function materialsAmbient() {
+  ambientDrift(".materials", 6, 4);
+}
+
+export function contactAmbient() {
+  ambientDrift(".page-end", 5, 3);
+}
+
 export function initAll() {
   heroIntro();
   heroParallax();
   revealOnScroll();
   staggerChildren(".materials-grid", ".material-card", 0.05);
   galleryReveal();
+  contactAmbient();
 }

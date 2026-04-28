@@ -3,7 +3,6 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";
 import ServicesGrid from "../components/ServicesGrid.astro";
-import Materials from "../components/Materials.astro";
 import Gallery from "../components/Gallery.astro";
 import InstagramCTA from "../components/InstagramCTA.astro";
 import QuoteForm from "../components/QuoteForm.astro";
@@ -18,19 +17,20 @@ import WhatsAppButton from "../components/WhatsAppButton.astro";
   ogImage="/og/default.jpg"
   schemaType="LocalBusiness"
 >
-  <Nav />
+  <Nav variant="solid" />
   <main>
     <Hero />
     <ServicesGrid />
-    <Materials />
     <Gallery
       title="Trabajos recientes"
       subtitle="Una muestra del taller. Para ver más por servicio, visita la página correspondiente."
     />
     <InstagramCTA />
     <QuoteForm />
-    <Contact />
   </main>
-  <Footer />
+  <div class="page-end">
+    <Contact />
+    <Footer />
+  </div>
   <WhatsAppButton />
 </Base>

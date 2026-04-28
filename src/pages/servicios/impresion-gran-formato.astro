@@ -4,7 +4,8 @@ import Nav from "../../components/Nav.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import ServicePageHero from "../../components/ServicePageHero.astro";
 import Gallery from "../../components/Gallery.astro";
-import InstagramCTA from "../../components/InstagramCTA.astro";
+import FAQ from "../../components/FAQ.astro";
+import CrossServices from "../../components/CrossServices.astro";
 import QuoteForm from "../../components/QuoteForm.astro";
 import Contact from "../../components/Contact.astro";
 import Footer from "../../components/Footer.astro";
@@ -67,9 +68,43 @@ const serviceSchema = {
   description: service.metaDescription,
   url: `${SITE.url}${service.slug}`,
 };
+
+const faqs = [
+  {
+    question: "¿Cuánto tarda imprimir una lona o un wrap?",
+    answer:
+      "Una lona estándar (1×2 m hasta 3×6 m) sale el mismo día o al siguiente, lista para colgar. Vinil para rotulación de ventanas u oficina toma 24–48 horas. Un wrap vehicular completo toma de 2 a 4 días, dependiendo del modelo y la complejidad del diseño. Sublimación textil: 2–5 días según cantidad.",
+  },
+  {
+    question: "¿Qué archivo necesito enviar?",
+    answer:
+      "Para impresión gran formato necesitamos tu diseño en alta resolución (mínimo 100 dpi al tamaño final, idealmente 150 dpi). Aceptamos AI, PDF, PSD, TIFF y JPG/PNG en alta calidad. Coloca todas las fuentes en curvas y deja al menos 2 cm de sangrado. Si no tienes el diseño listo, te conectamos con un diseñador o lo cotizamos.",
+  },
+  {
+    question: "¿Hacen instalación de wraps y rotulación?",
+    answer:
+      "Sí. Tenemos un instalador certificado para wraps vehiculares y rotulación de ventanas/locales. La instalación se cotiza aparte de la impresión y se programa con cita. Si prefieres instalar tú o tu equipo, entregamos el material listo con instrucciones.",
+  },
+  {
+    question: "¿Cuál es el tamaño máximo de impresión?",
+    answer:
+      "El ancho máximo en una sola pieza es 1.80 m. El largo es prácticamente ilimitado — imprimimos en rollos continuos. Para piezas más anchas (un banner de 4 m de altura, por ejemplo), las imprimimos en módulos que se unen invisiblemente con sellado térmico o costura.",
+  },
+  {
+    question: "¿Qué dura más, vinil o lona?",
+    answer:
+      "La lona frontlit dura 1–2 años a la intemperie sin perder color. La lona blockout (totalmente opaca) dura 2–3 años. El vinil de campaña dura 6 meses a 1 año. El vinil automotriz de calidad dura 5–7 años. Si necesitas algo permanente, dinos el uso y te recomendamos el material adecuado.",
+  },
+  {
+    question: "¿Hay cantidad mínima?",
+    answer:
+      "No. Imprimimos desde una sola pieza — un banner para tu evento, un wrap para un coche, una playera personalizada. Para producción en serie ofrecemos descuento por volumen.",
+  },
+];
 ---
 
 <Base
+  pageAccent="plotter"
   title={`${service.name} en Cancún | Lumo Arte`}
   description={service.metaDescription}
   canonical={service.slug}
@@ -93,6 +128,7 @@ const serviceSchema = {
       subtitle="Lonas, vinil y sublimación textil con tintas eco-solventes y de sublimación. Tres usos en una sola máquina industrial — desde un banner para tu evento hasta el wrap completo de tu vehículo."
       primaryCta={{ label: "Solicita tu cotización", href: "#cotiza" }}
       secondaryCta={{ label: "Ver usos", href: "#usos" }}
+      service="plotter"
     />
 
     <section class="usos section" id="usos">
@@ -156,12 +192,20 @@ const serviceSchema = {
       subtitle="Estamos documentando los proyectos del taller. Mientras tanto, sigue nuestro Instagram para ver lo más reciente."
     />
 
-    <InstagramCTA />
+    <CrossServices excludeId="impresion-gran-formato" />
+
+    <FAQ
+      title="Preguntas frecuentes sobre impresión gran formato"
+      subtitle="Las dudas que nos hacen más seguido. Si la tuya no aparece, mándanos un WhatsApp."
+      items={faqs}
+    />
 
     <QuoteForm defaultService="impresion-gran-formato" />
-    <Contact />
   </main>
-  <Footer />
+  <div class="page-end">
+    <Contact />
+    <Footer />
+  </div>
   <WhatsAppButton />
 </Base>
 

@@ -5,11 +5,14 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
 import ServicePageHero from "../../components/ServicePageHero.astro";
 import Materials from "../../components/Materials.astro";
 import Gallery from "../../components/Gallery.astro";
+import FAQ from "../../components/FAQ.astro";
+import CrossServices from "../../components/CrossServices.astro";
 import InstagramCTA from "../../components/InstagramCTA.astro";
 import QuoteForm from "../../components/QuoteForm.astro";
 import Contact from "../../components/Contact.astro";
 import Footer from "../../components/Footer.astro";
 import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import laserHeroBg from "../../assets/gallery/gal-02.jpg";
 import { getService, SITE } from "../../data/services";
 
 const service = getService("corte-laser");
@@ -53,6 +56,39 @@ const serviceSchema = {
   description: service.metaDescription,
   url: `${SITE.url}${service.slug}`,
 };
+
+const faqs = [
+  {
+    question: "¿Cuánto tarda un trabajo de corte láser?",
+    answer:
+      "Para piezas pequeñas y medianas (invitaciones, regalos, llaveros, placas) entregamos entre 24 y 72 horas hábiles. Producciones en serie o piezas grandes (lámparas, paneles, esculturas) toman de 3 a 7 días dependiendo del lote. Si tu proyecto es urgente, dilo en la cotización — siempre revisamos prioridades.",
+  },
+  {
+    question: "¿Qué tipo de archivo necesito enviar?",
+    answer:
+      "Trabajamos con vectores en formato AI, EPS, SVG, PDF o DXF. Si solo tienes una imagen JPG o PNG nítida, podemos vectorizarla por ti — incluido en la cotización si no es muy compleja. Lo importante es que las líneas estén limpias y la escala sea la real (en milímetros o centímetros).",
+  },
+  {
+    question: "¿Cuál es el tamaño máximo de corte?",
+    answer:
+      "El área útil de nuestra máquina es de 130 × 90 cm en una sola pieza. Para piezas más grandes, las dividimos en módulos que ensamblan invisiblemente — así hemos hecho biombos de 2.5 m, paneles de 3 m y celosías arquitectónicas a escala completa.",
+  },
+  {
+    question: "¿Aceptan pedidos de una sola pieza?",
+    answer:
+      "Sí. Cobramos por minuto de máquina, no por mínimo de lote. Una sola pieza personalizada (un regalo, un prototipo arquitectónico) sale el mismo día o al siguiente. Para producción en serie ofrecemos descuento por volumen.",
+  },
+  {
+    question: "¿Hacen entrega o envíos?",
+    answer:
+      "En Cancún hacemos entrega a domicilio dentro de la zona metropolitana con costo según ubicación. Para Playa del Carmen, Tulum, Mérida y otras ciudades enviamos por paquetería (DHL, Estafeta) — el costo lo agregamos a la cotización. También puedes recoger en el taller en Avenida 20 de Noviembre.",
+  },
+  {
+    question: "¿Cómo pago?",
+    answer:
+      "Aceptamos transferencia bancaria, depósito en efectivo, tarjeta de débito y crédito (con pequeño cargo bancario). Para producciones grandes pedimos 50% de anticipo y 50% al entregar. Para piezas únicas y trabajos pequeños el pago es completo al confirmar.",
+  },
+];
 ---
 
 <Base
@@ -79,6 +115,8 @@ const serviceSchema = {
       subtitle="Cortamos y grabamos materiales con precisión milimétrica. Desde una pieza única hasta producción en serie de miles de unidades, con acabados limpios y repetibles."
       primaryCta={{ label: "Solicita tu cotización", href: "#cotiza" }}
       secondaryCta={{ label: "Ver materiales", href: "#materiales" }}
+      backgroundImage={laserHeroBg}
+      backgroundAlt="Escultura corazón de MDF cortada a láser contra cielo y palmeras"
     />
 
     <Materials />
@@ -115,10 +153,20 @@ const serviceSchema = {
 
     <InstagramCTA />
 
+    <CrossServices excludeId="corte-laser" />
+
+    <FAQ
+      title="Preguntas frecuentes sobre corte láser"
+      subtitle="Las dudas que nos hacen más seguido. Si la tuya no aparece, mándanos un WhatsApp."
+      items={faqs}
+    />
+
     <QuoteForm defaultService="corte-laser" />
-    <Contact />
   </main>
-  <Footer />
+  <div class="page-end">
+    <Contact />
+    <Footer />
+  </div>
   <WhatsAppButton />
 </Base>
 
@@ -138,13 +186,25 @@ const serviceSchema = {
 
   .sectores-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1px;
     list-style: none;
     background: var(--color-surface);
     border: 1px solid var(--color-surface);
     border-radius: 8px;
     overflow: hidden;
+  }
+
+  @media (max-width: 880px) {
+    .sectores-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .sectores-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   .sector-card {

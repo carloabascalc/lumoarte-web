@@ -4,7 +4,8 @@ import Nav from "../../components/Nav.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import ServicePageHero from "../../components/ServicePageHero.astro";
 import Gallery from "../../components/Gallery.astro";
-import InstagramCTA from "../../components/InstagramCTA.astro";
+import FAQ from "../../components/FAQ.astro";
+import CrossServices from "../../components/CrossServices.astro";
 import QuoteForm from "../../components/QuoteForm.astro";
 import Contact from "../../components/Contact.astro";
 import Footer from "../../components/Footer.astro";
@@ -68,6 +69,39 @@ const serviceSchema = {
   description: service.metaDescription,
   url: `${SITE.url}${service.slug}`,
 };
+
+const faqs = [
+  {
+    question: "¿Cuánto tarda imprimir una pieza?",
+    answer:
+      "Depende del tamaño y la técnica. Una pieza pequeña en FDM (un prototipo, una figura mediana) puede salir el mismo día o al siguiente. Una pieza grande en formato XL (60–80 cm de altura) toma de 2 a 4 días. Resina alta definición: 1 a 3 días según el detalle. Lotes y producciones se cotizan caso por caso.",
+  },
+  {
+    question: "¿Qué archivo necesitan para imprimir?",
+    answer:
+      "Lo ideal es un STL o STEP listo para imprimir, con paredes cerradas y geometría sólida. Si solo tienes un dibujo, una foto o una idea, podemos modelarlo desde cero — el modelado 3D se cotiza por separado dependiendo de la complejidad. También aceptamos OBJ, 3MF y archivos de Fusion 360 / SolidWorks.",
+  },
+  {
+    question: "¿Cómo elijo entre FDM y resina?",
+    answer:
+      "FDM (filamento) es ideal para piezas funcionales, prototipos, repuestos, soportes y piezas grandes. Es más resistente y económico. Resina es para alta definición — miniaturas, joyería, piezas dentales, cabezas de personajes con detalle escultórico. Si no estás seguro, mándanos el archivo y te recomendamos sin compromiso.",
+  },
+  {
+    question: "¿Cuál es el tamaño máximo que pueden imprimir?",
+    answer:
+      "En una sola pieza FDM imprimimos hasta 30 × 30 × 40 cm (Artillery Sidewinder XL). En multi-color hasta 25.6 × 25.6 × 25.6 cm (Bambu Lab H2C). En resina hasta 15 × 8 × 16.5 cm. Para piezas más grandes, las dividimos en módulos que se ensamblan después con casi ninguna línea visible.",
+  },
+  {
+    question: "¿Pintan o dan acabado a la pieza?",
+    answer:
+      "Sí. Ofrecemos lijado, primer, pintura con aerógrafo y acabados especiales (mate, satinado, brillante, metalizado). El acabado se cotiza aparte porque toma tiempo de mano de obra. Para FDM también podemos hacer alisado con vapor de acetona en piezas ABS.",
+  },
+  {
+    question: "¿Hay cantidad mínima?",
+    answer:
+      "No. Imprimimos desde una sola pieza. Para producción en serie ofrecemos descuento progresivo por cantidad — entre más unidades, menor el costo por pieza.",
+  },
+];
 ---
 
 <Base
@@ -77,6 +111,7 @@ const serviceSchema = {
   ogImage="/og/impresion-3d.jpg"
   schemaType="Service"
   schemaData={serviceSchema}
+  pageAccent="3d"
 >
   <Nav variant="solid" />
   <main>
@@ -94,6 +129,7 @@ const serviceSchema = {
       subtitle="Imprimimos en 3D con cuatro máquinas profesionales — multi-color FDM, formato XL y resina de alta definición. Tu pieza, en el material y la técnica que mejor se ajuste al proyecto, sin enviarla fuera de la ciudad."
       primaryCta={{ label: "Solicita tu cotización", href: "#cotiza" }}
       secondaryCta={{ label: "Ver tecnologías", href: "#tecnologias" }}
+      service="3d"
     />
 
     <section class="tech section" id="tecnologias">
@@ -167,12 +203,20 @@ const serviceSchema = {
       subtitle="Estamos documentando los proyectos del taller. Mientras tanto, sigue nuestro Instagram para ver lo más reciente."
     />
 
-    <InstagramCTA />
+    <CrossServices excludeId="impresion-3d" />
+
+    <FAQ
+      title="Preguntas frecuentes sobre impresión 3D"
+      subtitle="Las dudas que nos hacen más seguido. Si la tuya no aparece, mándanos un WhatsApp."
+      items={faqs}
+    />
 
     <QuoteForm defaultService="impresion-3d" />
-    <Contact />
   </main>
-  <Footer />
+  <div class="page-end">
+    <Contact />
+    <Footer />
+  </div>
   <WhatsAppButton />
 </Base>
 

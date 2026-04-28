@@ -1,0 +1,158 @@
+---
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  items: FaqItem[];
+  injectSchema?: boolean;
+}
+
+const {
+  title = "Preguntas frecuentes",
+  subtitle,
+  items,
+  injectSchema = true,
+} = Astro.props;
+
+const faqSchema = injectSchema
+  ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: items.map((it) => ({
+        "@type": "Question",
+        name: it.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: it.answer,
+        },
+      })),
+    }
+  : null;
+---
+
+<section class="faq section" id="faq">
+  <div class="container">
+    <div class="section-header">
+      <p class="faq-eyebrow" data-reveal>Antes de cotizar</p>
+      <h2 class="section-title" data-reveal data-reveal-delay="0.06">{title}</h2>
+      {subtitle && <p class="section-subtitle" data-reveal data-reveal-delay="0.12">{subtitle}</p>}
+    </div>
+
+    <ul class="faq-list" role="list" data-reveal data-reveal-delay="0.16">
+      {items.map((it, i) => (
+        <li class="faq-item">
+          <details>
+            <summary>
+              <span class="faq-q">{it.question}</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+            </summary>
+            <div class="faq-a" set:html={it.answer.replace(/\n/g, "<br />")} />
+          </details>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+{faqSchema && (
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+)}
+
+<style>
+  .faq {
+    background: var(--color-bg);
+  }
+
+  .faq-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+  }
+
+  .faq-list {
+    list-style: none;
+    border-top: 1px solid var(--color-surface);
+    max-width: 820px;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--color-surface);
+  }
+
+  .faq-item details {
+    transition: background 0.2s;
+  }
+
+  .faq-item details[open] {
+    background: var(--color-bg-alt);
+  }
+
+  .faq-item summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 22px 24px;
+    cursor: pointer;
+    list-style: none;
+    transition: color 0.2s;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary:hover {
+    color: var(--color-accent);
+  }
+
+  .faq-q {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.4;
+  }
+
+  .faq-icon {
+    flex-shrink: 0;
+    color: var(--color-muted);
+    transition: transform 0.25s ease, color 0.2s;
+  }
+
+  .faq-item summary:hover .faq-icon {
+    color: var(--color-accent);
+  }
+
+  .faq-item details[open] .faq-icon {
+    transform: rotate(180deg);
+    color: var(--color-accent);
+  }
+
+  .faq-a {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    padding: 0 24px 24px;
+    max-width: 720px;
+  }
+
+  @media (max-width: 640px) {
+    .faq-item summary {
+      padding: 18px 16px;
+    }
+
+    .faq-a {
+      padding: 0 16px 20px;
+    }
+  }
+</style>

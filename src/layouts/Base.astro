@@ -9,6 +9,7 @@ interface Props {
   ogImage?: string;
   schemaType?: "WebSite" | "LocalBusiness" | "Service";
   schemaData?: Record<string, unknown>;
+  pageAccent?: "laser" | "3d" | "plotter";
 }
 
 const {
@@ -18,6 +19,7 @@ const {
   ogImage = SITE.ogDefault,
   schemaType,
   schemaData,
+  pageAccent = "laser",
 } = Astro.props;
 
 const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site).href;
@@ -77,6 +79,9 @@ else if (schemaType === "Service" && schemaData) {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
@@ -102,7 +107,7 @@ else if (schemaType === "Service" && schemaData) {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
 
@@ -112,7 +117,7 @@ else if (schemaType === "Service" && schemaData) {
 
     <ClientRouter />
   </head>
-  <body>
+  <body data-page={pageAccent}>
     <slot />
 
     <script>
@@ -125,14 +130,38 @@ else if (schemaType === "Service" && schemaData) {
 
 <style is:global>
   :root {
-    --color-bg: #ffffff;
-    --color-bg-alt: #f5f4f2;
-    --color-surface: #e8e6e3;
+    /* Surfaces — warm, no clinical white */
+    --color-bg: #faf7f2;
+    --color-bg-alt: #f0e7d8;
+    --color-bg-tint: #ebd9bf;
+    --color-bg-ink: #1a0f06;
+    --color-bg-clay: #2a1605;
+    --color-surface: #e0d5c2;
+
+    /* Accents */
     --color-accent: #A53A04;
     --color-accent-dark: #7d2b02;
-    --color-text: #1a1a1a;
-    --color-muted: #666666;
+    --color-accent-honey: #c87a2a;
+    --color-accent-rust: #6b2c0a;
+
+    /* Per-service tints (hero bg + accents) */
+    --service-laser: #A53A04;
+    --service-3d: #c87a2a;
+    --service-plotter: #6b2c0a;
+    --service-laser-bg: #f4e3cf;
+    --service-3d-bg: #f5e6c8;
+    --service-plotter-bg: #ead9c2;
+
+    /* Page-level accent — defaults to brand terracotta. Service pages override. */
+    --page-accent: var(--color-accent);
+    --page-accent-soft: rgba(165, 58, 4, 0.12);
+
+    /* Text */
+    --color-text: #1a1208;
+    --color-text-on-dark: #f5e9d8;
+    --color-muted: #7a6a55;
     --color-dark: #0f0f0f;
+
     --font-display: "Playfair Display", Georgia, serif;
     --font-body: "DM Sans", system-ui, sans-serif;
     --max-w: 1200px;
@@ -152,15 +181,13 @@ else if (schemaType === "Service" && schemaData) {
     scroll-padding-top: var(--nav-h);
   }
 
-  /* Hide reveal elements until JS animates them in */
-  [data-reveal] {
+  /* Hide reveal elements until JS animates them in.
+     Gated by .js class so no-JS / slow-JS / preview bots see content by default. */
+  html.js [data-reveal],
+  html.js .materials-grid .material-card,
+  html.js .film-item {
     opacity: 0;
     transform: translateY(28px);
-    will-change: opacity, transform;
-  }
-
-  .materials-grid .material-card,
-  .film-item {
     will-change: opacity, transform;
   }
 
@@ -169,7 +196,9 @@ else if (schemaType === "Service" && schemaData) {
       animation-duration: 0.001ms !important;
       transition-duration: 0.001ms !important;
     }
-    [data-reveal] {
+    html.js [data-reveal],
+    html.js .materials-grid .material-card,
+    html.js .film-item {
       opacity: 1 !important;
       transform: none !important;
     }
@@ -178,9 +207,71 @@ else if (schemaType === "Service" && schemaData) {
   body {
     font-family: var(--font-body);
     color: var(--color-text);
-    background: var(--color-bg);
+    background:
+      radial-gradient(ellipse 60vw 80vh at 100% 0%, rgba(200, 122, 42, 0.06), transparent 60%),
+      radial-gradient(ellipse 50vw 60vh at 0% 70%, rgba(165, 58, 4, 0.045), transparent 60%),
+      var(--color-bg);
+    background-attachment: fixed;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* Per-page accent overrides — service pages route their identity through cascading tokens */
+  body[data-page="3d"] {
+    --page-accent: var(--service-3d);
+    --page-accent-soft: rgba(200, 122, 42, 0.14);
+  }
+
+  body[data-page="plotter"] {
+    --page-accent: var(--service-plotter);
+    --page-accent-soft: rgba(107, 44, 10, 0.14);
+  }
+
+  /* Section eyebrows + accent dashes pick up the per-page accent colour.
+     Brand elements (logo, primary buttons, nav) keep their hardcoded terracotta. */
+  .materials-eyebrow,
+  .servicios-eyebrow,
+  .sectores-eyebrow,
+  .tech-eyebrow,
+  .machines-eyebrow,
+  .usos-eyebrow,
+  .cross-eyebrow,
+  .ig-eyebrow,
+  .gallery-eyebrow,
+  .gallery-empty-eyebrow,
+  .specs-eyebrow,
+  .faq-eyebrow,
+  .form-eyebrow,
+  .contact-eyebrow {
+    color: var(--page-accent) !important;
+  }
+
+  body[data-page="3d"] .materials-eyebrow {
+    color: var(--color-accent-honey) !important;
+  }
+
+  /* Dark "page end" — a shared anchor wrapping Contact + Footer so a
+     single warm radial gradient spans both sections continuously. */
+  .page-end {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--color-dark);
+  }
+
+  .page-end::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 70% 45%
+        at calc(82% + var(--glow-shift-x, 0%)) calc(15% + var(--glow-shift-y, 0%)),
+      rgba(200, 122, 42, 0.22),
+      transparent 65%
+    );
+    pointer-events: none;
+    z-index: 0;
+    transition: background 0.5s linear;
   }
 
   img {

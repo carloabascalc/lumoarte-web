@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import logoFooter from "../assets/logos/logo-footer.png";
 import { services } from "../data/services";
 
 const affiliates = [
@@ -12,16 +14,16 @@ const affiliates = [
   <div class="container footer-inner">
     <div class="footer-brand" data-reveal>
       <a href="/" aria-label="Lumo Arte">
-        <img
-          src="/images/logo-footer.png"
+        <Image
+          src={logoFooter}
           alt="Lumo Arte"
-          width="80"
-          height="96"
+          width={80}
+          height={96}
           loading="lazy"
         />
       </a>
       <p class="footer-tagline">
-        No solo cortamos: diseñamos, transformamos y damos vida a las ideas.
+        Cortamos, imprimimos y rotulamos. Diseñamos, transformamos y damos vida a las ideas.
       </p>
       <button class="about-trigger" id="aboutTrigger" aria-haspopup="dialog">
         Quiénes somos
@@ -112,9 +114,11 @@ const affiliates = [
 
 <style>
   .footer {
-    background: var(--color-dark);
+    background: transparent;
     color: rgba(255, 255, 255, 0.6);
     font-size: 0.875rem;
+    position: relative;
+    z-index: 1;
   }
 
   .footer-inner {
