@@ -156,7 +156,104 @@ export function contactAmbient() {
   ambientDrift(".page-end", 5, 3);
 }
 
+// ─────────────────────────────────────────────────────────────
+// Page transitions — Linear-style two-panel vertical sweep.
+// Hooks Astro's <ClientRouter /> events. Listeners on `document`
+// persist across navigations, so we register exactly once.
+// ─────────────────────────────────────────────────────────────
+let pageTransitionsBound = false;
+
+const findPanels = () => ({
+  overlay: document.querySelector<HTMLElement>(".page-transition"),
+  back: document.querySelector<HTMLElement>(".page-transition-back"),
+  front: document.querySelector<HTMLElement>(".page-transition-front"),
+});
+
+const sweepCurve = "cubic-bezier(0.76, 0, 0.24, 1)";
+
+const setPanel = (
+  el: HTMLElement | null,
+  transform: string,
+  durationMs: number,
+  delayMs = 0,
+) => {
+  if (!el) return;
+  el.style.transition =
+    durationMs === 0
+      ? "none"
+      : `transform ${durationMs}ms ${sweepCurve} ${delayMs}ms`;
+  el.style.transform = transform;
+};
+
+const waitMs = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+
+const coverPhase = async () => {
+  const { overlay, back, front } = findPanels();
+  if (!overlay || !back || !front) return;
+  setPanel(back, "translateY(100%)", 0);
+  setPanel(front, "translateY(100%)", 0);
+  overlay.classList.add("is-active");
+  overlay.classList.remove("is-mark-visible");
+  void overlay.offsetHeight;
+  setPanel(back, "translateY(0%)", 550);
+  setPanel(front, "translateY(0%)", 550, 80);
+  await waitMs(640);
+  overlay.classList.add("is-mark-visible");
+  await waitMs(180);
+};
+
+const revealPhase = async () => {
+  const { overlay, back, front } = findPanels();
+  if (!overlay || !back || !front) return;
+  setPanel(back, "translateY(0%)", 0);
+  setPanel(front, "translateY(0%)", 0);
+  overlay.classList.add("is-active");
+  void overlay.offsetHeight;
+  overlay.classList.remove("is-mark-visible");
+  await waitMs(60);
+  setPanel(front, "translateY(-100%)", 600);
+  setPanel(back, "translateY(-100%)", 600, 100);
+  await waitMs(720);
+  setPanel(back, "translateY(100%)", 0);
+  setPanel(front, "translateY(100%)", 0);
+  overlay.classList.remove("is-active");
+};
+
+export function pageTransitions() {
+  if (pageTransitionsBound) return;
+  if (prefersReduced) return;
+  const { overlay } = findPanels();
+  if (!overlay) return;
+  pageTransitionsBound = true;
+
+  document.addEventListener("astro:before-preparation", (event: any) => {
+    const original = event.loader;
+    event.loader = async () => {
+      await coverPhase();
+      await original();
+    };
+  });
+
+  document.addEventListener("astro:after-swap", () => {
+    // Synchronously snap the overlay to the "fully covered" state so the
+    // freshly-rendered new page never paints uncovered for one frame.
+    const { overlay, back, front } = findPanels();
+    if (overlay && back && front) {
+      back.style.transition = "none";
+      front.style.transition = "none";
+      back.style.transform = "translateY(0%)";
+      front.style.transform = "translateY(0%)";
+      overlay.classList.add("is-active");
+      overlay.classList.add("is-mark-visible");
+    }
+    requestAnimationFrame(() => {
+      revealPhase();
+    });
+  });
+}
+
 export function initAll() {
+  pageTransitions();
   heroIntro();
   heroParallax();
   revealOnScroll();

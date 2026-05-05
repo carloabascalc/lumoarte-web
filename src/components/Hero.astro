@@ -1,8 +1,8 @@
 ---
 import { Image } from "astro:assets";
 import imgMain from "../assets/gallery/gal-01.jpg";
-import imgBack from "../assets/gallery/gal-04.jpg";
-import imgFront from "../assets/gallery/gal-08.jpg";
+import imgBack from "../assets/gallery/gal-06.jpg";
+import imgFront from "../assets/gallery/gal-10.jpg";
 import imgSide from "../assets/gallery/gal-07.jpg";
 ---
 
@@ -33,13 +33,13 @@ import imgSide from "../assets/gallery/gal-07.jpg";
 
       <p class="hero-proof" data-reveal data-reveal-delay="0.24">
         <span class="hero-proof-stars" aria-hidden="true">★★★★★</span>
-        <strong>+200 proyectos</strong> entregados desde Cancún
+        <strong><span data-count="200" data-prefix="+">+0</span> proyectos</strong> entregados desde Cancún
       </p>
     </div>
 
     <div class="hero-stack" data-reveal data-reveal-delay="0.10">
       <div class="hero-card hero-card--back">
-        <Image src={imgBack} alt="Lámpara trébol cuatro corazones" widths={[400, 600]} sizes="380px" quality={80} loading="eager" decoding="async" class="hero-img" />
+        <Image src={imgBack} alt="Letrero La Central Vinos & Licores en acrílico negro y dorado" widths={[400, 600]} sizes="380px" quality={80} loading="eager" decoding="async" class="hero-img" />
       </div>
       <div class="hero-card hero-card--side">
         <Image src={imgSide} alt="Cajones apilados con ensamble dovetail" widths={[400, 600]} sizes="380px" quality={80} loading="eager" decoding="async" class="hero-img" />
@@ -48,10 +48,15 @@ import imgSide from "../assets/gallery/gal-07.jpg";
         <Image src={imgMain} alt="Lámparas corazón apiladas en MDF" widths={[600, 900]} sizes="500px" quality={82} loading="eager" decoding="async" fetchpriority="high" class="hero-img" />
       </div>
       <div class="hero-card hero-card--front">
-        <Image src={imgFront} alt="Caja corazón con rosas y chocolates" widths={[400, 600]} sizes="380px" quality={80} loading="eager" decoding="async" class="hero-img" />
+        <Image src={imgFront} alt="Paletas de madera grabadas con nombres para evento corporativo L'Oréal" widths={[400, 600]} sizes="380px" quality={80} loading="eager" decoding="async" class="hero-img" />
       </div>
     </div>
   </div>
+
+  <a href="#servicios" class="hero-scroll" aria-label="Bajar a servicios">
+    <span class="hero-scroll-label">Scroll</span>
+    <span class="hero-scroll-line" aria-hidden="true"></span>
+  </a>
 </section>
 
 <style>
@@ -268,6 +273,51 @@ import imgSide from "../assets/gallery/gal-07.jpg";
   .hero-stack:hover .hero-card--side { transform: rotate(5deg) translateX(6px); }
   .hero-stack:hover .hero-card--front { transform: rotate(-7deg) translate(-4px, 4px); }
 
+  /* ── Scroll indicator (bottom-center) ───────────────── */
+  .hero-scroll {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: var(--color-muted);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    z-index: 2;
+    transition: color 0.2s ease;
+  }
+
+  .hero-scroll:hover { color: var(--color-accent); }
+
+  .hero-scroll-line {
+    position: relative;
+    width: 1px;
+    height: 48px;
+    background: rgba(165, 58, 4, 0.18);
+    overflow: hidden;
+  }
+
+  .hero-scroll-line::before {
+    content: "";
+    position: absolute;
+    top: -48px;
+    left: 0;
+    width: 100%;
+    height: 48px;
+    background: linear-gradient(to bottom, transparent, var(--color-accent));
+    animation: heroScrollLine 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  @keyframes heroScrollLine {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(96px); }
+  }
+
   /* ── Responsive ────────────────────────────────────── */
   @media (max-width: 960px) {
     .hero-grid {
@@ -279,6 +329,9 @@ import imgSide from "../assets/gallery/gal-07.jpg";
       max-width: 420px;
       justify-self: center;
     }
+
+    /* Hide scroll cue on mobile — content stack is already tall enough */
+    .hero-scroll { display: none; }
   }
 
   @media (max-width: 540px) {
@@ -290,4 +343,56 @@ import imgSide from "../assets/gallery/gal-07.jpg";
       max-width: 320px;
     }
   }
+
+  .hero-proof strong [data-count] {
+    font-variant-numeric: tabular-nums;
+    display: inline-block;
+    min-width: 2ch;
+  }
 </style>
+
+<script>
+  function initCounter() {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const els = document.querySelectorAll<HTMLElement>('.hero [data-count]');
+    if (!els.length) return;
+
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+    function run(el: HTMLElement) {
+      const target = parseInt(el.dataset.count || '0', 10);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+
+      if (reduced) {
+        el.textContent = `${prefix}${target}${suffix}`;
+        return;
+      }
+
+      const duration = Math.max(600, Math.min(1800, target * 6));
+      const start = performance.now();
+      function tick(now: number) {
+        const t = Math.min((now - start) / duration, 1);
+        const value = Math.floor(easeOutCubic(t) * target);
+        el.textContent = `${prefix}${value}${suffix}`;
+        if (t < 1) requestAnimationFrame(tick);
+        else el.textContent = `${prefix}${target}${suffix}`;
+      }
+      requestAnimationFrame(tick);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          run(e.target as HTMLElement);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.6 });
+
+    els.forEach((el) => observer.observe(el));
+  }
+
+  initCounter();
+  document.addEventListener('astro:page-load', initCounter);
+</script>

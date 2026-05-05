@@ -78,16 +78,16 @@ const materials = [
         tarjeta para ver el detalle.
       </p>
     </div>
-    <ul class="materials-grid" role="list">
+    <div class="materials-grid">
       {
         materials.map((m, i) => (
-          <li class="material-card" data-index={i} role="button" tabindex="0" aria-label={`Ver detalles de ${m.label}`}>
+          <button class="material-card" data-index={i} type="button" aria-label={`Ver detalles de ${m.label}`}>
             <span class="material-icon" aria-hidden="true" set:html={m.svg} />
             <span class="material-name">{m.label}</span>
-          </li>
+          </button>
         ))
       }
-    </ul>
+    </div>
   </div>
 </section>
 
@@ -180,6 +180,9 @@ const materials = [
     display: flex;
     flex-direction: column;
     gap: 16px;
+    text-align: left;
+    font: inherit;
+    color: inherit;
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     cursor: pointer;
     opacity: 0;

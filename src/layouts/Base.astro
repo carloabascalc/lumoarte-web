@@ -1,6 +1,7 @@
 ---
 import { ClientRouter } from "astro:transitions";
 import { SITE } from "../data/services";
+import PageTransition from "../components/PageTransition.astro";
 
 interface Props {
   title?: string;
@@ -119,6 +120,7 @@ else if (schemaType === "Service" && schemaData) {
   </head>
   <body data-page={pageAccent}>
     <slot />
+    <PageTransition transition:persist />
 
     <script>
       import { initAll } from "../scripts/animations";

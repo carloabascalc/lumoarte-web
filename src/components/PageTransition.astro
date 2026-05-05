@@ -1,0 +1,104 @@
+---
+/**
+ * Linear-style page transition overlay.
+ * Fired by `astro:before-preparation` / `astro:after-swap` events
+ * (see `pageTransitions()` in `src/scripts/animations.ts`).
+ *
+ * The overlay is a single fixed-position layer with two stacked panels
+ * (back + front) that slide vertically. The brand mark fades in mid-swap
+ * for a quick beat of identity before the new page reveals.
+ */
+---
+
+<div class="page-transition" aria-hidden="true">
+  <div class="page-transition-back"></div>
+  <div class="page-transition-front">
+    <div class="page-transition-mark">
+      <span class="page-transition-mark-text">lumo<em>arte</em></span>
+      <span class="page-transition-mark-bar"></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .page-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    pointer-events: none;
+    overflow: hidden;
+    /* Opt out by default — animations.ts toggles `is-active` to enable */
+    visibility: hidden;
+  }
+
+  .page-transition.is-active {
+    visibility: visible;
+  }
+
+  .page-transition-back,
+  .page-transition-front {
+    position: absolute;
+    inset: 0;
+    transform: translateY(100%);
+    will-change: transform;
+  }
+
+  .page-transition-back {
+    background: #2a1605;
+  }
+
+  .page-transition-front {
+    background: var(--color-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* The wordmark, hidden by default — fades in only mid-swap.
+     Animations.ts toggles `is-mark-visible` on the panel during the
+     brief beat where the front layer is fully covering the screen. */
+  .page-transition-mark {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .page-transition.is-mark-visible .page-transition-mark {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .page-transition-mark-text {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: #faf7f2;
+    line-height: 1;
+  }
+
+  .page-transition-mark-text em {
+    font-style: italic;
+    color: #f5e9d8;
+    opacity: 0.78;
+  }
+
+  .page-transition-mark-bar {
+    width: 56px;
+    height: 1.5px;
+    background: rgba(245, 233, 216, 0.55);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page-transition,
+    .page-transition.is-active {
+      visibility: hidden !important;
+    }
+  }
+</style>

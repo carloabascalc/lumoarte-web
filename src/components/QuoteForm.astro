@@ -85,6 +85,51 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
       </p>
     </div>
 
+    <div class="quote-grid">
+      <aside class="quote-trust" data-reveal data-reveal-delay="0.1">
+        <p class="quote-trust-eyebrow">Cómo funciona</p>
+        <ul class="quote-trust-list" role="list">
+          <li class="quote-trust-item">
+            <span class="quote-trust-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </span>
+            <div class="quote-trust-text">
+              <h3 class="quote-trust-label">Respuesta en 24 horas</h3>
+              <p>Te contactamos por WhatsApp el mismo día con una propuesta clara.</p>
+            </div>
+          </li>
+          <li class="quote-trust-item">
+            <span class="quote-trust-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+            </span>
+            <div class="quote-trust-text">
+              <h3 class="quote-trust-label">Sin compromiso</h3>
+              <p>Cotizar es gratis. Tú decides si quieres avanzar — sin presiones.</p>
+            </div>
+          </li>
+          <li class="quote-trust-item">
+            <span class="quote-trust-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            </span>
+            <div class="quote-trust-text">
+              <h3 class="quote-trust-label">Todos los servicios</h3>
+              <p>Una sola conversación para corte láser, impresión 3D y gran formato.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="quote-trust-direct">
+          <p class="quote-trust-direct-label">¿Prefieres escribir directo?</p>
+          <a class="quote-trust-direct-link" href={`https://wa.me/${WA_NUMBER}`} target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.12.553 4.109 1.52 5.838L0 24l6.335-1.502A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.794 9.794 0 0 1-5.003-1.373l-.36-.213-3.76.891.946-3.658-.234-.376A9.79 9.79 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/>
+            </svg>
+            +52 813 891 3891
+          </a>
+        </div>
+      </aside>
+
     <form class="quote-form" id="quoteForm" data-reveal data-reveal-delay="0.15" novalidate>
       <fieldset class="form-section">
         <legend class="form-section-title">Tu proyecto</legend>
@@ -198,6 +243,7 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
         Enviar por WhatsApp
       </button>
     </form>
+    </div>
   </div>
 </section>
 
@@ -206,8 +252,114 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
     background: var(--color-bg);
   }
 
+  .quote-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  /* ── Trust block (left column) ─────────────────────── */
+  .quote-trust {
+    position: sticky;
+    top: calc(var(--nav-h) + 32px);
+  }
+
+  .quote-trust-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 28px;
+  }
+
+  .quote-trust-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 36px;
+  }
+
+  .quote-trust-item {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--color-surface);
+  }
+
+  .quote-trust-item:first-child {
+    padding-top: 0;
+  }
+
+  .quote-trust-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .quote-trust-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(165, 58, 4, 0.08);
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  .quote-trust-label {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 6px;
+    letter-spacing: -0.005em;
+  }
+
+  .quote-trust-text p {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    line-height: 1.55;
+  }
+
+  .quote-trust-direct {
+    padding-top: 24px;
+    border-top: 1px solid var(--color-surface);
+  }
+
+  .quote-trust-direct-label {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    margin-bottom: 10px;
+  }
+
+  .quote-trust-direct-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-text);
+    transition: color 0.2s ease;
+  }
+
+  .quote-trust-direct-link svg {
+    color: #25D366;
+  }
+
+  .quote-trust-direct-link:hover {
+    color: var(--color-accent);
+  }
+
+  /* ── Form (right column) — card surface ────────────── */
   .quote-form {
-    max-width: 720px;
+    background: #fff;
+    border: 1px solid var(--color-surface);
+    border-radius: 14px;
+    padding: 40px;
+    box-shadow: 0 18px 40px rgba(20, 10, 4, 0.05);
   }
 
   .form-section {
@@ -352,9 +504,29 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
     gap: 10px;
   }
 
+  @media (max-width: 980px) {
+    .quote-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .quote-trust {
+      position: static;
+    }
+  }
+
   @media (max-width: 640px) {
     .form-row--two {
       grid-template-columns: 1fr;
+    }
+
+    .quote-form {
+      padding: 28px 24px;
+      border-radius: 10px;
+    }
+
+    .quote-grid {
+      gap: 40px;
     }
   }
 </style>
