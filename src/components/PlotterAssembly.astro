@@ -69,6 +69,7 @@
   .assembly-wrap {
     position: relative;
     height: 220vh;
+    contain: layout paint;
   }
 
   .assembly-stage {
@@ -305,8 +306,10 @@
     box-shadow: 0 0 3px rgba(165, 58, 4, 0.5);
     transform-origin: 0 0;
     animation: ink-drop 0.65s ease-out infinite;
+    animation-play-state: paused;
     opacity: 0;
   }
+  .plotter-assembly.is-active .ink-drop { animation-play-state: running; }
   .ink-drop--1 { --dx: -10px; --dy: 14px; animation-delay: 0s; }
   .ink-drop--2 { --dx: -16px; --dy: 8px;  animation-delay: 0.09s; background: #d4b020; }
   .ink-drop--3 { --dx: -7px;  --dy: 17px; animation-delay: 0.2s;  background: #2a9bb0; }
@@ -435,6 +438,15 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     tick();
+
+    // Pause ink-mist when wrap is off-screen.
+    const section = wrap!.closest('.plotter-assembly') as HTMLElement | null;
+    if (section && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(([entry]) => {
+        section.classList.toggle('is-active', entry.isIntersecting);
+      }, { rootMargin: '120px' });
+      io.observe(wrap!);
+    }
   }
 
   initPlotterAssembly();
