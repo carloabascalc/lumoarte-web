@@ -11,12 +11,37 @@ const galleryFiles = import.meta.glob<{ default: ImageMetadata }>(
 const marqueeImages = Object.entries(galleryFiles)
   .sort(([a], [b]) => a.localeCompare(b))
   .map(([_, mod]) => mod.default);
+
+// Split images into two rows so each row carries its own slice of the work.
+const rowA = marqueeImages.filter((_, i) => i % 2 === 0);
+const rowB = marqueeImages.filter((_, i) => i % 2 === 1);
+
+// Variable sizing pattern — tighter range so the rows feel curated, not chaotic.
+const sizes = [
+  { w: 220, h: 220 },
+  { w: 260, h: 180 },
+  { w: 200, h: 240 },
+  { w: 240, h: 200 },
+  { w: 220, h: 240 },
+  { w: 240, h: 200 },
+  { w: 200, h: 220 },
+];
+const sizeFor = (i: number) => sizes[i % sizes.length];
 ---
 
 <section class="hero">
+  {/* Atelier mark — top-right signature plaque */}
+  <div class="hero-stamp" aria-hidden="true">
+    <span class="hero-stamp-mark">lm</span>
+    <span class="hero-stamp-meta">
+      <span>Lumo Arte</span>
+      <span>Atelier · Cancún</span>
+    </span>
+  </div>
+
   <div class="container hero-content">
-    <p class="hero-pill" data-reveal>
-      <span class="hero-pill-dot" aria-hidden="true"></span>
+    <p class="hero-kicker" data-reveal>
+      <span class="hero-kicker-line" aria-hidden="true"></span>
       Fabricación digital · Cancún
     </p>
 
@@ -44,40 +69,99 @@ const marqueeImages = Object.entries(galleryFiles)
     </p>
   </div>
 
-  {/* Marquee — autoscrolling specimen ticker. The gallery duplicated for seamless loop. */}
+  {/* Marquee — two rows, opposite directions, variable sizes */}
   <div class="hero-marquee" aria-hidden="true" data-reveal data-reveal-delay="0.30">
-    <div class="marquee-track">
-      {marqueeImages.map((src, i) => (
-        <figure class="marquee-item">
-          <Image
-            src={src}
-            alt=""
-            widths={[280, 420]}
-            sizes="240px"
-            quality={75}
-            loading={i < 5 ? "eager" : "lazy"}
-            decoding="async"
-            class="marquee-img"
-          />
-        </figure>
-      ))}
-      {marqueeImages.map((src) => (
-        <figure class="marquee-item" aria-hidden="true">
-          <Image
-            src={src}
-            alt=""
-            widths={[280, 420]}
-            sizes="240px"
-            quality={75}
-            loading="lazy"
-            decoding="async"
-            class="marquee-img"
-          />
-        </figure>
-      ))}
+    <div class="marquee-row marquee-row--top">
+      <div class="marquee-track marquee-track--ltr">
+        {rowA.map((src, i) => {
+          const s = sizeFor(i);
+          return (
+            <figure
+              class="marquee-item"
+              style={`width: ${s.w}px; height: ${s.h}px;`}
+            >
+              <Image
+                src={src}
+                alt=""
+                widths={[280, 420]}
+                sizes="240px"
+                quality={75}
+                loading={i < 3 ? "eager" : "lazy"}
+                decoding="async"
+                class="marquee-img"
+              />
+            </figure>
+          );
+        })}
+        {rowA.map((src, i) => {
+          const s = sizeFor(i);
+          return (
+            <figure
+              class="marquee-item"
+              style={`width: ${s.w}px; height: ${s.h}px;`}
+              aria-hidden="true"
+            >
+              <Image
+                src={src}
+                alt=""
+                widths={[280, 420]}
+                sizes="240px"
+                quality={75}
+                loading="lazy"
+                decoding="async"
+                class="marquee-img"
+              />
+            </figure>
+          );
+        })}
+      </div>
     </div>
-    <span class="marquee-fade marquee-fade--left" aria-hidden="true"></span>
-    <span class="marquee-fade marquee-fade--right" aria-hidden="true"></span>
+
+    <div class="marquee-row marquee-row--bottom">
+      <div class="marquee-track marquee-track--rtl">
+        {rowB.map((src, i) => {
+          const s = sizeFor(i + 3);
+          return (
+            <figure
+              class="marquee-item"
+              style={`width: ${s.w}px; height: ${s.h}px;`}
+            >
+              <Image
+                src={src}
+                alt=""
+                widths={[280, 420]}
+                sizes="240px"
+                quality={75}
+                loading="lazy"
+                decoding="async"
+                class="marquee-img"
+              />
+            </figure>
+          );
+        })}
+        {rowB.map((src, i) => {
+          const s = sizeFor(i + 3);
+          return (
+            <figure
+              class="marquee-item"
+              style={`width: ${s.w}px; height: ${s.h}px;`}
+              aria-hidden="true"
+            >
+              <Image
+                src={src}
+                alt=""
+                widths={[280, 420]}
+                sizes="240px"
+                quality={75}
+                loading="lazy"
+                decoding="async"
+                class="marquee-img"
+              />
+            </figure>
+          );
+        })}
+      </div>
+    </div>
   </div>
 
   <a href="#servicios" class="hero-scroll" aria-label="Bajar a servicios">
@@ -123,6 +207,51 @@ const marqueeImages = Object.entries(galleryFiles)
     z-index: 0;
   }
 
+  /* ── Atelier signature stamp (top-right, decorative) ─── */
+  .hero-stamp {
+    position: absolute;
+    top: calc(var(--nav-h) + 20px);
+    right: 32px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 14px 8px 10px;
+    border: 1px solid rgba(165, 58, 4, 0.22);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    pointer-events: none;
+  }
+
+  .hero-stamp-mark {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--color-accent);
+    letter-spacing: -0.04em;
+  }
+
+  .hero-stamp-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    font-family: var(--font-body);
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(20, 10, 4, 0.7);
+    line-height: 1.3;
+  }
+
+  .hero-stamp-meta span:last-child {
+    color: rgba(20, 10, 4, 0.45);
+    font-weight: 500;
+  }
+
   /* ── Content (top, centered) ───────────────────────── */
   .hero-content {
     position: relative;
@@ -133,33 +262,28 @@ const marqueeImages = Object.entries(galleryFiles)
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 64px 24px 48px;
+    padding: 56px 24px 40px;
     max-width: 1080px;
   }
 
-  .hero-pill {
+  .hero-kicker {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    padding: 7px 16px;
-    border: 1px solid rgba(165, 58, 4, 0.18);
-    border-radius: 100px;
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(6px);
-    font-size: 0.75rem;
+    gap: 14px;
+    font-size: 0.72rem;
     font-weight: 500;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--color-text);
-    margin-bottom: 32px;
+    color: var(--color-accent);
+    margin-bottom: 24px;
   }
 
-  .hero-pill-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--color-accent);
-    box-shadow: 0 0 0 4px rgba(165, 58, 4, 0.16);
+  .hero-kicker-line {
+    display: inline-block;
+    width: 36px;
+    height: 1.5px;
+    background: currentColor;
+    flex-shrink: 0;
   }
 
   /* Massive editorial type — the headline IS the visual */
@@ -169,7 +293,7 @@ const marqueeImages = Object.entries(galleryFiles)
     line-height: 0.94;
     letter-spacing: -0.025em;
     color: var(--color-text);
-    margin: 0 0 32px;
+    margin: 0 0 28px;
   }
 
   .title-line {
@@ -210,7 +334,7 @@ const marqueeImages = Object.entries(galleryFiles)
     line-height: 1.65;
     color: var(--color-muted);
     max-width: 580px;
-    margin: 0 0 36px;
+    margin: 0 0 32px;
   }
 
   .hero-ctas {
@@ -219,7 +343,7 @@ const marqueeImages = Object.entries(galleryFiles)
     justify-content: center;
     gap: 28px;
     flex-wrap: wrap;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
   }
 
   .hero-cta {
@@ -246,9 +370,7 @@ const marqueeImages = Object.entries(galleryFiles)
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 20px;
-    border-top: 1px solid var(--color-surface);
-    border-radius: 0;
+    padding: 12px 0 0;
     font-size: 0.875rem;
     color: var(--color-muted);
   }
@@ -270,29 +392,51 @@ const marqueeImages = Object.entries(galleryFiles)
     font-size: 0.875rem;
   }
 
-  /* ── Marquee (bottom, full-width auto-scrolling specimen ticker) ───── */
+  /* ── Marquee — two rows, opposite directions ───────── */
   .hero-marquee {
     position: relative;
     z-index: 1;
     flex-shrink: 0;
+    padding: 16px 0 28px;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%);
+  }
+
+  .marquee-row {
     overflow: hidden;
-    padding: 28px 0 48px;
-    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
-            mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+  }
+
+  .marquee-row--top {
+    margin-bottom: 12px;
   }
 
   .marquee-track {
     display: flex;
-    gap: 18px;
+    align-items: center;
+    gap: 14px;
     width: max-content;
-    animation: marquee-scroll 90s linear infinite;
     will-change: transform;
+  }
+
+  .marquee-track--ltr {
+    animation: marquee-ltr 95s linear infinite;
+  }
+
+  .marquee-track--rtl {
+    animation: marquee-rtl 80s linear infinite;
+  }
+
+  @keyframes marquee-ltr {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @keyframes marquee-rtl {
+    0%   { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
   }
 
   .marquee-item {
     flex: 0 0 auto;
-    width: 220px;
-    height: 280px;
     border-radius: 10px;
     overflow: hidden;
     margin: 0;
@@ -300,16 +444,13 @@ const marqueeImages = Object.entries(galleryFiles)
     box-shadow:
       0 14px 32px rgba(20, 10, 4, 0.14),
       0 0 0 1px rgba(165, 58, 4, 0.05);
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .marquee-item:nth-child(odd) {
-    transform: translateY(-12px) rotate(-1deg);
-  }
-
-  .marquee-item:nth-child(even) {
-    transform: translateY(8px) rotate(1deg);
-  }
+  /* Subtle alternating tilt for editorial gallery-wall feel */
+  .marquee-track--ltr .marquee-item:nth-child(odd)  { transform: rotate(-0.8deg) translateY(-4px); }
+  .marquee-track--ltr .marquee-item:nth-child(even) { transform: rotate(0.6deg)  translateY(3px); }
+  .marquee-track--rtl .marquee-item:nth-child(odd)  { transform: rotate(0.7deg)  translateY(3px); }
+  .marquee-track--rtl .marquee-item:nth-child(even) { transform: rotate(-0.5deg) translateY(-4px); }
 
   .marquee-img {
     width: 100%;
@@ -323,48 +464,32 @@ const marqueeImages = Object.entries(galleryFiles)
     animation-play-state: paused;
   }
 
-  @keyframes marquee-scroll {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
-  /* Edge fades — extra layer over the mask for crisper transitions */
-  .marquee-fade {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100px;
-    pointer-events: none;
-    z-index: 2;
-  }
-  .marquee-fade--left  { left: 0;  background: linear-gradient(to right, var(--color-bg), transparent); }
-  .marquee-fade--right { right: 0; background: linear-gradient(to left,  var(--color-bg), transparent); }
-
   /* ── Scroll indicator (bottom-center) ───────────────── */
   .hero-scroll {
     position: absolute;
-    bottom: 28px;
+    bottom: 14px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     color: var(--color-muted);
-    font-size: 0.7rem;
+    font-size: 0.66rem;
     font-weight: 500;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     z-index: 3;
     transition: color 0.2s ease;
+    opacity: 0.55;
   }
 
-  .hero-scroll:hover { color: var(--color-accent); }
+  .hero-scroll:hover { color: var(--color-accent); opacity: 1; }
 
   .hero-scroll-line {
     position: relative;
     width: 1px;
-    height: 36px;
+    height: 28px;
     background: rgba(165, 58, 4, 0.18);
     overflow: hidden;
   }
@@ -372,62 +497,81 @@ const marqueeImages = Object.entries(galleryFiles)
   .hero-scroll-line::before {
     content: "";
     position: absolute;
-    top: -36px;
+    top: -28px;
     left: 0;
     width: 100%;
-    height: 36px;
+    height: 28px;
     background: linear-gradient(to bottom, transparent, var(--color-accent));
     animation: heroScrollLine 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
   }
 
   @keyframes heroScrollLine {
     0%   { transform: translateY(0); }
-    100% { transform: translateY(72px); }
+    100% { transform: translateY(56px); }
   }
 
   /* ── Responsive ────────────────────────────────────── */
   @media (max-width: 768px) {
+    .hero-stamp {
+      top: calc(var(--nav-h) + 12px);
+      right: 16px;
+      padding: 6px 10px 6px 8px;
+      gap: 8px;
+    }
+    .hero-stamp-mark { font-size: 1.15rem; }
+    .hero-stamp-meta { font-size: 0.55rem; letter-spacing: 0.14em; }
+
     .hero-content {
-      padding: 48px 20px 32px;
+      padding: 48px 20px 28px;
     }
 
-    .hero-pill {
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      padding: 6px 14px;
-      margin-bottom: 24px;
+    .hero-kicker {
+      font-size: 0.66rem;
+      letter-spacing: 0.18em;
+      gap: 10px;
+      margin-bottom: 20px;
     }
+
+    .hero-kicker-line { width: 24px; }
 
     .hero-sub {
       font-size: 0.95rem;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
-    .hero-ctas { gap: 20px; margin-bottom: 24px; }
+    .hero-ctas { gap: 20px; margin-bottom: 22px; }
 
     .marquee-item {
-      width: 160px;
-      height: 200px;
+      /* Scale items smaller on mobile via transform */
+      transform: scale(0.7);
+      transform-origin: center;
     }
+
+    .marquee-row--top { margin-bottom: 4px; }
+
+    .hero-marquee { padding: 16px 0 32px; }
 
     .hero-scroll { display: none; }
   }
 
   @media (max-width: 540px) {
-    .hero-content {
-      padding: 40px 16px 24px;
+    .hero-stamp {
+      gap: 6px;
+      padding: 5px 8px 5px 6px;
     }
+    .hero-stamp-mark { font-size: 1rem; }
+    .hero-stamp-meta { font-size: 0.5rem; }
+
+    .hero-content { padding: 40px 16px 20px; }
 
     .marquee-item {
-      width: 140px;
-      height: 180px;
+      transform: scale(0.55);
     }
-
-    .hero-marquee { padding: 20px 0 32px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .marquee-track { animation: none; }
+    .marquee-track--ltr,
+    .marquee-track--rtl { animation: none; }
     .hero-scroll-line::before { animation: none; }
   }
 </style>
