@@ -1,0 +1,104 @@
+---
+import { Image } from "astro:assets";
+import imgMain from "../assets/gallery/gal-04.jpg";
+import imgBack from "../assets/gallery/gal-06.jpg";
+import imgFront from "../assets/gallery/gal-12.jpg";
+---
+
+<div class="hero-stack">
+  <div class="hero-card hero-card--back">
+    <Image
+      src={imgBack}
+      alt="Letrero La Central Vinos & Licores en acrílico negro y dorado"
+      widths={[400, 600]}
+      sizes="(max-width: 540px) 60vw, 320px"
+      quality={80}
+      loading="eager"
+      decoding="async"
+      class="hero-img"
+    />
+  </div>
+  <div class="hero-card hero-card--main">
+    <Image
+      src={imgMain}
+      alt="Lámpara trébol de cuatro corazones en MDF cortada a láser"
+      widths={[500, 800]}
+      sizes="(max-width: 540px) 70vw, 380px"
+      quality={82}
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+      class="hero-img"
+    />
+  </div>
+  <div class="hero-card hero-card--front">
+    <Image
+      src={imgFront}
+      alt="Cesta pequeña de madera oscura con ensamble de dedos cortado a láser"
+      widths={[400, 600]}
+      sizes="(max-width: 540px) 60vw, 300px"
+      quality={80}
+      loading="eager"
+      decoding="async"
+      class="hero-img"
+    />
+  </div>
+</div>
+
+<style>
+  .hero-stack {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-card {
+    position: absolute;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--color-bg-alt);
+    box-shadow:
+      0 24px 56px rgba(20, 10, 4, 0.20),
+      0 0 0 1px rgba(165, 58, 4, 0.06);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-card--main {
+    width: 70%;
+    aspect-ratio: 4 / 5;
+    top: 10%;
+    left: 14%;
+    z-index: 3;
+    transform: rotate(-2deg);
+  }
+
+  .hero-card--back {
+    width: 52%;
+    aspect-ratio: 1 / 1;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    transform: rotate(6deg);
+    opacity: 0.95;
+  }
+
+  .hero-card--front {
+    width: 50%;
+    aspect-ratio: 1 / 1;
+    bottom: 4%;
+    left: 0;
+    z-index: 4;
+    transform: rotate(-6deg);
+  }
+
+  .hero-stack:hover .hero-card--main { transform: rotate(-1deg) translateY(-4px); }
+  .hero-stack:hover .hero-card--back { transform: rotate(8deg) translateX(4px); }
+  .hero-stack:hover .hero-card--front { transform: rotate(-7deg) translate(-4px, 4px); }
+</style>

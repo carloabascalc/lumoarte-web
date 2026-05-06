@@ -1,15 +1,10 @@
 ---
-import { Image } from "astro:assets";
-import type { ImageMetadata } from "astro";
-
 interface Props {
   eyebrow: string;
   title: string;
   subtitle: string;
   primaryCta?: { label: string; href: string };
   secondaryCta?: { label: string; href: string };
-  backgroundImage?: ImageMetadata;
-  backgroundAlt?: string;
   service?: "laser" | "3d" | "plotter";
 }
 
@@ -19,132 +14,83 @@ const {
   subtitle,
   primaryCta = { label: "Solicita tu cotización", href: "#cotiza" },
   secondaryCta,
-  backgroundImage,
-  backgroundAlt = "",
   service = "laser",
 } = Astro.props;
-
-const variant = backgroundImage ? "photo" : "tint";
 ---
 
-<section class={`service-hero service-hero--${variant} service-hero--${service}`}>
-  {backgroundImage && (
-    <div class="service-hero-bg" aria-hidden="true">
-      <Image
-        src={backgroundImage}
-        alt={backgroundAlt}
-        widths={[800, 1200, 2000]}
-        sizes="100vw"
-        quality={70}
-        loading="eager"
-        decoding="async"
-        fetchpriority="high"
-        class="service-hero-bg-img"
-      />
-      <div class="service-hero-bg-overlay" aria-hidden="true"></div>
+<section class={`service-hero service-hero--${service}`}>
+  <div class="container service-hero-grid">
+    <div class="service-hero-text">
+      <p class="service-hero-eyebrow" data-reveal>
+        <span class="service-hero-dash" aria-hidden="true"></span>
+        {eyebrow}
+      </p>
+      <h1 class="service-hero-title" data-reveal data-reveal-delay="0.06">{title}</h1>
+      <p class="service-hero-sub" data-reveal data-reveal-delay="0.12">{subtitle}</p>
+      <div class="service-hero-ctas" data-reveal data-reveal-delay="0.18">
+        <a href={primaryCta.href} class="btn btn-primary">{primaryCta.label}</a>
+        {secondaryCta && (
+          <a href={secondaryCta.href} class="service-hero-cta-secondary">
+            {secondaryCta.label}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        )}
+      </div>
     </div>
-  )}
-  <div class="container service-hero-content">
-    <p class="service-hero-eyebrow" data-reveal>
-      <span class="service-hero-dash" aria-hidden="true"></span>
-      {eyebrow}
-    </p>
-    <h1 class="service-hero-title" data-reveal data-reveal-delay="0.06">{title}</h1>
-    <p class="service-hero-sub" data-reveal data-reveal-delay="0.12">{subtitle}</p>
-    <div class="service-hero-ctas" data-reveal data-reveal-delay="0.18">
-      <a href={primaryCta.href} class="btn btn-primary">{primaryCta.label}</a>
-      {secondaryCta && (
-        <a href={secondaryCta.href} class="service-hero-cta-secondary">
-          {secondaryCta.label}
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      )}
+
+    <div class="service-hero-showcase" data-reveal data-reveal-delay="0.10">
+      <slot name="showcase" />
     </div>
   </div>
 </section>
 
 <style>
   .service-hero {
-    padding: 80px 0 96px;
+    padding: calc(var(--nav-h) + 28px) 0 88px;
     position: relative;
     overflow: hidden;
-  }
-
-  /* ── Tint variant: warm bg with subtle accent glow ─── */
-  .service-hero--tint {
     background: var(--color-bg-alt);
-    color: var(--color-text);
   }
 
-  .service-hero--tint.service-hero--3d {
-    background: var(--service-3d-bg);
-  }
+  /* Per-service warm tints, kept subtle so the showcase carries the visual weight */
+  .service-hero--laser   { background: var(--color-bg-alt); }
+  .service-hero--3d      { background: var(--service-3d-bg, #f3ece2); }
+  .service-hero--plotter { background: var(--service-plotter-bg, #efe8db); }
 
-  .service-hero--tint.service-hero--plotter {
-    background: var(--service-plotter-bg);
-  }
-
-  .service-hero--tint::before {
+  /* Soft accent glow top-right of the section */
+  .service-hero::before {
     content: "";
     position: absolute;
-    top: -240px;
-    right: -160px;
-    width: 640px;
-    height: 640px;
-    background: radial-gradient(circle, var(--page-accent-soft) 0%, transparent 65%);
+    top: -260px;
+    right: -180px;
+    width: 680px;
+    height: 680px;
+    background: radial-gradient(circle, var(--page-accent-soft, rgba(165, 58, 4, 0.18)) 0%, transparent 65%);
     pointer-events: none;
   }
 
-  .service-hero--tint::after {
+  /* Hairline divider at the bottom — same accent treatment as before */
+  .service-hero::after {
     content: "";
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 2px;
-    background: linear-gradient(to right, transparent, var(--page-accent), transparent);
-    opacity: 0.45;
+    height: 1.5px;
+    background: linear-gradient(to right, transparent, var(--page-accent, var(--color-accent)), transparent);
+    opacity: 0.40;
   }
 
-  /* ── Photo variant: dark image backdrop ────────────── */
-  .service-hero--photo {
-    color: #fff;
-    min-height: 480px;
-    display: flex;
+  .service-hero-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
     align-items: center;
   }
 
-  .service-hero-bg {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-  }
-
-  .service-hero-bg-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-  }
-
-  .service-hero-bg-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      120deg,
-      rgba(8, 5, 3, 0.86) 0%,
-      rgba(12, 7, 4, 0.78) 55%,
-      rgba(18, 10, 6, 0.62) 100%
-    );
-  }
-
-  .service-hero-content {
-    position: relative;
-    z-index: 1;
-  }
-
-  /* ── Typography ─────────────────────────────────────── */
+  /* ── Text column ───────────────────────────────────── */
   .service-hero-eyebrow {
     display: inline-flex;
     align-items: center;
@@ -153,12 +99,8 @@ const variant = backgroundImage ? "photo" : "tint";
     font-weight: 500;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--page-accent);
+    color: var(--page-accent, var(--color-accent));
     margin-bottom: 24px;
-  }
-
-  .service-hero--photo .service-hero-eyebrow {
-    color: #ff8a4a;
   }
 
   .service-hero-dash {
@@ -170,29 +112,26 @@ const variant = backgroundImage ? "photo" : "tint";
   }
 
   .service-hero-title {
-    font-size: clamp(2.25rem, 5vw, 4rem);
-    font-weight: 700;
-    line-height: 1.08;
-    letter-spacing: -0.015em;
-    margin-bottom: 28px;
-    max-width: 880px;
-    color: inherit;
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 4.6vw, 3.75rem);
+    font-weight: 600;
+    line-height: 1.06;
+    letter-spacing: -0.018em;
+    color: var(--color-text);
+    margin-bottom: 24px;
   }
 
-  .service-hero--photo .service-hero-title {
-    color: #fff;
+  .service-hero-title em {
+    font-style: italic;
+    color: var(--page-accent, var(--color-accent));
   }
 
   .service-hero-sub {
-    font-size: clamp(1rem, 1.6vw, 1.1875rem);
+    font-size: 1.0625rem;
     line-height: 1.7;
-    max-width: 680px;
-    margin-bottom: 40px;
     color: var(--color-muted);
-  }
-
-  .service-hero--photo .service-hero-sub {
-    color: rgba(255, 255, 255, 0.85);
+    max-width: 520px;
+    margin-bottom: 36px;
   }
 
   .service-hero-ctas {
@@ -205,32 +144,47 @@ const variant = backgroundImage ? "photo" : "tint";
   .service-hero-cta-secondary {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    color: var(--color-accent);
+    gap: 8px;
+    color: var(--color-text);
     font-size: 0.9375rem;
     font-weight: 500;
-    letter-spacing: 0.02em;
-    transition: gap 0.2s ease;
-  }
-
-  .service-hero--photo .service-hero-cta-secondary {
-    color: #fff;
+    transition: gap 0.2s ease, color 0.2s ease;
   }
 
   .service-hero-cta-secondary:hover {
-    gap: 10px;
+    gap: 12px;
+    color: var(--page-accent, var(--color-accent));
   }
 
-  @media (max-width: 768px) {
-    .service-hero {
-      padding: 56px 0 72px;
+  /* ── Showcase column ──────────────────────────────── */
+  .service-hero-showcase {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    max-width: 520px;
+    width: 100%;
+    justify-self: end;
+  }
+
+  /* ── Responsive ───────────────────────────────────── */
+  @media (max-width: 960px) {
+    .service-hero-grid {
+      grid-template-columns: 1fr;
+      gap: 56px;
     }
 
-    .service-hero--tint::before {
-      width: 360px;
-      height: 360px;
-      top: -160px;
-      right: -120px;
+    .service-hero-showcase {
+      max-width: 420px;
+      justify-self: center;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .service-hero {
+      padding: calc(var(--nav-h) + 12px) 0 64px;
+    }
+
+    .service-hero-showcase {
+      max-width: 320px;
     }
   }
 </style>

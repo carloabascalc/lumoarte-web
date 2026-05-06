@@ -3,6 +3,7 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import ServicePageHero from "../../components/ServicePageHero.astro";
+import TresDShowcase from "../../components/TresDShowcase.astro";
 import TresDAssembly from "../../components/TresDAssembly.astro";
 import Gallery from "../../components/Gallery.astro";
 import FAQ from "../../components/FAQ.astro";
@@ -131,7 +132,9 @@ const faqs = [
       primaryCta={{ label: "Solicita tu cotización", href: "#cotiza" }}
       secondaryCta={{ label: "Ver tecnologías", href: "#tecnologias" }}
       service="3d"
-    />
+    >
+      <TresDShowcase slot="showcase" />
+    </ServicePageHero>
 
     <TresDAssembly />
 

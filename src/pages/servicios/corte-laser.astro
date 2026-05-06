@@ -3,6 +3,7 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import ServicePageHero from "../../components/ServicePageHero.astro";
+import LaserShowcase from "../../components/LaserShowcase.astro";
 import LaserAssembly from "../../components/LaserAssembly.astro";
 import Materials from "../../components/Materials.astro";
 import Gallery from "../../components/Gallery.astro";
@@ -13,7 +14,6 @@ import QuoteForm from "../../components/QuoteForm.astro";
 import Contact from "../../components/Contact.astro";
 import Footer from "../../components/Footer.astro";
 import WhatsAppButton from "../../components/WhatsAppButton.astro";
-import laserHeroBg from "../../assets/gallery/gal-02.jpg";
 import { getService, SITE } from "../../data/services";
 
 const service = getService("corte-laser");
@@ -116,9 +116,10 @@ const faqs = [
       subtitle="Cortamos y grabamos materiales con precisión milimétrica. Desde una pieza única hasta producción en serie de miles de unidades, con acabados limpios y repetibles."
       primaryCta={{ label: "Solicita tu cotización", href: "#cotiza" }}
       secondaryCta={{ label: "Ver materiales", href: "#materiales" }}
-      backgroundImage={laserHeroBg}
-      backgroundAlt="Escultura corazón de MDF cortada a láser contra cielo y palmeras"
-    />
+      service="laser"
+    >
+      <LaserShowcase slot="showcase" />
+    </ServicePageHero>
 
     <LaserAssembly />
 
