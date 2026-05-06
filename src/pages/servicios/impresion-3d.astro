@@ -3,6 +3,7 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import ServicePageHero from "../../components/ServicePageHero.astro";
+import TresDAssembly from "../../components/TresDAssembly.astro";
 import Gallery from "../../components/Gallery.astro";
 import FAQ from "../../components/FAQ.astro";
 import CrossServices from "../../components/CrossServices.astro";
@@ -132,6 +133,8 @@ const faqs = [
       service="3d"
     />
 
+    <TresDAssembly />
+
     <section class="tech section" id="tecnologias">
       <div class="container">
         <div class="section-header">
@@ -146,7 +149,7 @@ const faqs = [
         </div>
         <div class="tech-grid">
           {technologies.map((t, i) => (
-            <article class="tech-card" data-reveal data-reveal-delay={`${0.04 + i * 0.08}`}>
+            <article class="tech-card" data-tilt data-reveal data-reveal-delay={`${0.04 + i * 0.08}`}>
               <p class="tech-card-eyebrow">{t.eyebrow}</p>
               <h3 class="tech-card-name">{t.label}</h3>
               <p class="tech-card-description">{t.description}</p>
@@ -239,9 +242,11 @@ const faqs = [
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
     gap: 24px;
+    perspective: 1400px;
   }
 
   .tech-card {
+    position: relative;
     background: var(--color-bg);
     border: 1px solid var(--color-surface);
     border-radius: 8px;
@@ -249,6 +254,39 @@ const faqs = [
     display: flex;
     flex-direction: column;
     gap: 24px;
+    transform-style: preserve-3d;
+    isolation: isolate;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .tech-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 22px 48px rgba(20, 10, 4, 0.10);
+  }
+
+  .tech-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle 280px at var(--gx, 50%) var(--gy, 50%),
+      rgba(255, 240, 220, 0.30) 0%,
+      rgba(255, 240, 220, 0.10) 25%,
+      transparent 60%);
+    opacity: 0;
+    mix-blend-mode: screen;
+    transition: opacity 0.3s ease;
+    border-radius: inherit;
+    z-index: 1;
+  }
+
+  .tech-card:hover::after { opacity: 1; }
+
+  .tech-card > * { position: relative; z-index: 2; }
+
+  @media (hover: none), (prefers-reduced-motion: reduce) {
+    .tech-card { transform-style: flat; }
+    .tech-card::after { display: none; }
   }
 
   .tech-card-eyebrow {
@@ -389,3 +427,10 @@ const faqs = [
     }
   }
 </style>
+
+<script>
+  import { initCardTilt } from "../../scripts/cardTilt";
+  const init = () => initCardTilt(".tech-card[data-tilt]");
+  init();
+  document.addEventListener("astro:page-load", init);
+</script>

@@ -1,0 +1,442 @@
+---
+// Plotter parallax — a banner being printed.
+// Print head moves left → right; printed overlay is revealed via clip-path
+// behind the head. End state: full Lumo-branded banner.
+---
+
+<section class="plotter-assembly assembly" aria-labelledby="plotter-assembly-title">
+  <div class="assembly-wrap" id="plotter-assembly-wrap">
+    <div class="assembly-stage">
+      <div class="assembly-grid-bg" aria-hidden="true"></div>
+
+      <div class="container assembly-header">
+        <p class="assembly-eyebrow">Cómo se imprime</p>
+        <h2 class="assembly-title section-title" id="plotter-assembly-title">
+          Del rollo<br/>al <em>banner.</em>
+        </h2>
+        <p class="assembly-sub">
+          Cuatro tintas CMYK, vinil que avanza, un metro ochenta de ancho.
+          Esto es lo que pasa entre tu archivo y la lona terminada.
+        </p>
+      </div>
+
+      <div class="plotter-canvas" aria-hidden="true">
+        <div class="plotter-rail"></div>
+
+        <div class="plotter-banner">
+          <div class="plotter-banner-blank"></div>
+          <div class="plotter-banner-printed" id="plotter-printed">
+            <div class="printed-bg"></div>
+            <span class="printed-mark">lm</span>
+            <span class="printed-tag">FABRICACIÓN DIGITAL · CANCÚN</span>
+            <span class="printed-stripe"></span>
+          </div>
+        </div>
+
+        <div class="plotter-head" id="plotter-head">
+          <span class="plotter-head-line"></span>
+          <div class="plotter-head-housing">
+            <span class="plotter-dot plotter-dot--c"></span>
+            <span class="plotter-dot plotter-dot--m"></span>
+            <span class="plotter-dot plotter-dot--y"></span>
+            <span class="plotter-dot plotter-dot--k"></span>
+          </div>
+          <div class="ink-mist">
+            <span class="ink-drop ink-drop--1"></span>
+            <span class="ink-drop ink-drop--2"></span>
+            <span class="ink-drop ink-drop--3"></span>
+            <span class="ink-drop ink-drop--4"></span>
+            <span class="ink-drop ink-drop--5"></span>
+            <span class="ink-drop ink-drop--6"></span>
+          </div>
+        </div>
+      </div>
+
+      <p class="assembly-hint" aria-hidden="true">
+        <span id="plotter-hint-label">Rollo en blanco</span>
+        <b id="plotter-hint-stage">01</b><span class="assembly-hint-of"> / 03</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .plotter-assembly {
+    background: var(--color-bg);
+    position: relative;
+  }
+
+  .assembly-wrap {
+    position: relative;
+    height: 220vh;
+  }
+
+  .assembly-stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+    --canvas-scale: 1;
+  }
+
+  .assembly-grid-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(20, 10, 4, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(20, 10, 4, 0.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+    opacity: 0;
+    will-change: opacity;
+    pointer-events: none;
+  }
+
+  .assembly-header {
+    position: relative;
+    z-index: 4;
+    text-align: center;
+    margin-top: -22vh;
+    pointer-events: none;
+  }
+
+  .assembly-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+  }
+
+  .assembly-title { margin-bottom: 18px; }
+  .assembly-title em { font-style: italic; color: var(--color-accent); }
+
+  .assembly-sub {
+    color: var(--color-muted);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  /* ── Canvas: rail + banner + print head ───────────── */
+  .plotter-canvas {
+    position: absolute;
+    left: 50%;
+    top: 72%;
+    transform: translate(-50%, -50%) scale(var(--canvas-scale));
+    z-index: 2;
+    width: 540px;
+    height: 200px;
+    pointer-events: none;
+  }
+
+  .plotter-rail {
+    position: absolute;
+    top: 12px;
+    left: -8%;
+    right: -8%;
+    height: 4px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(20, 10, 4, 0.25) 8%,
+      rgba(20, 10, 4, 0.25) 92%,
+      transparent 100%);
+    border-radius: 2px;
+  }
+
+  .plotter-banner {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 60px;
+    height: 130px;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 18px 36px rgba(20, 10, 4, 0.12);
+  }
+
+  .plotter-banner-blank {
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(45deg,
+        transparent 0 5px,
+        rgba(20, 10, 4, 0.022) 5px 6px),
+      linear-gradient(180deg, #f4ecd8 0%, #ebe0c5 100%);
+    border: 1px solid rgba(20, 10, 4, 0.06);
+    border-radius: 6px;
+  }
+
+  .plotter-banner-printed {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(0 100% 0 0);
+    will-change: clip-path;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .printed-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 80% 50%, rgba(212, 182, 107, 0.22), transparent 70%),
+      linear-gradient(135deg, #c96b3a 0%, #a53a04 50%, #5a1d00 100%);
+  }
+
+  .printed-mark {
+    position: absolute;
+    left: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 76px;
+    color: #f4ecd8;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .printed-tag {
+    position: absolute;
+    left: 130px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    color: rgba(244, 236, 216, 0.8);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .printed-stripe {
+    position: absolute;
+    right: 24px;
+    top: 18px;
+    bottom: 18px;
+    width: 6px;
+    border-radius: 3px;
+    background: linear-gradient(180deg,
+      #2a9bb0 0%, #2a9bb0 25%,
+      #b03088 25%, #b03088 50%,
+      #d4b020 50%, #d4b020 75%,
+      #0f0f0f 75%, #0f0f0f 100%);
+  }
+
+  .plotter-head {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 76px;
+    height: 90px;
+    will-change: transform;
+    pointer-events: none;
+    transform: translateX(-50%);
+  }
+
+  .plotter-head-housing {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #14110e;
+    padding: 7px 10px;
+    border-radius: 5px;
+    display: flex;
+    gap: 5px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.30);
+  }
+
+  .plotter-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+  }
+  .plotter-dot--c { background: radial-gradient(circle at 30% 30%, #6cc8d8, #2a9bb0); box-shadow: 0 0 6px rgba(42, 155, 176, 0.45); }
+  .plotter-dot--m { background: radial-gradient(circle at 30% 30%, #d96cb0, #b03088); box-shadow: 0 0 6px rgba(176, 48, 136, 0.45); }
+  .plotter-dot--y { background: radial-gradient(circle at 30% 30%, #f0d860, #d4b020); box-shadow: 0 0 6px rgba(212, 176, 32, 0.45); }
+  .plotter-dot--k { background: radial-gradient(circle at 30% 30%, #2a2a2a, #0a0a0a); box-shadow: 0 0 4px rgba(0, 0, 0, 0.45); }
+
+  .plotter-head-line {
+    position: absolute;
+    top: 35px;
+    left: 50%;
+    width: 2px;
+    height: 60px;
+    background: linear-gradient(180deg,
+      var(--color-accent) 0%,
+      rgba(165, 58, 4, 0.5) 55%,
+      transparent 100%);
+    transform: translateX(-50%);
+    box-shadow: 0 0 12px rgba(165, 58, 4, 0.7);
+    opacity: var(--head-active, 0.6);
+    transition: opacity 0.2s ease;
+  }
+
+  /* Ink mist — small terracotta droplets emitting from below the head */
+  .ink-mist {
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+    opacity: var(--head-active, 0);
+    transition: opacity 0.25s ease;
+  }
+
+  .ink-drop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2.4px;
+    height: 2.4px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 3px rgba(165, 58, 4, 0.5);
+    transform-origin: 0 0;
+    animation: ink-drop 0.65s ease-out infinite;
+    opacity: 0;
+  }
+  .ink-drop--1 { --dx: -10px; --dy: 14px; animation-delay: 0s; }
+  .ink-drop--2 { --dx: -16px; --dy: 8px;  animation-delay: 0.09s; background: #d4b020; }
+  .ink-drop--3 { --dx: -7px;  --dy: 17px; animation-delay: 0.2s;  background: #2a9bb0; }
+  .ink-drop--4 { --dx: -14px; --dy: 12px; animation-delay: 0.31s; }
+  .ink-drop--5 { --dx: -9px;  --dy: 9px;  animation-delay: 0.42s; background: #b03088; }
+  .ink-drop--6 { --dx: -18px; --dy: 14px; animation-delay: 0.53s; }
+
+  @keyframes ink-drop {
+    0%   { transform: translate(0, 0) scale(1); opacity: 0.85; }
+    60%  { opacity: 0.5; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(0.4); opacity: 0; }
+  }
+
+  .assembly-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    margin: 0;
+  }
+
+  .assembly-hint b {
+    color: var(--color-accent);
+    font-weight: 600;
+    transition: color 0.3s ease;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .assembly-hint-of { color: var(--color-muted); opacity: 0.6; }
+
+  @media (max-width: 980px) {
+    .assembly-stage { --canvas-scale: 0.78; }
+  }
+
+  @media (max-width: 640px) {
+    .assembly-wrap { height: 200vh; }
+    .assembly-stage { --canvas-scale: 0.55; }
+    .assembly-header { margin-top: -18vh; }
+    .assembly-sub { font-size: 0.95rem; max-width: 320px; }
+    .assembly-hint { white-space: nowrap; bottom: 24px; font-size: 0.66rem; letter-spacing: 0.14em; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .assembly-wrap { height: auto; }
+    .assembly-stage { position: static; height: auto; padding: 100px 0; }
+    .plotter-banner-printed { clip-path: none !important; }
+    .plotter-head { display: none; }
+    .ink-mist { display: none; }
+  }
+</style>
+
+<script>
+  function initPlotterAssembly() {
+    const wrap = document.getElementById('plotter-assembly-wrap');
+    const grid = wrap?.querySelector<HTMLElement>('.assembly-grid-bg');
+    const hintLabel = document.getElementById('plotter-hint-label');
+    const hintStage = document.getElementById('plotter-hint-stage');
+    const printed = document.getElementById('plotter-printed');
+    const head = document.getElementById('plotter-head');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!wrap || !printed || !head || reduced) return;
+
+    const clamp = (v: number, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, v));
+    const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+    let pending = false;
+
+    function tick() {
+      pending = false;
+      const rect = wrap!.getBoundingClientRect();
+      const total = rect.height - window.innerHeight;
+      if (total <= 0) return;
+      const scrolled = -rect.top;
+      const rawP = clamp(scrolled / total);
+      const p = ease(rawP);
+
+      if (grid) {
+        const o = rawP < 0.35 ? (rawP / 0.35) * 0.5
+                : rawP < 0.92 ? 0.5 - ((rawP - 0.35) / 0.57) * 0.4
+                : Math.max(0, 0.1 - ((rawP - 0.92) / 0.08) * 0.1);
+        grid.style.opacity = String(o);
+      }
+
+      if (hintLabel && hintStage) {
+        if (rawP < 0.15) { hintLabel.textContent = 'Rollo en blanco'; hintStage.textContent = '01'; }
+        else if (rawP < 0.85) { hintLabel.textContent = 'Imprimiendo'; hintStage.textContent = '02'; }
+        else { hintLabel.textContent = 'Banner terminado'; hintStage.textContent = '03'; }
+      }
+
+      // Print head moves left → right across the canvas (540px wide).
+      // It enters from off-canvas left at p=0, exits off-canvas right at p=1.
+      const canvasWidth = 540;
+      const headStart = -10;     // px, just outside the banner left edge
+      const headEnd = canvasWidth + 10;
+      const headX = headStart + p * (headEnd - headStart);
+      head!.style.transform = `translateX(${headX - 38}px)`; // -38 = half head width to center on edge
+
+      // Head is "actively printing" while it's over the banner — drives ink
+      // mist + line glow visibility.
+      const active = headX > 4 && headX < canvasWidth - 4 ? 1 : 0;
+      head!.style.setProperty('--head-active', String(active));
+
+      // Printed overlay clip-path reveals from left.
+      // Tie it slightly to the head position so the printed area trails the head.
+      const printedP = clamp((p - 0.05) / 0.85);
+      printed!.style.clipPath = `inset(0 ${(1 - printedP) * 100}% 0 0)`;
+    }
+
+    function onScroll() {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(tick);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    tick();
+  }
+
+  initPlotterAssembly();
+  document.addEventListener('astro:page-load', initPlotterAssembly);
+</script>
