@@ -85,10 +85,10 @@ export const SITE = {
   instagram: 'https://www.instagram.com/_lumoarte',
   instagramHandle: '@_lumoarte',
   address: {
-    street: 'Ave 20 de Noviembre #125, Lt 9, Mz 30, Sm 76, L1',
+    street: 'Retorno Tejón, Mz 3, Lt 2, Sm 20',
     city: 'Cancún',
     state: 'Quintana Roo',
-    postalCode: '',
+    postalCode: '77500',
     country: 'MX',
   },
   ogDefault: '/og/default.jpg',
