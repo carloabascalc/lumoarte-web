@@ -1,5 +1,53 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "cortelasercancun.com" }],
+      "destination": "/cortelasercancun"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.cortelasercancun.com" }],
+      "destination": "/cortelasercancun"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "impresion3dcancun.com" }],
+      "destination": "/impresion3dcancun"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.impresion3dcancun.com" }],
+      "destination": "/impresion3dcancun"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/cortelasercancun",
+      "has": [{ "type": "host", "value": "lumocancun.com" }],
+      "destination": "https://cortelasercancun.com/",
+      "permanent": true
+    },
+    {
+      "source": "/cortelasercancun",
+      "has": [{ "type": "host", "value": "www.lumocancun.com" }],
+      "destination": "https://cortelasercancun.com/",
+      "permanent": true
+    },
+    {
+      "source": "/impresion3dcancun",
+      "has": [{ "type": "host", "value": "lumocancun.com" }],
+      "destination": "https://impresion3dcancun.com/",
+      "permanent": true
+    },
+    {
+      "source": "/impresion3dcancun",
+      "has": [{ "type": "host", "value": "www.lumocancun.com" }],
+      "destination": "https://impresion3dcancun.com/",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

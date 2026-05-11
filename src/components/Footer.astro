@@ -1,54 +1,76 @@
 ---
 import { Image } from "astro:assets";
 import logoFooter from "../assets/logos/logo-footer.png";
-import { services } from "../data/services";
+import { services, SITE, getServiceUrl, isExternalService } from "../data/services";
+
+interface Props {
+  /** "full" = umbrella footer (default). "minimal" = EMD footer (NAP + back-link only). */
+  variant?: "full" | "minimal";
+}
+
+const { variant = "full" } = Astro.props;
+const isMinimal = variant === "minimal";
 
 const affiliates = [
   { name: "The Line Laser Print", url: "https://thelinelaserprint.com/" },
   { name: "Abascal Arquitectos", url: "https://abascalarquitectos.com/" },
   { name: "Prospective Vision", url: "https://www.prospective-vision.org/" },
 ];
+
+// Logo always links home: full → "/", minimal → absolute lumocancun.com
+const brandHref = isMinimal ? `${SITE.url}/` : "/";
 ---
 
-<footer class="footer">
+<footer class:list={["footer", isMinimal && "footer--minimal"]}>
   <div class="container footer-inner">
     <div class="footer-brand" data-reveal>
-      <a href="/" aria-label="Lumo Arte">
+      <a href={brandHref} aria-label={SITE.name}>
         <Image
           src={logoFooter}
-          alt="Lumo Arte"
+          alt={SITE.name}
           width={72}
           height={72}
           loading="lazy"
         />
       </a>
       <p class="footer-tagline">
-        Cortamos, imprimimos y rotulamos. Diseñamos, transformamos y damos vida a las ideas.
+        {isMinimal
+          ? "Taller de fabricación digital en Cancún. Corte láser, impresión 3D e impresión gran formato."
+          : "Cortamos, imprimimos y rotulamos. Diseñamos, transformamos y damos vida a las ideas."}
       </p>
-      <button class="about-trigger" id="aboutTrigger" aria-haspopup="dialog">
-        Quiénes somos
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
+      {!isMinimal && (
+        <button class="about-trigger" id="aboutTrigger" aria-haspopup="dialog">
+          Quiénes somos
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      )}
     </div>
 
-    <div class="footer-col" data-reveal data-reveal-delay="0.08">
-      <p class="footer-col-label">Servicios</p>
-      <ul role="list">
-        {
-          services.map((s) => (
-            <li>
-              <a href={s.slug} class="footer-col-link">{s.name}</a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
+    {!isMinimal && (
+      <div class="footer-col" data-reveal data-reveal-delay="0.08">
+        <p class="footer-col-label">Servicios</p>
+        <ul role="list">
+          {services.map((s) => {
+            const external = isExternalService(s);
+            return (
+              <li>
+                <a
+                  href={getServiceUrl(s)}
+                  class="footer-col-link"
+                  {...(external ? { target: "_blank", rel: "noopener" } : {})}
+                >{s.name}</a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    )}
 
-    <div class="footer-col" data-reveal data-reveal-delay="0.16">
-      <p class="footer-col-label">Empresas afiliadas</p>
-      <ul role="list">
-        {
-          affiliates.map((a) => (
+    {!isMinimal && (
+      <div class="footer-col" data-reveal data-reveal-delay="0.16">
+        <p class="footer-col-label">Empresas afiliadas</p>
+        <ul role="list">
+          {affiliates.map((a) => (
             <li>
               <a
                 href={a.url}
@@ -64,20 +86,37 @@ const affiliates = [
                 </svg>
               </a>
             </li>
-          ))
-        }
-      </ul>
-    </div>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {isMinimal && (
+      <div class="footer-col footer-col--umbrella" data-reveal data-reveal-delay="0.08">
+        <p class="footer-col-label">Parte de Lumo Arte</p>
+        <p class="footer-umbrella-blurb">
+          Este sitio es una vitrina especializada. Conoce el taller completo y nuestros otros servicios.
+        </p>
+        <a href={`${SITE.url}/`} class="footer-umbrella-cta">
+          Conoce el taller
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    )}
   </div>
 
   <div class="footer-bottom">
     <div class="container footer-bottom-inner">
-      <p>© 2026 Lumo Arte Impression — Cancún, México</p>
-      <a href="/aviso-de-privacidad" class="footer-bottom-link">Aviso de privacidad</a>
+      <p>© 2026 Lumo Arte — Cancún, México</p>
+      <a
+        href={isMinimal ? `${SITE.url}/aviso-de-privacidad` : "/aviso-de-privacidad"}
+        class="footer-bottom-link"
+      >Aviso de privacidad</a>
     </div>
   </div>
 </footer>
 
+{!isMinimal && (
 <!-- About Us modal -->
 <div class="about-overlay" id="aboutOverlay" hidden aria-hidden="true">
   <div class="about-modal" role="dialog" aria-modal="true" aria-labelledby="aboutModalTitle">
@@ -111,6 +150,7 @@ const affiliates = [
     </div>
   </div>
 </div>
+)}
 
 <style>
   .footer {
@@ -176,6 +216,46 @@ const affiliates = [
 
   .footer-col-link:hover {
     color: #fff;
+  }
+
+  /* ── Minimal footer (EMD pages) umbrella block ─────── */
+  .footer-col--umbrella {
+    max-width: 320px;
+  }
+
+  .footer-umbrella-blurb {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.875rem;
+    line-height: 1.65;
+    margin: 0 0 16px;
+  }
+
+  .footer-umbrella-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+
+  .footer-umbrella-cta:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+  }
+
+  .footer-umbrella-cta svg {
+    transition: transform 0.2s;
+  }
+
+  .footer-umbrella-cta:hover svg {
+    transform: translateX(3px);
   }
 
   .footer-bottom {
@@ -324,10 +404,16 @@ const affiliates = [
 </style>
 
 <script>
-  const overlay = document.getElementById("aboutOverlay")!;
-  const trigger = document.getElementById("aboutTrigger")!;
-  const closeBtn = document.getElementById("aboutClose")!;
+  const overlay = document.getElementById("aboutOverlay");
+  const trigger = document.getElementById("aboutTrigger");
+  const closeBtn = document.getElementById("aboutClose");
 
+  // Minimal footer (EMD pages) doesn't render the modal — bail early.
+  if (overlay && trigger && closeBtn) {
+    bootAbout(overlay, trigger, closeBtn);
+  }
+
+  function bootAbout(overlay: HTMLElement, trigger: HTMLElement, closeBtn: HTMLElement) {
   function openAbout() {
     overlay.removeAttribute("hidden");
     overlay.removeAttribute("aria-hidden");
@@ -353,4 +439,5 @@ const affiliates = [
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !overlay.hasAttribute("hidden")) closeAbout();
   });
+  }
 </script>

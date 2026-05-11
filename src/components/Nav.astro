@@ -1,66 +1,116 @@
 ---
 import { Image } from "astro:assets";
 import logoNav from "../assets/logos/logo-nav.png";
+import { SITE, services, getServiceUrl, isExternalService } from "../data/services";
+import type { ServiceId } from "../data/services";
 
 interface Props {
-  variant?: "overlay" | "solid";
+  variant?: "overlay" | "solid" | "emd";
+  /** Required when variant === "emd": which service this EMD page belongs to. */
+  emdService?: ServiceId;
 }
 
-const { variant = "overlay" } = Astro.props;
+const { variant = "overlay", emdService } = Astro.props;
+const isEmd = variant === "emd";
+
+// EMD nav uses absolute lumocancun.com URLs so the umbrella link works
+// from any domain. Service-specific PDFs are picked from services.ts.
+const emd = isEmd && emdService
+  ? services.find((s) => s.id === emdService)
+  : null;
+const homeHref = isEmd ? `${SITE.url}/` : "/";
+const serviciosHref = isEmd ? `${SITE.url}/#servicios` : "/#servicios";
+const preciosHref = emd?.preciosPdf ?? "/precios-lumoarte.pdf";
+const manualHref = emd?.manualPdf ?? "/manual-lumoarte.pdf";
+const waHref = `https://wa.me/${SITE.whatsapp}`;
+// EMD always renders on a solid surface (no overlay over hero photo)
+const navClass = isEmd ? "nav nav--solid nav--emd" : `nav nav--${variant}`;
 ---
 
-<header class={`nav nav--${variant}`} id="nav" data-variant={variant}>
+<header class={navClass} id="nav" data-variant={isEmd ? "solid" : variant}>
   <div class="nav-inner container">
-    <a href="/" class="nav-logo" aria-label="Lumo Arte">
-      <Image src={logoNav} alt="Lumo Arte" width={80} height={48} loading="eager" />
+    <a href={homeHref} class="nav-logo" aria-label={SITE.name}>
+      <Image src={logoNav} alt={SITE.name} width={80} height={48} loading="eager" />
     </a>
     <nav class="nav-actions" aria-label="Navegación principal">
-      <a href="/#servicios" class="nav-link nav-link--desktop">Servicios</a>
+      <a href={serviciosHref} class="nav-link nav-link--desktop">Servicios</a>
+      <a
+        href={preciosHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn nav-pdf nav-pdf--primary"
+      >Lista de precios ↓</a>
+      {!isEmd && (
+        <a
+          href={manualHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn nav-pdf nav-pdf--secondary"
+        >¿Cómo enviar tu proyecto? ↓</a>
+      )}
+      {isEmd && (
+        <a
+          href={manualHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn nav-pdf nav-pdf--secondary nav-pdf--emd-manual"
+        >Manual ↓</a>
+      )}
+      {isEmd && (
+        <a
+          href={waHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn nav-wa"
+          aria-label="WhatsApp"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.413c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        </a>
+      )}
+      {!isEmd && (
+        <button
+          class="nav-burger"
+          id="navBurger"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+          aria-controls="navDrawer"
+          type="button"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+      )}
+    </nav>
+  </div>
+  {!isEmd && (
+    <div class="nav-drawer" id="navDrawer" hidden>
+      <a href="/#servicios" class="nav-drawer-link nav-drawer-link--head">Servicios</a>
+      {services.map((s) => {
+        const external = isExternalService(s);
+        return (
+          <a
+            href={getServiceUrl(s)}
+            class="nav-drawer-link nav-drawer-sub"
+            {...(external ? { target: "_blank", rel: "noopener" } : {})}
+          >{s.name}</a>
+        );
+      })}
       <a
         href="/precios-lumoarte.pdf"
         target="_blank"
         rel="noopener noreferrer"
-        class="btn nav-pdf nav-pdf--primary"
+        class="nav-drawer-link"
       >Lista de precios ↓</a>
       <a
         href="/manual-lumoarte.pdf"
         target="_blank"
         rel="noopener noreferrer"
-        class="btn nav-pdf nav-pdf--secondary"
+        class="nav-drawer-link"
       >¿Cómo enviar tu proyecto? ↓</a>
-      <button
-        class="nav-burger"
-        id="navBurger"
-        aria-label="Abrir menú"
-        aria-expanded="false"
-        aria-controls="navDrawer"
-        type="button"
-      >
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </button>
-    </nav>
-  </div>
-  <div class="nav-drawer" id="navDrawer" hidden>
-    <a href="/#servicios" class="nav-drawer-link nav-drawer-link--head">Servicios</a>
-    <a href="/servicios/corte-laser" class="nav-drawer-link nav-drawer-sub">Corte Láser</a>
-    <a href="/servicios/impresion-3d" class="nav-drawer-link nav-drawer-sub">Impresión 3D</a>
-    <a href="/servicios/impresion-gran-formato" class="nav-drawer-link nav-drawer-sub">Impresión Gran Formato</a>
-    <a
-      href="/precios-lumoarte.pdf"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="nav-drawer-link"
-    >Lista de precios ↓</a>
-    <a
-      href="/manual-lumoarte.pdf"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="nav-drawer-link"
-    >¿Cómo enviar tu proyecto? ↓</a>
-    <a href="#cotiza" class="btn btn-primary nav-drawer-cta">Solicita tu cotización</a>
-  </div>
+      <a href="#cotiza" class="btn btn-primary nav-drawer-cta">Solicita tu cotización</a>
+    </div>
+  )}
 </header>
 
 <style>
@@ -148,6 +198,25 @@ const { variant = "overlay" } = Astro.props;
     background: rgba(255, 255, 255, 0.15);
     color: #fff;
     border-color: #fff;
+  }
+
+  /* ── EMD WhatsApp button ───────────────────────────── */
+  .nav-wa {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 999px;
+    background: #25D366;
+    color: #fff;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .nav-wa:hover {
+    background: #1ebd5b;
+    transform: translateY(-1px);
   }
 
   /* ── Hamburger ─────────────────────────────────────── */
@@ -267,6 +336,34 @@ const { variant = "overlay" } = Astro.props;
 
     .nav-burger {
       display: flex;
+    }
+
+    /* EMD nav has no burger — keep essential items visible on mobile */
+    .nav--emd .nav-link--desktop {
+      display: inline-flex;
+      font-size: 0.8125rem;
+      padding: 8px 6px;
+    }
+
+    .nav--emd .nav-pdf {
+      display: inline-flex;
+      padding: 8px 12px;
+      font-size: 0.75rem;
+    }
+
+    /* Hide the manual PDF on the smallest screens to keep room for WhatsApp */
+    .nav--emd .nav-pdf--emd-manual {
+      display: none;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .nav--emd .nav-pdf {
+      padding: 6px 10px;
+    }
+
+    .nav--emd .nav-logo img {
+      height: 32px;
     }
   }
 </style>

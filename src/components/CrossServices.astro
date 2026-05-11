@@ -1,5 +1,5 @@
 ---
-import { services, type ServiceId } from "../data/services";
+import { services, getServiceUrl, isExternalService, type ServiceId } from "../data/services";
 
 interface Props {
   excludeId: ServiceId;
@@ -23,20 +23,27 @@ const others = services.filter((s) => s.id !== excludeId);
       </p>
     </div>
     <ul class="cross-grid" role="list">
-      {others.map((s, i) => (
-        <li class="cross-card" data-reveal data-reveal-delay={`${0.04 + i * 0.06}`}>
-          <a href={s.slug} class="cross-link">
-            <span class="cross-icon" aria-hidden="true" set:html={s.icon} />
-            <div class="cross-body-block">
-              <h3 class="cross-name">{s.name}</h3>
-              <p class="cross-blurb">{s.blurb}</p>
-            </div>
-            <span class="cross-arrow" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>
-          </a>
-        </li>
-      ))}
+      {others.map((s, i) => {
+        const external = isExternalService(s);
+        return (
+          <li class="cross-card" data-reveal data-reveal-delay={`${0.04 + i * 0.06}`}>
+            <a
+              href={getServiceUrl(s)}
+              class="cross-link"
+              {...(external ? { target: "_blank", rel: "noopener" } : {})}
+            >
+              <span class="cross-icon" aria-hidden="true" set:html={s.icon} />
+              <div class="cross-body-block">
+                <h3 class="cross-name">{s.name}</h3>
+                <p class="cross-blurb">{s.blurb}</p>
+              </div>
+              <span class="cross-arrow" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </a>
+          </li>
+        );
+      })}
     </ul>
   </div>
 </section>
