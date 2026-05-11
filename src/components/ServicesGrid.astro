@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import { services } from "../data/services";
+import { services, getServiceUrl, isExternalService } from "../data/services";
 import laserCover from "../assets/gallery/gal-01.jpg";
 import card3d from "../assets/services/card-3d.jpg";
 import cardPlotter from "../assets/services/card-plotter.jpg";
@@ -28,8 +28,8 @@ const cover: Record<string, ImageMetadata> = {
 
     <ul class="servicios-grid" role="list">
       {services.map((s, i) => {
-        const isExternal = !!s.emdDomain;
-        const href = isExternal ? `https://${s.emdDomain}` : s.slug;
+        const isExternal = isExternalService(s);
+        const href = getServiceUrl(s);
         const linkAttrs = isExternal
           ? { target: "_blank", rel: "noopener" }
           : {};

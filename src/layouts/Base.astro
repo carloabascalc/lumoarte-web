@@ -11,6 +11,8 @@ interface Props {
   schemaType?: "WebSite" | "LocalBusiness" | "Service";
   schemaData?: Record<string, unknown>;
   pageAccent?: "laser" | "3d" | "plotter";
+  /** Adds <meta name="robots" content="noindex,nofollow"> — for dormant EMD pages. */
+  noindex?: boolean;
 }
 
 const {
@@ -21,6 +23,7 @@ const {
   schemaType,
   schemaData,
   pageAccent = "laser",
+  noindex = false,
 } = Astro.props;
 
 const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site).href;
@@ -86,6 +89,7 @@ else if (schemaType === "Service" && schemaData) {
     </script>
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
     <link rel="canonical" href={canonicalURL} />
 
     <meta property="og:type" content="website" />

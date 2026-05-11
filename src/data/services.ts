@@ -1,3 +1,13 @@
+/**
+ * EMD (exact-match-domain) strategy: when true, service tiles, nav drawer,
+ * footer Servicios column and CrossServices link out to the EMD domain
+ * (e.g. cortelasercancun.com) instead of the internal /servicios/* slug.
+ *
+ * Flip to true once cortelasercancun.com and impresion3dcancun.com have
+ * been registered and added to the Vercel project.
+ */
+export const EMD_ENABLED = false;
+
 export type ServiceId = 'corte-laser' | 'impresion-3d' | 'impresion-gran-formato';
 
 export interface Service {
@@ -64,15 +74,17 @@ export const getService = (id: ServiceId): Service => {
 
 /**
  * Returns the public-facing URL for a service.
- * If the service has an EMD domain, returns the absolute EMD URL.
- * Otherwise returns the internal Astro slug.
+ * If EMDs are enabled and the service has an EMD domain, returns the absolute
+ * EMD URL. Otherwise returns the internal Astro slug.
  */
 export const getServiceUrl = (service: Service): string => {
-  return service.emdDomain ? `https://${service.emdDomain}` : service.slug;
+  if (EMD_ENABLED && service.emdDomain) return `https://${service.emdDomain}`;
+  return service.slug;
 };
 
 /** True when clicking this service link will leave the umbrella site. */
-export const isExternalService = (service: Service): boolean => !!service.emdDomain;
+export const isExternalService = (service: Service): boolean =>
+  EMD_ENABLED && !!service.emdDomain;
 
 export const SITE = {
   name: 'Lumo Arte',

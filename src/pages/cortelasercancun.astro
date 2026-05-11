@@ -12,10 +12,12 @@ import QuoteForm from "../components/QuoteForm.astro";
 import Contact from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
-import { getService } from "../data/services";
+import { getService, EMD_ENABLED } from "../data/services";
 
 const service = getService("corte-laser");
 const emdUrl = `https://${service.emdDomain}`;
+// Dormant: while the EMD domain isn't registered, hide this page from search.
+const noindex = !EMD_ENABLED;
 
 const sectores = [
   {
@@ -98,6 +100,7 @@ const faqs = [
   ogImage="/og/corte-laser.jpg"
   schemaType="Service"
   schemaData={serviceSchema}
+  noindex={noindex}
 >
   <Nav variant="emd" emdService="corte-laser" />
   <main>

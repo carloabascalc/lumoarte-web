@@ -11,10 +11,11 @@ import QuoteForm from "../components/QuoteForm.astro";
 import Contact from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
-import { getService } from "../data/services";
+import { getService, EMD_ENABLED } from "../data/services";
 
 const service = getService("impresion-3d");
 const emdUrl = `https://${service.emdDomain}`;
+const noindex = !EMD_ENABLED;
 
 const technologies = [
   {
@@ -114,6 +115,7 @@ const faqs = [
   schemaType="Service"
   schemaData={serviceSchema}
   pageAccent="3d"
+  noindex={noindex}
 >
   <Nav variant="emd" emdService="impresion-3d" />
   <main>
