@@ -12,62 +12,127 @@ const { items } = Astro.props;
 ---
 
 <nav class="breadcrumb" aria-label="Migas de pan">
-  <ol class="breadcrumb-list">
-    {items.map((item, i) => (
-      <li class="breadcrumb-item">
-        {item.href ? (
-          <a href={item.href} class="breadcrumb-link">{item.label}</a>
-        ) : (
-          <span class="breadcrumb-current" aria-current="page">{item.label}</span>
-        )}
-        {i < items.length - 1 && (
-          <span class="breadcrumb-sep" aria-hidden="true">›</span>
-        )}
-      </li>
-    ))}
-  </ol>
+  <div class="breadcrumb-inner">
+    <span class="breadcrumb-rule" aria-hidden="true"></span>
+    <ol class="breadcrumb-list">
+      {items.map((item, i) => {
+        const isLast = i === items.length - 1;
+        return (
+          <li class={`breadcrumb-item${isLast ? " breadcrumb-item--current" : ""}`}>
+            {item.href ? (
+              <a href={item.href} class="breadcrumb-link">{item.label}</a>
+            ) : (
+              <span class="breadcrumb-current" aria-current="page">{item.label}</span>
+            )}
+            {!isLast && <span class="breadcrumb-sep" aria-hidden="true"></span>}
+          </li>
+        );
+      })}
+    </ol>
+  </div>
 </nav>
 
 <style>
   .breadcrumb {
-    padding: calc(var(--nav-h) + 28px) 0 0;
+    padding: calc(var(--nav-h) + 32px) 0 0;
+  }
+
+  .breadcrumb-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .breadcrumb-rule {
+    width: 28px;
+    height: 1.5px;
+    background: var(--color-accent);
+    flex-shrink: 0;
   }
 
   .breadcrumb-list {
     list-style: none;
     display: flex;
-    align-items: center;
+    align-items: baseline;
     flex-wrap: wrap;
-    gap: 6px;
-    font-size: 0.8125rem;
-    color: var(--color-muted);
-    max-width: var(--max-w);
-    margin: 0 auto;
-    padding: 0 24px;
+    gap: 14px;
   }
 
   .breadcrumb-item {
     display: inline-flex;
-    align-items: center;
-    gap: 6px;
+    align-items: baseline;
+    gap: 14px;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
   }
 
   .breadcrumb-link {
     color: var(--color-muted);
-    transition: color 0.2s;
+    transition: color 0.2s ease;
   }
 
   .breadcrumb-link:hover {
     color: var(--color-accent);
   }
 
-  .breadcrumb-current {
-    color: var(--color-text);
-    font-weight: 500;
+  .breadcrumb-sep {
+    width: 14px;
+    height: 1px;
+    background: var(--color-surface);
+    flex-shrink: 0;
+    transform: translateY(-3px);
   }
 
-  .breadcrumb-sep {
-    color: var(--color-muted);
-    opacity: 0.6;
+  /* Current page — drops the eyebrow treatment and goes editorial. */
+  .breadcrumb-item--current {
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--color-text);
+  }
+
+  .breadcrumb-current {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 540px) {
+    .breadcrumb {
+      padding: calc(var(--nav-h) + 20px) 0 0;
+    }
+
+    .breadcrumb-inner {
+      gap: 12px;
+    }
+
+    .breadcrumb-rule {
+      width: 18px;
+    }
+
+    .breadcrumb-list {
+      gap: 10px;
+    }
+
+    .breadcrumb-item {
+      gap: 10px;
+      font-size: 0.625rem;
+    }
+
+    .breadcrumb-sep {
+      width: 10px;
+    }
+
+    .breadcrumb-item--current {
+      font-size: 0.9375rem;
+    }
   }
 </style>
