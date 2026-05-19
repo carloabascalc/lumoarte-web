@@ -34,7 +34,7 @@ const { items } = Astro.props;
 
 <style>
   .breadcrumb {
-    padding: calc(var(--nav-h) + 32px) 0 0;
+    padding: calc(var(--nav-h) + 12px) 0 0;
   }
 
   .breadcrumb-inner {
@@ -43,7 +43,6 @@ const { items } = Astro.props;
     padding: 0 24px;
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 16px;
   }
 
@@ -59,7 +58,6 @@ const { items } = Astro.props;
     display: flex;
     align-items: baseline;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 14px;
   }
 
@@ -109,7 +107,7 @@ const { items } = Astro.props;
 
   @media (max-width: 540px) {
     .breadcrumb {
-      padding: calc(var(--nav-h) + 20px) 0 0;
+      padding: calc(var(--nav-h) + 8px) 0 0;
     }
 
     .breadcrumb-inner {
