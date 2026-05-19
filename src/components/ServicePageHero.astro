@@ -25,7 +25,7 @@ const {
         <span class="service-hero-dash" aria-hidden="true"></span>
         {eyebrow}
       </p>
-      <h1 class="service-hero-title" data-reveal data-reveal-delay="0.06">{title}</h1>
+      <h1 class="service-hero-title" data-reveal data-reveal-delay="0.06" set:html={title}></h1>
       <p class="service-hero-sub" data-reveal data-reveal-delay="0.12">{subtitle}</p>
       <div class="service-hero-ctas" data-reveal data-reveal-delay="0.18">
         <a href={primaryCta.href} class="btn btn-primary">{primaryCta.label}</a>
