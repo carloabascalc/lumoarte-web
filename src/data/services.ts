@@ -8,7 +8,7 @@
  */
 export const EMD_ENABLED = false;
 
-export type ServiceId = 'corte-laser' | 'impresion-3d' | 'impresion-gran-formato';
+export type ServiceId = 'corte-laser' | 'impresion-3d' | 'impresion-gran-formato' | 'recuerdos-cancun';
 
 export interface Service {
   id: ServiceId;
@@ -63,6 +63,17 @@ export const services: Service[] = [
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="1"/><path d="M6 10h12"/><path d="M6 14h8"/></svg>`,
     manualPdf: '/manual-impresion-gran-formato.pdf',
     preciosPdf: '/precios-impresion-gran-formato.pdf',
+  },
+  {
+    id: 'recuerdos-cancun',
+    name: 'Recuerdos Cancún',
+    shortName: 'Recuerdos',
+    slug: '/servicios/recuerdos-cancun',
+    blurb: 'Llaveros impresos en 3D, termos grabados y portavasos con tu nombre. Diseñas en línea, lo entregamos a tu hotel en 72 horas.',
+    metaDescription: 'Recuerdos personalizados de Cancún con tu nombre: llaveros 3D, termos grabados láser y portavasos. Entrega a tu hotel en Cancún en 72 horas o envío nacional.',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
+    manualPdf: '/manual-recuerdos-cancun.pdf',
+    preciosPdf: '/precios-recuerdos-cancun.pdf',
   },
 ];
 

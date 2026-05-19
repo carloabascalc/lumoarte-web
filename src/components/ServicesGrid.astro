@@ -4,25 +4,27 @@ import { services, getServiceUrl, isExternalService } from "../data/services";
 import laserCover from "../assets/gallery/gal-01.jpg";
 import card3d from "../assets/services/card-3d.jpg";
 import cardPlotter from "../assets/services/card-plotter.jpg";
+import cardRecuerdos from "../assets/services/card-recuerdos.jpg";
 
 const cover: Record<string, ImageMetadata> = {
   "corte-laser": laserCover,
   "impresion-3d": card3d,
   "impresion-gran-formato": cardPlotter,
+  "recuerdos-cancun": cardRecuerdos,
 };
 ---
 
 <section class="servicios" id="servicios">
   <div class="container">
     <div class="section-header">
-      <p class="servicios-eyebrow" data-reveal>Tres servicios, un solo taller</p>
+      <p class="servicios-eyebrow" data-reveal>Cuatro líneas, un solo taller</p>
       <h2 class="section-title" data-reveal data-reveal-delay="0.06">
         Lo que hacemos
       </h2>
       <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
-        Cubrimos todo el ciclo de la fabricación digital con corte láser,
-        impresión 3D e impresión de gran formato — desde una pieza única hasta
-        producción en serie.
+        Corte láser, impresión 3D e impresión de gran formato para tu proyecto
+        a medida — y una línea de recuerdos personalizados para llevarte algo
+        hecho en Cancún sin tener que diseñar nada.
       </p>
     </div>
 
@@ -83,7 +85,7 @@ const cover: Record<string, ImageMetadata> = {
 
   .servicios-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
     list-style: none;
     perspective: 1400px;
@@ -232,12 +234,6 @@ const cover: Record<string, ImageMetadata> = {
 
   .servicio-card:hover .servicio-cta svg {
     transform: translateX(3px);
-  }
-
-  @media (max-width: 980px) {
-    .servicios-grid {
-      grid-template-columns: 1fr 1fr;
-    }
   }
 
   @media (max-width: 640px) {
