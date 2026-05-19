@@ -25,19 +25,19 @@ const pasos = [
   {
     n: "01",
     titulo: "Elige tu pieza",
-    texto: "Llavero, termo o set de portavasos. Cuatro diseños de Cancún para el llavero, todos en color.",
+    texto: "Llavero, termo o set de portavasos. Cuatro diseños inspirados en Cancún para el llavero, todos en color.",
     icon: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="20"/><circle cx="24" cy="24" r="12"/><path d="M24 4v40M4 24h40"/></svg>`,
   },
   {
     n: "02",
-    titulo: "Personalízalo",
-    texto: "Tu nombre grabado, hasta 15 caracteres. Lo escribes en mayúsculas, lo grabamos tal cual.",
+    titulo: "Personalízalo (o no)",
+    texto: "Nombre, apellido, fecha, frase corta — hasta 15 caracteres. Tal cual lo escribes, así lo grabamos. Si prefieres el diseño limpio, también.",
     icon: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 38h32"/><path d="M14 32h20"/><path d="M16 14l4-8 4 8 4-8 4 8 4-8"/><path d="M10 24l4-4 4 4 4-4 4 4 4-4 4 4 4-4 4 4"/></svg>`,
   },
   {
     n: "03",
-    titulo: "Entrega en tu hotel",
-    texto: "En 72 horas lo tienes en recepción. Si ya regresaste a casa, te lo enviamos por FedEx.",
+    titulo: "Te lo llevamos",
+    texto: "Hotel en Cancún sin costo, domicilio local con tarifa de envío, o paquetería nacional e internacional. 72 horas hábiles desde que confirmas el pago.",
     icon: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 42V18l18-10 18 10v24"/><path d="M6 42h36"/><path d="M18 42v-12h12v12"/><path d="M16 22h.01M28 22h.01M16 30h.01M28 30h.01"/></svg>`,
   },
 ];
@@ -46,32 +46,42 @@ const faqs = [
   {
     question: "¿Cuánto tarda?",
     answer:
-      "72 horas hábiles desde que confirmas el pedido por WhatsApp. Si llegas a Cancún el viernes y nos escribes ese mismo día, lo recibes el lunes en tu hotel. Si tu vuelo es antes, dilo en el mensaje y vemos cómo acelerarlo.",
+      "72 horas hábiles desde que confirmas el pago. Si necesitas algo más rápido —regalo de cumpleaños mañana, vuelo el viernes, evento el sábado— dilo al pedir y vemos qué tan apretado lo podemos hacer.",
   },
   {
-    question: "¿En qué hoteles entregan?",
+    question: "¿Dónde entregan?",
     answer:
-      "Cualquier hotel de la Zona Hotelera de Cancún, Puerto Cancún, Centro, o Isla Mujeres. La entrega va a recepción a nombre del huésped — no necesitas estar presente.",
+      "Tres opciones: hotel en Cancún (sin costo), domicilio local en cualquier parte de Cancún y zona conurbada (tarifa de envío según colonia), o paquetería FedEx para resto de México y extranjero. La entrega a hotel va a recepción a nombre del huésped — no necesitas estar.",
   },
   {
-    question: "¿Y si ya regresé a mi país?",
+    question: "¿Sirve para regalo o solo para mí?",
     answer:
-      "Te lo enviamos por FedEx a casi cualquier parte del mundo. El costo del envío se calcula al momento del pedido y lo agregamos al total. Llegada típica: 5 a 10 días hábiles según el destino.",
+      "Para los dos. La mitad de nuestros pedidos son regalos — cumpleaños, bodas, despedidas, kits de bienvenida corporativos, recuerdos de evento. Si tu pedido es regalo y quieres que llegue empacado bonito, dilo en el mensaje y le hacemos envoltura sin costo extra.",
+  },
+  {
+    question: "¿Y si no quiero personalizarlo?",
+    answer:
+      "Va igual de bien. Los cuatro diseños de llavero (Ocean, Tropical, Maya, Fiesta) y los portavasos se pueden pedir tal cual están, sin nombre ni texto. El termo siempre lleva al menos la palabra CANCUN o un nombre grabado, porque sin grabado pierde gracia.",
+  },
+  {
+    question: "¿Hacen pedidos grandes para eventos o empresas?",
+    answer:
+      "Sí. Para 20+ piezas damos descuento progresivo y ofrecemos diseño exclusivo con tu logo, fecha del evento o motivo personalizado. Lo más pedido: kits de bienvenida para conferencias, recuerdos para boda destino, regalos de fin de año corporativos. Mándanos un WhatsApp con la cantidad y el contexto, te cotizamos a la medida.",
   },
   {
     question: "¿Qué idiomas admiten en el grabado?",
     answer:
-      "Cualquier alfabeto que se vea bien en pequeño: latino (con acentos), cirílico, hebreo, árabe, kanji, hangul. Si tu nombre tiene caracteres especiales, los grabamos tal como los escribes.",
+      "Cualquier alfabeto que se vea bien en pequeño: latino con acentos (José, Rocío, Iñaki), cirílico, hebreo, árabe, kanji, hangul, emojis básicos. Si tu nombre o frase tiene caracteres raros, los grabamos tal como los escribes.",
   },
   {
     question: "¿Cómo pago?",
     answer:
-      "Por WhatsApp te mandamos un link de pago con tarjeta (Visa, Mastercard, American Express). También aceptamos transferencia SPEI si estás en México. No empezamos a producir hasta que confirmamos el pago.",
+      "Tres opciones: tarjeta de crédito/débito por link de pago (Visa, Mastercard, Amex), transferencia SPEI a cuenta BBVA, o efectivo en el taller si vas a recoger. No empezamos a producir hasta que confirmamos el pago.",
   },
   {
-    question: "¿Puedo pedir más de un nombre?",
+    question: "¿Puedo pedir varios con nombres distintos?",
     answer:
-      "Sí. En los llaveros puedes elegir packs de hasta 5 piezas, cada una con un nombre diferente — ideal para regalos a la familia o al grupo de amigos con el que vienes. En el termo solo va un nombre por pieza.",
+      "Sí. En los llaveros puedes pedir packs de hasta 5 piezas, cada una con un nombre diferente — perfecto para la familia, el grupo de amigos o todos los invitados de un evento. En el termo cada uno lleva su propio grabado. Para volúmenes mayores, escríbenos.",
   },
 ];
 ---
@@ -95,9 +105,9 @@ const faqs = [
     />
 
     <ServicePageHero
-      eyebrow="Recuerdos hechos en Cancún"
-      title="Tu recuerdo, <em>hecho a tu medida</em>"
-      subtitle="Llaveros, termos y portavasos. Eliges el diseño, lo personalizas si quieres, te llega al hotel en 72 horas o lo enviamos a tu casa."
+      eyebrow="Personalizados, hechos en Cancún"
+      title="Tu recuerdo o regalo, <em>hecho a tu medida</em>"
+      subtitle="Llaveros, termos y portavasos personalizados. Para llevarte de Cancún, para regalar, o para ti. Te llega a tu hotel, a tu domicilio o lo enviamos a casa en 72 horas."
       primaryCta={{ label: "Empezar a diseñar", href: "#diseña" }}
       secondaryCta={{ label: "Cómo funciona", href: "#funciona" }}
       service="laser"
@@ -292,7 +302,7 @@ const faqs = [
           <!-- STEP: DELIVERY -->
           <div class="wiz-panel" data-panel="delivery">
             <h3 class="wiz-title">¿A dónde lo entregamos?</h3>
-            <p class="wiz-sub">Entrega a hotel sin costo, o envío a casa por FedEx.</p>
+            <p class="wiz-sub">Tres opciones — para turistas, locales o quien pide desde otra ciudad.</p>
 
             <div class="del-grid">
               <button type="button" class="del-opt selected" data-delivery="hotel">
@@ -300,13 +310,20 @@ const faqs = [
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V8l9-5 9 5v14"/><path d="M3 22h18"/><path d="M9 22v-6h6v6"/><path d="M9 10h.01M15 10h.01M9 14h.01M15 14h.01"/></svg>
                 </span>
                 <span class="del-name">Hotel en Cancún</span>
-                <span class="del-info">Sin costo · 72 horas</span>
+                <span class="del-info">Sin costo · 72 h</span>
+              </button>
+              <button type="button" class="del-opt" data-delivery="local">
+                <span class="del-icon" aria-hidden="true">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M9 22V12h6v10"/></svg>
+                </span>
+                <span class="del-name">Domicilio Cancún</span>
+                <span class="del-info">Envío local · 72 h</span>
               </button>
               <button type="button" class="del-opt" data-delivery="address">
                 <span class="del-icon" aria-hidden="true">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
                 </span>
-                <span class="del-name">Envío a casa</span>
+                <span class="del-name">Envío nacional</span>
                 <span class="del-info">FedEx · 5-10 días</span>
               </button>
             </div>
@@ -321,10 +338,21 @@ const faqs = [
                 <input type="text" id="hotelRoom" placeholder="304" />
               </div>
             </div>
+            <div class="del-form hidden" id="delLocalForm">
+              <div class="form-group">
+                <label for="localStreet">Calle y número</label>
+                <input type="text" id="localStreet" placeholder="Av. Tulum 245" />
+              </div>
+              <div class="form-group">
+                <label for="localColonia">Colonia / Supermanzana</label>
+                <input type="text" id="localColonia" placeholder="SM 22, Centro, Puerto Cancún..." />
+              </div>
+              <p class="del-helper">La tarifa de envío local se calcula según la colonia y te la decimos por WhatsApp antes de cobrar.</p>
+            </div>
             <div class="del-form hidden" id="delAddressForm">
               <div class="form-group">
-                <label for="addrCountry">País</label>
-                <input type="text" id="addrCountry" placeholder="Estados Unidos, Canadá, España..." />
+                <label for="addrCountry">Ciudad o país</label>
+                <input type="text" id="addrCountry" placeholder="CDMX, Monterrey, Estados Unidos, España..." />
               </div>
               <div class="form-group">
                 <label for="addrStreet">Dirección completa</label>
@@ -394,7 +422,7 @@ const faqs = [
 
     <FAQ
       title="Preguntas frecuentes"
-      subtitle="Las dudas que más nos hacen los turistas. Si la tuya no aparece, mándanos un WhatsApp."
+      subtitle="Las dudas que más nos hacen los clientes — locales y turistas. Si la tuya no aparece, mándanos un WhatsApp."
       items={faqs}
     />
 
@@ -855,7 +883,8 @@ const faqs = [
   .termo-name-input { position: relative; margin-top: 4px; }
 
   /* ── DELIVERY ── */
-  .del-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+  .del-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
+  .del-helper { font-size: 0.8125rem; color: var(--color-muted); line-height: 1.55; margin-top: 4px; }
   .del-opt {
     background: var(--color-bg);
     border: 2px solid var(--color-surface);
@@ -1001,9 +1030,11 @@ const faqs = [
 
   .hidden { display: none !important; }
 
+  @media (max-width: 540px) {
+    .del-grid { grid-template-columns: 1fr; }
+  }
   @media (max-width: 480px) {
     .prod-grid { grid-template-columns: 1fr 1fr; }
-    .del-grid { grid-template-columns: 1fr 1fr; }
     .wiz-back { padding: 10px 14px; }
     .wiz-next { padding: 10px 18px; }
   }
@@ -1034,9 +1065,11 @@ const faqs = [
     names: [''] as string[],
     addons: [{ opener: false, airtag: false }] as Array<{ opener: boolean; airtag: boolean }>,
     termo: { cancun: false, name: false, nameText: '' },
-    delivery: 'hotel' as 'hotel' | 'address',
+    delivery: 'hotel' as 'hotel' | 'local' | 'address',
     hotel: '',
     room: '',
+    localStreet: '',
+    localColonia: '',
     addrCountry: '',
     addrStreet: '',
     clientName: '',
@@ -1263,14 +1296,19 @@ const faqs = [
 
     const sumDelivery = document.getElementById('sumDelivery');
     if (sumDelivery) {
-      sumDelivery.textContent =
-        state.delivery === 'hotel'
-          ? state.hotel
-            ? `Hotel ${state.hotel} · Hab. ${state.room || '—'}`
-            : 'Hotel en Cancún (sin costo)'
-          : state.addrCountry
-            ? `Envío a ${state.addrCountry}`
-            : 'Envío a casa por FedEx';
+      if (state.delivery === 'hotel') {
+        sumDelivery.textContent = state.hotel
+          ? `Hotel ${state.hotel} · Hab. ${state.room || '—'}`
+          : 'Hotel en Cancún (sin costo)';
+      } else if (state.delivery === 'local') {
+        sumDelivery.textContent = state.localColonia
+          ? `${state.localStreet || '(dirección)'} · ${state.localColonia}`
+          : 'Domicilio en Cancún';
+      } else {
+        sumDelivery.textContent = state.addrCountry
+          ? `Envío a ${state.addrCountry}`
+          : 'Envío a casa por FedEx';
+      }
     }
 
     const sumTotal = document.getElementById('sumTotal');
@@ -1303,8 +1341,10 @@ const faqs = [
     lines.push('');
     if (state.delivery === 'hotel') {
       lines.push(`Entrega: Hotel ${state.hotel || '(pendiente)'} · Hab. ${state.room || '(pendiente)'}`);
+    } else if (state.delivery === 'local') {
+      lines.push(`Entrega local: ${state.localStreet || '(calle)'} · ${state.localColonia || '(colonia)'}`);
     } else {
-      lines.push(`Envío: ${state.addrCountry || '(país pendiente)'} — ${state.addrStreet || '(dirección pendiente)'}`);
+      lines.push(`Envío: ${state.addrCountry || '(ciudad pendiente)'} — ${state.addrStreet || '(dirección pendiente)'}`);
     }
     lines.push('');
     lines.push(`Total estimado: $${total} USD`);
@@ -1352,11 +1392,12 @@ const faqs = [
 
     document.querySelectorAll<HTMLElement>('.del-opt').forEach((d) => {
       d.addEventListener('click', () => {
-        state.delivery = d.dataset.delivery as 'hotel' | 'address';
+        state.delivery = d.dataset.delivery as 'hotel' | 'local' | 'address';
         document.querySelectorAll<HTMLElement>('.del-opt').forEach((o) => {
           o.classList.toggle('selected', o === d);
         });
         document.getElementById('delHotelForm')?.classList.toggle('hidden', state.delivery !== 'hotel');
+        document.getElementById('delLocalForm')?.classList.toggle('hidden', state.delivery !== 'local');
         document.getElementById('delAddressForm')?.classList.toggle('hidden', state.delivery !== 'address');
       });
     });
@@ -1367,6 +1408,8 @@ const faqs = [
     };
     bind('hotelName', 'hotel');
     bind('hotelRoom', 'room');
+    bind('localStreet', 'localStreet');
+    bind('localColonia', 'localColonia');
     bind('addrCountry', 'addrCountry');
     bind('addrStreet', 'addrStreet');
     bind('clientName', 'clientName');
