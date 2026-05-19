@@ -36,8 +36,8 @@ const pasos = [
   },
   {
     n: "03",
-    titulo: "Te lo llevamos",
-    texto: "Hotel en Cancún sin costo, domicilio local con tarifa de envío, o paquetería nacional e internacional. 72 horas hábiles desde que confirmas el pago.",
+    titulo: "Lo recoges o te lo enviamos",
+    texto: "Recoges sin costo en el taller (Retorno Tejón, SM 20), te lo enviamos en la ciudad con tarifa local, o lo mandamos a otra ciudad por FedEx. 72 horas hábiles desde que confirmas el pago.",
     icon: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 42V18l18-10 18 10v24"/><path d="M6 42h36"/><path d="M18 42v-12h12v12"/><path d="M16 22h.01M28 22h.01M16 30h.01M28 30h.01"/></svg>`,
   },
 ];
@@ -49,9 +49,9 @@ const faqs = [
       "72 horas hábiles desde que confirmas el pago. Si necesitas algo más rápido —regalo de cumpleaños mañana, vuelo el viernes, evento el sábado— dilo al pedir y vemos qué tan apretado lo podemos hacer.",
   },
   {
-    question: "¿Dónde entregan?",
+    question: "¿Dónde lo recojo o cómo me llega?",
     answer:
-      "Tres opciones: hotel en Cancún (sin costo), domicilio local en cualquier parte de Cancún y zona conurbada (tarifa de envío según colonia), o paquetería FedEx para resto de México y extranjero. La entrega a hotel va a recepción a nombre del huésped — no necesitas estar.",
+      "Tres opciones: recoges sin costo en el taller (Retorno Tejón Mz 3 Lt 2, Supermanzana 20, Cancún — lun-vie 10am–6pm, sáb 10am–2pm), te lo enviamos en la ciudad con tarifa local según colonia, o paquetería FedEx para resto de México y extranjero. Te avisamos por WhatsApp en cuanto esté listo.",
   },
   {
     question: "¿Sirve para regalo o solo para mí?",
@@ -106,9 +106,9 @@ const faqs = [
 
     <ServicePageHero
       eyebrow="Personalizados, hechos en Cancún"
-      title="Tu recuerdo o regalo, <em>hecho a tu medida</em>"
-      subtitle="Llaveros, termos y portavasos personalizados. Para llevarte de Cancún, para regalar, o para ti. Te llega a tu hotel, a tu domicilio o lo enviamos a casa en 72 horas."
-      primaryCta={{ label: "Empezar a diseñar", href: "#diseña" }}
+      title="Pide tu llavero, termo o portavasos <em>hecho aquí</em>"
+      subtitle="Diseños inspirados en Cancún, listos para personalizar — o pídelos tal cual. Lo recoges en el taller, te lo enviamos en la ciudad, o te lo mandamos a otra ciudad. 72 horas hábiles desde que confirmas el pago."
+      primaryCta={{ label: "Pídelo ahora", href: "#diseña" }}
       secondaryCta={{ label: "Cómo funciona", href: "#funciona" }}
       service="laser"
     >
@@ -140,12 +140,12 @@ const faqs = [
     <section class="wizard" id="diseña">
       <div class="container container--narrow">
         <div class="section-header">
-          <p class="eyebrow" data-reveal>Diséñalo</p>
+          <p class="eyebrow" data-reveal>Pídelo en línea</p>
           <h2 class="section-title" data-reveal data-reveal-delay="0.06">
-            Configura tu recuerdo
+            Tu pedido en 3 minutos
           </h2>
           <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
-            Todos los precios en USD. Al final te enviamos el resumen al WhatsApp del taller para confirmar y pagar.
+            Eliges qué quieres, lo personalizas si te late, y nos lo mandas. Te respondemos por WhatsApp con el resumen y el link de pago. Precios en USD.
           </p>
         </div>
 
@@ -301,23 +301,23 @@ const faqs = [
 
           <!-- STEP: DELIVERY -->
           <div class="wiz-panel" data-panel="delivery">
-            <h3 class="wiz-title">¿A dónde lo entregamos?</h3>
-            <p class="wiz-sub">Tres opciones — para turistas, locales o quien pide desde otra ciudad.</p>
+            <h3 class="wiz-title">¿Cómo lo quieres recibir?</h3>
+            <p class="wiz-sub">Recoges en el taller, te lo enviamos en la ciudad, o lo mandamos a otra ciudad.</p>
 
             <div class="del-grid">
-              <button type="button" class="del-opt selected" data-delivery="hotel">
+              <button type="button" class="del-opt selected" data-delivery="pickup">
                 <span class="del-icon" aria-hidden="true">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V8l9-5 9 5v14"/><path d="M3 22h18"/><path d="M9 22v-6h6v6"/><path d="M9 10h.01M15 10h.01M9 14h.01M15 14h.01"/></svg>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V10l7-6 7 6v11"/><path d="M10 21v-6h4v6"/><circle cx="12" cy="11" r="1"/></svg>
                 </span>
-                <span class="del-name">Hotel en Cancún</span>
+                <span class="del-name">Recoges en taller</span>
                 <span class="del-info">Sin costo · 72 h</span>
               </button>
               <button type="button" class="del-opt" data-delivery="local">
                 <span class="del-icon" aria-hidden="true">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M9 22V12h6v10"/></svg>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h14V6H3z"/><path d="M17 10h3l3 4v4h-6"/><circle cx="7" cy="20" r="2"/><circle cx="19" cy="20" r="2"/></svg>
                 </span>
-                <span class="del-name">Domicilio Cancún</span>
-                <span class="del-info">Envío local · 72 h</span>
+                <span class="del-name">Envío en Cancún</span>
+                <span class="del-info">Local · 72 h</span>
               </button>
               <button type="button" class="del-opt" data-delivery="address">
                 <span class="del-icon" aria-hidden="true">
@@ -328,15 +328,11 @@ const faqs = [
               </button>
             </div>
 
-            <div class="del-form" id="delHotelForm">
-              <div class="form-group">
-                <label for="hotelName">Hotel</label>
-                <input type="text" id="hotelName" placeholder="Hotel Riu Cancún, Hotel Xcaret, etc." />
-              </div>
-              <div class="form-group">
-                <label for="hotelRoom">Habitación</label>
-                <input type="text" id="hotelRoom" placeholder="304" />
-              </div>
+            <div class="del-form" id="delPickupForm">
+              <p class="del-helper">
+                Lo recoges en el taller — <strong>Retorno Tejón Mz 3 Lt 2, Supermanzana 20, Cancún</strong>.
+                Te avisamos por WhatsApp cuando esté listo. Horario: lun-vie 10am–6pm, sáb 10am–2pm.
+              </p>
             </div>
             <div class="del-form hidden" id="delLocalForm">
               <div class="form-group">
@@ -427,10 +423,12 @@ const faqs = [
     />
 
     <InstagramCTA />
+  </main>
+  <div class="page-end">
     <Contact />
     <Footer />
-    <WhatsAppButton />
-  </main>
+  </div>
+  <WhatsAppButton />
 </Base>
 
 <style>
@@ -1065,9 +1063,7 @@ const faqs = [
     names: [''] as string[],
     addons: [{ opener: false, airtag: false }] as Array<{ opener: boolean; airtag: boolean }>,
     termo: { cancun: false, name: false, nameText: '' },
-    delivery: 'hotel' as 'hotel' | 'local' | 'address',
-    hotel: '',
-    room: '',
+    delivery: 'pickup' as 'pickup' | 'local' | 'address',
     localStreet: '',
     localColonia: '',
     addrCountry: '',
@@ -1296,18 +1292,16 @@ const faqs = [
 
     const sumDelivery = document.getElementById('sumDelivery');
     if (sumDelivery) {
-      if (state.delivery === 'hotel') {
-        sumDelivery.textContent = state.hotel
-          ? `Hotel ${state.hotel} · Hab. ${state.room || '—'}`
-          : 'Hotel en Cancún (sin costo)';
+      if (state.delivery === 'pickup') {
+        sumDelivery.textContent = 'Recojo en taller · SM 20 (sin costo)';
       } else if (state.delivery === 'local') {
         sumDelivery.textContent = state.localColonia
           ? `${state.localStreet || '(dirección)'} · ${state.localColonia}`
-          : 'Domicilio en Cancún';
+          : 'Envío local en Cancún';
       } else {
         sumDelivery.textContent = state.addrCountry
           ? `Envío a ${state.addrCountry}`
-          : 'Envío a casa por FedEx';
+          : 'Envío nacional por FedEx';
       }
     }
 
@@ -1339,8 +1333,8 @@ const faqs = [
       if (airtag) lines.push(`  + ${airtag} soporte${airtag > 1 ? 's' : ''} AirTag (+$${airtag * 4})`);
     }
     lines.push('');
-    if (state.delivery === 'hotel') {
-      lines.push(`Entrega: Hotel ${state.hotel || '(pendiente)'} · Hab. ${state.room || '(pendiente)'}`);
+    if (state.delivery === 'pickup') {
+      lines.push(`Entrega: Recojo en taller (Retorno Tejón, SM 20)`);
     } else if (state.delivery === 'local') {
       lines.push(`Entrega local: ${state.localStreet || '(calle)'} · ${state.localColonia || '(colonia)'}`);
     } else {
@@ -1392,11 +1386,11 @@ const faqs = [
 
     document.querySelectorAll<HTMLElement>('.del-opt').forEach((d) => {
       d.addEventListener('click', () => {
-        state.delivery = d.dataset.delivery as 'hotel' | 'local' | 'address';
+        state.delivery = d.dataset.delivery as 'pickup' | 'local' | 'address';
         document.querySelectorAll<HTMLElement>('.del-opt').forEach((o) => {
           o.classList.toggle('selected', o === d);
         });
-        document.getElementById('delHotelForm')?.classList.toggle('hidden', state.delivery !== 'hotel');
+        document.getElementById('delPickupForm')?.classList.toggle('hidden', state.delivery !== 'pickup');
         document.getElementById('delLocalForm')?.classList.toggle('hidden', state.delivery !== 'local');
         document.getElementById('delAddressForm')?.classList.toggle('hidden', state.delivery !== 'address');
       });
@@ -1406,8 +1400,6 @@ const faqs = [
       const el = document.getElementById(id) as HTMLInputElement | null;
       if (el) el.addEventListener('input', () => ((state as Record<string, unknown>)[key] = el.value));
     };
-    bind('hotelName', 'hotel');
-    bind('hotelRoom', 'room');
     bind('localStreet', 'localStreet');
     bind('localColonia', 'localColonia');
     bind('addrCountry', 'addrCountry');
