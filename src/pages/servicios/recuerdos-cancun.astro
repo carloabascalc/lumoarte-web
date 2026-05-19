@@ -3,6 +3,8 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import ServicePageHero from "../../components/ServicePageHero.astro";
+import RecuerdosShowcase from "../../components/RecuerdosShowcase.astro";
+import CrossServices from "../../components/CrossServices.astro";
 import FAQ from "../../components/FAQ.astro";
 import InstagramCTA from "../../components/InstagramCTA.astro";
 import Contact from "../../components/Contact.astro";
@@ -24,16 +26,19 @@ const pasos = [
     n: "01",
     titulo: "Elige tu pieza",
     texto: "Llavero, termo o set de portavasos. Cuatro diseños de Cancún para el llavero, todos en color.",
+    icon: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="20"/><circle cx="24" cy="24" r="12"/><path d="M24 4v40M4 24h40"/></svg>`,
   },
   {
     n: "02",
     titulo: "Personalízalo",
     texto: "Tu nombre grabado, hasta 15 caracteres. Lo escribes en mayúsculas, lo grabamos tal cual.",
+    icon: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 38h32"/><path d="M14 32h20"/><path d="M16 14l4-8 4 8 4-8 4 8 4-8"/><path d="M10 24l4-4 4 4 4-4 4 4 4-4 4 4 4-4 4 4"/></svg>`,
   },
   {
     n: "03",
     titulo: "Entrega en tu hotel",
     texto: "En 72 horas lo tienes en recepción. Si ya regresaste a casa, te lo enviamos por FedEx.",
+    icon: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 42V18l18-10 18 10v24"/><path d="M6 42h36"/><path d="M18 42v-12h12v12"/><path d="M16 22h.01M28 22h.01M16 30h.01M28 30h.01"/></svg>`,
   },
 ];
 
@@ -96,7 +101,9 @@ const faqs = [
       primaryCta={{ label: "Diseñar ahora", href: "#diseña" }}
       secondaryCta={{ label: "Cómo funciona", href: "#funciona" }}
       service="laser"
-    />
+    >
+      <RecuerdosShowcase slot="showcase" />
+    </ServicePageHero>
 
     <section class="pasos" id="funciona">
       <div class="container">
@@ -108,7 +115,9 @@ const faqs = [
         </div>
         <ol class="pasos-grid">
           {pasos.map((p, i) => (
-            <li class="paso-card" data-reveal data-reveal-delay={`${0.08 + i * 0.06}`}>
+            <li class="paso-card" data-tilt data-reveal data-reveal-delay={`${0.08 + i * 0.06}`}>
+              <span class="paso-glare" aria-hidden="true"></span>
+              <div class="paso-icon" aria-hidden="true" set:html={p.icon} />
               <span class="paso-n">{p.n}</span>
               <h3 class="paso-titulo">{p.titulo}</h3>
               <p class="paso-texto">{p.texto}</p>
@@ -381,6 +390,8 @@ const faqs = [
       </div>
     </section>
 
+    <CrossServices excludeId="recuerdos-cancun" />
+
     <FAQ
       title="Preguntas frecuentes"
       subtitle="Las dudas que más nos hacen los turistas. Si la tuya no aparece, mándanos un WhatsApp."
@@ -428,38 +439,94 @@ const faqs = [
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
     list-style: none;
-    counter-reset: paso;
+    perspective: 1400px;
   }
   .paso-card {
+    position: relative;
     background: var(--color-bg);
     border: 1px solid var(--color-surface);
-    border-radius: 10px;
-    padding: 32px 28px;
+    border-radius: 12px;
+    padding: 40px 32px 36px;
+    transform-style: preserve-3d;
+    isolation: isolate;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease,
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
+  .paso-card::before {
+    content: "";
+    position: absolute;
+    top: -90px;
+    right: -90px;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(165, 58, 4, 0.10) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .paso-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 22px 48px rgba(20, 10, 4, 0.10);
+  }
+  .paso-glare {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle 280px at var(--gx, 50%) var(--gy, 50%),
+      rgba(255, 240, 220, 0.30) 0%,
+      rgba(255, 240, 220, 0.10) 25%,
+      transparent 60%);
+    opacity: 0;
+    mix-blend-mode: screen;
+    transition: opacity 0.3s ease;
+    border-radius: inherit;
+    z-index: 1;
+  }
+  .paso-card:hover .paso-glare { opacity: 1; }
+  .paso-card > *:not(.paso-glare) { position: relative; z-index: 2; }
+  .paso-icon {
+    width: 52px;
+    height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-accent);
+    background: rgba(165, 58, 4, 0.06);
+    border-radius: 12px;
+    margin-bottom: 22px;
+  }
+  .paso-icon :global(svg) { width: 28px; height: 28px; }
   .paso-n {
     display: inline-block;
     font-family: var(--font-display);
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 0.75rem;
+    font-weight: 600;
     color: var(--color-accent);
-    letter-spacing: 0.08em;
-    margin-bottom: 18px;
+    letter-spacing: 0.18em;
+    margin-bottom: 12px;
+    text-transform: uppercase;
   }
   .paso-titulo {
     font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: 600;
     color: var(--color-text);
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    line-height: 1.2;
   }
   .paso-texto {
     color: var(--color-muted);
     font-size: 0.9375rem;
-    line-height: 1.65;
+    line-height: 1.7;
+  }
+  @media (hover: none), (prefers-reduced-motion: reduce) {
+    .paso-card { transform-style: flat; }
+    .paso-glare { display: none; }
   }
   @media (max-width: 720px) {
     .pasos { padding: 64px 0; }
-    .pasos-grid { grid-template-columns: 1fr; }
+    .pasos-grid { grid-template-columns: 1fr; perspective: none; }
+    .paso-card { padding: 32px 28px; }
   }
 
   /* ── WIZARD ── */
@@ -943,6 +1010,8 @@ const faqs = [
 </style>
 
 <script>
+  import { initCardTilt } from "../../scripts/cardTilt";
+
   type Bundle = 1 | 2 | 3 | 4 | 5;
   type Product = 'A' | 'B' | 'C' | 'D' | 'termo' | 'portavasos' | null;
 
@@ -1326,6 +1395,7 @@ const faqs = [
 
     renderNameInputs();
     showStep(0);
+    initCardTilt('.paso-card[data-tilt]');
   }
 
   init();
