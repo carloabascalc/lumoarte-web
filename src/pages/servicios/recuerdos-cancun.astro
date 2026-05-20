@@ -25,20 +25,50 @@ const pasos = [
   {
     n: "01",
     titulo: "Elige tu pieza",
-    texto: "Llavero, termo o set de portavasos. Cuatro diseños inspirados en Cancún para el llavero, todos en color.",
+    texto: "Llavero, termo, portavasos o algo a tu medida — diseño nuevo, logo de empresa, regalo de evento. Nosotros nos adaptamos.",
     icon: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="20"/><circle cx="24" cy="24" r="12"/><path d="M24 4v40M4 24h40"/></svg>`,
   },
   {
     n: "02",
-    titulo: "Personalízalo (o no)",
-    texto: "Nombre, apellido, fecha, frase corta — hasta 15 caracteres. Tal cual lo escribes, así lo grabamos. Si prefieres el diseño limpio, también.",
+    titulo: "Cuéntanos los detalles",
+    texto: "Cantidad, nombres, fecha, diseño. Por WhatsApp acordamos lo que hace falta y te pasamos el precio final.",
     icon: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 38h32"/><path d="M14 32h20"/><path d="M16 14l4-8 4 8 4-8 4 8 4-8"/><path d="M10 24l4-4 4 4 4-4 4 4 4-4 4 4 4-4 4 4"/></svg>`,
   },
   {
     n: "03",
     titulo: "Lo recoges o te lo enviamos",
-    texto: "Recoges sin costo en el taller (Retorno Tejón, SM 20), te lo enviamos en la ciudad con tarifa local, o lo mandamos a otra ciudad por FedEx. 72 horas hábiles desde que confirmas el pago.",
+    texto: "Recoges sin costo en el taller (Retorno Tejón, SM 20), envío local en Cancún, o paquetería FedEx a otra ciudad. 72 h hábiles desde que confirmas el pago.",
     icon: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 42V18l18-10 18 10v24"/><path d="M6 42h36"/><path d="M18 42v-12h12v12"/><path d="M16 22h.01M28 22h.01M16 30h.01M28 30h.01"/></svg>`,
+  },
+];
+
+const catalogo = [
+  {
+    id: "llavero",
+    eyebrow: "Impresión 3D · Multi-color",
+    name: "Llaveros",
+    desc: "Cuatro diseños inspirados en Cancún o un modelo nuevo si tienes algo en mente. Con nombre grabado o sin él.",
+    desde: "Desde $11 USD",
+    bullets: ["1 a 50 piezas", "Hasta 15 caracteres grabados", "Add-ons: destapador, soporte AirTag"],
+    icon: `<svg viewBox="0 0 56 72" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="10" r="6"/><rect x="26" y="16" width="4" height="8" rx="1"/><rect x="14" y="24" width="28" height="42" rx="6" fill="rgba(165,58,4,0.10)"/><path d="M20 36h16M20 44h12M20 52h16"/></svg>`,
+  },
+  {
+    id: "termo",
+    eyebrow: "Grabado láser · Acero",
+    name: "Termo 20oz",
+    desc: "Acero inoxidable doble pared, mantiene frío 24h y caliente 12h. Grabado láser permanente — no se borra ni se despinta.",
+    desde: "Desde $15 USD",
+    bullets: ["591 ml · tapa hermética", "Grabamos CANCUN, tu nombre, o ambos", "Logo de empresa para pedidos 10+"],
+    icon: `<svg viewBox="0 0 56 72" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="20" y="6" width="16" height="6" rx="2"/><rect x="18" y="12" width="20" height="3" rx="1"/><rect x="22" y="15" width="12" height="2"/><rect x="16" y="17" width="24" height="46" rx="3" fill="rgba(165,58,4,0.10)"/><path d="M22 28h12M22 36h12M22 44h8"/><rect x="20" y="63" width="16" height="3" rx="1"/></svg>`,
+  },
+  {
+    id: "portavasos",
+    eyebrow: "Corte láser · MDF",
+    name: "Set de portavasos",
+    desc: "Cinco portavasos cortados y grabados en MDF sellado contra humedad. Tu nombre, fecha, monograma o diseño a tu gusto.",
+    desde: "$15 USD el set",
+    bullets: ["5 piezas de 10 × 10 cm", "MDF sellado", "Caja de presentación incluida"],
+    icon: `<svg viewBox="0 0 56 72" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="28" cy="56" rx="20" ry="5" fill="rgba(165,58,4,0.10)"/><ellipse cx="28" cy="50" rx="20" ry="5"/><ellipse cx="28" cy="44" rx="20" ry="5"/><ellipse cx="28" cy="38" rx="20" ry="5"/><ellipse cx="28" cy="32" rx="20" ry="5" fill="rgba(165,58,4,0.18)"/><text x="28" y="36" text-anchor="middle" font-family="Playfair Display, serif" font-size="6" font-style="italic" fill="currentColor">M&amp;A</text></svg>`,
   },
 ];
 
@@ -61,12 +91,17 @@ const faqs = [
   {
     question: "¿Y si no quiero personalizarlo?",
     answer:
-      "Va igual de bien. Los cuatro diseños de llavero (Ocean, Tropical, Maya, Fiesta) y los portavasos se pueden pedir tal cual están, sin nombre ni texto. El termo siempre lleva al menos la palabra CANCUN o un nombre grabado, porque sin grabado pierde gracia.",
+      "Va igual de bien. Los cuatro diseños de llavero y los portavasos se pueden pedir tal cual, sin nombre ni texto. El termo siempre lleva al menos la palabra CANCUN o un nombre grabado, porque sin grabado pierde gracia.",
   },
   {
     question: "¿Hacen pedidos grandes para eventos o empresas?",
     answer:
       "Sí. Para 20+ piezas damos descuento progresivo y ofrecemos diseño exclusivo con tu logo, fecha del evento o motivo personalizado. Lo más pedido: kits de bienvenida para conferencias, recuerdos para boda destino, regalos de fin de año corporativos. Mándanos un WhatsApp con la cantidad y el contexto, te cotizamos a la medida.",
+  },
+  {
+    question: "¿Diseños fuera del catálogo?",
+    answer:
+      "Sí, todo el tiempo. Si tienes un boceto, una idea, un logo o algo que viste en Pinterest, nosotros lo digitalizamos y producimos. El diseño se cotiza aparte según complejidad. Para piezas únicas o limitadas funcionamos como taller a la medida — el catálogo es solo el punto de partida.",
   },
   {
     question: "¿Qué idiomas admiten en el grabado?",
@@ -77,11 +112,6 @@ const faqs = [
     question: "¿Cómo pago?",
     answer:
       "Tres opciones: tarjeta de crédito/débito por link de pago (Visa, Mastercard, Amex), transferencia SPEI a cuenta BBVA, o efectivo en el taller si vas a recoger. No empezamos a producir hasta que confirmamos el pago.",
-  },
-  {
-    question: "¿Puedo pedir varios con nombres distintos?",
-    answer:
-      "Sí. En los llaveros puedes pedir packs de hasta 5 piezas, cada una con un nombre diferente — perfecto para la familia, el grupo de amigos o todos los invitados de un evento. En el termo cada uno lleva su propio grabado. Para volúmenes mayores, escríbenos.",
   },
 ];
 ---
@@ -107,8 +137,8 @@ const faqs = [
     <ServicePageHero
       eyebrow="Personalizados, hechos en Cancún"
       title="Pide tu llavero, termo o portavasos <em>hecho aquí</em>"
-      subtitle="Diseños inspirados en Cancún, listos para personalizar — o pídelos tal cual. Lo recoges en el taller, te lo enviamos en la ciudad, o te lo mandamos a otra ciudad. 72 horas hábiles desde que confirmas el pago."
-      primaryCta={{ label: "Pídelo ahora", href: "#diseña" }}
+      subtitle="Diseños listos para personalizar — o pídelos tal cual. También hacemos piezas a la medida para regalos, bodas, eventos y empresas. 72 horas hábiles desde que confirmas el pago."
+      primaryCta={{ label: "Hacer pedido", href: "#pedido" }}
       secondaryCta={{ label: "Cómo funciona", href: "#funciona" }}
       service="laser"
     >
@@ -137,279 +167,91 @@ const faqs = [
       </div>
     </section>
 
-    <section class="wizard" id="diseña">
-      <div class="container container--narrow">
+    <section class="catalog" id="pedido">
+      <div class="container">
         <div class="section-header">
-          <p class="eyebrow" data-reveal>Pídelo en línea</p>
+          <p class="eyebrow" data-reveal>Qué pedimos</p>
           <h2 class="section-title" data-reveal data-reveal-delay="0.06">
-            Tu pedido en 3 minutos
+            El catálogo
           </h2>
           <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
-            Eliges qué quieres, lo personalizas si te late, y nos lo mandas. Te respondemos por WhatsApp con el resumen y el link de pago. Precios en USD.
+            Tres productos base. Cualquiera se personaliza con nombres, fechas, logos o diseño a tu gusto. ¿Necesitas algo que no está aquí? Pídelo igual — la mitad de lo que hacemos es a la medida.
           </p>
         </div>
 
-        <div class="wiz-shell" data-reveal data-reveal-delay="0.18">
-          <div class="wiz-progress" aria-hidden="true">
-            <span class="wiz-dot active" data-dot="0"></span>
-            <span class="wiz-dot" data-dot="1"></span>
-            <span class="wiz-dot" data-dot="2"></span>
-            <span class="wiz-dot" data-dot="3"></span>
-            <span class="wiz-dot" data-dot="4"></span>
-          </div>
-
-          <!-- STEP: PRODUCT -->
-          <div class="wiz-panel visible" data-panel="product">
-            <h3 class="wiz-title">¿Qué te llevas?</h3>
-            <p class="wiz-sub">Personalizado, hecho en Cancún.</p>
-
-            <p class="wiz-section-label">Llaveros impresos en 3D · desde $11 USD</p>
-            <div class="prod-grid">
-              <button type="button" class="prod-card" data-product="A">
-                <span class="prod-icon" aria-hidden="true">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6c1.5 0 1.5 2 3 2s1.5-2 3-2 1.5 2 3 2 1.5-2 3-2 1.5 2 3 2 1.5-2 3-2 1.5 2 3 2"/><path d="M2 12c1.5 0 1.5 2 3 2s1.5-2 3-2 1.5 2 3 2 1.5-2 3-2 1.5 2 3 2 1.5-2 3-2 1.5 2 3 2"/><path d="M2 18c1.5 0 1.5 2 3 2s1.5-2 3-2 1.5 2 3 2 1.5-2 3-2 1.5 2 3 2 1.5-2 3-2 1.5 2 3 2"/></svg>
-                </span>
-                <span class="prod-name">Ocean</span>
-                <span class="prod-desc">Olas y playa</span>
-              </button>
-              <button type="button" class="prod-card" data-product="B">
-                <span class="prod-icon" aria-hidden="true">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M8 6 4 4"/><path d="m16 6 4-2"/><path d="M12 8c-4 0-7 2-7 6 0 3 2 6 7 6s7-3 7-6c0-4-3-6-7-6Z"/><path d="M12 14h.01"/></svg>
-                </span>
-                <span class="prod-name">Tropical</span>
-                <span class="prod-desc">Aves y selva</span>
-              </button>
-              <button type="button" class="prod-card" data-product="C">
-                <span class="prod-icon" aria-hidden="true">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-7h6v7"/><path d="M9 12h6"/></svg>
-                </span>
-                <span class="prod-name">Maya</span>
-                <span class="prod-desc">Cultura maya</span>
-              </button>
-              <button type="button" class="prod-card" data-product="D">
-                <span class="prod-icon" aria-hidden="true">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18"/><path d="M3 12h18"/><path d="M12 3c2 3 2 15 0 18"/></svg>
-                </span>
-                <span class="prod-name">Fiesta</span>
-                <span class="prod-desc">Colores y sabor</span>
-              </button>
-            </div>
-
-            <p class="wiz-section-label">Termo grabado · desde $15 USD</p>
-            <button type="button" class="prod-card prod-card--wide" data-product="termo">
-              <span class="prod-icon" aria-hidden="true">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8"/><path d="M9 2v3"/><path d="M15 2v3"/><path d="M7 5h10v13a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3Z"/><path d="M9 10h6"/></svg>
-              </span>
-              <span class="prod-wide-body">
-                <span class="prod-name">Termo 20oz acero inoxidable</span>
-                <span class="prod-desc">Grabado láser: tu nombre, la palabra CANCUN, o ambos.</span>
-              </span>
-              <span class="prod-wide-price">$15+</span>
-            </button>
-
-            <p class="wiz-section-label">Otros</p>
-            <button type="button" class="prod-card prod-card--wide" data-product="portavasos">
-              <span class="prod-icon" aria-hidden="true">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
-              </span>
-              <span class="prod-wide-body">
-                <span class="prod-name">Set de 5 portavasos</span>
-                <span class="prod-desc">Cinco portavasos personalizados con tu nombre o un diseño.</span>
-              </span>
-              <span class="prod-wide-price">$15</span>
-            </button>
-          </div>
-
-          <!-- STEP: NAMES (keychains) -->
-          <div class="wiz-panel" data-panel="names">
-            <h3 class="wiz-title">Tu nombre en el llavero</h3>
-            <p class="wiz-sub">Hasta 15 caracteres. Lo grabamos exactamente como lo escribes.</p>
-
-            <div class="name-preview">
-              <p class="preview-label">Vista previa</p>
-              <p class="preview-cancun">CANCUN</p>
-              <p class="preview-name" id="previewName">—</p>
-            </div>
-
-            <p class="wiz-section-label">¿Cuántos llaveros?</p>
-            <div class="bundle-row">
-              <button type="button" class="bundle-opt selected" data-bundle="1">
-                <span class="b-qty">1 llavero</span>
-                <span class="b-price">$11</span>
-              </button>
-              <button type="button" class="bundle-opt" data-bundle="2">
-                <span class="b-qty">2 llaveros<span class="b-save">Ahorras $2</span></span>
-                <span class="b-price">$20</span>
-              </button>
-              <button type="button" class="bundle-opt" data-bundle="3">
-                <span class="b-qty">3 llaveros<span class="b-save">Ahorras $4</span></span>
-                <span class="b-price">$29</span>
-              </button>
-              <button type="button" class="bundle-opt" data-bundle="4">
-                <span class="b-qty">4 llaveros<span class="b-save">Ahorras $9</span></span>
-                <span class="b-price">$35</span>
-              </button>
-              <button type="button" class="bundle-opt" data-bundle="5">
-                <span class="b-qty">5 llaveros<span class="b-save">Mejor precio</span></span>
-                <span class="b-price">$40</span>
-              </button>
-            </div>
-
-            <p class="wiz-section-label">Nombre por llavero</p>
-            <div class="name-inputs" id="nameInputs"></div>
-          </div>
-
-          <!-- STEP: ADDONS (keychains) -->
-          <div class="wiz-panel" data-panel="addons">
-            <h3 class="wiz-title">Extras opcionales</h3>
-            <p class="wiz-sub">Súmale herramientas a cada llavero. Puedes saltar este paso.</p>
-            <div id="addonsList"></div>
-          </div>
-
-          <!-- STEP: TERMO -->
-          <div class="wiz-panel" data-panel="termo">
-            <h3 class="wiz-title">Personaliza tu termo</h3>
-            <p class="wiz-sub">Acero inoxidable 20oz. Elige qué grabamos.</p>
-
-            <div class="termo-preview">
-              <p class="preview-label">Vista previa</p>
-              <p class="preview-cancun preview-cancun--termo" id="tepCancun">CANCUN</p>
-              <p class="preview-name preview-name--termo" id="tepName">—</p>
-            </div>
-
-            <div class="termo-opts">
-              <button type="button" class="termo-opt" data-termo="cancun">
-                <span class="t-info">
-                  <span class="t-name">Palabra CANCUN</span>
-                  <span class="t-desc">Grabado en el termo en mayúsculas. +$5 USD.</span>
-                </span>
-                <span class="t-check" aria-hidden="true"></span>
-              </button>
-              <button type="button" class="termo-opt" data-termo="name">
-                <span class="t-info">
-                  <span class="t-name">Tu nombre</span>
-                  <span class="t-desc">Hasta 15 caracteres. +$5 USD.</span>
-                </span>
-                <span class="t-check" aria-hidden="true"></span>
-              </button>
-              <div class="termo-name-input hidden" id="termoNameWrap">
-                <input type="text" maxlength="15" id="termoNameField" placeholder="Tu nombre" />
-                <span class="char-count" id="termoNameCount">0/15</span>
+        <ul class="catalog-grid" role="list">
+          {catalogo.map((c, i) => (
+            <li class="catalog-card" data-tilt data-reveal data-reveal-delay={`${0.06 + i * 0.06}`}>
+              <span class="catalog-glare" aria-hidden="true"></span>
+              <div class="catalog-visual" aria-hidden="true" set:html={c.icon} />
+              <div class="catalog-body">
+                <p class="catalog-eyebrow">{c.eyebrow}</p>
+                <h3 class="catalog-name">{c.name}</h3>
+                <p class="catalog-desc">{c.desc}</p>
+                <ul class="catalog-bullets" role="list">
+                  {c.bullets.map((b) => <li>{b}</li>)}
+                </ul>
+                <div class="catalog-foot">
+                  <span class="catalog-price">{c.desde}</span>
+                  <button type="button" class="catalog-cta" data-pick={c.id}>
+                    Pedir
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </button>
+                </div>
               </div>
-            </div>
+            </li>
+          ))}
+        </ul>
+
+        <div class="order-card" data-reveal>
+          <div class="order-head">
+            <p class="order-eyebrow">Mándanos los detalles</p>
+            <h3 class="order-title">Tu pedido por WhatsApp</h3>
+            <p class="order-sub">
+              Te respondemos en menos de una hora hábil con el resumen, el precio final y el link de pago.
+            </p>
           </div>
 
-          <!-- STEP: DELIVERY -->
-          <div class="wiz-panel" data-panel="delivery">
-            <h3 class="wiz-title">¿Cómo lo quieres recibir?</h3>
-            <p class="wiz-sub">Recoges en el taller, te lo enviamos en la ciudad, o lo mandamos a otra ciudad.</p>
-
-            <div class="del-grid">
-              <button type="button" class="del-opt selected" data-delivery="pickup">
-                <span class="del-icon" aria-hidden="true">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V10l7-6 7 6v11"/><path d="M10 21v-6h4v6"/><circle cx="12" cy="11" r="1"/></svg>
-                </span>
-                <span class="del-name">Recoges en taller</span>
-                <span class="del-info">Sin costo · 72 h</span>
-              </button>
-              <button type="button" class="del-opt" data-delivery="local">
-                <span class="del-icon" aria-hidden="true">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h14V6H3z"/><path d="M17 10h3l3 4v4h-6"/><circle cx="7" cy="20" r="2"/><circle cx="19" cy="20" r="2"/></svg>
-                </span>
-                <span class="del-name">Envío en Cancún</span>
-                <span class="del-info">Local · 72 h</span>
-              </button>
-              <button type="button" class="del-opt" data-delivery="address">
-                <span class="del-icon" aria-hidden="true">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
-                </span>
-                <span class="del-name">Envío nacional</span>
-                <span class="del-info">FedEx · 5-10 días</span>
-              </button>
-            </div>
-
-            <div class="del-form" id="delPickupForm">
-              <p class="del-helper">
-                Lo recoges en el taller — <strong>Retorno Tejón Mz 3 Lt 2, Supermanzana 20, Cancún</strong>.
-                Te avisamos por WhatsApp cuando esté listo. Horario: lun-vie 10am–6pm, sáb 10am–2pm.
-              </p>
-            </div>
-            <div class="del-form hidden" id="delLocalForm">
+          <form class="order-form" id="orderForm" novalidate>
+            <div class="form-row">
               <div class="form-group">
-                <label for="localStreet">Calle y número</label>
-                <input type="text" id="localStreet" placeholder="Av. Tulum 245" />
+                <label for="ofProduct">¿Qué quieres?</label>
+                <select id="ofProduct" required>
+                  <option value="">Elige una opción</option>
+                  <option value="llavero">Llavero personalizado</option>
+                  <option value="termo">Termo grabado</option>
+                  <option value="portavasos">Set de portavasos</option>
+                  <option value="custom">Otro / pedido a la medida</option>
+                </select>
               </div>
               <div class="form-group">
-                <label for="localColonia">Colonia / Supermanzana</label>
-                <input type="text" id="localColonia" placeholder="SM 22, Centro, Puerto Cancún..." />
-              </div>
-              <p class="del-helper">La tarifa de envío local se calcula según la colonia y te la decimos por WhatsApp antes de cobrar.</p>
-            </div>
-            <div class="del-form hidden" id="delAddressForm">
-              <div class="form-group">
-                <label for="addrCountry">Ciudad o país</label>
-                <input type="text" id="addrCountry" placeholder="CDMX, Monterrey, Estados Unidos, España..." />
-              </div>
-              <div class="form-group">
-                <label for="addrStreet">Dirección completa</label>
-                <input type="text" id="addrStreet" placeholder="Calle, número, ciudad, código postal" />
-              </div>
-            </div>
-          </div>
-
-          <!-- STEP: SUMMARY -->
-          <div class="wiz-panel" data-panel="summary">
-            <h3 class="wiz-title">Tu pedido</h3>
-            <p class="wiz-sub">Revisa, agrega tu contacto y te enviamos el resumen al WhatsApp del taller para confirmar y pagar.</p>
-
-            <div class="summary-box">
-              <div class="summary-row">
-                <span class="s-label">Producto</span>
-                <span class="s-value" id="sumProduct">—</span>
-              </div>
-              <div class="summary-row" id="sumExtrasRow" hidden>
-                <span class="s-label">Extras</span>
-                <span class="s-value" id="sumExtras">—</span>
-              </div>
-              <div class="summary-row">
-                <span class="s-label">Entrega</span>
-                <span class="s-value" id="sumDelivery">—</span>
-              </div>
-              <div class="summary-total">
-                <span>Total</span>
-                <span class="t-value"><span id="sumTotal">0</span> USD</span>
+                <label for="ofQty">Cantidad (opcional)</label>
+                <input type="text" id="ofQty" placeholder="1, 5, 50…" />
               </div>
             </div>
 
             <div class="form-group">
-              <label for="clientName">Tu nombre</label>
-              <input type="text" id="clientName" placeholder="Como apareces en el hotel" />
-            </div>
-            <div class="form-group">
-              <label for="clientPhone">WhatsApp (con código de país)</label>
-              <input type="tel" id="clientPhone" placeholder="+1 555 123 4567" />
-            </div>
-            <div class="form-group">
-              <label for="clientEmail">Email</label>
-              <input type="email" id="clientEmail" placeholder="tucorreo@dominio.com" />
+              <label for="ofDetails">Detalles del pedido</label>
+              <textarea id="ofDetails" rows="5" placeholder="Nombres a grabar, fecha del evento, diseño o referencia, lo que sea. Si es para boda, despedida o empresa, dinos cuántas piezas y para cuándo."></textarea>
             </div>
 
-            <a href="#" class="btn-submit" id="btnSubmit">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="ofName">Tu nombre</label>
+                <input type="text" id="ofName" required />
+              </div>
+              <div class="form-group">
+                <label for="ofPhone">WhatsApp</label>
+                <input type="tel" id="ofPhone" placeholder="+52..." required />
+              </div>
+            </div>
+
+            <button type="submit" class="btn-submit">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
               Enviar pedido por WhatsApp
-            </a>
-            <p class="submit-helper">Te respondemos en menos de una hora hábil con el link de pago.</p>
-          </div>
-
-          <!-- Footer nav -->
-          <div class="wiz-footer">
-            <button type="button" class="wiz-back" id="wizBack">Atrás</button>
-            <div class="wiz-running">
-              <span class="wiz-running-label">Total</span>
-              <span class="wiz-running-total"><span id="runningTotal">11</span> USD</span>
-            </div>
-            <button type="button" class="wiz-next" id="wizNext">Siguiente</button>
-          </div>
+            </button>
+            <p class="submit-helper">Sin compromiso. El pedido se confirma una vez acordemos el detalle por mensaje.</p>
+          </form>
         </div>
       </div>
     </section>
@@ -432,8 +274,7 @@ const faqs = [
 </Base>
 
 <style>
-  .container--narrow { max-width: 760px; }
-
+  /* ── PASOS ── */
   .pasos {
     background: var(--color-bg-alt);
     padding: 96px 0;
@@ -555,399 +396,229 @@ const faqs = [
     .paso-card { padding: 32px 28px; }
   }
 
-  /* ── WIZARD ── */
-  .wizard { background: var(--color-bg); padding: 96px 0; }
-  .wiz-shell {
+  /* ── CATÁLOGO ── */
+  .catalog {
+    background: var(--color-bg);
+    padding: 120px 0;
+  }
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    list-style: none;
+    perspective: 1400px;
+    margin-bottom: 80px;
+  }
+  .catalog-card {
+    position: relative;
     background: var(--color-bg-alt);
     border: 1px solid var(--color-surface);
-    border-radius: 16px;
-    padding: 48px 40px 24px;
-    margin-top: 16px;
-  }
-  @media (max-width: 720px) {
-    .wizard { padding: 56px 0; }
-    .wiz-shell { padding: 32px 22px 22px; border-radius: 12px; }
-  }
-
-  .wiz-progress {
+    border-radius: 14px;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    isolation: isolate;
     display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 36px;
+    flex-direction: column;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease,
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .wiz-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--color-surface);
-    transition: background 0.2s ease, transform 0.2s ease;
+  .catalog-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 22px 48px rgba(20, 10, 4, 0.10);
   }
-  .wiz-dot.active {
-    background: var(--color-accent);
-    transform: scale(1.4);
+  .catalog-glare {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background: radial-gradient(circle 320px at var(--gx, 50%) var(--gy, 50%),
+      rgba(255, 240, 220, 0.35) 0%,
+      rgba(255, 240, 220, 0.12) 25%,
+      transparent 60%);
+    opacity: 0;
+    mix-blend-mode: screen;
+    transition: opacity 0.3s ease;
+    border-radius: inherit;
   }
-  .wiz-dot.done { background: var(--color-accent-dark); }
+  .catalog-card:hover .catalog-glare { opacity: 1; }
+  .catalog-card > *:not(.catalog-glare) { position: relative; z-index: 2; }
 
-  .wiz-panel { display: none; }
-  .wiz-panel.visible { display: block; }
-  .wiz-title {
+  .catalog-visual {
+    aspect-ratio: 4 / 3;
+    background:
+      radial-gradient(ellipse 90% 70% at 50% 30%, rgba(255, 255, 255, 0.55), transparent 70%),
+      radial-gradient(ellipse 100% 80% at 50% 110%, rgba(165, 58, 4, 0.10), transparent 70%),
+      linear-gradient(180deg, #f8f1e2 0%, #e8ddc6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    color: var(--color-accent);
+    border-bottom: 1px solid var(--color-surface);
+  }
+  .catalog-visual :global(svg) {
+    width: 70%;
+    height: 70%;
+    filter: drop-shadow(0 6px 14px rgba(20, 10, 4, 0.14));
+  }
+  .catalog-body {
+    flex-grow: 1;
+    padding: 28px 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .catalog-eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  .catalog-name {
     font-family: var(--font-display);
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--color-text);
-    margin-bottom: 6px;
   }
-  .wiz-sub {
-    font-size: 0.9375rem;
+  .catalog-desc {
     color: var(--color-muted);
-    line-height: 1.6;
-    margin-bottom: 26px;
+    font-size: 0.9375rem;
+    line-height: 1.65;
   }
-  .wiz-section-label {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-    margin: 28px 0 12px;
-  }
-  .wiz-section-label:first-of-type { margin-top: 0; }
-
-  /* ── PRODUCT CARDS ── */
-  .prod-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 4px;
-  }
-  .prod-card {
-    background: var(--color-bg);
-    border: 2px solid var(--color-surface);
-    border-radius: 12px;
-    padding: 20px 14px 16px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
-    font: inherit;
-    color: inherit;
+  .catalog-bullets {
+    list-style: none;
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 6px;
+    margin: 4px 0 8px;
+    flex-grow: 1;
   }
-  .prod-card:hover { border-color: var(--color-accent); transform: translateY(-1px); }
-  .prod-card.selected {
-    border-color: var(--color-accent);
-    background: rgba(165, 58, 4, 0.06);
-  }
-  .prod-icon {
-    color: var(--color-accent);
-    margin-bottom: 6px;
-    display: inline-flex;
-  }
-  .prod-name {
-    font-weight: 700;
-    font-size: 0.9375rem;
+  .catalog-bullets li {
     color: var(--color-text);
-    letter-spacing: 0.02em;
+    font-size: 0.875rem;
+    padding-left: 18px;
+    position: relative;
   }
-  .prod-desc {
-    font-size: 0.8125rem;
-    color: var(--color-muted);
+  .catalog-bullets li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 8px;
+    height: 1.5px;
+    background: var(--color-accent);
   }
-
-  .prod-card--wide {
-    flex-direction: row;
-    text-align: left;
+  .catalog-foot {
+    display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 16px 18px;
-    margin-bottom: 10px;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-surface);
+    gap: 12px;
   }
-  .prod-wide-body { flex: 1; display: flex; flex-direction: column; gap: 3px; }
-  .prod-wide-price {
+  .catalog-price {
     font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 600;
     color: var(--color-accent);
   }
-
-  /* ── NAME PREVIEW ── */
-  .name-preview, .termo-preview {
-    background: var(--color-dark);
-    border-radius: 12px;
-    padding: 24px;
-    text-align: center;
-    margin-bottom: 24px;
+  .catalog-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-accent);
+    color: #fff;
+    border: 1.5px solid var(--color-accent);
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s ease, gap 0.2s ease;
   }
-  .preview-label {
-    color: rgba(255, 255, 255, 0.45);
-    font-size: 0.6875rem;
+  .catalog-cta:hover {
+    background: var(--color-accent-dark);
+    border-color: var(--color-accent-dark);
+    gap: 12px;
+  }
+
+  @media (max-width: 960px) {
+    .catalog-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .catalog { padding: 80px 0; }
+    .catalog-grid { grid-template-columns: 1fr; perspective: none; margin-bottom: 56px; }
+  }
+
+  /* ── ORDER FORM ── */
+  .order-card {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-surface);
+    border-radius: 14px;
+    padding: 56px 48px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .order-head {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .order-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  .preview-cancun {
-    font-family: var(--font-display);
     color: var(--color-accent);
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: 0.24em;
-    margin-bottom: 4px;
+    margin-bottom: 10px;
   }
-  .preview-name {
-    color: #fff;
-    font-size: 1.625rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    min-height: 32px;
+  .order-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 10px;
   }
-  .preview-name--termo, .preview-cancun--termo {
-    transition: opacity 0.2s ease;
-  }
-  .preview-name--termo.dim, .preview-cancun--termo.dim { opacity: 0.18; }
-
-  /* ── BUNDLE OPTIONS ── */
-  .bundle-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
-  .bundle-opt {
-    background: var(--color-bg);
-    border: 2px solid var(--color-surface);
-    border-radius: 12px;
-    padding: 14px 18px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: border-color 0.2s ease, background 0.2s ease;
-    font: inherit;
-    color: inherit;
-    text-align: left;
-  }
-  .bundle-opt:hover { border-color: var(--color-accent); }
-  .bundle-opt.selected {
-    border-color: var(--color-accent);
-    background: rgba(165, 58, 4, 0.06);
-  }
-  .b-qty {
+  .order-sub {
+    color: var(--color-muted);
     font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--color-text);
-    display: flex;
-    flex-direction: column;
-  }
-  .b-save {
-    font-size: 0.75rem;
-    color: var(--color-accent);
-    font-weight: 500;
-    margin-top: 2px;
-  }
-  .b-price {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--color-accent);
+    line-height: 1.65;
+    max-width: 480px;
+    margin: 0 auto;
   }
 
-  /* ── NAME INPUTS ── */
-  .name-inputs { display: flex; flex-direction: column; gap: 10px; }
-  .name-input-row { position: relative; }
-  .name-input-row label {
-    display: block;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    color: var(--color-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 6px;
-  }
-  .name-input-row input,
-  .termo-name-input input,
-  .form-group input {
-    width: 100%;
-    padding: 14px 48px 14px 16px;
-    background: var(--color-bg);
-    border: 2px solid var(--color-surface);
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: inherit;
-    text-transform: uppercase;
-    color: var(--color-text);
-    outline: none;
-    transition: border-color 0.15s ease;
-  }
-  .form-group input { padding: 14px 16px; text-transform: none; font-weight: 400; }
-  .name-input-row input:focus,
-  .termo-name-input input:focus,
-  .form-group input:focus {
-    border-color: var(--color-accent);
-  }
-  .char-count {
-    position: absolute;
-    right: 14px;
-    bottom: 12px;
-    font-size: 0.6875rem;
-    color: var(--color-muted);
-  }
-
-  /* ── ADDONS ── */
-  .addon-block {
-    background: var(--color-bg);
-    border: 2px solid var(--color-surface);
-    border-radius: 12px;
-    margin-bottom: 14px;
-    overflow: hidden;
-  }
-  .addon-header {
-    background: var(--color-dark);
-    color: #fff;
-    padding: 12px 18px;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-  .addon-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 18px;
-    cursor: pointer;
-    border-top: 1px solid var(--color-surface);
-    transition: background 0.15s ease;
-    font: inherit;
-    color: inherit;
-    width: 100%;
-    background: transparent;
-    text-align: left;
-  }
-  .addon-row:hover { background: rgba(165, 58, 4, 0.04); }
-  .addon-row.selected { background: rgba(165, 58, 4, 0.08); }
-  .addon-info { display: flex; flex-direction: column; gap: 2px; }
-  .addon-name { font-size: 0.9375rem; font-weight: 600; color: var(--color-text); }
-  .addon-desc { font-size: 0.8125rem; color: var(--color-muted); }
-  .addon-right { display: flex; align-items: center; gap: 14px; }
-  .addon-price { font-weight: 700; color: var(--color-accent); font-size: 0.9375rem; }
-  .addon-check {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 2px solid var(--color-surface);
-    flex-shrink: 0;
-    transition: background 0.15s ease, border-color 0.15s ease;
-  }
-  .addon-row.selected .addon-check {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
-  }
-
-  /* ── TERMO OPTIONS ── */
-  .termo-opts { display: flex; flex-direction: column; gap: 10px; }
-  .termo-opt {
-    background: var(--color-bg);
-    border: 2px solid var(--color-surface);
-    border-radius: 12px;
-    padding: 16px 18px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    transition: border-color 0.15s ease, background 0.15s ease;
-    font: inherit;
-    color: inherit;
-    text-align: left;
-  }
-  .termo-opt:hover { border-color: var(--color-accent); }
-  .termo-opt.selected {
-    border-color: var(--color-accent);
-    background: rgba(165, 58, 4, 0.06);
-  }
-  .t-info { display: flex; flex-direction: column; gap: 3px; }
-  .t-name { font-weight: 600; font-size: 0.9375rem; color: var(--color-text); }
-  .t-desc { font-size: 0.8125rem; color: var(--color-muted); }
-  .t-check {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 2px solid var(--color-surface);
-    flex-shrink: 0;
-    transition: background 0.15s ease, border-color 0.15s ease;
-  }
-  .termo-opt.selected .t-check {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
-  }
-  .termo-name-input { position: relative; margin-top: 4px; }
-
-  /* ── DELIVERY ── */
-  .del-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
-  .del-helper { font-size: 0.8125rem; color: var(--color-muted); line-height: 1.55; margin-top: 4px; }
-  .del-opt {
-    background: var(--color-bg);
-    border: 2px solid var(--color-surface);
-    border-radius: 12px;
-    padding: 20px 16px;
-    cursor: pointer;
-    text-align: center;
-    transition: border-color 0.15s ease, background 0.15s ease;
-    font: inherit;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-  }
-  .del-opt:hover { border-color: var(--color-accent); }
-  .del-opt.selected {
-    border-color: var(--color-accent);
-    background: rgba(165, 58, 4, 0.06);
-  }
-  .del-icon { color: var(--color-accent); display: inline-flex; margin-bottom: 4px; }
-  .del-name { font-weight: 600; font-size: 0.9375rem; color: var(--color-text); }
-  .del-info { font-size: 0.75rem; color: var(--color-muted); }
-
-  .del-form { display: flex; flex-direction: column; gap: 12px; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .order-form { display: flex; flex-direction: column; gap: 18px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
   .form-group label {
     font-size: 0.6875rem;
     font-weight: 600;
     color: var(--color-muted);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.10em;
   }
-
-  /* ── SUMMARY ── */
-  .summary-box {
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 13px 16px;
     background: var(--color-bg);
-    border: 1px solid var(--color-surface);
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 24px;
+    border: 2px solid var(--color-surface);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--color-text);
+    outline: none;
+    transition: border-color 0.15s ease;
   }
-  .summary-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 14px 18px;
-    font-size: 0.9375rem;
-    border-bottom: 1px solid var(--color-surface);
-    gap: 16px;
+  .form-group textarea { resize: vertical; min-height: 110px; line-height: 1.55; }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--color-accent);
   }
-  .summary-row:last-of-type { border-bottom: none; }
-  .s-label { color: var(--color-muted); }
-  .s-value { font-weight: 600; color: var(--color-text); text-align: right; }
-  .summary-total {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px;
-    background: rgba(165, 58, 4, 0.06);
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 600;
-  }
-  .t-value { color: var(--color-accent); }
 
   .btn-submit {
     display: flex;
@@ -962,8 +633,10 @@ const faqs = [
     padding: 18px;
     font-size: 1rem;
     font-weight: 600;
-    text-decoration: none;
+    font-family: inherit;
+    cursor: pointer;
     transition: background 0.15s ease, transform 0.1s ease;
+    margin-top: 6px;
   }
   .btn-submit:hover { background: #1faa54; }
   .btn-submit:active { transform: scale(0.99); }
@@ -971,468 +644,74 @@ const faqs = [
     text-align: center;
     font-size: 0.8125rem;
     color: var(--color-muted);
-    margin-top: 10px;
+    margin-top: 8px;
   }
 
-  /* ── WIZ FOOTER ── */
-  .wiz-footer {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 32px;
-    padding-top: 22px;
-    border-top: 1px solid var(--color-surface);
-  }
-  .wiz-back, .wiz-next {
-    border: 2px solid var(--color-surface);
-    background: transparent;
-    color: var(--color-text);
-    border-radius: 8px;
-    padding: 12px 22px;
-    font-size: 0.9375rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
-  }
-  .wiz-back:hover { border-color: var(--color-text); }
-  .wiz-back:disabled { opacity: 0.4; cursor: not-allowed; }
-  .wiz-next {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
-    color: #fff;
-    margin-left: auto;
-  }
-  .wiz-next:hover { background: var(--color-accent-dark); border-color: var(--color-accent-dark); }
-  .wiz-next:disabled { opacity: 0.5; cursor: not-allowed; }
-  .wiz-next.hidden { display: none; }
-
-  .wiz-running {
-    flex: 1;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .wiz-running-label {
-    font-size: 0.6875rem;
-    color: var(--color-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-  .wiz-running-total {
-    font-family: var(--font-display);
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--color-accent);
-  }
-
-  .hidden { display: none !important; }
-
-  @media (max-width: 540px) {
-    .del-grid { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 480px) {
-    .prod-grid { grid-template-columns: 1fr 1fr; }
-    .wiz-back { padding: 10px 14px; }
-    .wiz-next { padding: 10px 18px; }
+  @media (max-width: 640px) {
+    .order-card { padding: 40px 24px; border-radius: 12px; }
+    .form-row { grid-template-columns: 1fr; }
   }
 </style>
 
 <script>
   import { initCardTilt } from "../../scripts/cardTilt";
 
-  type Bundle = 1 | 2 | 3 | 4 | 5;
-  type Product = 'A' | 'B' | 'C' | 'D' | 'termo' | 'portavasos' | null;
-
-  const WA_NUMBER = '528138913891';
-
-  const BUNDLE_PRICE: Record<Bundle, number> = { 1: 11, 2: 20, 3: 29, 4: 35, 5: 40 };
-
-  const PROD_LABEL: Record<string, string> = {
-    A: 'Llavero Ocean',
-    B: 'Llavero Tropical',
-    C: 'Llavero Maya',
-    D: 'Llavero Fiesta',
-    termo: 'Termo 20oz',
-    portavasos: 'Set 5 portavasos',
-  };
-
-  const state = {
-    product: null as Product,
-    bundle: 1 as Bundle,
-    names: [''] as string[],
-    addons: [{ opener: false, airtag: false }] as Array<{ opener: boolean; airtag: boolean }>,
-    termo: { cancun: false, name: false, nameText: '' },
-    delivery: 'pickup' as 'pickup' | 'local' | 'address',
-    localStreet: '',
-    localColonia: '',
-    addrCountry: '',
-    addrStreet: '',
-    clientName: '',
-    clientPhone: '',
-    clientEmail: '',
-  };
-
-  const FLOWS = {
-    keychain: ['product', 'names', 'addons', 'delivery', 'summary'],
-    termo: ['product', 'termo', 'delivery', 'summary'],
-    portavasos: ['product', 'delivery', 'summary'],
-  };
-
-  function currentFlow(): string[] {
-    if (!state.product) return ['product'];
-    if (state.product === 'termo') return FLOWS.termo;
-    if (state.product === 'portavasos') return FLOWS.portavasos;
-    return FLOWS.keychain;
-  }
-
-  let stepIdx = 0;
-
-  function isKeychain(p: Product): boolean {
-    return p === 'A' || p === 'B' || p === 'C' || p === 'D';
-  }
-
-  function calcTotal(): number {
-    if (!state.product) return 0;
-    if (state.product === 'portavasos') return 15;
-    if (state.product === 'termo') {
-      const extras = (state.termo.cancun ? 5 : 0) + (state.termo.name ? 5 : 0);
-      return 15 + extras;
-    }
-    let t = BUNDLE_PRICE[state.bundle] || 11;
-    state.addons.forEach((a) => {
-      if (a.opener) t += 1;
-      if (a.airtag) t += 4;
-    });
-    return t;
-  }
-
-  function showStep(idx: number) {
-    const flow = currentFlow();
-    document.querySelectorAll<HTMLElement>('.wiz-panel').forEach((p) => {
-      p.classList.toggle('visible', p.dataset.panel === flow[idx]);
-    });
-    document.querySelectorAll<HTMLElement>('.wiz-dot').forEach((d, i) => {
-      d.classList.remove('active', 'done');
-      if (i < flow.length) {
-        if (i === idx) d.classList.add('active');
-        else if (i < idx) d.classList.add('done');
-      } else {
-        d.style.display = 'none';
-        return;
-      }
-      d.style.display = '';
-    });
-
-    const back = document.getElementById('wizBack') as HTMLButtonElement;
-    const next = document.getElementById('wizNext') as HTMLButtonElement;
-    back.disabled = idx === 0;
-    if (idx >= flow.length - 1) next.classList.add('hidden');
-    else next.classList.remove('hidden');
-
-    if (flow[idx] === 'addons') renderAddons();
-    if (flow[idx] === 'summary') updateSummary();
-    refreshRunningTotal();
-  }
-
-  function refreshRunningTotal() {
-    const el = document.getElementById('runningTotal');
-    if (el) el.textContent = String(calcTotal());
-  }
-
-  function setProduct(p: Product) {
-    state.product = p;
-    document.querySelectorAll<HTMLElement>('.prod-card').forEach((c) => {
-      c.classList.toggle('selected', c.dataset.product === p);
-    });
-    if (isKeychain(p)) {
-      state.names = Array(state.bundle).fill('');
-      state.addons = Array.from({ length: state.bundle }, () => ({ opener: false, airtag: false }));
-      renderNameInputs();
-    }
-    refreshRunningTotal();
-  }
-
-  function setBundle(b: Bundle) {
-    state.bundle = b;
-    while (state.names.length < b) state.names.push('');
-    while (state.names.length > b) state.names.pop();
-    while (state.addons.length < b) state.addons.push({ opener: false, airtag: false });
-    while (state.addons.length > b) state.addons.pop();
-    document.querySelectorAll<HTMLElement>('.bundle-opt').forEach((o) => {
-      o.classList.toggle('selected', Number(o.dataset.bundle) === b);
-    });
-    renderNameInputs();
-    refreshRunningTotal();
-  }
-
-  function renderNameInputs() {
-    const wrap = document.getElementById('nameInputs');
-    if (!wrap) return;
-    wrap.innerHTML = '';
-    for (let i = 0; i < state.bundle; i++) {
-      const row = document.createElement('div');
-      row.className = 'name-input-row';
-      row.innerHTML = `
-        <label>Llavero ${i + 1}</label>
-        <input type="text" maxlength="15" value="${state.names[i] || ''}" data-name-idx="${i}" placeholder="Ej. NIRVANA" />
-        <span class="char-count" data-name-count="${i}">${(state.names[i] || '').length}/15</span>
-      `;
-      wrap.appendChild(row);
-    }
-    wrap.querySelectorAll<HTMLInputElement>('input').forEach((inp) => {
-      inp.addEventListener('input', () => {
-        const i = Number(inp.dataset.nameIdx);
-        state.names[i] = inp.value.toUpperCase();
-        inp.value = state.names[i];
-        const counter = wrap.querySelector(`[data-name-count="${i}"]`);
-        if (counter) counter.textContent = `${state.names[i].length}/15`;
-        if (i === 0) {
-          const prev = document.getElementById('previewName');
-          if (prev) prev.textContent = state.names[0] || '—';
-        }
-      });
-    });
-    const prev = document.getElementById('previewName');
-    if (prev) prev.textContent = state.names[0] || '—';
-  }
-
-  function renderAddons() {
-    const list = document.getElementById('addonsList');
-    if (!list) return;
-    list.innerHTML = '';
-    for (let i = 0; i < state.bundle; i++) {
-      const name = state.names[i] || `Llavero ${i + 1}`;
-      const block = document.createElement('div');
-      block.className = 'addon-block';
-      block.innerHTML = `
-        <div class="addon-header">${name}</div>
-        <button type="button" class="addon-row${state.addons[i].opener ? ' selected' : ''}" data-addon="opener" data-i="${i}">
-          <span class="addon-info">
-            <span class="addon-name">Destapador integrado</span>
-            <span class="addon-desc">Abre tu chela donde sea.</span>
-          </span>
-          <span class="addon-right">
-            <span class="addon-price">+$1</span>
-            <span class="addon-check"></span>
-          </span>
-        </button>
-        <button type="button" class="addon-row${state.addons[i].airtag ? ' selected' : ''}" data-addon="airtag" data-i="${i}">
-          <span class="addon-info">
-            <span class="addon-name">Soporte para AirTag</span>
-            <span class="addon-desc">Rastreador Apple no incluido.</span>
-          </span>
-          <span class="addon-right">
-            <span class="addon-price">+$4</span>
-            <span class="addon-check"></span>
-          </span>
-        </button>
-      `;
-      list.appendChild(block);
-    }
-    list.querySelectorAll<HTMLElement>('.addon-row').forEach((row) => {
-      row.addEventListener('click', () => {
-        const i = Number(row.dataset.i);
-        const key = row.dataset.addon as 'opener' | 'airtag';
-        state.addons[i][key] = !state.addons[i][key];
-        row.classList.toggle('selected', state.addons[i][key]);
-        refreshRunningTotal();
-      });
-    });
-  }
-
-  function refreshTermoPreview() {
-    const cancun = document.getElementById('tepCancun');
-    const name = document.getElementById('tepName');
-    if (cancun) cancun.classList.toggle('dim', !state.termo.cancun);
-    if (name) {
-      name.classList.toggle('dim', !state.termo.name);
-      name.textContent = state.termo.nameText || (state.termo.name ? '…' : '—');
-    }
-    refreshRunningTotal();
-  }
-
-  function updateSummary() {
-    const total = calcTotal();
-    let label = '';
-    let extras = '';
-
-    if (state.product === 'portavasos') {
-      label = 'Set 5 portavasos';
-    } else if (state.product === 'termo') {
-      label = 'Termo 20oz';
-      const eng: string[] = [];
-      if (state.termo.cancun) eng.push('CANCUN');
-      if (state.termo.name && state.termo.nameText) eng.push(state.termo.nameText);
-      if (eng.length) extras = `Grabado: ${eng.join(' + ')}`;
-    } else if (state.product) {
-      label = `${state.bundle}× ${PROD_LABEL[state.product]}`;
-      const nameList = state.names.filter(Boolean).join(', ');
-      if (nameList) extras = `Nombres: ${nameList}`;
-      const opener = state.addons.filter((a) => a.opener).length;
-      const airtag = state.addons.filter((a) => a.airtag).length;
-      if (opener || airtag) {
-        const e: string[] = [];
-        if (opener) e.push(`${opener} destapador${opener > 1 ? 'es' : ''}`);
-        if (airtag) e.push(`${airtag} soporte${airtag > 1 ? 's' : ''} AirTag`);
-        extras += (extras ? ' · ' : '') + e.join(', ');
-      }
-    }
-
-    const sumProduct = document.getElementById('sumProduct');
-    if (sumProduct) sumProduct.textContent = label;
-    const extrasRow = document.getElementById('sumExtrasRow');
-    const extrasEl = document.getElementById('sumExtras');
-    if (extras && extrasRow && extrasEl) {
-      extrasRow.hidden = false;
-      extrasEl.textContent = extras;
-    } else if (extrasRow) {
-      extrasRow.hidden = true;
-    }
-
-    const sumDelivery = document.getElementById('sumDelivery');
-    if (sumDelivery) {
-      if (state.delivery === 'pickup') {
-        sumDelivery.textContent = 'Recojo en taller · SM 20 (sin costo)';
-      } else if (state.delivery === 'local') {
-        sumDelivery.textContent = state.localColonia
-          ? `${state.localStreet || '(dirección)'} · ${state.localColonia}`
-          : 'Envío local en Cancún';
-      } else {
-        sumDelivery.textContent = state.addrCountry
-          ? `Envío a ${state.addrCountry}`
-          : 'Envío nacional por FedEx';
-      }
-    }
-
-    const sumTotal = document.getElementById('sumTotal');
-    if (sumTotal) sumTotal.textContent = String(total);
-  }
-
-  function buildWaMessage(): string {
-    const total = calcTotal();
-    const lines: string[] = [];
-    lines.push('Hola Lumo, quiero pedir esto desde la página:');
-    lines.push('');
-    if (state.product === 'portavasos') {
-      lines.push('• Set 5 portavasos personalizados');
-    } else if (state.product === 'termo') {
-      const eng: string[] = [];
-      if (state.termo.cancun) eng.push('CANCUN');
-      if (state.termo.name && state.termo.nameText) eng.push(state.termo.nameText);
-      lines.push(`• Termo 20oz acero inoxidable`);
-      if (eng.length) lines.push(`  Grabado: ${eng.join(' + ')}`);
-    } else if (state.product) {
-      lines.push(`• ${state.bundle}× ${PROD_LABEL[state.product]}`);
-      state.names.forEach((n, i) => {
-        if (n) lines.push(`  Llavero ${i + 1}: ${n}`);
-      });
-      const opener = state.addons.filter((a) => a.opener).length;
-      const airtag = state.addons.filter((a) => a.airtag).length;
-      if (opener) lines.push(`  + ${opener} destapador${opener > 1 ? 'es' : ''} (+$${opener})`);
-      if (airtag) lines.push(`  + ${airtag} soporte${airtag > 1 ? 's' : ''} AirTag (+$${airtag * 4})`);
-    }
-    lines.push('');
-    if (state.delivery === 'pickup') {
-      lines.push(`Entrega: Recojo en taller (Retorno Tejón, SM 20)`);
-    } else if (state.delivery === 'local') {
-      lines.push(`Entrega local: ${state.localStreet || '(calle)'} · ${state.localColonia || '(colonia)'}`);
-    } else {
-      lines.push(`Envío: ${state.addrCountry || '(ciudad pendiente)'} — ${state.addrStreet || '(dirección pendiente)'}`);
-    }
-    lines.push('');
-    lines.push(`Total estimado: $${total} USD`);
-    lines.push('');
-    lines.push(`Contacto: ${state.clientName || '(nombre)'} · ${state.clientPhone || '(WhatsApp)'} · ${state.clientEmail || '(email)'}`);
-    return lines.join('\n');
-  }
+  const WA_NUMBER = "528138913891";
 
   function init() {
-    document.querySelectorAll<HTMLElement>('.prod-card').forEach((c) => {
-      c.addEventListener('click', () => {
-        setProduct(c.dataset.product as Product);
-        setTimeout(() => {
-          stepIdx = 1;
-          showStep(stepIdx);
-        }, 150);
+    // Catalog card "Pedir" → preselect product in form + scroll
+    document.querySelectorAll<HTMLElement>(".catalog-cta").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const value = btn.dataset.pick || "";
+        const select = document.getElementById("ofProduct") as HTMLSelectElement | null;
+        if (select) select.value = value;
+        document.getElementById("orderForm")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        (document.getElementById("ofDetails") as HTMLTextAreaElement | null)?.focus();
       });
     });
 
-    document.querySelectorAll<HTMLElement>('.bundle-opt').forEach((b) => {
-      b.addEventListener('click', () => setBundle(Number(b.dataset.bundle) as Bundle));
-    });
-
-    document.querySelectorAll<HTMLElement>('.termo-opt').forEach((t) => {
-      t.addEventListener('click', () => {
-        const key = t.dataset.termo as 'cancun' | 'name';
-        state.termo[key] = !state.termo[key];
-        t.classList.toggle('selected', state.termo[key]);
-        const wrap = document.getElementById('termoNameWrap');
-        if (wrap) wrap.classList.toggle('hidden', !state.termo.name);
-        if (!state.termo.name) state.termo.nameText = '';
-        refreshTermoPreview();
-      });
-    });
-    const termoNameField = document.getElementById('termoNameField') as HTMLInputElement | null;
-    if (termoNameField) {
-      termoNameField.addEventListener('input', () => {
-        state.termo.nameText = termoNameField.value.toUpperCase();
-        termoNameField.value = state.termo.nameText;
-        const count = document.getElementById('termoNameCount');
-        if (count) count.textContent = `${state.termo.nameText.length}/15`;
-        refreshTermoPreview();
-      });
-    }
-
-    document.querySelectorAll<HTMLElement>('.del-opt').forEach((d) => {
-      d.addEventListener('click', () => {
-        state.delivery = d.dataset.delivery as 'pickup' | 'local' | 'address';
-        document.querySelectorAll<HTMLElement>('.del-opt').forEach((o) => {
-          o.classList.toggle('selected', o === d);
-        });
-        document.getElementById('delPickupForm')?.classList.toggle('hidden', state.delivery !== 'pickup');
-        document.getElementById('delLocalForm')?.classList.toggle('hidden', state.delivery !== 'local');
-        document.getElementById('delAddressForm')?.classList.toggle('hidden', state.delivery !== 'address');
-      });
-    });
-
-    const bind = (id: string, key: keyof typeof state) => {
-      const el = document.getElementById(id) as HTMLInputElement | null;
-      if (el) el.addEventListener('input', () => ((state as Record<string, unknown>)[key] = el.value));
-    };
-    bind('localStreet', 'localStreet');
-    bind('localColonia', 'localColonia');
-    bind('addrCountry', 'addrCountry');
-    bind('addrStreet', 'addrStreet');
-    bind('clientName', 'clientName');
-    bind('clientPhone', 'clientPhone');
-    bind('clientEmail', 'clientEmail');
-
-    document.getElementById('wizBack')?.addEventListener('click', () => {
-      if (stepIdx > 0) {
-        stepIdx -= 1;
-        showStep(stepIdx);
-      }
-    });
-    document.getElementById('wizNext')?.addEventListener('click', () => {
-      const flow = currentFlow();
-      if (stepIdx < flow.length - 1) {
-        stepIdx += 1;
-        showStep(stepIdx);
-      }
-    });
-
-    document.getElementById('btnSubmit')?.addEventListener('click', (e) => {
+    // Form submit → build WhatsApp message
+    document.getElementById("orderForm")?.addEventListener("submit", (e) => {
       e.preventDefault();
-      const msg = encodeURIComponent(buildWaMessage());
-      window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, '_blank');
+      const get = (id: string) =>
+        ((document.getElementById(id) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null)?.value || "").trim();
+
+      const product = get("ofProduct");
+      const qty = get("ofQty");
+      const details = get("ofDetails");
+      const name = get("ofName");
+      const phone = get("ofPhone");
+
+      if (!product || !name || !phone) {
+        alert("Falta producto, nombre o WhatsApp.");
+        return;
+      }
+
+      const productLabel: Record<string, string> = {
+        llavero: "Llavero personalizado",
+        termo: "Termo grabado",
+        portavasos: "Set de portavasos",
+        custom: "Pedido a la medida",
+      };
+
+      const lines = [
+        "Hola Lumo, quiero hacer un pedido:",
+        "",
+        `Producto: ${productLabel[product] || product}`,
+        qty ? `Cantidad: ${qty}` : "",
+        details ? `Detalles: ${details}` : "",
+        "",
+        `Contacto: ${name} · ${phone}`,
+      ].filter(Boolean);
+
+      const msg = encodeURIComponent(lines.join("\n"));
+      window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, "_blank");
     });
 
-    renderNameInputs();
-    showStep(0);
-    initCardTilt('.paso-card[data-tilt]');
+    initCardTilt(".paso-card[data-tilt]");
+    initCardTilt(".catalog-card[data-tilt]");
   }
 
   init();
-  document.addEventListener('astro:page-load', init);
+  document.addEventListener("astro:page-load", init);
 </script>
