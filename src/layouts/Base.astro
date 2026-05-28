@@ -1,6 +1,6 @@
 ---
 import { ClientRouter } from "astro:transitions";
-import { SITE } from "../data/services";
+import { SITE, services } from "../data/services";
 import PageTransition from "../components/PageTransition.astro";
 
 interface Props {
@@ -10,6 +10,9 @@ interface Props {
   ogImage?: string;
   schemaType?: "WebSite" | "LocalBusiness" | "Service";
   schemaData?: Record<string, unknown>;
+  /** Additional JSON-LD blocks injected alongside the sitewide Organization
+   *  and the per-page schemaType. Use for Article, Person, Project, etc. */
+  extraSchemas?: Record<string, unknown>[];
   pageAccent?: "laser" | "3d" | "plotter";
   /** Adds <meta name="robots" content="noindex,nofollow"> — for dormant EMD pages. */
   noindex?: boolean;
@@ -22,6 +25,7 @@ const {
   ogImage = SITE.ogDefault,
   schemaType,
   schemaData,
+  extraSchemas = [],
   pageAccent = "laser",
   noindex = false,
 } = Astro.props;
@@ -77,18 +81,82 @@ const websiteSchema = {
   publisher: { "@id": `${SITE.url}#business` },
 };
 
-let injectedSchema: Record<string, unknown> | null = null;
-if (schemaType === "LocalBusiness") injectedSchema = localBusinessSchema;
-else if (schemaType === "WebSite") injectedSchema = websiteSchema;
+// Sitewide Organization + Person(founder) + OfferCatalog. Injected on every
+// page so AI crawlers see the brand entity, its founder, and the full catalog
+// of services regardless of which page they land on. Linked by @id to
+// LocalBusiness so they form a single graph.
+const founderSchema = {
+  "@type": "Person",
+  "@id": `${SITE.url}#founder`,
+  name: "Adriano Abascal",
+  jobTitle: "Arquitecto · Fundador",
+  worksFor: { "@id": `${SITE.url}#organization` },
+  affiliation: {
+    "@type": "Organization",
+    name: "Abascal Arquitectos",
+    url: "https://abascalarquitectos.com/",
+  },
+};
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${SITE.url}#organization`,
+  name: SITE.name,
+  alternateName: "Lumo",
+  url: SITE.url,
+  logo: `${SITE.url}/images/logo-nav.png`,
+  image: `${SITE.url}${SITE.ogDefault}`,
+  description: SITE.description,
+  email: SITE.email,
+  telephone: `+${SITE.phone}`,
+  sameAs: [SITE.instagram, SITE.gbp],
+  founder: founderSchema,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: SITE.address.street,
+    addressLocality: SITE.address.city,
+    addressRegion: SITE.address.state,
+    postalCode: SITE.address.postalCode,
+    addressCountry: SITE.address.country,
+  },
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Servicios de fabricación digital",
+    itemListElement: services
+      .filter((s) => !s.emdDomain)
+      .map((s) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: s.name,
+          description: s.metaDescription,
+          url: `${SITE.url}${s.slug}`,
+          provider: { "@id": `${SITE.url}#business` },
+          areaServed: { "@type": "City", name: "Cancún" },
+        },
+      })),
+  },
+};
+
+// Build the list of JSON-LD blocks to emit. Order: Organization (entity),
+// per-page schema (LocalBusiness / WebSite / Service), then any extras
+// passed by the page (Article, Person, Project, etc.).
+const schemas: Record<string, unknown>[] = [organizationSchema];
+
+if (schemaType === "LocalBusiness") schemas.push(localBusinessSchema);
+else if (schemaType === "WebSite") schemas.push(websiteSchema);
 else if (schemaType === "Service" && schemaData) {
-  injectedSchema = {
+  schemas.push({
     "@context": "https://schema.org",
     "@type": "Service",
     provider: { "@id": `${SITE.url}#business` },
     areaServed: { "@type": "City", name: "Cancún" },
     ...schemaData,
-  };
+  });
 }
+
+schemas.push(...extraSchemas);
 ---
 
 <!doctype html>
@@ -129,9 +197,9 @@ else if (schemaType === "Service" && schemaData) {
       rel="stylesheet"
     />
 
-    {injectedSchema && (
-      <script type="application/ld+json" set:html={JSON.stringify(injectedSchema)} />
-    )}
+    {schemas.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
 
     <ClientRouter />
   </head>

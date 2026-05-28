@@ -83,6 +83,33 @@
         </svg>
         Instagram
       </a>
+
+      <a
+        href="https://www.google.com/maps?cid=2574885880611067538"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="social-link"
+        aria-label="Lumo Arte en Google Maps"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        Google Maps
+      </a>
+
+      <a
+        href="https://search.google.com/local/writereview?placeid=ChIJIXu8ARErTI8Rktb96hDVuyM"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="social-link social-link--review"
+        aria-label="Déjanos una reseña en Google"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        Déjanos una reseña
+      </a>
     </div>
   </div>
 </section>
@@ -229,6 +256,18 @@
   .social-link:hover {
     color: #fff;
     border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Review CTA — uses the terracotta accent to invite the action. */
+  .social-link--review {
+    color: var(--color-accent-honey);
+    border-color: rgba(200, 122, 42, 0.4);
+  }
+
+  .social-link--review:hover {
+    color: #fff;
+    background: var(--color-accent);
+    border-color: var(--color-accent);
   }
 
   @media (max-width: 640px) {

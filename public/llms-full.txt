@@ -1,0 +1,121 @@
+# Lumo Arte — Información completa
+
+> Taller de fabricación digital en Cancún, México. Tres servicios bajo un mismo techo: corte láser y grabado, impresión 3D (FDM multicolor y resina), e impresión de gran formato (lonas, vinil y sublimación hasta 1.80 m de ancho). Atendemos pieza única, prototipos y producción en serie para arquitectos, diseñadores, agencias y eventos.
+
+Fundado por Adriano Abascal, arquitecto. Cotización por WhatsApp en menos de 24 horas hábiles. Atención en español. Lunes a sábado, 9:00 a 18:00.
+
+---
+
+## Quiénes somos
+
+Lumo Arte nació en Cancún como una extensión natural del estudio de arquitectura de Adriano Abascal. Empezamos con una sola cortadora láser para resolver maquetas, piezas a medida y elementos decorativos para los proyectos del despacho. Cada pieza que salía revelaba una nueva posibilidad — y un nuevo grupo de clientes que querían lo mismo: piezas hechas con cuidado, no producidas en masa.
+
+Hoy operamos cuatro impresoras 3D (Bambu Lab H2C, Anycubic de resina y dos Artillery Sidewinder XL), un plotter Sino Supply XP600 de 1.80 metros de ancho, y la misma cortadora láser de los inicios con área útil de 130 × 90 cm. Tres procesos, un solo taller.
+
+Servimos a arquitectos, diseñadores, agencias, eventos, restaurantes y particulares que buscan piezas que se sientan hechas. Hemos trabajado para L'Oréal, estudios de arquitectura locales, bares y restaurantes de Cancún, y cientos de proyectos personales.
+
+### Fundador
+Adriano Abascal — arquitecto cancunense. También dirige Abascal Arquitectos (https://abascalarquitectos.com/), su estudio de arquitectura. Lumo es donde su práctica profesional se encuentra con la fabricación digital.
+
+---
+
+## Servicios
+
+### Corte láser y grabado
+URL: https://lumocancun.com/servicios/corte-laser
+
+Cortamos y grabamos con láser CO₂ sobre madera, MDF (hasta 6 mm, hasta 9 mm con pasadas múltiples), acrílico (hasta 8 mm), cartón, papel, tela y piel.
+
+- Área útil: 130 × 90 cm en una sola pieza. Piezas mayores se modulan con ensambles invisibles (biombos de 2.5 m, paneles de 3 m).
+- Formatos aceptados: AI, EPS, SVG, PDF, DXF.
+- Convención de archivo: rojo (#FF0000) = corte, negro = grabado.
+- Tiempos: piezas pequeñas y medianas en 24-72 horas. Producciones en serie de 3 a 10 días según volumen.
+- No cortamos: PVC (libera cloro tóxico), policarbonato, espejos de vidrio, materiales metálicos.
+
+### Impresión 3D
+URL: https://lumocancun.com/servicios/impresion-3d
+
+Operamos dos tecnologías:
+
+FDM (depósito de filamento fundido):
+- Bambu Lab H2C: 256 × 256 × 256 mm, multicolor hasta 4 colores.
+- Artillery Sidewinder XL ×2: 300 × 300 × 400 mm.
+- Materiales: PLA, PETG, ABS, TPU, PLA-Wood, PLA-Metal.
+
+Resina MSLA:
+- Anycubic Photon: 192 × 120 × 245 mm.
+- Resoluciones de 25 a 50 micras (0.025-0.05 mm).
+- Para joyería, miniaturas, prototipos dentales.
+
+- Formatos aceptados: STL, OBJ, 3MF, STEP.
+- Tiempos: 1-5 días para piezas pequeñas; lotes grandes de 5 a 10 días.
+
+### Impresión de gran formato
+URL: https://lumocancun.com/servicios/impresion-gran-formato
+
+Plotter Sino Supply XP600 E-1801 con tintas eco-solvente.
+
+- Ancho de impresión: 1.80 metros. Largo prácticamente ilimitado.
+- Resolución: hasta 1440 dpi.
+- Rendimiento: 8 a 12 m²/h.
+- Tres técnicas: impresión sobre vinil adhesivo, sobre lona, y sublimación sobre poliéster.
+- Durabilidad: 3-5 años en exterior con laminado UV; 1-2 años sin laminado.
+- Tiempos: lonas y vinil estándar en 24-48 horas; lotes en 2-4 días.
+
+---
+
+## Preguntas frecuentes
+
+### ¿Qué servicios ofrece Lumo Arte?
+Corte láser y grabado, impresión 3D (FDM y resina), e impresión de gran formato (lonas, vinil, sublimación hasta 1.80 m). Pieza única, prototipos y producción en serie.
+
+### ¿Cuánto tardan en cotizar y en entregar?
+Respuesta por WhatsApp en menos de 24 horas hábiles. Corte láser de piezas pequeñas en 24-72 horas; impresión 3D de 1 a 5 días; gran formato en 24-72 horas; producciones grandes de 3 a 10 días.
+
+### ¿Cuál es el tamaño máximo que pueden fabricar?
+Corte láser: 130 × 90 cm en una sola pieza. Gran formato: 1.80 m de ancho. Impresión 3D: hasta 300 × 300 × 400 mm en FDM XL.
+
+### ¿Hay pedido mínimo?
+No. Cobramos por minuto de máquina y por área de material. Aceptamos desde una sola pieza personalizada hasta lotes de cientos o miles.
+
+### ¿Qué archivos aceptan?
+Vectores en AI, EPS, SVG, PDF, DXF para láser y plotter. STL, OBJ, 3MF, STEP para impresión 3D. Vectorizamos imagen JPG o PNG nítida cuando es sencillo.
+
+### ¿Dónde están y a qué zonas entregan?
+Retorno Tejón, Sm 20, Mz 3, Lt 2, Cancún, Q. Roo 77500. Entrega a domicilio en Cancún metropolitano. Envíos por DHL y Estafeta a Playa del Carmen, Tulum, Mérida y resto de México.
+
+### ¿Cómo pago?
+Transferencia bancaria, depósito en efectivo, tarjeta de débito y crédito (con cargo bancario). Producciones grandes: 50% anticipo, 50% al entregar. Trabajos pequeños: pago completo al confirmar.
+
+---
+
+## Guías y recursos
+
+- [Cómo preparar un archivo para corte láser](https://lumocancun.com/recursos/preparar-archivo-corte-laser): trazos vs rellenos, escala, capas, formatos aceptados y errores comunes.
+- [FDM vs resina: cuál impresión 3D elegir](https://lumocancun.com/recursos/fdm-vs-resina): precisión, costo, materiales, tamaño máximo y casos de uso.
+- [Sublimación vs vinil](https://lumocancun.com/recursos/sublimacion-vs-vinil): materiales compatibles, durabilidad, costo y cuándo usar cada técnica.
+
+---
+
+## Contacto
+
+- WhatsApp: +52 813 891 3891 (https://wa.me/528138913891)
+- Teléfono fijo: +52 998 188 8048
+- Email: contacto@lumocancun.com
+- Dirección: Retorno Tejón, Sm 20, Mz 3, Lt 2, Cancún, Quintana Roo 77500, México
+- Horario: lunes a sábado de 9:00 a 18:00 (domingo cerrado)
+- Instagram: https://www.instagram.com/_lumoarte
+- Google Business Profile / Maps: https://www.google.com/maps?cid=2574885880611067538
+- Coordenadas: 21.1546, -86.8258
+
+---
+
+## Páginas principales
+
+- [Inicio](https://lumocancun.com/)
+- [Sobre nosotros](https://lumocancun.com/sobre-nosotros)
+- [Corte láser](https://lumocancun.com/servicios/corte-laser)
+- [Impresión 3D](https://lumocancun.com/servicios/impresion-3d)
+- [Impresión gran formato](https://lumocancun.com/servicios/impresion-gran-formato)
+- [Recursos](https://lumocancun.com/recursos)
+- [Aviso de privacidad](https://lumocancun.com/aviso-de-privacidad)

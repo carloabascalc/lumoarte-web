@@ -67,6 +67,25 @@ const brandHref = isMinimal ? `${SITE.url}/` : "/";
     )}
 
     {!isMinimal && (
+      <div class="footer-col" data-reveal data-reveal-delay="0.12">
+        <p class="footer-col-label">Información</p>
+        <ul role="list">
+          <li><a href="/sobre-nosotros" class="footer-col-link">Sobre nosotros</a></li>
+          <li><a href="/recursos" class="footer-col-link">Recursos / Guías</a></li>
+          <li><a href="/#cotiza" class="footer-col-link">Cotizar proyecto</a></li>
+          <li>
+            <a
+              href="https://search.google.com/local/writereview?placeid=ChIJIXu8ARErTI8Rktb96hDVuyM"
+              target="_blank"
+              rel="noopener"
+              class="footer-col-link"
+            >Déjanos una reseña</a>
+          </li>
+        </ul>
+      </div>
+    )}
+
+    {!isMinimal && (
       <div class="footer-col" data-reveal data-reveal-delay="0.16">
         <p class="footer-col-label">Empresas afiliadas</p>
         <ul role="list">

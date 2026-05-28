@@ -1,0 +1,173 @@
+---
+import Article from "../../layouts/Article.astro";
+---
+
+<Article
+  title="Cómo preparar un archivo para corte láser"
+  description="Guía práctica para preparar archivos vectoriales que cortan limpio a la primera: trazos vs rellenos, escala, capas, formatos aceptados y errores comunes."
+  slug="preparar-archivo-corte-laser"
+  datePublished="2026-05-27"
+  readingTime="6 min"
+  topic="Corte láser"
+>
+
+<p>
+  Un buen archivo de corte láser ahorra entre el 20 y el 40% del tiempo de
+  máquina y elimina los retrabajos. La diferencia entre un archivo bien
+  preparado y uno mal preparado no está en el software — está en seguir
+  cinco reglas que casi nadie te explica al principio. Esta guía las cubre
+  todas.
+</p>
+
+<h2>Formatos aceptados</h2>
+<p>
+  Trabajamos con vectores. Los formatos que aceptamos directamente son:
+</p>
+<ul>
+  <li><strong>AI</strong> — Adobe Illustrator nativo. El más limpio.</li>
+  <li><strong>EPS</strong> — universal, abre en cualquier software vectorial.</li>
+  <li><strong>SVG</strong> — ideal si el archivo viene de Figma, Inkscape o web.</li>
+  <li><strong>PDF</strong> — siempre que contenga vectores reales, no imagen rasterizada.</li>
+  <li><strong>DXF</strong> — formato CAD, común en arquitectura.</li>
+</ul>
+<p>
+  Si solo tienes una imagen <strong>JPG o PNG nítida</strong>, podemos
+  vectorizarla por ti — está incluido en la cotización cuando es simple.
+  Para diseños complejos cobramos el vectorizado aparte.
+</p>
+
+<h2>Trazos vs rellenos: la regla del color</h2>
+<p>
+  El láser distingue entre lo que <strong>corta</strong> y lo que
+  <strong>graba</strong> por la apariencia del trazo:
+</p>
+<ul>
+  <li>
+    <strong>Corte:</strong> línea de contorno con grosor de
+    <strong>0.001 pt</strong> (Illustrator) o
+    <strong>hairline</strong>. Sin relleno.
+  </li>
+  <li>
+    <strong>Grabado vectorial (línea):</strong> trazo más grueso, por ejemplo
+    0.5 pt o más. El láser sigue la línea sin penetrar.
+  </li>
+  <li>
+    <strong>Grabado raster (área):</strong> forma con relleno sólido. El láser
+    barre el área como si fuera una impresora.
+  </li>
+</ul>
+<p>
+  La convención que usamos en Lumo: <strong>rojo (#FF0000) = corte</strong>,
+  <strong>negro = grabado</strong>. Si tu archivo no respeta esto, lo
+  acomodamos sin costo — pero si lo entregas así, ahorras tiempo de revisión.
+</p>
+
+<h2>Escala real y unidades</h2>
+<p>
+  El archivo debe estar en <strong>escala 1:1 a la medida final</strong>, en
+  milímetros o centímetros. No en pulgadas, no a "escala" arquitectónica
+  (1:50, 1:100, etc.). Si vas a cortar un letrero de 60 × 40 cm, el archivo
+  debe medir 60 × 40 cm.
+</p>
+<p>
+  El área útil de nuestra cortadora es <strong>130 × 90 cm</strong> en una
+  sola pieza. Para piezas más grandes las dividimos en módulos con ensambles
+  invisibles — hemos hecho biombos de 2.5 m y paneles de 3 m con este
+  método.
+</p>
+
+<h2>Expandir trazos y convertir texto</h2>
+<p>
+  Antes de mandar el archivo:
+</p>
+<ol>
+  <li>
+    <strong>Convierte el texto a curvas</strong> (Type → Create Outlines en
+    Illustrator). Si no, el láser usará la fuente disponible en su software
+    — que casi nunca es la tuya.
+  </li>
+  <li>
+    <strong>Expande efectos y appearances</strong> (Object → Expand). Trazos
+    con perfil variable, sombras, pinceles de arte, todo debe quedar como
+    geometría plana.
+  </li>
+  <li>
+    <strong>Quita líneas duplicadas.</strong> Si dos trazos están
+    superpuestos, el láser corta dos veces — perdiendo tiempo y dejando un
+    canto más quemado.
+  </li>
+</ol>
+
+<h2>Capas y organización</h2>
+<p>
+  Para piezas con varios tipos de operación (corte + grabado + grabado
+  profundo), separa cada uno en su propia <strong>capa</strong> nombrada:
+</p>
+<ul>
+  <li>Capa "Corte" — solo contornos de corte.</li>
+  <li>Capa "Grabado" — gráficos a grabar superficial.</li>
+  <li>Capa "Marcado" — trazos finos solo para alinear o numerar.</li>
+</ul>
+<p>
+  En un archivo bien capeado podemos cotizar en minutos y ajustar potencias
+  por capa. En uno mezclado tardamos más en preparar el envío.
+</p>
+
+<h2>Materiales que cortamos</h2>
+<p>
+  Cada material tiene un grosor máximo recomendado:
+</p>
+<table>
+  <thead>
+    <tr><th>Material</th><th>Grosor máximo</th><th>Notas</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>MDF</td><td>6 mm</td><td>Hasta 9 mm con pasadas múltiples.</td></tr>
+    <tr><td>Madera (contrachapado, balsa)</td><td>6 mm</td><td>El nudo y la humedad afectan el corte.</td></tr>
+    <tr><td>Acrílico</td><td>8 mm</td><td>Canto pulido directo del láser.</td></tr>
+    <tr><td>Cartón / papel</td><td>4 mm</td><td>Excelente para maquetas e invitaciones.</td></tr>
+    <tr><td>Tela / fieltro</td><td>3 mm</td><td>Sellado de bordes para evitar deshilachado.</td></tr>
+    <tr><td>Piel / cuero</td><td>3 mm</td><td>Curva los cantos según el grosor.</td></tr>
+  </tbody>
+</table>
+<p>
+  <strong>No cortamos:</strong> PVC (libera cloro tóxico), policarbonato
+  (no corta limpio), espejos de vidrio (peligro de rebote), ni materiales
+  con metales (el láser CO₂ no los corta).
+</p>
+
+<h2>Errores más comunes</h2>
+<p>
+  Cinco que vemos casi a diario:
+</p>
+<ol>
+  <li>
+    Mandar JPG en vez de vector. <em>Solución:</em> exporta SVG desde Figma,
+    o si solo tienes la imagen, dinos para vectorizarla.
+  </li>
+  <li>
+    Texto sin expandir. <em>Solución:</em> convertir a curvas.
+  </li>
+  <li>
+    Líneas dobles superpuestas. <em>Solución:</em> en Illustrator usa
+    Pathfinder → Unite, o limpia con un script.
+  </li>
+  <li>
+    Trazo y relleno mezclados en el mismo objeto. <em>Solución:</em> separa
+    los elementos de corte y de grabado en capas distintas.
+  </li>
+  <li>
+    Escala incorrecta. <em>Solución:</em> verifica medidas en mm antes de
+    enviar.
+  </li>
+</ol>
+
+<h2>Si tienes dudas, mándanos el archivo</h2>
+<p>
+  Antes de aprobar la cotización siempre revisamos el archivo y avisamos si
+  algo está mal. Mejor preguntar dos veces que cortar dos veces. Nuestro
+  WhatsApp acepta archivos hasta 100 MB; si pesa más, mándanos un enlace
+  de Drive o WeTransfer.
+</p>
+
+</Article>

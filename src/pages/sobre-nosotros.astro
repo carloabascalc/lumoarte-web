@@ -1,0 +1,314 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
+import WhatsAppButton from "../components/WhatsAppButton.astro";
+import { SITE } from "../data/services";
+
+// Person schema for Adriano — links the founder to the LocalBusiness and to
+// his architecture firm. Improves E-E-A-T signals because the business now
+// has a named, credentialed author/founder visible to crawlers.
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${SITE.url}#founder`,
+  name: "Adriano Abascal",
+  jobTitle: "Arquitecto · Fundador de Lumo Arte",
+  description:
+    "Arquitecto cancunense, fundador de Lumo Arte. Trabaja donde se cruzan la precisión de la máquina, la sensibilidad del diseño y la paciencia del trabajo manual.",
+  url: `${SITE.url}/sobre-nosotros`,
+  image: `${SITE.url}${SITE.ogDefault}`,
+  worksFor: { "@id": `${SITE.url}#organization` },
+  affiliation: {
+    "@type": "Organization",
+    name: "Abascal Arquitectos",
+    url: "https://abascalarquitectos.com/",
+  },
+  knowsAbout: [
+    "Arquitectura",
+    "Fabricación digital",
+    "Corte láser",
+    "Impresión 3D",
+    "Diseño paramétrico",
+    "Manufactura aditiva",
+  ],
+};
+
+const aboutPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  url: `${SITE.url}/sobre-nosotros`,
+  name: "Sobre nosotros — Lumo Arte",
+  mainEntity: { "@id": `${SITE.url}#organization` },
+  about: { "@id": `${SITE.url}#founder` },
+};
+---
+
+<Base
+  title="Sobre nosotros — Lumo Arte | Taller de fabricación digital en Cancún"
+  description="Lumo Arte es un taller de fabricación digital en Cancún fundado por Adriano Abascal, arquitecto. Tres oficios bajo un techo: corte láser, impresión 3D e impresión de gran formato."
+  canonical="/sobre-nosotros"
+  ogImage="/og/default.jpg"
+  extraSchemas={[personSchema, aboutPageSchema]}
+>
+  <Nav variant="solid" />
+  <main>
+    <Breadcrumb
+      items={[
+        { label: "Inicio", href: "/" },
+        { label: "Sobre nosotros" },
+      ]}
+    />
+
+    <article class="about-page">
+      <header class="about-hero">
+        <div class="container">
+          <p class="about-eyebrow" data-reveal>Sobre Lumo Arte</p>
+          <h1 class="about-h1" data-reveal data-reveal-delay="0.06">
+            Tres oficios bajo un mismo techo.
+          </h1>
+          <p class="about-lede" data-reveal data-reveal-delay="0.12">
+            Fundado en Cancún por Adriano Abascal, arquitecto e hijo de la
+            ciudad. Trabajamos donde se cruzan la precisión de la máquina,
+            la sensibilidad del diseño y la paciencia del trabajo manual.
+          </p>
+        </div>
+      </header>
+
+      <section class="about-body section">
+        <div class="container about-grid">
+          <div class="about-text">
+            <h2>Cómo empezamos</h2>
+            <p>
+              Lumo Arte nació en Cancún como una extensión natural del estudio
+              de arquitectura de Adriano. Empezamos con una sola cortadora
+              láser para resolver maquetas, piezas a medida y elementos
+              decorativos para los proyectos del despacho. Cada pieza que
+              salía revelaba una nueva posibilidad — y un nuevo grupo de
+              clientes que querían lo mismo: piezas hechas con cuidado, no
+              producidas en masa.
+            </p>
+
+            <h2>Hoy</h2>
+            <p>
+              Operamos cuatro impresoras 3D (Bambu Lab H2C, Anycubic de
+              resina y dos Artillery Sidewinder XL), un plotter Sino Supply
+              XP600 de 1.80 metros de ancho, y la misma cortadora láser
+              de los inicios — ahora trabajando todos los días con un área
+              útil de 130 × 90 cm. Tres procesos, un solo taller, atendidos
+              por la misma persona que decide qué máquina, qué material y
+              cuánto cuesta.
+            </p>
+
+            <h2>A quién servimos</h2>
+            <p>
+              A arquitectos, diseñadores, agencias, eventos, restaurantes y
+              particulares que buscan piezas que se sientan hechas. Nos
+              interesa más el detalle que el volumen — aunque producimos en
+              serie cuando tiene sentido. Hemos trabajado para L'Oréal,
+              estudios de arquitectura locales, bares y restaurantes de
+              Cancún, y cientos de proyectos personales que nunca cabrían
+              en una sola lista.
+            </p>
+
+            <h2>Cómo trabajamos</h2>
+            <p>
+              Cotización por WhatsApp en menos de 24 horas hábiles. Para
+              piezas pequeñas y medianas entregamos entre 24 y 72 horas;
+              producciones grandes toman de 3 a 10 días. Aceptamos archivos
+              vectoriales (AI, EPS, SVG, PDF, DXF) y modelos 3D (STL, OBJ,
+              3MF, STEP). Si solo tienes una imagen nítida, vectorizamos
+              por ti — incluido en la cotización cuando es sencillo.
+            </p>
+          </div>
+
+          <aside class="about-side">
+            <div class="about-card">
+              <p class="about-card-eyebrow">Fundador</p>
+              <h3 class="about-card-name">Adriano Abascal</h3>
+              <p class="about-card-role">Arquitecto · Fundador</p>
+              <p class="about-card-bio">
+                Arquitecto cancunense. También dirige
+                <a href="https://abascalarquitectos.com/" target="_blank" rel="noopener">
+                  Abascal Arquitectos
+                </a>, su estudio de arquitectura. Lumo es donde su práctica
+                profesional se encuentra con la fabricación digital.
+              </p>
+            </div>
+
+            <div class="about-card">
+              <p class="about-card-eyebrow">Ubicación</p>
+              <h3 class="about-card-name">Cancún, Q. Roo</h3>
+              <p class="about-card-bio">
+                Retorno Tejón, Sm 20, Mz 3, Lt 2 — CP 77500.<br/>
+                Lunes a sábado, 9:00 a 18:00.
+              </p>
+              <a class="about-card-link" href={SITE.gbp} target="_blank" rel="noopener">
+                Ver en Google Maps →
+              </a>
+            </div>
+
+            <div class="about-card about-card--cta">
+              <p class="about-card-eyebrow">Contáctanos</p>
+              <p class="about-card-bio">
+                Si tienes una idea, mándanos un mensaje. Te decimos qué
+                máquina, qué material y cuánto cuesta — sin compromiso.
+              </p>
+              <a class="btn btn-primary" href={`https://wa.me/${SITE.whatsapp}`}>
+                WhatsApp
+              </a>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </article>
+  </main>
+  <div class="page-end">
+    <Contact />
+    <Footer />
+  </div>
+  <WhatsAppButton />
+</Base>
+
+<style>
+  .about-page {
+    padding-bottom: 80px;
+  }
+
+  .about-hero {
+    padding: 32px 0 56px;
+    background: linear-gradient(180deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
+  }
+
+  .about-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 18px;
+  }
+
+  .about-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 5.5vw, 4rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    margin-bottom: 24px;
+    max-width: 760px;
+  }
+
+  .about-lede {
+    font-size: clamp(1.0625rem, 1.7vw, 1.25rem);
+    line-height: 1.65;
+    color: var(--color-muted);
+    max-width: 640px;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .about-text h2 {
+    font-family: var(--font-display);
+    font-size: 1.625rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-top: 40px;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+  }
+
+  .about-text h2:first-child {
+    margin-top: 0;
+  }
+
+  .about-text p {
+    color: var(--color-text);
+    line-height: 1.8;
+    font-size: 1.0625rem;
+    margin-bottom: 12px;
+  }
+
+  .about-side {
+    position: sticky;
+    top: calc(var(--nav-h) + 24px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .about-card {
+    padding: 22px;
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    background: var(--color-bg);
+  }
+
+  .about-card--cta {
+    background: var(--color-bg-alt);
+  }
+
+  .about-card-eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 8px;
+  }
+
+  .about-card-name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 4px;
+  }
+
+  .about-card-role {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+    margin-bottom: 12px;
+  }
+
+  .about-card-bio {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-muted);
+    margin-bottom: 12px;
+  }
+
+  .about-card-bio a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .about-card-link {
+    font-size: 0.875rem;
+    color: var(--color-accent);
+    font-weight: 500;
+  }
+
+  .about-card-link:hover {
+    color: var(--color-accent-dark);
+  }
+
+  @media (max-width: 880px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .about-side {
+      position: static;
+    }
+  }
+</style>

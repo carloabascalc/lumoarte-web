@@ -1,0 +1,162 @@
+---
+import Article from "../../layouts/Article.astro";
+---
+
+<Article
+  title="FDM vs resina: cuál impresión 3D elegir para tu proyecto"
+  description="Comparativa práctica entre impresión 3D FDM y resina: precisión, costo, materiales, tamaño máximo, tiempos y casos de uso reales."
+  slug="fdm-vs-resina"
+  datePublished="2026-05-27"
+  readingTime="7 min"
+  topic="Impresión 3D"
+>
+
+<p>
+  En impresión 3D hay dos tecnologías que dominan el mercado actual:
+  <strong>FDM</strong> (Fused Deposition Modeling, depósito de filamento
+  fundido) y <strong>SLA/MSLA</strong> (resina curada con luz UV). En Lumo
+  operamos ambas — una Bambu Lab H2C y dos Artillery Sidewinder XL para
+  FDM, y una Anycubic para resina. Cuál conviene para tu proyecto depende
+  de cinco factores. Aquí los desglosamos.
+</p>
+
+<h2>1. Precisión y acabado superficial</h2>
+<p>
+  La resina gana sin discusión. Una pieza impresa en resina sale con altura
+  de capa de <strong>0.025 a 0.05 mm</strong> (25-50 micras), casi
+  invisible al ojo. En FDM trabajamos típicamente en
+  <strong>0.12 a 0.28 mm</strong> de altura de capa — las líneas se ven
+  si la pieza no se lija o se procesa después.
+</p>
+<p>
+  Para joyería, miniaturas de tabletop, prototipos dentales o piezas
+  donde se vea cada detalle: <strong>resina</strong>. Para piezas
+  funcionales donde no importa que se vea la capa: <strong>FDM</strong>.
+</p>
+
+<h2>2. Tamaño máximo</h2>
+<p>
+  Las áreas de impresión que tenemos:
+</p>
+<table>
+  <thead>
+    <tr><th>Máquina</th><th>Tecnología</th><th>Volumen</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Bambu Lab H2C</td><td>FDM multicolor</td><td>256 × 256 × 256 mm</td></tr>
+    <tr><td>Artillery Sidewinder XL ×2</td><td>FDM XL</td><td>300 × 300 × 400 mm</td></tr>
+    <tr><td>Anycubic Photon</td><td>Resina MSLA</td><td>192 × 120 × 245 mm</td></tr>
+  </tbody>
+</table>
+<p>
+  La resina pierde aquí por física: la cama es más pequeña porque la luz
+  UV debe llegar uniforme a toda la superficie. Si tu pieza supera los
+  192 × 120 mm, va en FDM o se imprime en partes para luego pegar.
+</p>
+
+<h2>3. Materiales y propiedades mecánicas</h2>
+<p>
+  FDM acepta una variedad mucho más amplia:
+</p>
+<ul>
+  <li><strong>PLA</strong> — el más común. Económico, rígido, fácil de imprimir. No resiste calor (~60 °C).</li>
+  <li><strong>PETG</strong> — resistente al agua y golpes. Para piezas funcionales al aire libre.</li>
+  <li><strong>ABS</strong> — resistente a temperatura (~95 °C). Más difícil de imprimir.</li>
+  <li><strong>TPU</strong> — flexible, tipo goma. Para juntas, fundas, ruedas.</li>
+  <li><strong>PLA-Wood, PLA-Metal</strong> — efectos estéticos con cargas de madera o metal.</li>
+</ul>
+<p>
+  Resina estándar es <strong>rígida y frágil</strong>: rompe en lugar de
+  doblar. Hay resinas "tough", flexibles y de ingeniería, pero todas
+  comparten la limitación: degradan con UV directo prolongado. No las
+  uses para piezas que vivan al sol.
+</p>
+
+<h2>4. Costo y tiempo</h2>
+<p>
+  FDM gana en costo por gramo. Un kilo de PLA bueno cuesta entre 350 y
+  550 MXN; un litro de resina de calidad cuesta entre 800 y 1,500 MXN
+  y rinde menos volumen por la geometría de la pieza (necesita soportes).
+</p>
+<p>
+  En tiempo, depende:
+</p>
+<ul>
+  <li>
+    <strong>Piezas pequeñas (&lt; 50 cm³):</strong> resina suele ser más rápida
+    porque imprime una capa completa de un solo destello UV. Una miniatura
+    puede salir en 1-2 horas.
+  </li>
+  <li>
+    <strong>Piezas medianas y grandes:</strong> FDM gana. Una pieza de
+    200 × 200 mm tarda 6-12 horas en FDM contra 18-30 horas en resina.
+  </li>
+  <li>
+    <strong>Lotes:</strong> resina imprime todas las piezas de una "tanda"
+    en el mismo tiempo que una sola (mientras quepan en la cama). FDM es
+    secuencial.
+  </li>
+</ul>
+
+<h2>5. Posprocesado</h2>
+<p>
+  La resina obliga a posprocesar. Cada pieza pasa por:
+</p>
+<ol>
+  <li>Lavado en alcohol isopropílico (5-10 min).</li>
+  <li>Curado UV adicional (5-15 min).</li>
+  <li>Retirado manual de soportes (deja marcas que hay que lijar).</li>
+</ol>
+<p>
+  FDM, en cambio, sale lista para usar en muchos casos. Si tiene soportes,
+  se quitan a mano sin químicos. Las marcas se lijan o se calientan
+  ligeramente para fundir las líneas.
+</p>
+
+<h2>Casos de uso recomendados</h2>
+<table>
+  <thead>
+    <tr><th>Caso</th><th>Recomendado</th><th>Por qué</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Maquetas arquitectónicas</td><td>FDM (PLA)</td><td>Tamaño + costo. La precisión típica de FDM basta.</td></tr>
+    <tr><td>Joyería / piezas en metal por fundición</td><td>Resina (castable)</td><td>Detalle micrométrico + se quema sin residuo.</td></tr>
+    <tr><td>Prototipo funcional con movimiento</td><td>FDM (PETG / ABS)</td><td>Resistencia mecánica + reparable.</td></tr>
+    <tr><td>Miniaturas de juego / figuras</td><td>Resina</td><td>Detalle facial y de ropa imposibles en FDM.</td></tr>
+    <tr><td>Producción en serie pequeña (10-100 uds)</td><td>FDM</td><td>Más económico y máquinas paralelas.</td></tr>
+    <tr><td>Pieza arquitectónica grande</td><td>FDM XL (Sidewinder)</td><td>Cama de 300 × 300 × 400 mm.</td></tr>
+    <tr><td>Multicolor en una sola pieza</td><td>FDM (Bambu Lab H2C)</td><td>Hasta 4 colores simultáneos sin pintar.</td></tr>
+  </tbody>
+</table>
+
+<h2>Lo que necesitamos de ti</h2>
+<p>
+  Para cotizar impresión 3D pedimos:
+</p>
+<ul>
+  <li>
+    Archivo en <strong>STL, OBJ, 3MF o STEP</strong>. Si solo tienes un boceto
+    o referencia, podemos modelar (presupuesto aparte).
+  </li>
+  <li>
+    Material y color deseados (te recomendamos si no estás seguro).
+  </li>
+  <li>
+    Uso final: decorativo, funcional, ¿al aire libre?, ¿con calor?
+  </li>
+  <li>
+    Cantidad y plazo. Para 1-5 piezas pequeñas entregamos en 1-3 días; lotes
+    grandes pueden tomar de 5 a 10 días según material.
+  </li>
+</ul>
+
+<h2>Conclusión rápida</h2>
+<p>
+  La pregunta no es "qué es mejor" sino "qué necesita tu pieza". Si
+  privilegias <strong>detalle visual</strong>, usa resina. Si privilegias
+  <strong>tamaño, costo o resistencia mecánica</strong>, usa FDM. Si dudas,
+  mándanos el archivo y te decimos cuál tecnología te conviene — sin
+  compromiso.
+</p>
+
+</Article>
