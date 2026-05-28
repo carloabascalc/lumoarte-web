@@ -1,0 +1,91 @@
+---
+import { SITE } from "../data/services";
+
+interface Props {
+  /** Visual aspect ratio: "wide" (16:9) for full sections, "square" for side cards. */
+  aspect?: "wide" | "square";
+  /** Hide the small caption below the map. */
+  hideCaption?: boolean;
+}
+
+const { aspect = "wide", hideCaption = false } = Astro.props;
+---
+
+<figure class={`map-embed map-embed--${aspect}`}>
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3720.9437580034396!2d-86.82576040000001!3d21.154636399999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f4c2b1101bc7b21%3A0x23bbd510eafdd692!2sLumo!5e0!3m2!1sen!2smx!4v1779937947972!5m2!1sen!2smx"
+    title="Ubicación de Lumo Arte en Cancún — Retorno Tejón, Sm 20"
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    allowfullscreen
+  ></iframe>
+  {!hideCaption && (
+    <figcaption class="map-caption">
+      Retorno Tejón, Sm 20 Mz 3 Lt 2, Cancún · Lun a Sáb 9:00–18:00 ·
+      <a href={SITE.gbp} target="_blank" rel="noopener">Abrir en Google Maps →</a>
+    </figcaption>
+  )}
+</figure>
+
+<noscript>
+  <p class="map-noscript">
+    Ubicación: Retorno Tejón, Sm 20 Mz 3 Lt 2, Cancún, Q. Roo 77500.
+    <a href={SITE.gbp} target="_blank" rel="noopener">Ver en Google Maps</a>.
+  </p>
+</noscript>
+
+<style>
+  .map-embed {
+    margin: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .map-embed iframe {
+    display: block;
+    width: 100%;
+    border: 0;
+  }
+
+  .map-embed--wide iframe {
+    aspect-ratio: 16 / 9;
+    min-height: 280px;
+  }
+
+  .map-embed--square iframe {
+    aspect-ratio: 4 / 3;
+    min-height: 240px;
+  }
+
+  .map-caption {
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.55);
+    padding: 12px 16px;
+    line-height: 1.5;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .map-caption a {
+    color: var(--color-accent-honey);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    margin-left: 6px;
+  }
+
+  .map-caption a:hover {
+    color: #fff;
+  }
+
+  .map-noscript {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 16px;
+  }
+
+  .map-noscript a {
+    color: var(--color-accent-honey);
+    text-decoration: underline;
+  }
+</style>
