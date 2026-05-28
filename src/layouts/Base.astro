@@ -36,7 +36,7 @@ const localBusinessSchema = {
   name: SITE.name,
   description: SITE.description,
   url: SITE.url,
-  telephone: `+${SITE.whatsapp}`,
+  telephone: `+${SITE.phone}`,
   email: SITE.email,
   image: `${SITE.url}${SITE.ogDefault}`,
   address: {
@@ -47,7 +47,19 @@ const localBusinessSchema = {
     postalCode: SITE.address.postalCode,
     addressCountry: SITE.address.country,
   },
-  sameAs: [SITE.instagram],
+  sameAs: [SITE.instagram, SITE.gbp],
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: SITE.geo.lat,
+    longitude: SITE.geo.lng,
+  },
+  hasMap: SITE.gbp,
+  openingHoursSpecification: {
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: SITE.hours.days,
+    opens: SITE.hours.opens,
+    closes: SITE.hours.closes,
+  },
   areaServed: {
     "@type": "City",
     name: "Cancún",
