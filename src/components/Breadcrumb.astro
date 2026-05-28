@@ -1,4 +1,6 @@
 ---
+import { SITE } from "../data/services";
+
 interface Crumb {
   label: string;
   href?: string;
@@ -9,7 +11,31 @@ interface Props {
 }
 
 const { items } = Astro.props;
+
+// Emit BreadcrumbList JSON-LD so search engines + AI crawlers understand
+// the page's place in the site hierarchy. Items without an href (the current
+// page) get its absolute URL; relative hrefs are resolved against the site.
+const toAbsolute = (href?: string): string => {
+  const path = href ?? Astro.url.pathname;
+  if (/^https?:\/\//i.test(path)) return path;
+  // Strip in-page anchors so the schema URL points to a real page.
+  const cleanPath = path.split("#")[0] || "/";
+  return new URL(cleanPath, SITE.url).href;
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: items.map((item, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: item.label,
+    item: toAbsolute(item.href),
+  })),
+};
 ---
+
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 
 <nav class="breadcrumb" aria-label="Migas de pan">
   <div class="breadcrumb-inner">

@@ -1,85 +1,77 @@
 ---
-// Recuerdos hero showcase — 3 illustrated cards (keychain, thermos, coaster set).
+// Recuerdos hero showcase — 3 illustrated keychain variants (Ocean, Maya, Fiesta).
 // Same visual language as TresDShowcase: cream gradient cards, terracotta product
 // gradients, layered rotation, micro-hover separation.
 ---
 
 <div class="hero-stack">
-  {/* BACK — coaster stack (top-right, smallest) */}
+  {/* BACK — Maya design (top-right) */}
   <div class="hero-card hero-card--back" aria-hidden="true">
     <div class="specimen-card">
-      <svg viewBox="0 0 200 200" class="specimen-svg" preserveAspectRatio="xMidYMid meet">
+      <svg viewBox="0 0 200 250" class="specimen-svg" preserveAspectRatio="xMidYMid meet">
         <defs>
-          <linearGradient id="rec-coaster-grad" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id="rec-maya-grad" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stop-color="#d99570"/>
-            <stop offset="55%" stop-color="#a85f2a"/>
+            <stop offset="45%" stop-color="#a85f2a"/>
             <stop offset="100%" stop-color="#5a2a08"/>
           </linearGradient>
-          <linearGradient id="rec-coaster-top" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#e8a878"/>
-            <stop offset="100%" stop-color="#a85f2a"/>
+          <linearGradient id="rec-ring-a" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#e0e0e0"/>
+            <stop offset="100%" stop-color="#8a8a8a"/>
           </linearGradient>
-          <linearGradient id="rec-coaster-plate" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id="rec-plate-a" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stop-color="#2a2a2a"/>
             <stop offset="100%" stop-color="#0a0a0a"/>
           </linearGradient>
         </defs>
-        {/* Ground shadow */}
-        <ellipse cx="100" cy="172" rx="62" ry="4" fill="rgba(20, 10, 4, 0.20)"/>
-        {/* Build plate */}
-        <rect x="14" y="168" width="172" height="6" rx="1" fill="url(#rec-coaster-plate)"/>
-        {/* Stack of 5 coasters, slight offset to suggest stack */}
-        <g>
-          {/* Bottom-most */}
-          <ellipse cx="100" cy="158" rx="60" ry="10" fill="url(#rec-coaster-grad)"/>
-          <ellipse cx="100" cy="146" rx="58" ry="10" fill="url(#rec-coaster-grad)"/>
-          <ellipse cx="100" cy="134" rx="60" ry="10" fill="url(#rec-coaster-grad)"/>
-          <ellipse cx="100" cy="122" rx="58" ry="10" fill="url(#rec-coaster-grad)"/>
-          {/* Top coaster — visible face */}
-          <ellipse cx="100" cy="110" rx="60" ry="11" fill="url(#rec-coaster-grad)"/>
-          <ellipse cx="100" cy="106" rx="60" ry="11" fill="url(#rec-coaster-top)"/>
-          {/* Engraved monogram on top */}
-          <text x="100" y="112" text-anchor="middle" font-family="Playfair Display, Georgia, serif"
-                font-size="22" font-style="italic" font-weight="600"
-                fill="rgba(20, 10, 4, 0.65)">M&amp;A</text>
-          {/* Subtle ring on top coaster */}
-          <ellipse cx="100" cy="106" rx="54" ry="9" fill="none" stroke="rgba(20, 10, 4, 0.18)" stroke-width="0.6"/>
+        <ellipse cx="100" cy="222" rx="60" ry="4" fill="rgba(20, 10, 4, 0.20)"/>
+        <rect x="18" y="218" width="164" height="6" rx="1" fill="url(#rec-plate-a)"/>
+        <circle cx="100" cy="36" r="14" fill="none" stroke="url(#rec-ring-a)" stroke-width="3.5"/>
+        <rect x="96" y="48" width="8" height="14" rx="2" fill="url(#rec-ring-a)"/>
+        <rect x="48" y="60" width="104" height="148" rx="20" fill="url(#rec-maya-grad)"/>
+        {/* Maya glyph band top */}
+        <rect x="62" y="82" width="76" height="22" fill="none" stroke="rgba(255, 240, 220, 0.55)" stroke-width="1.2"/>
+        <g stroke="rgba(255, 240, 220, 0.55)" stroke-width="1.2" fill="none">
+          <path d="M 62 82 L 68 88 L 74 82 L 80 88 L 86 82 L 92 88 L 98 82 L 104 88 L 110 82 L 116 88 L 122 82 L 128 88 L 134 82 L 138 82"/>
+          <path d="M 62 104 L 68 98 L 74 104 L 80 98 L 86 104 L 92 98 L 98 104 L 104 98 L 110 104 L 116 98 L 122 104 L 128 98 L 134 104 L 138 104"/>
         </g>
+        {/* Name */}
+        <text x="100" y="150" text-anchor="middle" font-family="Playfair Display, Georgia, serif"
+              font-size="22" font-style="italic" font-weight="600"
+              fill="rgba(20, 10, 4, 0.70)">Itzel</text>
+        {/* Glyph band bottom */}
+        <rect x="68" y="172" width="64" height="14" fill="none" stroke="rgba(255, 240, 220, 0.55)" stroke-width="1.2"/>
+        <line x1="68" y1="179" x2="132" y2="179" stroke="rgba(255, 240, 220, 0.40)" stroke-width="0.8"/>
       </svg>
     </div>
   </div>
 
-  {/* MAIN — keychain (dominant left) */}
+  {/* MAIN — Ocean keychain (dominant, NIRVANA / CANCUN) */}
   <div class="hero-card hero-card--main" aria-hidden="true">
     <div class="specimen-card">
       <svg viewBox="0 0 200 250" class="specimen-svg" preserveAspectRatio="xMidYMid meet">
         <defs>
-          <linearGradient id="rec-kc-grad" x1="0" y1="0" x2="1" y2="1">
+          <linearGradient id="rec-ocean-grad" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stop-color="#e8946e"/>
             <stop offset="40%" stop-color="#c96b3a"/>
             <stop offset="100%" stop-color="#7a2a02"/>
           </linearGradient>
-          <linearGradient id="rec-kc-ring" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id="rec-ring-b" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stop-color="#e0e0e0"/>
             <stop offset="100%" stop-color="#8a8a8a"/>
           </linearGradient>
-          <linearGradient id="rec-kc-plate" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id="rec-plate-b" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stop-color="#2a2a2a"/>
             <stop offset="100%" stop-color="#0a0a0a"/>
           </linearGradient>
         </defs>
-        {/* Ground shadow */}
         <ellipse cx="100" cy="222" rx="60" ry="4" fill="rgba(20, 10, 4, 0.20)"/>
-        {/* Build plate */}
-        <rect x="18" y="218" width="164" height="6" rx="1" fill="url(#rec-kc-plate)"/>
-        {/* Split ring */}
-        <circle cx="100" cy="36" r="14" fill="none" stroke="url(#rec-kc-ring)" stroke-width="3.5"/>
+        <rect x="18" y="218" width="164" height="6" rx="1" fill="url(#rec-plate-b)"/>
+        <circle cx="100" cy="36" r="14" fill="none" stroke="url(#rec-ring-b)" stroke-width="3.5"/>
         <circle cx="100" cy="36" r="14" fill="none" stroke="rgba(20, 10, 4, 0.25)" stroke-width="0.8"/>
-        {/* Connector */}
-        <rect x="96" y="48" width="8" height="14" rx="2" fill="url(#rec-kc-ring)"/>
+        <rect x="96" y="48" width="8" height="14" rx="2" fill="url(#rec-ring-b)"/>
         <rect x="96" y="48" width="8" height="14" rx="2" fill="none" stroke="rgba(20, 10, 4, 0.20)" stroke-width="0.5"/>
-        {/* Keychain body — rounded rect with subtle layer feel */}
-        <rect x="48" y="60" width="104" height="148" rx="20" fill="url(#rec-kc-grad)"/>
+        <rect x="48" y="60" width="104" height="148" rx="20" fill="url(#rec-ocean-grad)"/>
         {/* FDM layer lines hint */}
         <g stroke="rgba(255, 255, 255, 0.10)" stroke-width="0.5">
           <line x1="56" y1="78" x2="144" y2="78"/>
@@ -98,9 +90,8 @@
         <text x="100" y="102" text-anchor="middle" font-family="Playfair Display, Georgia, serif"
               font-size="11" font-weight="700" letter-spacing="4"
               fill="rgba(255, 240, 220, 0.85)">CANCUN</text>
-        {/* Hairline divider under CANCUN */}
         <line x1="74" y1="112" x2="126" y2="112" stroke="rgba(255, 240, 220, 0.45)" stroke-width="0.7"/>
-        {/* NAME engraved big */}
+        {/* Name engraved big */}
         <text x="100" y="150" text-anchor="middle" font-family="Playfair Display, Georgia, serif"
               font-size="22" font-weight="600" letter-spacing="3"
               fill="rgba(20, 10, 4, 0.70)">NIRVANA</text>
@@ -113,55 +104,55 @@
     </div>
   </div>
 
-  {/* FRONT — thermos (bottom-left, overlapping main) */}
+  {/* FRONT — Fiesta keychain (bottom-right, overlapping main) */}
   <div class="hero-card hero-card--front" aria-hidden="true">
     <div class="specimen-card">
-      <svg viewBox="0 0 200 200" class="specimen-svg" preserveAspectRatio="xMidYMid meet">
+      <svg viewBox="0 0 200 250" class="specimen-svg" preserveAspectRatio="xMidYMid meet">
         <defs>
-          <linearGradient id="rec-th-grad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#3a3a3a"/>
-            <stop offset="35%" stop-color="#1a1a1a"/>
-            <stop offset="80%" stop-color="#101010"/>
-            <stop offset="100%" stop-color="#2a2a2a"/>
+          <linearGradient id="rec-fiesta-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#f0a674"/>
+            <stop offset="50%" stop-color="#b8501f"/>
+            <stop offset="100%" stop-color="#5a2a08"/>
           </linearGradient>
-          <linearGradient id="rec-th-cap" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#5a5a5a"/>
-            <stop offset="100%" stop-color="#2a2a2a"/>
+          <linearGradient id="rec-ring-c" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#e0e0e0"/>
+            <stop offset="100%" stop-color="#8a8a8a"/>
           </linearGradient>
-          <linearGradient id="rec-th-plate" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id="rec-plate-c" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stop-color="#2a2a2a"/>
             <stop offset="100%" stop-color="#0a0a0a"/>
           </linearGradient>
         </defs>
-        {/* Ground shadow */}
-        <ellipse cx="100" cy="174" rx="44" ry="3.5" fill="rgba(20, 10, 4, 0.22)"/>
-        {/* Build plate */}
-        <rect x="14" y="170" width="172" height="6" rx="1" fill="url(#rec-th-plate)"/>
-        {/* Cap */}
-        <rect x="76" y="18" width="48" height="14" rx="3" fill="url(#rec-th-cap)"/>
-        <rect x="72" y="30" width="56" height="6" rx="2" fill="#1a1a1a"/>
-        {/* Neck */}
-        <rect x="80" y="34" width="40" height="6" rx="1" fill="#2a2a2a"/>
-        {/* Body */}
-        <rect x="62" y="40" width="76" height="120" rx="8" fill="url(#rec-th-grad)"/>
-        {/* Specular highlight strip */}
-        <rect x="68" y="44" width="6" height="112" rx="2" fill="rgba(255, 255, 255, 0.10)"/>
-        {/* Base ring */}
-        <rect x="68" y="156" width="64" height="6" rx="2" fill="#2a2a2a"/>
-        <rect x="66" y="160" width="68" height="5" rx="2" fill="#1a1a1a"/>
-        {/* CANCUN engraved vertically near top */}
-        <text x="100" y="74" text-anchor="middle" font-family="Playfair Display, Georgia, serif"
-              font-size="9" font-weight="700" letter-spacing="3.5"
-              fill="rgba(232, 148, 110, 0.92)">CANCUN</text>
+        <ellipse cx="100" cy="222" rx="60" ry="4" fill="rgba(20, 10, 4, 0.20)"/>
+        <rect x="18" y="218" width="164" height="6" rx="1" fill="url(#rec-plate-c)"/>
+        <circle cx="100" cy="36" r="14" fill="none" stroke="url(#rec-ring-c)" stroke-width="3.5"/>
+        <rect x="96" y="48" width="8" height="14" rx="2" fill="url(#rec-ring-c)"/>
+        <rect x="48" y="60" width="104" height="148" rx="20" fill="url(#rec-fiesta-grad)"/>
+        {/* Confetti dots */}
+        <g fill="rgba(255, 240, 220, 0.85)">
+          <circle cx="64" cy="86" r="2"/>
+          <circle cx="78" cy="78" r="2.5"/>
+          <circle cx="96" cy="84" r="2"/>
+          <circle cx="118" cy="80" r="2.5"/>
+          <circle cx="134" cy="88" r="2"/>
+          <circle cx="70" cy="100" r="1.8"/>
+          <circle cx="128" cy="102" r="2"/>
+        </g>
+        {/* Two names */}
+        <text x="100" y="138" text-anchor="middle" font-family="Playfair Display, Georgia, serif"
+              font-size="18" font-style="italic" font-weight="600"
+              fill="rgba(20, 10, 4, 0.72)">Ana &amp; Luis</text>
         {/* Hairline */}
-        <line x1="82" y1="82" x2="118" y2="82" stroke="rgba(232, 148, 110, 0.50)" stroke-width="0.5"/>
-        {/* Name engraved */}
-        <text x="100" y="118" text-anchor="middle" font-family="Playfair Display, Georgia, serif"
-              font-size="13" font-weight="600" letter-spacing="2.5"
-              fill="rgba(244, 236, 216, 0.90)">MARCO</text>
-        {/* Small wave glyph below name */}
-        <path d="M 82 134 Q 90 130 100 134 T 118 134" fill="none"
-              stroke="rgba(232, 148, 110, 0.65)" stroke-width="1.1" stroke-linecap="round"/>
+        <line x1="74" y1="150" x2="126" y2="150" stroke="rgba(255, 240, 220, 0.55)" stroke-width="0.7"/>
+        {/* Date */}
+        <text x="100" y="170" text-anchor="middle" font-family="DM Sans, sans-serif"
+              font-size="9" font-weight="500" letter-spacing="2"
+              fill="rgba(255, 240, 220, 0.85)">14 · 06 · 2026</text>
+        {/* Bottom streamers */}
+        <g stroke="rgba(255, 240, 220, 0.55)" stroke-width="1.4" fill="none" stroke-linecap="round">
+          <path d="M 64 188 Q 72 184 80 190 T 96 188"/>
+          <path d="M 104 192 Q 112 186 120 192 T 138 188"/>
+        </g>
       </svg>
     </div>
   </div>
@@ -204,35 +195,34 @@
   }
 
   .hero-card--main {
-    width: 54%;
+    width: 52%;
     aspect-ratio: 4 / 5;
-    top: 4%;
-    left: 2%;
+    top: 6%;
+    left: 4%;
     z-index: 3;
-    transform: rotate(-4deg);
+    transform: rotate(-5deg);
   }
 
   .hero-card--back {
-    width: 44%;
-    aspect-ratio: 1 / 1;
+    width: 46%;
+    aspect-ratio: 4 / 5;
     top: 0;
     right: 0;
     z-index: 1;
-    transform: rotate(7deg);
+    transform: rotate(6deg);
     opacity: 0.96;
   }
 
   .hero-card--front {
-    width: 44%;
-    aspect-ratio: 1 / 1;
-    bottom: 2%;
+    width: 46%;
+    aspect-ratio: 4 / 5;
+    bottom: 0;
     right: 4%;
     z-index: 4;
-    transform: rotate(-6deg);
+    transform: rotate(-8deg);
   }
 
-  .hero-stack:hover .hero-card--main  { transform: rotate(-3deg) translateY(-4px); }
-  .hero-stack:hover .hero-card--back  { transform: rotate(9deg) translateX(4px); }
-  .hero-stack:hover .hero-card--front { transform: rotate(-7deg) translate(-4px, 4px); }
-
+  .hero-stack:hover .hero-card--main  { transform: rotate(-4deg) translateY(-4px); }
+  .hero-stack:hover .hero-card--back  { transform: rotate(8deg) translateX(4px); }
+  .hero-stack:hover .hero-card--front { transform: rotate(-9deg) translate(-4px, 4px); }
 </style>

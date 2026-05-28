@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import type { ServiceId } from "../data/services";
 import { SITE } from "../data/services";
+import { galleryItems } from "../data/galleryImages";
 
 interface Props {
   filterService?: ServiceId;
@@ -34,22 +35,13 @@ function img(name: string): ImageMetadata {
   return mod.default;
 }
 
-const allImages: GalleryImage[] = [
-  { src: img("gal-01.jpg"), alt: "Lámparas corazón en MDF apiladas, corte láser de precisión", service: "corte-laser" },
-  { src: img("gal-02.jpg"), alt: "Biombo de copos de nieve en madera y acrílico sobre terraza con vista al mar", service: "corte-laser" },
-  { src: img("gal-03.jpg"), alt: "Caja de regalo en madera con corazón de acrílico y medallón de marca lumo", service: "corte-laser" },
-  { src: img("gal-04.jpg"), alt: "Lámpara trébol de cuatro corazones en MDF cortada a láser", service: "corte-laser" },
-  { src: img("gal-05.jpg"), alt: "Caja de cirio Luz del Mundo con grabado en metal dorado y madera", service: "corte-laser" },
-  { src: img("gal-06.jpg"), alt: "Letrero La Central Vinos & Licores en acrílico negro y dorado", service: "corte-laser" },
-  { src: img("gal-07.jpg"), alt: "Cajones de madera apilados con ensamble dovetail cortado a láser", service: "corte-laser" },
-  { src: img("gal-08.jpg"), alt: "Caja corazón de madera con rosas rojas y chocolates Ferrero", service: "corte-laser" },
-  { src: img("gal-09.jpg"), alt: "Panel decorativo de copo de nieve sobre sarape mexicano de colores", service: "corte-laser" },
-  { src: img("gal-10.jpg"), alt: "Paletas de madera grabadas con nombres para evento corporativo L'Oréal", service: "corte-laser" },
-  { src: img("gal-11.jpg"), alt: "Llavero de Cancún grabado con patrón maya y perforaciones decorativas", service: "corte-laser" },
-  { src: img("gal-12.jpg"), alt: "Cesta pequeña de madera oscura con ensamble de dedos cortado a láser", service: "corte-laser" },
-  { src: img("gal-13.jpg"), alt: "Caja larga de madera con tapa de dos tonos, diseño minimalista", service: "corte-laser" },
-  { src: img("gal-14.jpg"), alt: "Marco corazón de madera con corazones de acrílico sobre escultura de bronce", service: "corte-laser" },
-];
+// Pull metadata (alt + service) from the shared data file so Hero's marquee
+// and this gallery stay in sync without duplicating descriptions.
+const allImages: GalleryImage[] = galleryItems.map((item) => ({
+  src: img(item.file),
+  alt: item.alt,
+  service: item.service,
+}));
 
 const images = filterService
   ? allImages.filter((img) => img.service === filterService)

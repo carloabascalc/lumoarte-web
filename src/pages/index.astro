@@ -6,10 +6,46 @@ import ServicesGrid from "../components/ServicesGrid.astro";
 import MaterialAssembly from "../components/MaterialAssembly.astro";
 import Gallery from "../components/Gallery.astro";
 import InstagramCTA from "../components/InstagramCTA.astro";
+import FAQ from "../components/FAQ.astro";
 import QuoteForm from "../components/QuoteForm.astro";
 import Contact from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
+
+// Homepage FAQs — concrete numbers and self-contained answers improve
+// citability for AI search (ChatGPT, Perplexity, Google AI Overviews).
+const homeFaqs = [
+  {
+    question: "¿Qué servicios ofrece Lumo Arte?",
+    answer:
+      "Lumo Arte es un taller de fabricación digital en Cancún con tres servicios bajo un mismo techo: corte láser y grabado, impresión 3D (FDM multicolor y resina) e impresión de gran formato (lonas, vinil y sublimación hasta 1.80 m de ancho). Atendemos pieza única, prototipos y producción en serie.",
+  },
+  {
+    question: "¿Cuánto tardan en cotizar y en entregar?",
+    answer:
+      "Respondemos por WhatsApp en menos de 24 horas hábiles. Para corte láser de piezas pequeñas o medianas entregamos entre 24 y 72 horas; impresión 3D entre 1 y 5 días según volumen y tecnología; impresión de gran formato en 24 a 72 horas. Producciones grandes (cientos o miles de piezas) toman de 3 a 10 días hábiles.",
+  },
+  {
+    question: "¿Cuál es el tamaño máximo que pueden fabricar?",
+    answer:
+      "Corte láser: área útil de 130 × 90 cm en una sola pieza (piezas mayores se modulan). Impresión de gran formato: 1.80 m de ancho por largo prácticamente ilimitado, con resolución de hasta 1440 dpi. Impresión 3D: hasta 256 × 256 × 256 mm en FDM (Bambu Lab H2C) y 300 × 300 × 400 mm en las Artillery Sidewinder XL.",
+  },
+  {
+    question: "¿Hay pedido mínimo?",
+    answer:
+      "No. Cobramos por minuto de máquina y por área de material, así que aceptamos desde una sola pieza personalizada hasta producción en serie. Para lotes grandes ofrecemos descuento por volumen.",
+  },
+  {
+    question: "¿Qué archivos aceptan y diseñan ustedes?",
+    answer:
+      "Aceptamos vectores en AI, EPS, SVG, PDF y DXF para corte láser y plotter. Para impresión 3D recibimos STL, OBJ, 3MF y STEP. Si solo tienes una imagen JPG o PNG nítida, podemos vectorizarla por ti — incluido en la cotización cuando es sencillo. El diseño desde cero lo trabajamos por separado, con propuesta dedicada.",
+  },
+  {
+    question: "¿Dónde están y a qué zonas entregan?",
+    answer:
+      "Estamos en Retorno Tejón, Sm 20, Mz 3, Lt 2, Cancún 77500 — horario lunes a sábado de 9 a 18 horas. En Cancún hacemos entrega a domicilio dentro de la zona metropolitana; para Playa del Carmen, Tulum, Mérida y resto de México enviamos por DHL o Estafeta, con el costo agregado a la cotización.",
+  },
+];
 ---
 
 <Base
@@ -28,6 +64,11 @@ import WhatsAppButton from "../components/WhatsAppButton.astro";
       subtitle="Una muestra del taller. Para ver más por servicio, visita la página correspondiente."
     />
     <InstagramCTA />
+    <FAQ
+      title="Preguntas frecuentes"
+      subtitle="Las dudas que más nos llegan por WhatsApp. Si la tuya no aparece, mándanos un mensaje."
+      items={homeFaqs}
+    />
     <QuoteForm />
   </main>
   <div class="page-end">

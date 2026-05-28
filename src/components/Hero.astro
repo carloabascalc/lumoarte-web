@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
+import { altByFile } from "../data/galleryImages";
 
 // Pull all gallery photos for the marquee — they form the visual proof of work.
 const galleryFiles = import.meta.glob<{ default: ImageMetadata }>(
@@ -8,9 +9,14 @@ const galleryFiles = import.meta.glob<{ default: ImageMetadata }>(
   { eager: true },
 );
 
+// Keep the filename so each photo carries its descriptive alt (good for image
+// search + AI understanding). The looped duplicate copies stay alt="".
 const marqueeImages = Object.entries(galleryFiles)
   .sort(([a], [b]) => a.localeCompare(b))
-  .map(([_, mod]) => mod.default);
+  .map(([path, mod]) => ({
+    src: mod.default,
+    alt: altByFile[path.split("/").pop() ?? ""] ?? "",
+  }));
 
 // Split images into two rows so each row carries its own slice of the work.
 const rowA = marqueeImages.filter((_, i) => i % 2 === 0);
@@ -45,10 +51,11 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
       Fabricación digital · Cancún
     </p>
 
-    <h1 class="hero-title" data-reveal data-reveal-delay="0.06">
+    <h1 class="sr-only">De la idea al objeto.</h1>
+    <div class="hero-title" data-reveal data-reveal-delay="0.06" aria-hidden="true">
       <span class="title-line title-line--top">De la idea</span>
       <span class="title-line title-line--bottom">al <em class="title-em">objeto.</em></span>
-    </h1>
+    </div>
 
     <p class="hero-sub" data-reveal data-reveal-delay="0.12">
       Corte láser, impresión 3D e impresión de gran formato bajo un mismo techo.
@@ -73,7 +80,7 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
   <div class="hero-marquee" aria-hidden="true" data-reveal data-reveal-delay="0.30">
     <div class="marquee-row marquee-row--top">
       <div class="marquee-track marquee-track--ltr">
-        {rowA.map((src, i) => {
+        {rowA.map((item, i) => {
           const s = sizeFor(i);
           return (
             <figure
@@ -81,8 +88,8 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
               style={`width: ${s.w}px; height: ${s.h}px;`}
             >
               <Image
-                src={src}
-                alt=""
+                src={item.src}
+                alt={item.alt}
                 widths={[280, 420]}
                 sizes="240px"
                 quality={75}
@@ -93,7 +100,7 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
             </figure>
           );
         })}
-        {rowA.map((src, i) => {
+        {rowA.map((item, i) => {
           const s = sizeFor(i);
           return (
             <figure
@@ -102,8 +109,8 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
               aria-hidden="true"
             >
               <Image
-                src={src}
-                alt=""
+                src={item.src}
+                alt={item.alt}
                 widths={[280, 420]}
                 sizes="240px"
                 quality={75}
@@ -119,7 +126,7 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
 
     <div class="marquee-row marquee-row--bottom">
       <div class="marquee-track marquee-track--rtl">
-        {rowB.map((src, i) => {
+        {rowB.map((item, i) => {
           const s = sizeFor(i + 3);
           return (
             <figure
@@ -127,8 +134,8 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
               style={`width: ${s.w}px; height: ${s.h}px;`}
             >
               <Image
-                src={src}
-                alt=""
+                src={item.src}
+                alt={item.alt}
                 widths={[280, 420]}
                 sizes="240px"
                 quality={75}
@@ -139,7 +146,7 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
             </figure>
           );
         })}
-        {rowB.map((src, i) => {
+        {rowB.map((item, i) => {
           const s = sizeFor(i + 3);
           return (
             <figure
@@ -148,8 +155,8 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
               aria-hidden="true"
             >
               <Image
-                src={src}
-                alt=""
+                src={item.src}
+                alt={item.alt}
                 widths={[280, 420]}
                 sizes="240px"
                 quality={75}

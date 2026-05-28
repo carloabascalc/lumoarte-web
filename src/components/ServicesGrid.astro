@@ -12,6 +12,15 @@ const cover: Record<string, ImageMetadata> = {
   "impresion-gran-formato": cardPlotter,
   "recuerdos-cancun": cardRecuerdos,
 };
+
+// Descriptive alt per service card — helps image search even though the
+// surrounding text already names the service for screen readers.
+const coverAlt: Record<string, string> = {
+  "corte-laser": "Lámparas corazón en MDF cortadas con láser",
+  "impresion-3d": "Piezas impresas en 3D con filamento multicolor",
+  "impresion-gran-formato": "Lonas e impresos de gran formato producidos en Cancún",
+  "recuerdos-cancun": "Recuerdos personalizados con motivos de Cancún",
+};
 ---
 
 <section class="servicios" id="servicios">
@@ -38,10 +47,10 @@ const cover: Record<string, ImageMetadata> = {
         return (
           <li class={`servicio-card servicio-card--${s.id}`} data-reveal data-reveal-delay={`${0.05 + i * 0.06}`} data-tilt>
             <a href={href} class="servicio-link" {...linkAttrs}>
-              <div class="servicio-media" aria-hidden="true">
+              <div class="servicio-media">
                 <Image
                   src={cover[s.id]}
-                  alt=""
+                  alt={coverAlt[s.id]}
                   widths={[400, 600, 900]}
                   sizes="(max-width: 640px) 100vw, (max-width: 980px) 50vw, 33vw"
                   quality={75}

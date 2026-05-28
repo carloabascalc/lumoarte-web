@@ -24,8 +24,8 @@ const serviceSchema = {
 const pasos = [
   {
     n: "01",
-    titulo: "Elige tu pieza",
-    texto: "Llavero, termo, portavasos o algo a tu medida — diseño nuevo, logo de empresa, regalo de evento. Nosotros nos adaptamos.",
+    titulo: "Elige cómo lo quieres",
+    texto: "Mándanos tu propio modelo 3D para imprimirlo, o elige un llavero de nuestro catálogo. Tú dices.",
     icon: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="20"/><circle cx="24" cy="24" r="12"/><path d="M24 4v40M4 24h40"/></svg>`,
   },
   {
@@ -44,31 +44,22 @@ const pasos = [
 
 const catalogo = [
   {
-    id: "llavero",
-    eyebrow: "Impresión 3D · Multi-color",
-    name: "Llaveros",
-    desc: "Cuatro diseños inspirados en Cancún o un modelo nuevo si tienes algo en mente. Con nombre grabado o sin él.",
+    id: "personalizado",
+    eyebrow: "Tú mandas el archivo",
+    name: "Llavero personalizado",
+    desc: "Mándanos tu propio modelo 3D (.stl, .3mf, .obj) y nosotros lo imprimimos. Si solo tienes un boceto o una idea, también lo modelamos por ti.",
     desde: "Desde $11 USD",
-    bullets: ["1 a 50 piezas", "Hasta 15 caracteres grabados", "Add-ons: destapador, soporte AirTag"],
-    icon: `<svg viewBox="0 0 56 72" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="10" r="6"/><rect x="26" y="16" width="4" height="8" rx="1"/><rect x="14" y="24" width="28" height="42" rx="6" fill="rgba(165,58,4,0.10)"/><path d="M20 36h16M20 44h12M20 52h16"/></svg>`,
+    bullets: ["Tú mandas el .stl o tu boceto", "Impresión multi-color en FDM", "Modelado a la medida cotizado aparte"],
+    icon: `<svg viewBox="0 0 80 110" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="40" cy="12" r="7"/><rect x="37" y="19" width="6" height="10" rx="1.5"/><rect x="14" y="29" width="52" height="72" rx="9" fill="rgba(165,58,4,0.10)"/><path d="M30 50 L40 44 L50 50 L50 62 L40 68 L30 62 Z"/><path d="M40 44 L40 56 L30 62 M40 56 L50 62" stroke-dasharray="2 2"/><text x="40" y="88" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="6" letter-spacing="2" stroke="none" fill="currentColor">TU MODELO</text></svg>`,
   },
   {
-    id: "termo",
-    eyebrow: "Grabado láser · Acero",
-    name: "Termo 20oz",
-    desc: "Acero inoxidable doble pared, mantiene frío 24h y caliente 12h. Grabado láser permanente — no se borra ni se despinta.",
-    desde: "Desde $15 USD",
-    bullets: ["591 ml · tapa hermética", "Grabamos CANCUN, tu nombre, o ambos", "Logo de empresa para pedidos 10+"],
-    icon: `<svg viewBox="0 0 56 72" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="20" y="6" width="16" height="6" rx="2"/><rect x="18" y="12" width="20" height="3" rx="1"/><rect x="22" y="15" width="12" height="2"/><rect x="16" y="17" width="24" height="46" rx="3" fill="rgba(165,58,4,0.10)"/><path d="M22 28h12M22 36h12M22 44h8"/><rect x="20" y="63" width="16" height="3" rx="1"/></svg>`,
-  },
-  {
-    id: "portavasos",
-    eyebrow: "Corte láser · MDF",
-    name: "Set de portavasos",
-    desc: "Cinco portavasos cortados y grabados en MDF sellado contra humedad. Tu nombre, fecha, monograma o diseño a tu gusto.",
-    desde: "$15 USD el set",
-    bullets: ["5 piezas de 10 × 10 cm", "MDF sellado", "Caja de presentación incluida"],
-    icon: `<svg viewBox="0 0 56 72" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="28" cy="56" rx="20" ry="5" fill="rgba(165,58,4,0.10)"/><ellipse cx="28" cy="50" rx="20" ry="5"/><ellipse cx="28" cy="44" rx="20" ry="5"/><ellipse cx="28" cy="38" rx="20" ry="5"/><ellipse cx="28" cy="32" rx="20" ry="5" fill="rgba(165,58,4,0.18)"/><text x="28" y="36" text-anchor="middle" font-family="Playfair Display, serif" font-size="6" font-style="italic" fill="currentColor">M&amp;A</text></svg>`,
+    id: "catalogo",
+    eyebrow: "Lo elegimos del catálogo",
+    name: "Llavero de nuestro catálogo",
+    desc: "Diseños ya hechos por nosotros, listos para imprimir. Si solo quieres un recuerdo de Cancún sin pensarle, pides uno tal cual.",
+    desde: "Desde $9 USD",
+    bullets: ["Varios diseños disponibles", "Listos para imprimir", "Entrega más rápida"],
+    icon: `<svg viewBox="0 0 80 110" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="40" cy="12" r="7"/><rect x="37" y="19" width="6" height="10" rx="1.5"/><rect x="14" y="29" width="52" height="72" rx="9" fill="rgba(165,58,4,0.10)"/><text x="40" y="58" text-anchor="middle" font-family="Playfair Display, serif" font-size="10" font-weight="700" letter-spacing="3" stroke="none" fill="currentColor">CANCUN</text><path d="M22 74 Q30 70 38 74 T54 74 T62 74"/><path d="M22 82 Q30 78 38 82 T54 82 T62 82"/><path d="M22 90 Q30 86 38 90 T54 90 T62 90"/></svg>`,
   },
 ];
 
@@ -89,9 +80,14 @@ const faqs = [
       "Para los dos. La mitad de nuestros pedidos son regalos — cumpleaños, bodas, despedidas, kits de bienvenida corporativos, recuerdos de evento. Si tu pedido es regalo y quieres que llegue empacado bonito, dilo en el mensaje y le hacemos envoltura sin costo extra.",
   },
   {
-    question: "¿Y si no quiero personalizarlo?",
+    question: "¿Y si no tengo un diseño propio?",
     answer:
-      "Va igual de bien. Los cuatro diseños de llavero y los portavasos se pueden pedir tal cual, sin nombre ni texto. El termo siempre lleva al menos la palabra CANCUN o un nombre grabado, porque sin grabado pierde gracia.",
+      "Pide uno de nuestro catálogo. Son diseños ya hechos inspirados en Cancún —listos para imprimir, sin que tú tengas que mandarnos nada— y salen más rápido.",
+  },
+  {
+    question: "¿Qué archivos puedo mandarles para imprimir mi modelo?",
+    answer:
+      "Lo ideal es .stl, .3mf o .obj. Si solo tienes un boceto, una foto o una idea, también nos funciona — lo modelamos por ti y te cotizamos aparte el diseño según complejidad.",
   },
   {
     question: "¿Hacen pedidos grandes para eventos o empresas?",
@@ -101,7 +97,7 @@ const faqs = [
   {
     question: "¿Diseños fuera del catálogo?",
     answer:
-      "Sí, todo el tiempo. Si tienes un boceto, una idea, un logo o algo que viste en Pinterest, nosotros lo digitalizamos y producimos. El diseño se cotiza aparte según complejidad. Para piezas únicas o limitadas funcionamos como taller a la medida — el catálogo es solo el punto de partida.",
+      "Sí, todo el tiempo. Si tienes un boceto, una idea, un logo o algo que viste en Pinterest, nosotros lo digitalizamos y producimos. El diseño se cotiza aparte según complejidad. Funcionamos como taller a la medida — el catálogo es solo un punto de partida.",
   },
   {
     question: "¿Qué idiomas admiten en el grabado?",
@@ -135,9 +131,9 @@ const faqs = [
     />
 
     <ServicePageHero
-      eyebrow="Personalizados, hechos en Cancún"
-      title="Pide tu llavero, termo o portavasos <em>hecho aquí</em>"
-      subtitle="Diseños listos para personalizar — o pídelos tal cual. También hacemos piezas a la medida para regalos, bodas, eventos y empresas. 72 horas hábiles desde que confirmas el pago."
+      eyebrow="Llaveros de Cancún, hechos aquí"
+      title="Tu llavero de Cancún, <em>hecho en Cancún</em>"
+      subtitle="Mándanos tu propio modelo 3D para imprimirlo, o elige uno de nuestro catálogo. También hacemos diseños a la medida para bodas, eventos y empresas. 72 horas hábiles desde que confirmas el pago."
       primaryCta={{ label: "Hacer pedido", href: "#pedido" }}
       secondaryCta={{ label: "Cómo funciona", href: "#funciona" }}
       service="laser"
@@ -170,12 +166,12 @@ const faqs = [
     <section class="catalog" id="pedido">
       <div class="container">
         <div class="section-header">
-          <p class="eyebrow" data-reveal>Qué pedimos</p>
+          <p class="eyebrow" data-reveal>Dos formas de pedirlo</p>
           <h2 class="section-title" data-reveal data-reveal-delay="0.06">
-            El catálogo
+            Elige tu llavero
           </h2>
           <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
-            Tres productos base. Cualquiera se personaliza con nombres, fechas, logos o diseño a tu gusto. ¿Necesitas algo que no está aquí? Pídelo igual — la mitad de lo que hacemos es a la medida.
+            Mándanos tu propio modelo 3D —o tu boceto— para imprimirlo, o elige uno de nuestro catálogo.
           </p>
         </div>
 
@@ -218,10 +214,9 @@ const faqs = [
                 <label for="ofProduct">¿Qué quieres?</label>
                 <select id="ofProduct" required>
                   <option value="">Elige una opción</option>
-                  <option value="llavero">Llavero personalizado</option>
-                  <option value="termo">Termo grabado</option>
-                  <option value="portavasos">Set de portavasos</option>
-                  <option value="custom">Otro / pedido a la medida</option>
+                  <option value="personalizado">Llavero personalizado (yo mando el modelo)</option>
+                  <option value="catalogo">Llavero de su catálogo</option>
+                  <option value="custom">Diseño a la medida (lo modelan ustedes)</option>
                 </select>
               </div>
               <div class="form-group">
@@ -279,26 +274,40 @@ const faqs = [
     background: var(--color-bg-alt);
     padding: 96px 0;
   }
-  .section-header { text-align: center; max-width: 720px; margin: 0 auto 56px; }
+  .section-header {
+    text-align: center;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .eyebrow {
     font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--color-accent);
-    margin-bottom: 16px;
+    margin: 0 0 16px;
+    text-align: center;
   }
   .section-title {
     font-family: var(--font-display);
     font-size: clamp(1.75rem, 3vw, 2.5rem);
     font-weight: 600;
     color: var(--color-text);
-    margin-bottom: 16px;
+    margin: 0 0 16px;
+    text-align: center;
   }
   .section-subtitle {
     color: var(--color-muted);
     font-size: 1rem;
     line-height: 1.7;
+    max-width: 560px;
+    margin: 0 auto;
+    text-align: center;
   }
 
   .pasos-grid {
@@ -403,11 +412,14 @@ const faqs = [
   }
   .catalog-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
     list-style: none;
     perspective: 1400px;
     margin-bottom: 80px;
+    max-width: 940px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .catalog-card {
     position: relative;
@@ -545,9 +557,6 @@ const faqs = [
     gap: 12px;
   }
 
-  @media (max-width: 960px) {
-    .catalog-grid { grid-template-columns: 1fr 1fr; }
-  }
   @media (max-width: 640px) {
     .catalog { padding: 80px 0; }
     .catalog-grid { grid-template-columns: 1fr; perspective: none; margin-bottom: 56px; }
@@ -688,10 +697,9 @@ const faqs = [
       }
 
       const productLabel: Record<string, string> = {
-        llavero: "Llavero personalizado",
-        termo: "Termo grabado",
-        portavasos: "Set de portavasos",
-        custom: "Pedido a la medida",
+        personalizado: "Llavero personalizado (yo mando el modelo)",
+        catalogo: "Llavero de su catálogo",
+        custom: "Diseño a la medida (lo modelan ustedes)",
       };
 
       const lines = [
