@@ -15,9 +15,9 @@ const personSchema = {
   "@type": "Person",
   "@id": `${SITE.url}#founder`,
   name: "Adriano Abascal",
-  jobTitle: "Arquitecto · Fundador de Lumo Arte",
+  jobTitle: "Arquitecto · Fundador de Lumo Cancún",
   description:
-    "Arquitecto cancunense, fundador de Lumo Arte. Trabaja donde se cruzan la precisión de la máquina, la sensibilidad del diseño y la paciencia del trabajo manual.",
+    "Arquitecto cancunense, fundador de Lumo Cancún. Trabaja donde se cruzan la precisión de la máquina, la sensibilidad del diseño y la paciencia del trabajo manual.",
   url: `${SITE.url}/sobre-nosotros`,
   image: `${SITE.url}${SITE.ogDefault}`,
   worksFor: { "@id": `${SITE.url}#organization` },
@@ -40,15 +40,15 @@ const aboutPageSchema = {
   "@context": "https://schema.org",
   "@type": "AboutPage",
   url: `${SITE.url}/sobre-nosotros`,
-  name: "Sobre nosotros — Lumo Arte",
+  name: "Sobre nosotros — Lumo Cancún",
   mainEntity: { "@id": `${SITE.url}#organization` },
   about: { "@id": `${SITE.url}#founder` },
 };
 ---
 
 <Base
-  title="Sobre nosotros — Lumo Arte | Taller de fabricación digital en Cancún"
-  description="Lumo Arte es un taller de fabricación digital en Cancún fundado por Adriano Abascal, arquitecto. Tres oficios bajo un techo: corte láser, impresión 3D e impresión de gran formato."
+  title="Sobre nosotros — Lumo Cancún | Taller de fabricación digital en Cancún"
+  description="Lumo Cancún es un taller de fabricación digital en Cancún fundado por Adriano Abascal, arquitecto. Tres oficios bajo un techo: corte láser, impresión 3D e impresión de gran formato."
   canonical="/sobre-nosotros"
   ogImage="/og/default.jpg"
   extraSchemas={[personSchema, aboutPageSchema]}
@@ -65,7 +65,7 @@ const aboutPageSchema = {
     <article class="about-page">
       <header class="about-hero">
         <div class="container">
-          <p class="about-eyebrow" data-reveal>Sobre Lumo Arte</p>
+          <p class="about-eyebrow" data-reveal>Sobre Lumo Cancún</p>
           <h1 class="about-h1" data-reveal data-reveal-delay="0.06">
             Tres oficios bajo un mismo techo.
           </h1>
@@ -82,7 +82,7 @@ const aboutPageSchema = {
           <div class="about-text">
             <h2>Cómo empezamos</h2>
             <p>
-              Lumo Arte nació en Cancún como una extensión natural del estudio
+              Lumo Cancún nació en Cancún como una extensión natural del estudio
               de arquitectura de Adriano. Empezamos con una sola cortadora
               láser para resolver maquetas, piezas a medida y elementos
               decorativos para los proyectos del despacho. Cada pieza que

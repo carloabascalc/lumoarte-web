@@ -98,7 +98,7 @@ export const isExternalService = (service: Service): boolean =>
   EMD_ENABLED && !!service.emdDomain;
 
 export const SITE = {
-  name: 'Lumo Arte',
+  name: 'Lumo Cancún',
   tagline: 'Fabricación digital en Cancún',
   url: 'https://lumocancun.com',
   description: 'Corte láser, impresión 3D e impresión gran formato en Cancún. Un solo taller, tres servicios. Cotización por WhatsApp en menos de 24 horas.',

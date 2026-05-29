@@ -1,4 +1,4 @@
-# Lumo Arte — Información completa
+# Lumo Cancún — Información completa
 
 > Taller de fabricación digital en Cancún, México. Tres servicios bajo un mismo techo: corte láser y grabado, impresión 3D (FDM multicolor y resina), e impresión de gran formato (lonas, vinil y sublimación hasta 1.80 m de ancho). Atendemos pieza única, prototipos y producción en serie para arquitectos, diseñadores, agencias y eventos.
 
@@ -8,7 +8,7 @@ Fundado por Adriano Abascal, arquitecto. Cotización por WhatsApp en menos de 24
 
 ## Quiénes somos
 
-Lumo Arte nació en Cancún como una extensión natural del estudio de arquitectura de Adriano Abascal. Empezamos con una sola cortadora láser para resolver maquetas, piezas a medida y elementos decorativos para los proyectos del despacho. Cada pieza que salía revelaba una nueva posibilidad — y un nuevo grupo de clientes que querían lo mismo: piezas hechas con cuidado, no producidas en masa.
+Lumo Cancún nació en Cancún como una extensión natural del estudio de arquitectura de Adriano Abascal. Empezamos con una sola cortadora láser para resolver maquetas, piezas a medida y elementos decorativos para los proyectos del despacho. Cada pieza que salía revelaba una nueva posibilidad — y un nuevo grupo de clientes que querían lo mismo: piezas hechas con cuidado, no producidas en masa.
 
 Hoy operamos cuatro impresoras 3D (Bambu Lab H2C, Anycubic de resina y dos Artillery Sidewinder XL), un plotter Sino Supply XP600 de 1.80 metros de ancho, y la misma cortadora láser de los inicios con área útil de 130 × 90 cm. Tres procesos, un solo taller.
 
@@ -66,7 +66,7 @@ Plotter Sino Supply XP600 E-1801 con tintas eco-solvente.
 
 ## Preguntas frecuentes
 
-### ¿Qué servicios ofrece Lumo Arte?
+### ¿Qué servicios ofrece Lumo Cancún?
 Corte láser y grabado, impresión 3D (FDM y resina), e impresión de gran formato (lonas, vinil, sublimación hasta 1.80 m). Pieza única, prototipos y producción en serie.
 
 ### ¿Cuánto tardan en cotizar y en entregar?

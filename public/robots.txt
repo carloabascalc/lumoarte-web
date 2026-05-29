@@ -1,4 +1,4 @@
-# Lumo Arte — todos los robots bienvenidos, incluidos los crawlers de IA.
+# Lumo Cancún — todos los robots bienvenidos, incluidos los crawlers de IA.
 # El allow-all de abajo ya permite a cualquier bot; las secciones explícitas
 # documentan la intención y evitan bloqueos por defaults conservadores.
 

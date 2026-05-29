@@ -50,7 +50,7 @@ const articleSchema = {
 ---
 
 <Base
-  title={`${title} — Recursos | Lumo Arte`}
+  title={`${title} — Recursos | Lumo Cancún`}
   description={description}
   canonical={canonical}
   ogImage={ogImage}
@@ -237,6 +237,26 @@ const articleSchema = {
     margin: 18px 0;
     color: var(--color-muted);
     font-style: italic;
+  }
+
+  /* Methodology / source note — frames quantitative claims as first-party
+     shop data (E-E-A-T) and flags general material specs as manufacturer
+     typicals. Understated card so it reads as a footnote, not a CTA. */
+  .article-body :global(.source-note) {
+    margin: 40px 0 8px;
+    padding: 18px 20px;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-surface);
+    border-left: 3px solid var(--color-accent);
+    border-radius: 6px;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+
+  .article-body :global(.source-note strong) {
+    color: var(--color-text);
+    font-weight: 600;
   }
 
   .article-footer {
