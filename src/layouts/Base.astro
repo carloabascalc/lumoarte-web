@@ -123,19 +123,22 @@ const organizationSchema = {
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Servicios de fabricación digital",
-    itemListElement: services
-      .filter((s) => !s.emdDomain)
-      .map((s) => ({
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: s.name,
-          description: s.metaDescription,
-          url: `${SITE.url}${s.slug}`,
-          provider: { "@id": `${SITE.url}#business` },
-          areaServed: { "@type": "City", name: "Cancún" },
-        },
-      })),
+    // All four services are genuinely offered by the business and live under
+    // /servicios/*. The `emdDomain` flag only changes where marketing links
+    // point (dormant EMD strategy) — it must NOT prune the offer catalog, or
+    // the two flagship services (corte láser, impresión 3D) vanish from the
+    // brand's structured offering. Always list every service.
+    itemListElement: services.map((s) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: s.name,
+        description: s.metaDescription,
+        url: `${SITE.url}${s.slug}`,
+        provider: { "@id": `${SITE.url}#business` },
+        areaServed: { "@type": "City", name: "Cancún" },
+      },
+    })),
   },
 };
 

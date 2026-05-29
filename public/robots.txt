@@ -1,4 +1,47 @@
+# Lumo Arte — todos los robots bienvenidos, incluidos los crawlers de IA.
+# El allow-all de abajo ya permite a cualquier bot; las secciones explícitas
+# documentan la intención y evitan bloqueos por defaults conservadores.
+
 User-agent: *
+Allow: /
+
+# --- Crawlers de IA generativa / búsqueda con IA (acceso explícito) ---
+# OpenAI
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic (Claude)
+User-agent: ClaudeBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: Claude-Web
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+User-agent: Perplexity-User
+Allow: /
+
+# Google (AI Overviews / Gemini) y Bing / Copilot
+User-agent: Google-Extended
+Allow: /
+User-agent: Googlebot
+Allow: /
+User-agent: Bingbot
+Allow: /
+
+# Apple Intelligence y Common Crawl (corpus usado por muchos modelos)
+User-agent: Applebot
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+User-agent: CCBot
 Allow: /
 
 Sitemap: https://lumocancun.com/sitemap-index.xml
