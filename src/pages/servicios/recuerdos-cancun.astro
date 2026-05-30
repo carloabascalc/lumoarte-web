@@ -3,6 +3,7 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import ServicePageHero from "../../components/ServicePageHero.astro";
+import ServicePdfs from "../../components/ServicePdfs.astro";
 import RecuerdosShowcase from "../../components/RecuerdosShowcase.astro";
 import CrossServices from "../../components/CrossServices.astro";
 import FAQ from "../../components/FAQ.astro";
@@ -140,6 +141,8 @@ const faqs = [
     >
       <RecuerdosShowcase slot="showcase" />
     </ServicePageHero>
+
+    <ServicePdfs service={service} />
 
     <section class="pasos" id="funciona">
       <div class="container">

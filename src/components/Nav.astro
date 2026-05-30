@@ -34,19 +34,19 @@ const navClass = isEmd ? "nav nav--solid nav--emd" : `nav nav--${variant}`;
     </a>
     <nav class="nav-actions" aria-label="Navegación principal">
       <a href={serviciosHref} class="nav-link nav-link--desktop">Servicios</a>
-      <a
-        href={preciosHref}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn nav-pdf nav-pdf--primary"
-      >Lista de precios ↓</a>
       {!isEmd && (
         <a
-          href={manualHref}
+          href="#cotiza"
+          class="btn btn-primary nav-cta nav-cta--desktop"
+        >Solicita tu cotización</a>
+      )}
+      {isEmd && (
+        <a
+          href={preciosHref}
           target="_blank"
           rel="noopener noreferrer"
-          class="btn nav-pdf nav-pdf--secondary"
-        >¿Cómo enviar tu proyecto? ↓</a>
+          class="btn nav-pdf nav-pdf--primary"
+        >Lista de precios ↓</a>
       )}
       {isEmd && (
         <a
@@ -96,18 +96,6 @@ const navClass = isEmd ? "nav nav--solid nav--emd" : `nav nav--${variant}`;
           >{s.name}</a>
         );
       })}
-      <a
-        href="/precios-lumoarte.pdf"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="nav-drawer-link"
-      >Lista de precios ↓</a>
-      <a
-        href="/manual-lumoarte.pdf"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="nav-drawer-link"
-      >¿Cómo enviar tu proyecto? ↓</a>
       <a href="#cotiza" class="btn btn-primary nav-drawer-cta">Solicita tu cotización</a>
     </div>
   )}
@@ -173,6 +161,12 @@ const navClass = isEmd ? "nav nav--solid nav--emd" : `nav nav--${variant}`;
 
   .nav--overlay:not(.scrolled) .nav-link:hover {
     color: #fff;
+  }
+
+  .nav-cta {
+    padding: 11px 22px;
+    font-size: 0.875rem;
+    font-weight: 500;
   }
 
   .nav-pdf {
@@ -330,6 +324,7 @@ const navClass = isEmd ? "nav nav--solid nav--emd" : `nav nav--${variant}`;
   /* ── Breakpoints ───────────────────────────────────── */
   @media (max-width: 720px) {
     .nav-link--desktop,
+    .nav-cta--desktop,
     .nav-pdf {
       display: none;
     }

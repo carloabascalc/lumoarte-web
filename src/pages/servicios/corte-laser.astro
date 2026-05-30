@@ -3,6 +3,7 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import ServicePageHero from "../../components/ServicePageHero.astro";
+import ServicePdfs from "../../components/ServicePdfs.astro";
 import LaserShowcase from "../../components/LaserShowcase.astro";
 import LaserAssembly from "../../components/LaserAssembly.astro";
 import Materials from "../../components/Materials.astro";
@@ -120,6 +121,8 @@ const faqs = [
     >
       <LaserShowcase slot="showcase" />
     </ServicePageHero>
+
+    <ServicePdfs service={service} />
 
     <LaserAssembly />
 
