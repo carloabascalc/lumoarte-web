@@ -30,7 +30,14 @@ const {
   noindex = false,
 } = Astro.props;
 
-const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site).href;
+// Normalise the canonical to a trailing slash so it matches the sitemap and the
+// directory URLs Vercel actually serves. Mismatched slash vs no-slash was making
+// GSC file the sitemap URLs as "Alternative page with proper canonical tag".
+const _canonical = new URL(canonical ?? Astro.url.pathname, Astro.site);
+if (!/\.[a-z0-9]+$/i.test(_canonical.pathname) && !_canonical.pathname.endsWith("/")) {
+  _canonical.pathname += "/";
+}
+const canonicalURL = _canonical.href;
 const ogImageURL = new URL(ogImage, Astro.site).href;
 
 const localBusinessSchema = {

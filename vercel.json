@@ -26,26 +26,26 @@
     {
       "source": "/cortelasercancun",
       "has": [{ "type": "host", "value": "lumocancun.com" }],
-      "destination": "https://cortelasercancun.com/",
-      "permanent": true
+      "destination": "/servicios/corte-laser",
+      "permanent": false
     },
     {
       "source": "/cortelasercancun",
       "has": [{ "type": "host", "value": "www.lumocancun.com" }],
-      "destination": "https://cortelasercancun.com/",
-      "permanent": true
+      "destination": "/servicios/corte-laser",
+      "permanent": false
     },
     {
       "source": "/impresion3dcancun",
       "has": [{ "type": "host", "value": "lumocancun.com" }],
-      "destination": "https://impresion3dcancun.com/",
-      "permanent": true
+      "destination": "/servicios/impresion-3d",
+      "permanent": false
     },
     {
       "source": "/impresion3dcancun",
       "has": [{ "type": "host", "value": "www.lumocancun.com" }],
-      "destination": "https://impresion3dcancun.com/",
-      "permanent": true
+      "destination": "/servicios/impresion-3d",
+      "permanent": false
     }
   ],
   "headers": [
