@@ -46,7 +46,9 @@ const {
 
 <style>
   .service-hero {
-    padding: calc(var(--nav-h) + 28px) 0 88px;
+    /* The Breadcrumb above already clears the fixed nav, so the hero must NOT
+       add another nav-height of top padding (that double-counted the gap). */
+    padding: 28px 0 88px;
     position: relative;
     overflow: hidden;
     background: var(--color-bg-alt);
@@ -59,9 +61,11 @@ const {
      very bottom of the fold (just peeking), giving the hero room to breathe. */
   @media (min-width: 721px) {
     .service-hero {
-      /* viewport minus nav, minus the PDF bar's height so it peeks at the bottom */
-      min-height: calc(100svh - var(--nav-h) - 92px);
-      padding-bottom: 48px;
+      /* Fill the fold: viewport minus the nav, the breadcrumb bar (~46px) and
+         the PDF bar (~92px) so the white bar peeks at the very bottom. */
+      min-height: calc(100svh - var(--nav-h) - 46px - 92px);
+      padding-top: 16px;
+      padding-bottom: 40px;
     }
   }
 
