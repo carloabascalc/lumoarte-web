@@ -50,6 +50,19 @@ const {
     position: relative;
     overflow: hidden;
     background: var(--color-bg-alt);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Desktop: let the hero fill the viewport so the white PDF bar sits at the
+     very bottom of the fold (just peeking), giving the hero room to breathe. */
+  @media (min-width: 721px) {
+    .service-hero {
+      /* viewport minus nav, minus the PDF bar's height so it peeks at the bottom */
+      min-height: calc(100svh - var(--nav-h) - 92px);
+      padding-bottom: 48px;
+    }
   }
 
   /* Per-service warm tints, kept subtle so the showcase carries the visual weight */
