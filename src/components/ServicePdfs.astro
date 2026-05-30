@@ -6,6 +6,16 @@ interface Props {
 }
 
 const { service } = Astro.props;
+
+// Match the hero tint per service so the fill strip below the bar reads as a
+// continuation of the hero (same mapping the ServicePageHero uses).
+const heroVariant: Record<string, "laser" | "3d" | "plotter"> = {
+  "corte-laser": "laser",
+  "recuerdos-cancun": "laser",
+  "impresion-3d": "3d",
+  "impresion-gran-formato": "plotter",
+};
+const variant = heroVariant[service.id] ?? "laser";
 ---
 
 <section class="service-pdfs" aria-label={`Documentos de ${service.name}`}>
@@ -36,11 +46,22 @@ const { service } = Astro.props;
   </div>
 </section>
 
+<div class={`service-pdfs-fill service-pdfs-fill--${variant}`} aria-hidden="true"></div>
+
 <style>
   .service-pdfs {
     background: var(--color-bg);
     border-bottom: 1px solid var(--color-surface);
   }
+
+  /* Strip of the hero's colour right below the white bar, so the bar reads as
+     a band that belongs to the hero instead of a hard cut. */
+  .service-pdfs-fill {
+    height: clamp(56px, 9vh, 120px);
+  }
+  .service-pdfs-fill--laser   { background: var(--color-bg-alt); }
+  .service-pdfs-fill--3d      { background: var(--service-3d-bg, #f5e6c8); }
+  .service-pdfs-fill--plotter { background: var(--service-plotter-bg, #ead9c2); }
 
   .service-pdfs-inner {
     display: flex;
