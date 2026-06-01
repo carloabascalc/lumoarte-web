@@ -222,6 +222,52 @@ schemas.push(...extraSchemas);
       initAll();
       document.addEventListener("astro:page-load", initAll);
     </script>
+
+    <!-- Skeleton shimmer for images on slow networks / weak devices.
+         Only images near the viewport get the shimmer (via IntersectionObserver),
+         so a weak device never animates the whole gallery at once. -->
+    <script is:inline>
+      (function () {
+        function activate(img) {
+          if (img.dataset.skelOn) return;
+          img.dataset.skelOn = "1";
+          if (img.complete && img.naturalWidth > 0) {
+            img.classList.add("lumo-skel", "is-loaded");
+            return;
+          }
+          img.classList.add("lumo-skel");
+          var done = function () { img.classList.add("is-loaded"); };
+          img.addEventListener("load", done, { once: true });
+          img.addEventListener("error", done, { once: true });
+        }
+        var io =
+          "IntersectionObserver" in window
+            ? new IntersectionObserver(
+                function (entries) {
+                  entries.forEach(function (e) {
+                    if (e.isIntersecting) {
+                      activate(e.target);
+                      io.unobserve(e.target);
+                    }
+                  });
+                },
+                { rootMargin: "300px 0px" }
+              )
+            : null;
+        function init() {
+          var imgs = document.querySelectorAll("img");
+          for (var i = 0; i < imgs.length; i++) {
+            var img = imgs[i];
+            if (img.dataset.skel) continue;
+            img.dataset.skel = "1";
+            if (io) io.observe(img);
+            else activate(img);
+          }
+        }
+        init();
+        document.addEventListener("astro:page-load", init);
+      })();
+    </script>
   </body>
 </html>
 
@@ -478,6 +524,42 @@ schemas.push(...extraSchemas);
 
     .section-header {
       margin-bottom: 48px;
+    }
+  }
+
+  /* ── Image skeleton loaders ──────────────────────────────────────────
+     A warm shimmer fills an image's reserved box (Astro <Image> already sets
+     width/height, so there's no layout shift) until its load event fires.
+     Tagged by the inline observer script near </body>. */
+  @keyframes lumo-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  img.lumo-skel:not(.is-loaded) {
+    background-color: var(--color-surface);
+    background-image: linear-gradient(
+      100deg,
+      rgba(224, 213, 194, 0) 20%,
+      rgba(255, 255, 255, 0.55) 45%,
+      rgba(224, 213, 194, 0) 70%
+    );
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: lumo-shimmer 1.5s ease-in-out infinite;
+    /* hide alt-text flash while the shimmer is showing */
+    color: transparent;
+    font-size: 0;
+  }
+
+  img.lumo-skel.is-loaded {
+    background: none;
+    animation: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    img.lumo-skel:not(.is-loaded) {
+      animation: none;
     }
   }
 </style>
