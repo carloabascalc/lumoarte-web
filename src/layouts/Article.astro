@@ -45,6 +45,10 @@ const articleSchema = {
   publisher: { "@id": `${SITE.url}#organization` },
   mainEntityOfPage: { "@type": "WebPage", "@id": url },
   inLanguage: "es-MX",
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: [".article-title", ".article-body p:first-child"],
+  },
   ...(topic ? { about: topic } : {}),
 };
 ---

@@ -105,6 +105,19 @@ const faqs = [
       "No. Imprimimos desde una sola pieza. Para producción en serie ofrecemos descuento progresivo por cantidad — entre más unidades, menor el costo por pieza.",
   },
 ];
+
+const faqPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
 ---
 
 <Base
@@ -115,6 +128,7 @@ const faqs = [
   schemaType="Service"
   schemaData={serviceSchema}
   pageAccent="3d"
+  extraSchemas={[faqPageSchema]}
 >
   <Nav variant="solid" />
   <main>
@@ -213,6 +227,20 @@ const faqs = [
     />
 
     <CrossServices excludeId="impresion-3d" />
+
+    <section class="recurso-relacionado">
+      <div class="container">
+        <p class="rr-eyebrow">Lectura recomendada</p>
+        <a class="rr-card" href="/recursos/fdm-vs-resina">
+          <div class="rr-text">
+            <p class="rr-topic">Impresión 3D</p>
+            <h3 class="rr-title">FDM vs resina: cuál impresión 3D elegir para tu proyecto</h3>
+            <p class="rr-excerpt">Comparativa técnica: precisión (0.025–0.05 mm resina vs 0.12–0.28 mm FDM), costo, tamaño máximo y casos de uso reales.</p>
+          </div>
+          <span class="rr-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
 
     <FAQ
       title="Preguntas frecuentes sobre impresión 3D"
@@ -430,6 +458,85 @@ const faqs = [
 
     .machine-card {
       padding: 28px 24px;
+    }
+  }
+
+  /* ── Recurso relacionado ── */
+  .recurso-relacionado {
+    padding: 48px 0;
+    background: var(--color-bg-alt);
+    border-top: 1px solid var(--color-surface);
+  }
+
+  .rr-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 14px;
+  }
+
+  .rr-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    padding: 28px 32px;
+    transition: border-color 0.2s ease, background 0.2s ease;
+    color: inherit;
+  }
+
+  .rr-card:hover {
+    border-color: var(--color-accent);
+    background: #fff;
+  }
+
+  .rr-card:hover .rr-arrow {
+    transform: translateX(4px);
+  }
+
+  .rr-topic {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 8px;
+  }
+
+  .rr-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 10px;
+    line-height: 1.25;
+  }
+
+  .rr-excerpt {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    max-width: 640px;
+  }
+
+  .rr-arrow {
+    font-size: 1.5rem;
+    color: var(--color-accent);
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  @media (max-width: 640px) {
+    .rr-card {
+      padding: 22px 20px;
+    }
+    .rr-arrow {
+      display: none;
     }
   }
 </style>

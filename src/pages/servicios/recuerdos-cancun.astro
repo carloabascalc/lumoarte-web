@@ -111,6 +111,19 @@ const faqs = [
       "Tres opciones: tarjeta de crédito/débito por link de pago (Visa, Mastercard, Amex), transferencia SPEI a cuenta BBVA, o efectivo en el taller si vas a recoger. No empezamos a producir hasta que confirmamos el pago.",
   },
 ];
+
+const faqPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
 ---
 
 <Base
@@ -120,6 +133,7 @@ const faqs = [
   ogImage="/og/default.jpg"
   schemaType="Service"
   schemaData={serviceSchema}
+  extraSchemas={[faqPageSchema]}
 >
   <Nav variant="solid" />
   <main>

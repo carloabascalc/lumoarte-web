@@ -1,26 +1,52 @@
 # Lumo Cancún
 
-> Taller de fabricación digital en Cancún, México. Tres servicios bajo un mismo techo: corte láser y grabado, impresión 3D (FDM multicolor y resina), e impresión de gran formato (lonas, vinil y sublimación hasta 1.80 m de ancho). Atendemos pieza única, prototipos y producción en serie para arquitectos, diseñadores, agencias y eventos.
-
-Fundado por Adriano Abascal (arquitecto). Cotización por WhatsApp en menos de 24 horas hábiles. Atención en español.
+> Taller de fabricación digital en Cancún, Q. Roo. Corte láser, impresión 3D y
+> gran formato. Fundado por Adriano Abascal, arquitecto. Sin pedido mínimo.
+> Cotización en 24 horas.
 
 ## Servicios
 
-- [Corte láser](https://lumocancun.com/servicios/corte-laser): Corte y grabado por láser de madera, acrílico, MDF, cartón, papel, tela y piel. Área útil de 130 × 90 cm. Aceptamos archivos AI, EPS, SVG, PDF y DXF.
-- [Impresión 3D](https://lumocancun.com/servicios/impresion-3d): Impresión 3D FDM multicolor con Bambu Lab H2C y Artillery Sidewinder XL (hasta 300 × 300 × 400 mm), y resina con Anycubic. Aceptamos STL, OBJ, 3MF y STEP.
-- [Impresión gran formato](https://lumocancun.com/servicios/impresion-gran-formato): Impresión eco-solvente y sublimación sobre lona, vinil, papel fotográfico y telas. Ancho de 1.80 m, resolución hasta 1440 dpi, rendimiento de 8 a 12 m²/h.
+- [Corte Láser](https://lumocancun.com/servicios/corte-laser/): Corte y grabado
+  en madera, acrílico, MDF, cartón, papel, tela y piel. Área de trabajo: 130×90
+  cm. Formatos: AI, EPS, SVG, PDF, DXF.
+- [Impresión 3D](https://lumocancun.com/servicios/impresion-3d/): FDM multicolor
+  y resina de alta definición. Bambu Lab H2C, Artillery Sidewinder XL ×2,
+  Anycubic. Prototipos y producción.
+- [Impresión Gran Formato](https://lumocancun.com/servicios/impresion-gran-formato/):
+  Eco-solvente y sublimación, hasta 1.80 m de ancho, 1440 dpi, cabezal Epson XP600.
+- [Recuerdos Cancún](https://lumocancun.com/servicios/recuerdos-cancun/):
+  Llaveros personalizados desde $9 USD. Entrega 72 h. Sin pedido mínimo.
 
-## Información del negocio
+## Recursos
 
-- [Inicio](https://lumocancun.com/): Página principal con resumen de servicios y galería de trabajos.
-- [Aviso de privacidad](https://lumocancun.com/aviso-de-privacidad): Aviso de privacidad conforme a la LFPDPPP.
+- [FDM vs Resina](https://lumocancun.com/recursos/fdm-vs-resina/): Guía de
+  selección para impresión 3D. Comparativa técnica: precisión, costo, tamaño,
+  materiales. Autor: Adriano Abascal.
+- [Preparar archivo para corte láser](https://lumocancun.com/recursos/preparar-archivo-corte-laser/):
+  Formatos aceptados, reglas de trazos vs rellenos, escala, capas y errores comunes.
+- [Sublimación vs Vinil](https://lumocancun.com/recursos/sublimacion-vs-vinil/):
+  Comparativa de técnicas de impresión de gran formato: materiales, durabilidad,
+  precio por m² (180–460 MXN) y tiempos de entrega.
+
+## Sobre Lumo
+
+- [Sobre nosotros](https://lumocancun.com/sobre-nosotros/): Fundador Adriano Abascal
+  (arquitecto), historia del taller, clientes (L'Oréal, estudios de arquitectura,
+  bares y restaurantes de Cancún).
+- [Recursos y guías](https://lumocancun.com/recursos/): Hub de guías técnicas de
+  fabricación digital.
+
+## Precios
+
+- [Lista de precios impresión 3D (PDF)](https://lumocancun.com/precios-impresion-3d.pdf)
+- [Lista de precios corte láser (PDF)](https://lumocancun.com/precios-corte-laser.pdf)
 
 ## Contacto
 
-- WhatsApp: +52 813 891 3891 (https://wa.me/528138913891)
+- WhatsApp: +52 813 891 3891
 - Teléfono: +52 998 188 8048
 - Email: contacto@lumocancun.com
-- Dirección: Retorno Tejón, Sm 20, Mz 3, Lt 2, Cancún, Quintana Roo 77500, México
-- Horario: lunes a sábado de 9:00 a 18:00 (domingos cerrado)
+- Dirección: Retorno Tejón, Sm 20, Mz 3, Lt 2, Cancún, Q. Roo 77500
+- Horario: Lunes a sábado, 9:00–18:00
 - Instagram: https://www.instagram.com/_lumoarte
 - Google Maps: https://www.google.com/maps?cid=2574885880611067538

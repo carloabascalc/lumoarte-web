@@ -107,10 +107,7 @@ const aboutPageSchema = {
               A arquitectos, diseñadores, agencias, eventos, restaurantes y
               particulares que buscan piezas que se sientan hechas. Nos
               interesa más el detalle que el volumen — aunque producimos en
-              serie cuando tiene sentido. Hemos trabajado para L'Oréal,
-              estudios de arquitectura locales, bares y restaurantes de
-              Cancún, y cientos de proyectos personales que nunca cabrían
-              en una sola lista.
+              serie cuando tiene sentido.
             </p>
 
             <h2>Cómo trabajamos</h2>
@@ -125,6 +122,24 @@ const aboutPageSchema = {
           </div>
 
           <aside class="about-side">
+            <div class="about-card about-card--clients">
+              <p class="about-card-eyebrow">Clientes destacados</p>
+              <ul class="clients-list" role="list">
+                <li class="client-item">
+                  <strong class="client-name">L'Oréal</strong>
+                  <span class="client-desc">Piezas corporativas personalizadas</span>
+                </li>
+                <li class="client-item">
+                  <strong class="client-name">Estudios de arquitectura</strong>
+                  <span class="client-desc">Maquetas, celosías y paneles a escala</span>
+                </li>
+                <li class="client-item">
+                  <strong class="client-name">Bares y restaurantes de Cancún</strong>
+                  <span class="client-desc">Señalética, decoración y branding interior</span>
+                </li>
+              </ul>
+            </div>
+
             <div class="about-card">
               <p class="about-card-eyebrow">Fundador</p>
               <h3 class="about-card-name">Adriano Abascal</h3>
@@ -300,6 +315,39 @@ const aboutPageSchema = {
 
   .about-card-link:hover {
     color: var(--color-accent-dark);
+  }
+
+  .about-card--clients {
+    background: var(--color-bg-tint);
+    border-color: var(--color-surface);
+  }
+
+  .clients-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 12px;
+  }
+
+  .client-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-left: 14px;
+    border-left: 2px solid var(--color-accent);
+  }
+
+  .client-name {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .client-desc {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    line-height: 1.4;
   }
 
   @media (max-width: 880px) {

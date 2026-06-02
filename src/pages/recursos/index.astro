@@ -93,7 +93,13 @@ const collectionSchema = {
                   <h2 class="recurso-title">{a.title}</h2>
                   <p class="recurso-excerpt">{a.excerpt}</p>
                   <p class="recurso-meta">
-                    <span>{a.readingTime} de lectura</span>
+                    <span>
+                      <time datetime={a.datePublished}>
+                        {new Date(a.datePublished).toLocaleDateString("es-MX", { year: "numeric", month: "long", day: "numeric" })}
+                      </time>
+                      <span aria-hidden="true">·</span>
+                      {a.readingTime} de lectura
+                    </span>
                     <span class="recurso-arrow" aria-hidden="true">→</span>
                   </p>
                 </a>

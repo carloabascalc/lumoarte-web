@@ -42,14 +42,18 @@ const ogImageURL = new URL(ogImage, Astro.site).href;
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
+  "@type": ["LocalBusiness", "ProfessionalService"],
   "@id": `${SITE.url}#business`,
   name: SITE.name,
+  alternateName: "Lumo",
   description: SITE.description,
   url: SITE.url,
-  telephone: `+${SITE.phone}`,
+  telephone: [`+${SITE.whatsapp}`, `+${SITE.phone}`],
   email: SITE.email,
   image: `${SITE.url}${SITE.ogDefault}`,
+  priceRange: "$$",
+  currenciesAccepted: "MXN, USD",
+  paymentAccepted: "Cash, Credit Card, Bank Transfer, SPEI",
   address: {
     "@type": "PostalAddress",
     streetAddress: SITE.address.street,
@@ -75,6 +79,7 @@ const localBusinessSchema = {
     "@type": "City",
     name: "Cancún",
   },
+  founder: { "@id": `${SITE.url}#founder` },
 };
 
 const websiteSchema = {
