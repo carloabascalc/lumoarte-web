@@ -1,0 +1,394 @@
+---
+/**
+ * On-brand line illustrations of the workshop machines, used as service-card
+ * art while real machine photos/video are pending from Adriano.
+ *
+ *  - "laser"   → CO2 laser cutter with an animated cutting head + beam + sparks
+ *                (fulfils the "máquina cortando y funcionando" request).
+ *  - "printer" → enclosed FDM 3D printer (Bambu-style) with a printed piece.
+ *  - "plotter" → large-format eco-solvent printer feeding a printed sheet.
+ *
+ * Palette is pulled from the site tokens so the set reads as intentional.
+ * Animations respect prefers-reduced-motion.
+ */
+interface Props {
+  machine: "laser" | "printer" | "plotter" | "recuerdo";
+  class?: string;
+}
+const { machine, class: className } = Astro.props;
+---
+
+<div class:list={["machine-art", `machine-art--${machine}`, className]} aria-hidden="true">
+  {machine === "laser" && (
+    <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">
+      <rect width="400" height="300" fill="url(#ma-bg)" />
+      <defs>
+        <linearGradient id="ma-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f7f1e6" />
+          <stop offset="1" stop-color="#efe6d6" />
+        </linearGradient>
+        <linearGradient id="ma-wood" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#cf9a68" />
+          <stop offset="1" stop-color="#b9835180" />
+        </linearGradient>
+      </defs>
+
+      {/* faint floor lines */}
+      <g stroke="#2b1d12" stroke-opacity="0.07" stroke-width="1.5">
+        <line x1="40" y1="248" x2="360" y2="248" />
+        <line x1="64" y1="268" x2="336" y2="268" />
+      </g>
+
+      {/* machine frame */}
+      <g fill="none" stroke="#2b1d12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.85">
+        <path d="M58 86 L58 238" />
+        <path d="M342 86 L342 238" />
+        <path d="M50 86 L350 86" />
+        {/* gantry rail */}
+        <path d="M70 104 L330 104" stroke-width="2.5" stroke-opacity="0.55" />
+      </g>
+
+      {/* material sheet + engraved motifs */}
+      <g>
+        <rect x="84" y="208" width="232" height="22" rx="3" fill="url(#ma-wood)" stroke="#8a5c33" stroke-width="1" stroke-opacity="0.5" />
+        <line x1="84" y1="213" x2="316" y2="213" stroke="#fff" stroke-opacity="0.35" stroke-width="1.5" />
+        <g fill="#b34000" fill-opacity="0.7">
+          <path d="M112 219 l2 -4 2 4 4 1 -4 1 -2 4 -2 -4 -4 -1 z" />
+          <path d="M296 219 l2 -4 2 4 4 1 -4 1 -2 4 -2 -4 -4 -1 z" />
+          <circle cx="150" cy="219" r="1.6" />
+          <circle cx="260" cy="219" r="1.6" />
+        </g>
+      </g>
+
+      {/* moving carriage: head + beam + sparks */}
+      <g class="ma-carriage">
+        {/* glow beam */}
+        <line class="ma-beam-glow" x1="140" y1="96" x2="140" y2="208" stroke="#ff6a1a" stroke-width="9" stroke-opacity="0.18" stroke-linecap="round" />
+        {/* core beam */}
+        <line class="ma-beam" x1="140" y1="96" x2="140" y2="208" stroke="#ff5a1f" stroke-width="2.4" stroke-linecap="round" />
+        {/* contact glow */}
+        <ellipse class="ma-contact" cx="140" cy="208" rx="7" ry="2.6" fill="#ff7a2a" fill-opacity="0.85" />
+        {/* head */}
+        <g stroke="#2b1d12" stroke-width="2.5" stroke-linejoin="round" fill="#fbf6ec">
+          <rect x="126" y="70" width="28" height="22" rx="3" />
+          <path d="M133 92 L147 92 L140 100 Z" fill="#3a2a1e" stroke="none" />
+        </g>
+        <rect x="132" y="76" width="16" height="4" rx="2" fill="#b34000" />
+        {/* sparks */}
+        <g fill="#ffb066">
+          <circle class="ma-spark ma-spark--1" cx="140" cy="206" r="1.8" />
+          <circle class="ma-spark ma-spark--2" cx="140" cy="206" r="1.4" />
+          <circle class="ma-spark ma-spark--3" cx="140" cy="206" r="2.1" />
+          <circle class="ma-spark ma-spark--4" cx="140" cy="206" r="1.5" />
+        </g>
+      </g>
+    </svg>
+  )}
+
+  {machine === "printer" && (
+    <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">
+      <rect width="400" height="300" fill="url(#mp-bg)" />
+      <defs>
+        <linearGradient id="mp-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f7f1e6" />
+          <stop offset="1" stop-color="#efe6d6" />
+        </linearGradient>
+      </defs>
+
+      <g stroke="#2b1d12" stroke-opacity="0.07" stroke-width="1.5">
+        <line x1="60" y1="252" x2="340" y2="252" />
+      </g>
+
+      {/* enclosure */}
+      <g fill="none" stroke="#2b1d12" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.88">
+        <rect x="118" y="64" width="150" height="168" rx="10" fill="#fbf6ec" />
+        {/* glass front */}
+        <rect x="132" y="92" width="122" height="118" rx="6" fill="#dfe6e6" fill-opacity="0.45" stroke-width="2" stroke-opacity="0.5" />
+        {/* top lid line */}
+        <line x1="118" y1="84" x2="268" y2="84" stroke-width="2.5" />
+      </g>
+
+      {/* gantry + nozzle (subtle motion) */}
+      <g class="ma-gantry" stroke="#2b1d12" stroke-width="2.5" stroke-linecap="round">
+        <line x1="138" y1="108" x2="248" y2="108" stroke-opacity="0.6" />
+        <g class="ma-nozzle">
+          <rect x="186" y="104" width="14" height="12" rx="2" fill="#b34000" stroke="none" />
+          <path d="M190 116 L196 116 L193 122 Z" fill="#3a2a1e" stroke="none" />
+        </g>
+      </g>
+
+      {/* build plate + printed piece */}
+      <g>
+        <line x1="146" y1="198" x2="240" y2="198" stroke="#2b1d12" stroke-width="3" stroke-linecap="round" stroke-opacity="0.7" />
+        <path class="ma-print" d="M178 198 C178 178 208 178 208 198 L204 198 C204 184 182 184 182 198 Z" fill="#c87a2a" />
+        <rect x="184" y="186" width="18" height="12" rx="2" fill="#b34000" />
+      </g>
+
+      {/* control screen */}
+      <rect x="236" y="196" width="22" height="16" rx="2" fill="#2b1d12" />
+      <rect x="240" y="200" width="14" height="3" rx="1.5" fill="#ff7a2a" />
+
+      {/* filament spool */}
+      <g stroke="#2b1d12" stroke-width="2.5" fill="#fbf6ec">
+        <circle cx="300" cy="120" r="26" />
+        <circle cx="300" cy="120" r="7" fill="#b34000" stroke="none" />
+        <circle cx="300" cy="120" r="26" fill="none" stroke="#c87a2a" stroke-opacity="0.5" stroke-width="6" />
+      </g>
+      <path d="M283 134 C268 150 262 168 268 92" fill="none" stroke="#b34000" stroke-width="2" stroke-opacity="0.7" stroke-linecap="round" />
+    </svg>
+  )}
+
+  {machine === "plotter" && (
+    <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">
+      <rect width="400" height="300" fill="url(#mq-bg)" />
+      <defs>
+        <linearGradient id="mq-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f7f1e6" />
+          <stop offset="1" stop-color="#efe6d6" />
+        </linearGradient>
+      </defs>
+
+      <g stroke="#2b1d12" stroke-opacity="0.07" stroke-width="1.5">
+        <line x1="40" y1="262" x2="360" y2="262" />
+      </g>
+
+      {/* printed sheet feeding out the front */}
+      <g>
+        <path d="M96 168 L304 168 L292 244 L108 244 Z" fill="#fbf6ec" stroke="#2b1d12" stroke-width="2" stroke-opacity="0.5" stroke-linejoin="round" />
+        <rect x="120" y="184" width="60" height="40" rx="3" fill="#b34000" fill-opacity="0.85" />
+        <rect x="190" y="184" width="34" height="40" rx="3" fill="#c87a2a" fill-opacity="0.85" />
+        <g stroke="#2b1d12" stroke-opacity="0.35" stroke-width="3" stroke-linecap="round">
+          <line x1="234" y1="190" x2="276" y2="190" />
+          <line x1="234" y1="202" x2="270" y2="202" />
+          <line x1="234" y1="214" x2="276" y2="214" />
+        </g>
+      </g>
+
+      {/* printer body */}
+      <g fill="#fbf6ec" stroke="#2b1d12" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.88">
+        <rect x="64" y="104" width="272" height="60" rx="10" />
+      </g>
+      {/* rail */}
+      <line x1="82" y1="122" x2="318" y2="122" stroke="#2b1d12" stroke-width="2.5" stroke-opacity="0.55" />
+      {/* moving print carriage */}
+      <g class="ma-head">
+        <rect x="180" y="113" width="34" height="18" rx="3" fill="#b34000" stroke="#2b1d12" stroke-width="2" />
+        <rect x="190" y="131" width="14" height="5" rx="2" fill="#3a2a1e" />
+      </g>
+      {/* control screen */}
+      <rect x="296" y="132" width="26" height="18" rx="2" fill="#2b1d12" />
+      <rect x="300" y="137" width="18" height="3" rx="1.5" fill="#ff7a2a" />
+
+      {/* legs */}
+      <g stroke="#2b1d12" stroke-width="3" stroke-linecap="round" stroke-opacity="0.85">
+        <path d="M96 164 L84 250" />
+        <path d="M304 164 L316 250" />
+        <line x1="78" y1="250" x2="110" y2="250" />
+        <line x1="290" y1="250" x2="322" y2="250" />
+      </g>
+    </svg>
+  )}
+
+  {machine === "recuerdo" && (
+    <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">
+      <rect width="400" height="300" fill="url(#mr-bg)" />
+      <defs>
+        <linearGradient id="mr-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f7f1e6" />
+          <stop offset="1" stop-color="#efe6d6" />
+        </linearGradient>
+        <linearGradient id="mr-wood" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#cf9a68" />
+          <stop offset="1" stop-color="#b98351" />
+        </linearGradient>
+        <clipPath id="mr-tagclip">
+          <rect x="206" y="116" width="92" height="120" rx="20" />
+        </clipPath>
+      </defs>
+
+      <g stroke="#2b1d12" stroke-opacity="0.07" stroke-width="1.5">
+        <line x1="60" y1="258" x2="340" y2="258" />
+      </g>
+
+      {/* gift box (left) */}
+      <g stroke="#2b1d12" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+        <rect x="72" y="158" width="92" height="74" rx="6" fill="#fbf6ec" />
+        <rect x="64" y="142" width="108" height="22" rx="5" fill="#fbf6ec" />
+        <rect x="108" y="142" width="20" height="90" fill="#b34000" stroke="none" />
+        <rect x="64" y="150" width="108" height="8" fill="#b34000" stroke="none" />
+        {/* bow */}
+        <path d="M118 142 C100 128 96 150 117 150" fill="#c87a2a" />
+        <path d="M118 142 C136 128 140 150 119 150" fill="#c87a2a" />
+        <circle cx="118" cy="146" r="4.5" fill="#b34000" stroke="none" />
+      </g>
+
+      {/* keychain (right) */}
+      <g stroke="#2b1d12" stroke-width="2.5" fill="none">
+        <circle cx="252" cy="96" r="11" />
+      </g>
+      <g class="ma-tag">
+        <line x1="252" y1="107" x2="252" y2="118" stroke="#2b1d12" stroke-width="2.5" />
+        <rect x="206" y="116" width="92" height="120" rx="20" fill="url(#mr-wood)" stroke="#8a5c33" stroke-width="2" />
+        {/* engraving */}
+        <g stroke="#7a3a12" stroke-opacity="0.85" stroke-width="2" fill="none" stroke-linecap="round">
+          {/* sun */}
+          <circle cx="252" cy="150" r="9" fill="#7a3a12" fill-opacity="0.18" />
+          <g>
+            <line x1="252" y1="133" x2="252" y2="138" />
+            <line x1="252" y1="162" x2="252" y2="167" />
+            <line x1="235" y1="150" x2="240" y2="150" />
+            <line x1="264" y1="150" x2="269" y2="150" />
+            <line x1="240" y1="138" x2="243" y2="141" />
+            <line x1="261" y1="159" x2="264" y2="162" />
+            <line x1="264" y1="138" x2="261" y2="141" />
+            <line x1="243" y1="159" x2="240" y2="162" />
+          </g>
+          {/* palm */}
+          <path d="M252 214 L252 196" />
+          <path d="M252 196 C244 190 236 191 232 196" />
+          <path d="M252 196 C260 190 268 191 272 196" />
+          <path d="M252 196 C248 188 244 184 238 184" />
+          <path d="M252 196 C256 188 260 184 266 184" />
+        </g>
+        <text x="252" y="186" text-anchor="middle" fill="#7a3a12" fill-opacity="0.9"
+          style="font-family: var(--font-body), sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 2px;">CANCÚN</text>
+        {/* shine sweep */}
+        <g clip-path="url(#mr-tagclip)">
+          <rect class="ma-shine" x="180" y="100" width="22" height="150" fill="#ffffff" fill-opacity="0.28" transform="rotate(18 252 176)" />
+        </g>
+        {/* key ring hole */}
+        <circle cx="252" cy="126" r="4" fill="none" stroke="#8a5c33" stroke-width="2" />
+      </g>
+
+      {/* sparkles */}
+      <g fill="#c87a2a">
+        <path class="ma-twinkle ma-twinkle--1" d="M190 110 l1.5 -3 1.5 3 3 1.5 -3 1.5 -1.5 3 -1.5 -3 -3 -1.5 z" />
+        <path class="ma-twinkle ma-twinkle--2" d="M318 150 l1.2 -2.6 1.2 2.6 2.6 1.2 -2.6 1.2 -1.2 2.6 -1.2 -2.6 -2.6 -1.2 z" />
+      </g>
+    </svg>
+  )}
+</div>
+
+<style>
+  .machine-art {
+    width: 100%;
+    height: 100%;
+  }
+  .machine-art svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ── Laser: carriage sweep + beam pulse + sparks ─────── */
+  .ma-carriage {
+    animation: ma-sweep 4.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  }
+  @keyframes ma-sweep {
+    0%   { transform: translateX(0); }
+    50%  { transform: translateX(118px); }
+    100% { transform: translateX(0); }
+  }
+
+  .ma-beam,
+  .ma-beam-glow,
+  .ma-contact {
+    animation: ma-beam 0.55s steps(2, end) infinite;
+    transform-origin: center;
+  }
+  @keyframes ma-beam {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.55; }
+  }
+
+  .ma-spark {
+    animation: ma-spark 0.9s ease-out infinite;
+    opacity: 0;
+  }
+  .ma-spark--1 { animation-delay: 0s;    }
+  .ma-spark--2 { animation-delay: 0.22s; }
+  .ma-spark--3 { animation-delay: 0.45s; }
+  .ma-spark--4 { animation-delay: 0.68s; }
+  @keyframes ma-spark {
+    0%   { opacity: 0;   transform: translate(0, 0) scale(1); }
+    20%  { opacity: 0.9; }
+    100% { opacity: 0;   transform: translate(var(--sx, -8px), -14px) scale(0.3); }
+  }
+  .ma-spark--1 { --sx: -9px;  }
+  .ma-spark--2 { --sx: 7px;   }
+  .ma-spark--3 { --sx: -4px;  }
+  .ma-spark--4 { --sx: 11px;  }
+
+  /* ── 3D printer: nozzle drift + piece breathing ──────── */
+  .ma-nozzle {
+    animation: ma-nozzle 3.6s ease-in-out infinite;
+  }
+  @keyframes ma-nozzle {
+    0%, 100% { transform: translateX(-18px); }
+    50%      { transform: translateX(22px); }
+  }
+  .ma-print {
+    transform-box: fill-box;
+    transform-origin: bottom center;
+    animation: ma-grow 4.2s ease-in-out infinite;
+  }
+  @keyframes ma-grow {
+    0%, 100% { transform: scaleY(0.86); }
+    50%      { transform: scaleY(1); }
+  }
+
+  /* ── Plotter: head sweep ─────────────────────────────── */
+  .ma-head {
+    animation: ma-headsweep 4.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  }
+  @keyframes ma-headsweep {
+    0%   { transform: translateX(-86px); }
+    50%  { transform: translateX(86px); }
+    100% { transform: translateX(-86px); }
+  }
+
+  /* ── Recuerdo: keychain sway + shine sweep + sparkle ─── */
+  .ma-tag {
+    transform-box: fill-box;
+    transform-origin: top center;
+    animation: ma-sway 5s ease-in-out infinite;
+  }
+  @keyframes ma-sway {
+    0%, 100% { transform: rotate(-2.4deg); }
+    50%      { transform: rotate(2.4deg); }
+  }
+  .ma-shine {
+    animation: ma-shine 4.5s ease-in-out infinite;
+  }
+  @keyframes ma-shine {
+    0%, 12%  { transform: rotate(18deg) translateX(0); }
+    45%, 100% { transform: rotate(18deg) translateX(120px); }
+  }
+  .ma-twinkle {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: ma-twinkle 2.6s ease-in-out infinite;
+  }
+  .ma-twinkle--2 { animation-delay: 1.1s; }
+  @keyframes ma-twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(0.6); }
+    50%      { opacity: 1;   transform: scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ma-carriage,
+    .ma-beam,
+    .ma-beam-glow,
+    .ma-contact,
+    .ma-spark,
+    .ma-nozzle,
+    .ma-print,
+    .ma-head,
+    .ma-tag,
+    .ma-shine,
+    .ma-twinkle {
+      animation: none;
+    }
+    .ma-spark { opacity: 0.6; }
+  }
+</style>

@@ -1,0 +1,1304 @@
+---
+// RecuerdosOrderBuilder — constructor de pedidos multi-paso para llaveros y
+// recuerdos de Cancún. Adaptado de la lógica del flujo de Adriano (producto →
+// personalización → entrega → contacto) al sistema de diseño de Lumo.
+// Cierra el pedido por WhatsApp (sin pago en línea por ahora).
+import { SITE } from "../data/services";
+
+// Diseños de llavero (impresión 3D). El motivo es un SVG on-brand; cuando
+// haya fotos reales se cambia .design-art por <Image>.
+const designs = [
+  {
+    id: "mar",
+    name: "Mar",
+    nameEn: "Ocean",
+    desc: "Olas y caribe",
+    descEn: "Beach vibes",
+    art: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 26q7-7 13 0t13 0 13 0 13 0"/><path d="M6 38q7-7 13 0t13 0 13 0 13 0"/><path d="M6 50q7-7 13 0t13 0 13 0 13 0"/></svg>`,
+  },
+  {
+    id: "tropical",
+    name: "Tropical",
+    nameEn: "Tropical",
+    desc: "Palmas y selva",
+    descEn: "Palms & jungle",
+    art: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M32 54V28"/><path d="M32 28q-2-12-16-12 8 2 12 12"/><path d="M32 28q2-12 16-12-8 2-12 12"/><path d="M32 28q-10-6-10-18 6 6 10 18"/><path d="M32 28q10-6 10-18-6 6-10 18"/></svg>`,
+  },
+  {
+    id: "maya",
+    name: "Maya",
+    nameEn: "Maya",
+    desc: "Cultura ancestral",
+    descEn: "Ancient culture",
+    art: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 52h48"/><path d="M16 52V40h8V28h8V16h8v12h8v12h8v12"/><path d="M28 52v-8h8v8"/></svg>`,
+  },
+  {
+    id: "fiesta",
+    name: "Fiesta",
+    nameEn: "Fiesta",
+    desc: "Color y sabor",
+    descEn: "Color & flavor",
+    art: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="9"/><path d="M32 6v8M32 50v8M6 32h8M50 32h8M14 14l6 6M44 44l6 6M50 14l-6 6M20 44l-6 6"/></svg>`,
+  },
+];
+---
+
+<section class="builder" id="pedido">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow" data-reveal data-es="Arma tu pedido" data-en="Build your order">Arma tu pedido</p>
+      <h2 class="section-title" data-reveal data-reveal-delay="0.06" data-es="Tu recuerdo, paso a paso" data-en="Your souvenir, step by step">
+        Tu recuerdo, paso a paso
+      </h2>
+      <p class="section-subtitle" data-reveal data-reveal-delay="0.12" data-es="Elige qué te llevas, personalízalo y nosotros lo hacemos en Cancún. Al final te abrimos WhatsApp con el resumen para confirmar." data-en="Choose what you'd like, personalize it and we make it in Cancún. At the end we open WhatsApp with your summary to confirm.">
+        Elige qué te llevas, personalízalo y nosotros lo hacemos en Cancún.
+        Al final te abrimos WhatsApp con el resumen para confirmar.
+      </p>
+    </div>
+
+    <div class="ob-card" data-reveal data-reveal-delay="0.16">
+      <!-- progreso + idioma -->
+      <div class="ob-topbar">
+        <div class="ob-steps" id="obSteps"></div>
+        <button type="button" class="ob-lang" id="obLang" aria-label="Cambiar idioma / Switch language">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/></svg>
+          <span id="obLangLabel">EN</span>
+        </button>
+      </div>
+
+      <div class="ob-body">
+        <!-- ══ PASO 0: PRODUCTO ══ -->
+        <div class="ob-panel ob-visible" id="panel-product">
+          <h3 class="ob-title" data-es="¿Qué te llevas?" data-en="What would you like?">¿Qué te llevas?</h3>
+          <p class="ob-sub" data-es="Todo personalizado y hecho en Cancún 🇲🇽" data-en="All personalized & made in Cancún 🇲🇽">Todo personalizado y hecho en Cancún 🇲🇽</p>
+
+          <p class="ob-label" data-es="Llaveros impresos en 3D · desde $11 USD" data-en="3D printed keychains · from $11 USD">Llaveros impresos en 3D · desde $11 USD</p>
+          <div class="design-grid">
+            {designs.map((d) => (
+              <button type="button" class="design-card" data-product={d.id} id={`cat-${d.id}`}>
+                <span class="design-art" aria-hidden="true" set:html={d.art} />
+                <span class="design-name" data-es={d.name} data-en={d.nameEn}>{d.name}</span>
+                <span class="design-desc" data-es={d.desc} data-en={d.descEn}>{d.desc}</span>
+              </button>
+            ))}
+          </div>
+
+          <p class="ob-label" data-es="Termo grabado · desde $15 USD" data-en="Engraved thermal cup · from $15 USD">Termo grabado · desde $15 USD</p>
+          <button type="button" class="wide-card" data-product="termo" id="cat-termo">
+            <span class="wide-art" aria-hidden="true">
+              <svg viewBox="0 0 40 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="11" y="2" width="18" height="6" rx="3"/><rect x="8" y="10" width="24" height="44" rx="5"/><path d="M8 50h24"/><rect x="14" y="54" width="12" height="6" rx="3"/></svg>
+            </span>
+            <span class="wide-text">
+              <span class="wide-name" data-es="Termo de acero" data-en="Stainless steel cup">Termo de acero</span>
+              <span class="wide-desc" data-es="Acero inoxidable 20oz · grabado láser con tu nombre + CANCUN" data-en="Stainless steel 20oz · laser engraved name + CANCUN">Acero inoxidable 20oz · grabado láser con tu nombre + CANCUN</span>
+            </span>
+            <span class="wide-price">$15+</span>
+          </button>
+
+          <p class="ob-label" data-es="Otros" data-en="Other">Otros</p>
+          <button type="button" class="wide-card" data-product="portavasos" id="cat-portavasos">
+            <span class="wide-art" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="20" r="13"/><circle cx="20" cy="20" r="7"/><path d="M33 28l8 8M30 33l8 5"/></svg>
+            </span>
+            <span class="wide-text">
+              <span class="wide-name" data-es="Set de 5 portavasos" data-en="Set of 5 coasters">Set de 5 portavasos</span>
+              <span class="wide-desc" data-es="5 portavasos personalizados · hechos en Cancún" data-en="5 personalized coasters · made in Cancún">5 portavasos personalizados · hechos en Cancún</span>
+            </span>
+            <span class="wide-price">$15</span>
+          </button>
+        </div>
+
+        <!-- ══ PASO 1K: NOMBRES + CANTIDAD ══ -->
+        <div class="ob-panel" id="panel-names">
+          <h3 class="ob-title" data-es="Tu(s) nombre(s)" data-en="Your name(s)">Tu(s) nombre(s)</h3>
+          <p class="ob-sub" data-es="Máx 15 caracteres · cualquier alfabeto 🌍" data-en="Max 15 characters · any alphabet 🌍">Máx 15 caracteres · cualquier alfabeto 🌍</p>
+
+          <div class="kc-preview">
+            <span class="kc-preview-label" data-es="Previsualización" data-en="Preview">Previsualización</span>
+            <span class="kc-preview-cancun">CANCUN</span>
+            <span class="kc-preview-name" id="previewName">—</span>
+          </div>
+
+          <div class="name-inputs" id="nameInputs"></div>
+
+          <p class="ob-label ob-label--mt" data-es="¿Cuántos?" data-en="How many?">¿Cuántos?</p>
+          <div class="bundle-row" id="bundleRow"></div>
+        </div>
+
+        <!-- ══ PASO 2K: EXTRAS ══ -->
+        <div class="ob-panel" id="panel-addons">
+          <h3 class="ob-title" data-es="¿Agregar extras?" data-en="Add extras?">¿Agregar extras?</h3>
+          <p class="ob-sub" data-es="Opcionales por llavero · salta para continuar" data-en="Optional per keychain · skip to continue">Opcionales por llavero · salta para continuar</p>
+          <div id="addonsList"></div>
+        </div>
+
+        <!-- ══ PASO T: TERMO ══ -->
+        <div class="ob-panel" id="panel-termo">
+          <h3 class="ob-title" data-es="Personaliza tu termo" data-en="Customize your cup">Personaliza tu termo</h3>
+          <p class="ob-sub" data-es="Acero inoxidable 20oz · elige qué grabamos" data-en="Stainless steel 20oz · choose what to engrave">Acero inoxidable 20oz · elige qué grabamos</p>
+
+          <div class="termo-stage">
+            <div class="termo-stage-top">
+              <span class="termo-cup" aria-hidden="true">
+                <svg viewBox="0 0 56 96" fill="none"><rect x="16" y="2" width="24" height="9" rx="4.5" fill="#5a4a39"/><rect x="9" y="11" width="38" height="70" rx="7" fill="#2a1605"/><rect x="13" y="15" width="6" height="60" rx="3" fill="#ffffff" opacity="0.07"/><rect x="14" y="78" width="28" height="11" rx="5" fill="#3a2410"/></svg>
+              </span>
+              <div class="termo-engrave">
+                <span class="termo-engrave-label" data-es="Grabado" data-en="Engraving">Grabado</span>
+                <span class="termo-engrave-cancun dim" id="tep-cancun">CANCUN</span>
+                <span class="termo-engrave-name dim" id="tep-name">—</span>
+              </div>
+            </div>
+
+            <button type="button" class="termo-opt" data-termo="cancun" id="topt-cancun">
+              <span class="termo-opt-icon">✏️</span>
+              <span class="termo-opt-info">
+                <span class="termo-opt-name" data-es="Letras CANCUN" data-en="CANCUN lettering">Letras CANCUN</span>
+                <span class="termo-opt-desc" data-es="Grabadas en el termo" data-en="Engraved on the cup">Grabadas en el termo</span>
+              </span>
+              <span class="termo-check" aria-hidden="true"></span>
+            </button>
+
+            <button type="button" class="termo-opt" data-termo="name" id="topt-name">
+              <span class="termo-opt-icon">👤</span>
+              <span class="termo-opt-info">
+                <span class="termo-opt-name" data-es="Grabado con tu nombre" data-en="Custom name engraving">Grabado con tu nombre</span>
+                <span class="termo-opt-desc" data-es="Tu nombre en el termo" data-en="Your name on the cup">Tu nombre en el termo</span>
+              </span>
+              <span class="termo-check" aria-hidden="true"></span>
+            </button>
+
+            <div class="termo-name-wrap ob-hidden" id="termoNameWrap">
+              <input type="text" maxlength="15" id="termoNameField" placeholder="ej. NIRVANA" data-es-ph="ej. NIRVANA" data-en-ph="e.g. NIRVANA" />
+              <span class="char-count" id="termoNameCount">0/15</span>
+            </div>
+
+            <div class="termo-price">
+              <span data-es="Precio" data-en="Price">Precio</span>
+              <span class="termo-price-val" id="termoPriceTag">$15 USD</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ PASO 3: ENTREGA ══ -->
+        <div class="ob-panel" id="panel-delivery">
+          <h3 class="ob-title" data-es="¿Dónde lo entregamos?" data-en="Where to deliver?">¿Dónde lo entregamos?</h3>
+          <p class="ob-sub" data-es="Elige tu método de entrega" data-en="Choose your delivery method">Elige tu método de entrega</p>
+
+          <div class="delivery-toggle">
+            <button type="button" class="delivery-opt selected" data-delivery="hotel" id="del-hotel">
+              <span class="delivery-icon">🏨</span>
+              <span class="delivery-name" data-es="Hotel" data-en="Hotel">Hotel</span>
+              <span class="delivery-info" data-es="Gratis · 72 h" data-en="Free · 72 h">Gratis · 72 h</span>
+            </button>
+            <button type="button" class="delivery-opt" data-delivery="address" id="del-address">
+              <span class="delivery-icon">📦</span>
+              <span class="delivery-name" data-es="Envío a casa" data-en="Ship home">Envío a casa</span>
+              <span class="delivery-info" data-es="Tarifa FedEx" data-en="FedEx rates">Tarifa FedEx</span>
+            </button>
+            <button type="button" class="delivery-opt" data-delivery="pickup" id="del-pickup">
+              <span class="delivery-icon">🏪</span>
+              <span class="delivery-name" data-es="Recoger" data-en="Pickup">Recoger</span>
+              <span class="delivery-info" data-es="Sin costo · taller" data-en="Free · workshop">Sin costo · taller</span>
+            </button>
+          </div>
+
+          <!-- hotel -->
+          <div id="hotelFields">
+            <div class="ob-field">
+              <label for="hotelZone" data-es="Zona de entrega" data-en="Delivery zone">Zona de entrega</label>
+              <select id="hotelZone">
+                <option value="" data-es="— Selecciona tu zona —" data-en="— Select your zone —">— Selecciona tu zona —</option>
+                <option value="zona-hotelera" data-es="Zona Hotelera de Cancún" data-en="Cancún Hotel Zone">Zona Hotelera de Cancún</option>
+                <option value="playa-mujeres" data-es="Playa Mujeres / Costa Mujeres" data-en="Playa Mujeres / Costa Mujeres">Playa Mujeres / Costa Mujeres</option>
+                <option value="puerto-morelos" data-es="Puerto Morelos" data-en="Puerto Morelos">Puerto Morelos</option>
+                <option value="playa-carmen" data-es="Playa del Carmen / Riviera Maya" data-en="Playa del Carmen / Riviera Maya">Playa del Carmen / Riviera Maya</option>
+                <option value="centro" data-es="Centro de Cancún" data-en="Downtown Cancún">Centro de Cancún</option>
+                <option value="outside" data-es="Otra / fuera del área" data-en="Other / outside area">Otra / fuera del área</option>
+              </select>
+            </div>
+
+            <div id="zoneWarning" class="ob-warning ob-hidden" data-es="⚠️ Por ahora la entrega a hotel solo cubre Cancún y Riviera Maya. Elige otra zona o selecciona “Envío a casa”." data-en="⚠️ Hotel delivery currently covers only Cancún and the Riviera Maya. Choose another zone or select “Ship home”.">
+              ⚠️ Por ahora la entrega a hotel solo cubre Cancún y Riviera Maya. Elige otra zona o selecciona “Envío a casa”.
+            </div>
+
+            <div id="hotelNameWrap">
+              <div class="ob-field">
+                <label for="hotelName" data-es="Hotel" data-en="Hotel">Hotel</label>
+                <input type="text" id="hotelName" list="hotelList" autocomplete="off" placeholder="Escribe para buscar tu hotel…" data-es-ph="Escribe para buscar tu hotel…" data-en-ph="Type to search your hotel…" />
+                <datalist id="hotelList">
+                  <option value="Hyatt Ziva Cancun"></option>
+                  <option value="Hyatt Zilara Cancun"></option>
+                  <option value="Le Blanc Spa Resort Cancun"></option>
+                  <option value="JW Marriott Cancun Resort & Spa"></option>
+                  <option value="The Westin Lagunamar Cancun"></option>
+                  <option value="The Ritz-Carlton Cancun"></option>
+                  <option value="Live Aqua Beach Resort Cancun"></option>
+                  <option value="Hilton Cancun All-Inclusive Resort"></option>
+                  <option value="Grand Fiesta Americana Coral Beach"></option>
+                  <option value="Fiesta Americana Condesa Cancun"></option>
+                  <option value="Omni Cancun Hotel & Villas"></option>
+                  <option value="Nizuc Resort & Spa"></option>
+                  <option value="ME Cancun"></option>
+                  <option value="Secrets The Vine Cancun"></option>
+                  <option value="Dreams Sands Cancun Resort & Spa"></option>
+                  <option value="Dreams Vista Cancun Resort & Spa"></option>
+                  <option value="Breathless Cancun Soul Resort"></option>
+                  <option value="Iberostar Selection Cancun"></option>
+                  <option value="Riu Palace Las Americas"></option>
+                  <option value="Riu Palace Peninsula"></option>
+                  <option value="Riu Cancun"></option>
+                  <option value="Moon Palace Cancun"></option>
+                  <option value="Grand Park Royal Cancun"></option>
+                  <option value="Crown Paradise Club Cancun"></option>
+                  <option value="Temptation Cancun Resort"></option>
+                  <option value="Oasis Palm Cancun"></option>
+                  <option value="Beach Palace Cancun"></option>
+                  <option value="Sun Palace Cancun"></option>
+                  <option value="Club Med Cancun Yucatan"></option>
+                  <option value="Villa del Palmar Cancun"></option>
+                  <option value="Excellence Playa Mujeres"></option>
+                  <option value="Finest Playa Mujeres"></option>
+                  <option value="Paradisus Playa Mujeres"></option>
+                  <option value="Grand Palladium Costa Mujeres"></option>
+                  <option value="Now Jade Riviera Cancun"></option>
+                  <option value="Excellence Riviera Cancun"></option>
+                  <option value="Hotel Xcaret Mexico"></option>
+                  <option value="Xcaret Arte Hotel"></option>
+                  <option value="Paradisus Playa del Carmen"></option>
+                  <option value="Royal Hideaway Playacar"></option>
+                  <option value="Barcelo Maya Riviera"></option>
+                  <option value="Hard Rock Hotel Riviera Maya"></option>
+                </datalist>
+                <div id="hotelError" class="ob-inline-error ob-hidden" data-es="⚠️ Ese hotel no está en la lista. Si no aparece, lo acordamos por WhatsApp." data-en="⚠️ That hotel isn't in our list. If it's missing, we'll sort it out on WhatsApp.">
+                  ⚠️ Ese hotel no está en la lista. Si no aparece, lo acordamos por WhatsApp.
+                </div>
+              </div>
+              <div class="ob-field">
+                <label for="roomNumber" data-es="Número de habitación" data-en="Room number">Número de habitación</label>
+                <input type="text" id="roomNumber" placeholder="ej. 412" data-es-ph="ej. 412" data-en-ph="e.g. 412" />
+              </div>
+            </div>
+          </div>
+
+          <!-- envío a casa -->
+          <div id="addressFields" class="ob-hidden">
+            <div class="ob-field">
+              <label for="addrCountry" data-es="País" data-en="Country">País</label>
+              <input type="text" id="addrCountry" placeholder="ej. México / USA" data-es-ph="ej. México / USA" data-en-ph="e.g. Mexico / USA" />
+              <span class="ob-hint" data-es="Envíos por FedEx o Estafeta, costo agregado a la cotización." data-en="Shipping via FedEx or Estafeta, cost added to the quote.">Envíos por FedEx o Estafeta, costo agregado a la cotización.</span>
+            </div>
+            <div class="ob-field">
+              <label for="addrStreet" data-es="Dirección completa" data-en="Full address">Dirección completa</label>
+              <input type="text" id="addrStreet" placeholder="Calle, ciudad, código postal" data-es-ph="Calle, ciudad, código postal" data-en-ph="Street, city, ZIP code" />
+            </div>
+          </div>
+
+          <!-- recoger -->
+          <div id="pickupFields" class="ob-hidden">
+            <div class="ob-info-box" data-es="📍 Recoges sin costo en el taller — Retorno Tejón, SM 20, Mz 3, Lt 2, Cancún 77500. Lun–sáb 9–18 h. Te avisamos por WhatsApp en cuanto esté listo." data-en="📍 Free pickup at the workshop — Retorno Tejón, SM 20, Mz 3, Lt 2, Cancún 77500. Mon–Sat 9am–6pm. We'll message you on WhatsApp when it's ready.">
+              📍 Recoges sin costo en el taller — Retorno Tejón, SM 20, Mz 3, Lt 2, Cancún 77500.
+              Lun–sáb 9–18 h. Te avisamos por WhatsApp en cuanto esté listo.
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ PASO 4: CONTACTO + RESUMEN ══ -->
+        <div class="ob-panel" id="panel-summary">
+          <h3 class="ob-title" data-es="¡Casi listo!" data-en="Almost done!">¡Casi listo!</h3>
+          <p class="ob-sub" data-es="Confirmamos tu pedido por WhatsApp" data-en="We'll confirm your order on WhatsApp">Confirmamos tu pedido por WhatsApp</p>
+
+          <div class="ob-field">
+            <label for="clientName" data-es="Tu nombre" data-en="Your name">Tu nombre</label>
+            <input type="text" id="clientName" placeholder="Nombre completo" data-es-ph="Nombre completo" data-en-ph="Full name" />
+          </div>
+          <div class="ob-field">
+            <label for="clientPhone" data-es="WhatsApp / teléfono" data-en="WhatsApp / phone">WhatsApp / teléfono</label>
+            <input type="tel" id="clientPhone" placeholder="+52 998 000 0000" />
+          </div>
+          <div class="ob-field">
+            <label for="clientEmail" data-es="Correo (opcional)" data-en="Email (optional)">Correo (opcional)</label>
+            <input type="email" id="clientEmail" placeholder="tu@correo.com" data-es-ph="tu@correo.com" data-en-ph="you@email.com" />
+          </div>
+
+          <p class="ob-label ob-label--mt" data-es="Resumen del pedido" data-en="Order summary">Resumen del pedido</p>
+          <div class="summary-box">
+            <div class="summary-line">
+              <span class="s-label" id="sumProduct">—</span>
+              <span class="s-value" id="sumBasePrice">—</span>
+            </div>
+            <div class="summary-line ob-hidden" id="sumAddonRow">
+              <span class="s-label" id="sumAddonLabel">—</span>
+              <span class="s-value" id="sumAddonPrice">—</span>
+            </div>
+            <div class="summary-line">
+              <span class="s-label" data-es="Entrega" data-en="Delivery">Entrega</span>
+              <span class="s-value" id="sumDelivery">Gratis 🏨</span>
+            </div>
+            <div class="summary-total">
+              <span data-es="Total" data-en="Total">Total</span>
+              <span class="t-value" id="sumTotal">$0 USD</span>
+            </div>
+          </div>
+
+          <p class="savings-note ob-hidden" id="savingsNote"></p>
+
+          <button type="button" class="btn-wa" id="btnSubmit">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+            <span data-es="Enviar pedido por WhatsApp" data-en="Send order on WhatsApp">Enviar pedido por WhatsApp</span>
+          </button>
+          <p class="ob-foot-note" data-es="Sin compromiso. Confirmamos disponibilidad y te pasamos el link de pago al responder." data-en="No commitment. We confirm availability and send you the payment link when we reply.">Sin compromiso. Confirmamos disponibilidad y te pasamos el link de pago al responder.</p>
+        </div>
+      </div><!-- /ob-body -->
+
+      <!-- footer pegajoso del card -->
+      <div class="ob-footer" id="obFooter">
+        <button type="button" class="ob-back ob-hidden" id="btnBack" data-es="← Atrás" data-en="← Back">← Atrás</button>
+        <div class="ob-footer-price">
+          <span class="ob-footer-label" data-es="Total" data-en="Total">Total</span>
+          <span class="ob-footer-value" id="footerPrice">$11 USD</span>
+        </div>
+        <button type="button" class="ob-next" id="btnNext" data-es="Continuar →" data-en="Continue →">Continuar →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .builder {
+    background: var(--color-bg);
+    padding: 120px 0;
+  }
+  .section-header {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 48px;
+  }
+  .eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin: 0 0 16px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 16px;
+  }
+  .section-subtitle {
+    color: var(--color-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* ── CARD ── */
+  .ob-card {
+    max-width: 560px;
+    margin: 0 auto;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-surface);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(20, 10, 4, 0.08);
+  }
+
+  /* ── TOPBAR (steps + lang) ── */
+  .ob-topbar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 18px;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-surface);
+  }
+  .ob-steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+  }
+  .ob-lang {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: transparent;
+    border: 1.5px solid var(--color-surface);
+    color: var(--color-muted);
+    border-radius: 999px;
+    padding: 6px 11px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: inherit;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .ob-lang:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .ob-lang svg { opacity: 0.8; }
+  .ob-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-surface);
+    transition: all 0.3s ease;
+  }
+  .ob-dot.active { background: var(--color-accent); transform: scale(1.5); }
+  .ob-dot.done { background: var(--color-accent-honey); }
+
+  .ob-body { padding: 32px 30px; }
+  .ob-panel { display: none; }
+  .ob-panel.ob-visible { display: block; animation: obFade 0.3s ease; }
+  @keyframes obFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .ob-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 4px;
+  }
+  .ob-sub { color: var(--color-muted); font-size: 0.9375rem; margin: 0 0 22px; }
+
+  .ob-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin: 0 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ob-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(165, 58, 4, 0.28), transparent);
+  }
+  .ob-label--mt { margin-top: 24px; }
+
+  /* ── DESIGN GRID (llaveros) ── */
+  .design-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .design-card {
+    border: 2px solid var(--color-surface);
+    border-radius: 14px;
+    background: var(--color-bg);
+    padding: 18px 12px 14px;
+    cursor: pointer;
+    text-align: center;
+    font-family: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .design-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(165, 58, 4, 0.12);
+  }
+  .design-card.selected {
+    border-color: var(--color-accent);
+    background: var(--page-accent-soft, rgba(165, 58, 4, 0.10));
+  }
+  .design-art {
+    width: 56px;
+    height: 56px;
+    color: var(--color-accent);
+    margin-bottom: 6px;
+  }
+  .design-art :global(svg) { width: 100%; height: 100%; }
+  .design-name { font-weight: 700; font-size: 0.9375rem; color: var(--color-text); }
+  .design-desc { font-size: 0.75rem; color: var(--color-muted); }
+
+  /* ── WIDE CARDS (termo / portavasos) ── */
+  .wide-card {
+    width: 100%;
+    border: 2px solid var(--color-surface);
+    border-radius: 14px;
+    background: var(--color-bg);
+    padding: 14px 16px;
+    cursor: pointer;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+    text-align: left;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .wide-card:hover { border-color: var(--color-accent); box-shadow: 0 8px 20px rgba(165, 58, 4, 0.10); }
+  .wide-card.selected { border-color: var(--color-accent); background: var(--page-accent-soft, rgba(165, 58, 4, 0.10)); }
+  .wide-art { width: 44px; height: 56px; flex-shrink: 0; color: var(--color-accent); display: flex; align-items: center; justify-content: center; }
+  .wide-art :global(svg) { width: 100%; height: 100%; }
+  .wide-text { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+  .wide-name { font-weight: 700; font-size: 0.9375rem; color: var(--color-text); }
+  .wide-desc { font-size: 0.8125rem; color: var(--color-muted); line-height: 1.4; }
+  .wide-price { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; color: var(--color-accent); flex-shrink: 0; }
+
+  /* ── PREVIEW (nombre) ── */
+  .kc-preview {
+    background: linear-gradient(150deg, var(--color-bg-ink), var(--color-bg-clay));
+    border-radius: 14px;
+    padding: 22px;
+    text-align: center;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .kc-preview-label { color: rgba(245, 233, 216, 0.4); font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; }
+  .kc-preview-cancun { color: var(--color-accent-honey); font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; letter-spacing: 0.28em; }
+  .kc-preview-name { color: var(--color-text-on-dark); font-size: 1.75rem; font-weight: 800; letter-spacing: 0.12em; min-height: 36px; }
+
+  .name-inputs { display: flex; flex-direction: column; gap: 14px; }
+
+  /* ── BUNDLES ── */
+  .bundle-row { display: flex; flex-direction: column; gap: 8px; }
+  .bundle-option {
+    border: 2px solid var(--color-surface);
+    border-radius: 12px;
+    background: var(--color-bg);
+    padding: 13px 16px;
+    cursor: pointer;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    transition: border-color 0.2s ease;
+  }
+  .bundle-option:hover { border-color: var(--color-accent); }
+  .bundle-option.selected { border-color: var(--color-accent); background: var(--page-accent-soft, rgba(165, 58, 4, 0.10)); }
+  .b-left { display: flex; flex-direction: column; gap: 2px; }
+  .b-qty { font-weight: 700; font-size: 0.9375rem; color: var(--color-text); }
+  .b-save { font-size: 0.75rem; color: #1f9d55; font-weight: 600; }
+  .b-right { text-align: right; }
+  .b-price { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; color: var(--color-accent); }
+  .b-unit { font-size: 0.6875rem; color: var(--color-muted); }
+  .b-badge { display: inline-block; background: var(--color-accent); color: #fff; font-size: 0.625rem; font-weight: 700; padding: 2px 7px; border-radius: 8px; margin-top: 2px; }
+
+  /* ── ADD-ONS ── */
+  .addon-card { border: 1px solid var(--color-surface); border-radius: 14px; overflow: hidden; margin-bottom: 14px; background: var(--color-bg); }
+  .addon-head { background: linear-gradient(150deg, var(--color-bg-ink), var(--color-bg-clay)); padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
+  .addon-emoji { font-size: 1.5rem; }
+  .addon-head-label { color: rgba(245, 233, 216, 0.45); font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .addon-head-name { color: var(--color-text-on-dark); font-weight: 800; font-size: 1.125rem; letter-spacing: 0.08em; }
+  .addon-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-top: 1px solid var(--color-surface); cursor: pointer; transition: background 0.15s ease; }
+  .addon-row:hover { background: var(--page-accent-soft, rgba(165, 58, 4, 0.06)); }
+  .addon-row.sel { background: var(--page-accent-soft, rgba(165, 58, 4, 0.10)); }
+  .addon-row-left { display: flex; align-items: center; gap: 12px; }
+  .addon-row-emoji { font-size: 1.35rem; }
+  .addon-row-name { font-weight: 600; font-size: 0.875rem; color: var(--color-text); }
+  .addon-row-desc { font-size: 0.75rem; color: var(--color-muted); }
+  .addon-row-right { display: flex; align-items: center; gap: 10px; }
+  .addon-price { font-weight: 700; font-size: 0.875rem; color: var(--color-accent); }
+  .addon-check { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--color-surface); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; transition: all 0.2s ease; }
+  .addon-row.sel .addon-check { background: var(--color-accent); border-color: var(--color-accent); }
+
+  /* ── TERMO ── */
+  .termo-stage { background: linear-gradient(160deg, var(--color-bg-ink), var(--color-bg-clay)); border-radius: 16px; padding: 24px 20px; }
+  .termo-stage-top { display: flex; align-items: center; gap: 20px; margin-bottom: 18px; }
+  .termo-cup { width: 56px; flex-shrink: 0; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4)); }
+  .termo-engrave { display: flex; flex-direction: column; gap: 4px; }
+  .termo-engrave-label { color: rgba(245, 233, 216, 0.4); font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .termo-engrave-cancun { color: var(--color-accent-honey); font-family: var(--font-display); font-weight: 700; font-size: 1rem; letter-spacing: 0.2em; transition: opacity 0.3s ease; }
+  .termo-engrave-name { color: var(--color-text-on-dark); font-weight: 700; font-size: 0.9375rem; letter-spacing: 0.08em; min-height: 20px; transition: opacity 0.3s ease; }
+  .dim { opacity: 0.18; }
+
+  .termo-opt { width: 100%; border: 2px solid rgba(245, 233, 216, 0.12); border-radius: 12px; background: transparent; padding: 13px 16px; cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 12px; margin-bottom: 10px; text-align: left; transition: all 0.2s ease; }
+  .termo-opt:hover { border-color: rgba(245, 233, 216, 0.3); }
+  .termo-opt.selected { border-color: var(--color-accent-honey); background: rgba(200, 122, 42, 0.12); }
+  .termo-opt-icon { font-size: 1.35rem; }
+  .termo-opt-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  .termo-opt-name { color: var(--color-text-on-dark); font-weight: 700; font-size: 0.875rem; }
+  .termo-opt-desc { color: rgba(245, 233, 216, 0.5); font-size: 0.75rem; }
+  .termo-check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(245, 233, 216, 0.3); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+  .termo-opt.selected .termo-check { background: var(--color-accent-honey); border-color: var(--color-accent-honey); }
+  .termo-opt.selected .termo-check::after { content: "✓"; color: #fff; font-size: 0.7rem; font-weight: 700; }
+
+  .termo-name-wrap { position: relative; margin-bottom: 10px; }
+  .termo-name-wrap input { width: 100%; padding: 12px 44px 12px 14px; border: 2px solid rgba(245, 233, 216, 0.2); border-radius: 10px; background: rgba(245, 233, 216, 0.08); color: var(--color-text-on-dark); font-size: 1rem; font-weight: 700; font-family: inherit; outline: none; text-transform: uppercase; transition: border-color 0.15s ease; }
+  .termo-name-wrap input::placeholder { color: rgba(245, 233, 216, 0.3); font-weight: 400; }
+  .termo-name-wrap input:focus { border-color: var(--color-accent-honey); }
+  .termo-name-wrap .char-count { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 0.6875rem; color: rgba(245, 233, 216, 0.4); }
+
+  .termo-price { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; margin-top: 4px; background: rgba(200, 122, 42, 0.14); border: 1px solid rgba(200, 122, 42, 0.3); border-radius: 10px; color: rgba(245, 233, 216, 0.75); font-size: 0.875rem; }
+  .termo-price-val { font-family: var(--font-display); font-weight: 700; font-size: 1.375rem; color: var(--color-accent-honey); }
+
+  /* ── DELIVERY ── */
+  .delivery-toggle { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+  .delivery-opt { border: 2px solid var(--color-surface); border-radius: 12px; background: var(--color-bg); padding: 14px 8px; cursor: pointer; font-family: inherit; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: border-color 0.2s ease; }
+  .delivery-opt:hover { border-color: var(--color-accent); }
+  .delivery-opt.selected { border-color: var(--color-accent); background: var(--page-accent-soft, rgba(165, 58, 4, 0.10)); }
+  .delivery-icon { font-size: 1.5rem; }
+  .delivery-name { font-weight: 700; font-size: 0.8125rem; color: var(--color-text); }
+  .delivery-info { font-size: 0.6875rem; color: var(--color-muted); }
+
+  /* ── FIELDS ── */
+  .ob-field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+  .ob-field label { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-muted); }
+  .ob-field input, .ob-field select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--color-surface);
+    border-radius: 10px;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+  .ob-field input:focus, .ob-field select:focus { border-color: var(--color-accent); }
+  .ob-hint { font-size: 0.75rem; color: var(--color-muted); }
+
+  .ob-warning { background: #fdecec; border: 1px solid #f3b4b4; color: #b91c1c; border-radius: 10px; padding: 12px 14px; font-size: 0.8125rem; margin-bottom: 14px; line-height: 1.5; }
+  .ob-inline-error { font-size: 0.75rem; color: #b91c1c; background: #fdecec; border-radius: 6px; padding: 6px 10px; margin-top: 6px; }
+  .ob-info-box { background: var(--color-bg); border: 1px solid var(--color-surface); border-radius: 10px; padding: 14px 16px; font-size: 0.875rem; color: var(--color-text); line-height: 1.6; }
+
+  /* ── SUMMARY ── */
+  .summary-box { background: var(--color-bg); border: 1px solid var(--color-surface); border-radius: 14px; overflow: hidden; }
+  .summary-line { display: flex; justify-content: space-between; gap: 12px; padding: 12px 16px; font-size: 0.875rem; border-bottom: 1px solid var(--color-surface); }
+  .s-label { color: var(--color-muted); }
+  .s-value { font-weight: 600; color: var(--color-text); white-space: nowrap; }
+  .summary-total { display: flex; justify-content: space-between; padding: 15px 16px; background: var(--page-accent-soft, rgba(165, 58, 4, 0.10)); font-weight: 800; font-size: 1.0625rem; color: var(--color-text); }
+  .t-value { font-family: var(--font-display); color: var(--color-accent); }
+  .savings-note { text-align: center; color: #1f9d55; font-weight: 600; font-size: 0.875rem; margin: 14px 0 0; }
+
+  .btn-wa { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; margin-top: 18px; background: #25D366; color: #fff; border: none; border-radius: 12px; padding: 17px; font-size: 1rem; font-weight: 700; font-family: inherit; cursor: pointer; transition: background 0.15s ease, transform 0.1s ease; }
+  .btn-wa:hover { background: #1faa54; }
+  .btn-wa:active { transform: scale(0.99); }
+  .ob-foot-note { text-align: center; font-size: 0.75rem; color: var(--color-muted); margin: 10px 0 0; line-height: 1.5; }
+
+  .char-count { font-size: 0.6875rem; color: var(--color-muted); }
+
+  /* ── FOOTER ── */
+  .ob-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px;
+    background: var(--color-bg);
+    border-top: 1px solid var(--color-surface);
+  }
+  .ob-back { background: transparent; border: 2px solid var(--color-surface); color: var(--color-muted); border-radius: 10px; padding: 11px 16px; font-weight: 600; font-family: inherit; font-size: 0.9375rem; cursor: pointer; transition: all 0.2s ease; }
+  .ob-back:hover { border-color: var(--color-muted); color: var(--color-text); }
+  .ob-footer-price { flex: 1; }
+  .ob-footer-label { display: block; font-size: 0.6875rem; color: var(--color-muted); }
+  .ob-footer-value { font-family: var(--font-display); font-weight: 700; font-size: 1.375rem; color: var(--color-accent); }
+  .ob-next { background: var(--color-accent); color: #fff; border: none; border-radius: 10px; padding: 13px 22px; font-weight: 700; font-family: inherit; font-size: 0.9375rem; cursor: pointer; transition: background 0.2s ease; }
+  .ob-next:hover { background: var(--color-accent-dark); }
+  .ob-next:disabled { background: var(--color-surface); color: var(--color-muted); cursor: not-allowed; }
+
+  .ob-hidden { display: none !important; }
+
+  /* labels in name inputs reuse .ob-field styling via JS-rendered markup */
+  .name-input-row { display: flex; flex-direction: column; gap: 7px; position: relative; }
+  .name-input-row label { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-muted); }
+  .name-input-row input { width: 100%; padding: 12px 48px 12px 14px; border: 2px solid var(--color-surface); border-radius: 10px; background: var(--color-bg); color: var(--color-text); font-size: 1rem; font-weight: 700; font-family: inherit; outline: none; text-transform: uppercase; transition: border-color 0.15s ease; }
+  .name-input-row input:focus { border-color: var(--color-accent); }
+  .name-input-row .char-count { position: absolute; right: 14px; bottom: 13px; }
+
+  @media (max-width: 560px) {
+    .builder { padding: 72px 0; }
+    .ob-body { padding: 26px 20px; }
+    .ob-footer { padding: 12px 18px; }
+    .delivery-toggle { grid-template-columns: 1fr; }
+  }
+</style>
+
+<!-- Estilos para nodos generados por JS (bundles, nombres, add-ons). El CSS
+     scoped de Astro no alcanza el DOM inyectado por script, así que estos van
+     globales pero namespaced bajo .ob-card para no filtrarse a otros componentes. -->
+<style is:global>
+  /* nombres */
+  .ob-card .name-input-row { display: flex; flex-direction: column; gap: 7px; position: relative; }
+  .ob-card .name-input-row label { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-muted); }
+  .ob-card .name-input-row input { width: 100%; padding: 12px 48px 12px 14px; border: 2px solid var(--color-surface); border-radius: 10px; background: var(--color-bg); color: var(--color-text); font-size: 1rem; font-weight: 700; font-family: inherit; outline: none; text-transform: uppercase; transition: border-color 0.15s ease; }
+  .ob-card .name-input-row input:focus { border-color: var(--color-accent); }
+  .ob-card .name-input-row .char-count { position: absolute; right: 14px; bottom: 13px; font-size: 0.6875rem; color: var(--color-muted); }
+
+  /* bundles */
+  .ob-card .bundle-option { width: 100%; border: 2px solid var(--color-surface); border-radius: 12px; background: var(--color-bg); padding: 13px 16px; cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: space-between; text-align: left; transition: border-color 0.2s ease; }
+  .ob-card .bundle-option:hover { border-color: var(--color-accent); }
+  .ob-card .bundle-option.selected { border-color: var(--color-accent); background: rgba(165, 58, 4, 0.10); }
+  .ob-card .b-left { display: flex; flex-direction: column; gap: 2px; }
+  .ob-card .b-qty { font-weight: 700; font-size: 0.9375rem; color: var(--color-text); }
+  .ob-card .b-save { font-size: 0.75rem; color: #1f9d55; font-weight: 600; }
+  .ob-card .b-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
+  .ob-card .b-price { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; color: var(--color-accent); }
+  .ob-card .b-unit { font-size: 0.6875rem; color: var(--color-muted); }
+  .ob-card .b-badge { display: inline-block; background: var(--color-accent); color: #fff; font-size: 0.625rem; font-weight: 700; padding: 2px 7px; border-radius: 8px; margin-top: 2px; }
+
+  /* add-ons */
+  .ob-card .addon-card { border: 1px solid var(--color-surface); border-radius: 14px; overflow: hidden; margin-bottom: 14px; background: var(--color-bg); }
+  .ob-card .addon-head { background: linear-gradient(150deg, var(--color-bg-ink), var(--color-bg-clay)); padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
+  .ob-card .addon-emoji { font-size: 1.5rem; }
+  .ob-card .addon-head-label { color: rgba(245, 233, 216, 0.45); font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .ob-card .addon-head-name { color: var(--color-text-on-dark); font-weight: 800; font-size: 1.125rem; letter-spacing: 0.08em; }
+  .ob-card .addon-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-top: 1px solid var(--color-surface); cursor: pointer; transition: background 0.15s ease; }
+  .ob-card .addon-row:hover { background: rgba(165, 58, 4, 0.06); }
+  .ob-card .addon-row.sel { background: rgba(165, 58, 4, 0.10); }
+  .ob-card .addon-row-left { display: flex; align-items: center; gap: 12px; }
+  .ob-card .addon-row-emoji { font-size: 1.35rem; }
+  .ob-card .addon-row-name { font-weight: 600; font-size: 0.875rem; color: var(--color-text); }
+  .ob-card .addon-row-desc { font-size: 0.75rem; color: var(--color-muted); }
+  .ob-card .addon-row-right { display: flex; align-items: center; gap: 10px; }
+  .ob-card .addon-price { font-weight: 700; font-size: 0.875rem; color: var(--color-accent); }
+  .ob-card .addon-check { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--color-surface); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; transition: all 0.2s ease; }
+  .ob-card .addon-row.sel .addon-check { background: var(--color-accent); border-color: var(--color-accent); }
+</style>
+
+<script>
+  const WA_NUMBER = "529981888048";
+
+  type Addon = { opener: boolean; airtag: boolean };
+  type Lang = "es" | "en";
+  interface State {
+    product: string | null;
+    bundle: number;
+    names: string[];
+    addons: Addon[];
+    termo: { withCancun: boolean; withName: boolean; name: string };
+    delivery: string;
+    currentPanel: string;
+    lang: Lang;
+  }
+
+  const BUNDLE_PRICES: Record<number, number> = { 1: 11, 2: 20, 3: 29, 4: 35, 5: 40 };
+  const SAVINGS: Record<number, number> = { 1: 0, 2: 2, 3: 4, 4: 9, 5: 15 };
+  const DESIGN_NAMES: Record<Lang, Record<string, string>> = {
+    es: { mar: "Mar 🌊", tropical: "Tropical 🦜", maya: "Maya 🏛️", fiesta: "Fiesta 🌮" },
+    en: { mar: "Ocean 🌊", tropical: "Tropical 🦜", maya: "Maya 🏛️", fiesta: "Fiesta 🌮" },
+  };
+  const DESIGN_EMOJI: Record<string, string> = { mar: "🌊", tropical: "🦜", maya: "🏛️", fiesta: "🌮" };
+
+  // Diccionario para el contenido que genera el JS (el HTML estático usa data-es/data-en).
+  const T = {
+    es: {
+      keychain: (n: number) => `${n} ${n === 1 ? "Llavero" : "Llaveros"}`,
+      save: (v: number) => `Ahorras $${v}`,
+      each: (v: string) => `$${v} c/u`,
+      bestDeal: "1 GRATIS + Ahorras $4",
+      bestPrice: "Mejor precio",
+      nameLabel: (n: number) => `Llavero ${n} — nombre`,
+      namePh: "ej. CARLOS",
+      kcLabel: (n: number) => `Llavero ${n}`,
+      opener: "Destapador", openerDesc: "Integrado en el llavero",
+      airtag: "Soporte AirTag", airtagDesc: "Nunca pierdas tus llaves",
+      coasters: "Set de 5 portavasos",
+      cup: "Termo 20oz",
+      delHotel: "Gratis 🏨", delPickup: "Recoger 🏪", delShip: "FedEx 📦",
+      saved: (v: number) => `🎉 ¡Ahorraste $${v} USD!`,
+      alertProduct: "Por favor elige un producto.",
+      alertNames: "Por favor ingresa todos los nombres.",
+      alertZone: "Por favor selecciona tu zona de entrega.",
+      alertOutside: 'La entrega a hotel solo cubre Cancún y Riviera Maya. Elige “Envío a casa” para otras zonas.',
+      alertHotel: "Por favor escribe tu hotel.",
+      alertContact: "Por favor ingresa tu nombre y WhatsApp.",
+    },
+    en: {
+      keychain: (n: number) => `${n} ${n === 1 ? "Keychain" : "Keychains"}`,
+      save: (v: number) => `Save $${v}`,
+      each: (v: string) => `$${v} each`,
+      bestDeal: "1 FREE + Save $4",
+      bestPrice: "Best deal",
+      nameLabel: (n: number) => `Keychain ${n} — name`,
+      namePh: "e.g. CARLOS",
+      kcLabel: (n: number) => `Keychain ${n}`,
+      opener: "Bottle opener", openerDesc: "Built into the keychain",
+      airtag: "AirTag holder", airtagDesc: "Never lose your keys",
+      coasters: "Set of 5 coasters",
+      cup: "Thermal cup 20oz",
+      delHotel: "Free 🏨", delPickup: "Pickup 🏪", delShip: "FedEx 📦",
+      saved: (v: number) => `🎉 You saved $${v} USD!`,
+      alertProduct: "Please choose a product.",
+      alertNames: "Please enter all names.",
+      alertZone: "Please select your delivery zone.",
+      alertOutside: 'Hotel delivery only covers Cancún and the Riviera Maya. Choose “Ship home” for other areas.',
+      alertHotel: "Please type your hotel.",
+      alertContact: "Please enter your name and WhatsApp number.",
+    },
+  };
+
+  const FLOWS: Record<string, string[]> = {
+    keychain: ["panel-product", "panel-names", "panel-addons", "panel-delivery", "panel-summary"],
+    termo: ["panel-product", "panel-termo", "panel-delivery", "panel-summary"],
+    portavasos: ["panel-product", "panel-delivery", "panel-summary"],
+  };
+
+  function init() {
+    const root = document.getElementById("pedido");
+    if (!root || (root as any)._obInit) return;
+    (root as any)._obInit = true;
+
+    const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T | null;
+
+    const state: State = {
+      product: null,
+      bundle: 1,
+      names: [""],
+      addons: [{ opener: false, airtag: false }],
+      termo: { withCancun: false, withName: false, name: "" },
+      delivery: "hotel",
+      currentPanel: "panel-product",
+      lang: "es",
+    };
+    const tr = () => T[state.lang];
+
+    const getFlow = () =>
+      state.product === "termo" ? FLOWS.termo :
+      state.product === "portavasos" ? FLOWS.portavasos :
+      FLOWS.keychain;
+    const flowIndex = () => getFlow().indexOf(state.currentPanel);
+
+    function calcTotal(): number {
+      if (!state.product) return 11;
+      if (state.product === "portavasos") return 15;
+      if (state.product === "termo") {
+        const both = state.termo.withCancun && state.termo.withName;
+        const one = state.termo.withCancun || state.termo.withName;
+        return both ? 20 : one ? 18 : 15;
+      }
+      let total = BUNDLE_PRICES[state.bundle] || 11;
+      state.addons.forEach((a) => { if (a.opener) total += 1; if (a.airtag) total += 4; });
+      return total;
+    }
+
+    // ── steps dots ──
+    function renderDots() {
+      const cont = $("obSteps");
+      if (!cont) return;
+      const flow = getFlow();
+      const idx = flowIndex();
+      cont.innerHTML = flow
+        .map((_, i) => `<span class="ob-dot${i < idx ? " done" : i === idx ? " active" : ""}"></span>`)
+        .join("");
+    }
+
+    function showPanel(id: string) {
+      document.querySelectorAll(".ob-panel").forEach((p) => p.classList.remove("ob-visible"));
+      $(id)?.classList.add("ob-visible");
+      state.currentPanel = id;
+      renderDots();
+      updateFooter();
+      root!.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function updateFooter() {
+      const isFirst = flowIndex() === 0;
+      const isLast = flowIndex() === getFlow().length - 1;
+      $("btnBack")?.classList.toggle("ob-hidden", isFirst);
+      const fp = $("footerPrice");
+      if (fp) fp.textContent = "$" + calcTotal() + " USD";
+      const next = $<HTMLButtonElement>("btnNext");
+      if (next) {
+        next.classList.toggle("ob-hidden", isLast);
+        next.disabled = !state.product && state.currentPanel === "panel-product";
+      }
+    }
+
+    // ── validation ──
+    function validateCurrent(): boolean {
+      const p = state.currentPanel;
+      const L = tr();
+      if (p === "panel-product" && !state.product) { alert(L.alertProduct); return false; }
+      if (p === "panel-names") {
+        const filled = state.names.slice(0, state.bundle).filter((n) => n.trim().length > 0);
+        if (filled.length < state.bundle) { alert(L.alertNames); return false; }
+      }
+      if (p === "panel-delivery" && state.delivery === "hotel") {
+        const zone = $<HTMLSelectElement>("hotelZone")?.value || "";
+        if (!zone) { alert(L.alertZone); return false; }
+        if (zone === "outside") { alert(L.alertOutside); return false; }
+        if (!($("hotelName") as HTMLInputElement)?.value.trim()) { alert(L.alertHotel); return false; }
+      }
+      return true;
+    }
+
+    function nextStep() {
+      if (!validateCurrent()) return;
+      const flow = getFlow();
+      const idx = flowIndex();
+      if (idx < flow.length - 1) {
+        const next = flow[idx + 1];
+        if (next === "panel-addons") renderAddons();
+        if (next === "panel-summary") buildSummary();
+        showPanel(next);
+      }
+    }
+    function prevStep() {
+      const flow = getFlow();
+      const idx = flowIndex();
+      if (idx > 0) showPanel(flow[idx - 1]);
+    }
+
+    // ── product select ──
+    function selectProduct(p: string) {
+      state.product = p;
+      document.querySelectorAll(".design-card, .wide-card").forEach((c) => c.classList.remove("selected"));
+      $("cat-" + p)?.classList.add("selected");
+      state.bundle = 1;
+      state.names = [""];
+      state.addons = [{ opener: false, airtag: false }];
+      state.termo = { withCancun: false, withName: false, name: "" };
+      // reset name UI for keychains
+      if (FLOWS.keychain.includes("panel-names")) { renderBundles(); syncNameInputs(); }
+      renderDots();
+      updateFooter();
+    }
+
+    // ── bundles + names ──
+    function renderBundles() {
+      const cont = $("bundleRow");
+      if (!cont) return;
+      const L = tr();
+      const defs = [
+        { n: 1, label: L.keychain(1), save: "", price: 11, unit: "USD", badge: "" },
+        { n: 2, label: L.keychain(2), save: L.save(2), price: 20, unit: L.each("10"), badge: "" },
+        { n: 3, label: L.keychain(3), save: L.save(4), price: 29, unit: L.each("9.67"), badge: "" },
+        { n: 4, label: L.keychain(4), save: L.save(9), price: 35, unit: L.each("8.75"), badge: "" },
+        { n: 5, label: L.keychain(5) + " 🔥", save: L.bestDeal, price: 40, unit: L.bestPrice, badge: "TOP" },
+      ];
+      cont.innerHTML = defs
+        .map(
+          (d) => `
+        <button type="button" class="bundle-option${d.n === state.bundle ? " selected" : ""}" data-bundle="${d.n}">
+          <span class="b-left">
+            <span class="b-qty">${d.label}</span>
+            ${d.save ? `<span class="b-save">${d.save}</span>` : ""}
+          </span>
+          <span class="b-right">
+            <span class="b-price">$${d.price}</span>
+            <span class="b-unit">${d.unit}</span>
+            ${d.badge ? `<span class="b-badge">${d.badge}</span>` : ""}
+          </span>
+        </button>`
+        )
+        .join("");
+      cont.querySelectorAll<HTMLElement>(".bundle-option").forEach((b) =>
+        b.addEventListener("click", () => selectBundle(Number(b.dataset.bundle)))
+      );
+    }
+
+    function selectBundle(n: number) {
+      state.bundle = n;
+      document.querySelectorAll(".bundle-option").forEach((b) => b.classList.remove("selected"));
+      document.querySelector(`.bundle-option[data-bundle="${n}"]`)?.classList.add("selected");
+      syncNameInputs();
+      updateFooter();
+    }
+
+    function syncNameInputs() {
+      const cont = $("nameInputs");
+      if (!cont) return;
+      while (state.names.length < state.bundle) state.names.push("");
+      while (state.names.length > state.bundle) state.names.pop();
+      while (state.addons.length < state.bundle) state.addons.push({ opener: false, airtag: false });
+      while (state.addons.length > state.bundle) state.addons.pop();
+      cont.innerHTML = "";
+      for (let i = 0; i < state.bundle; i++) {
+        const L = tr();
+        const row = document.createElement("div");
+        row.className = "name-input-row";
+        row.innerHTML = `
+          <label>${L.nameLabel(i + 1)}</label>
+          <input type="text" maxlength="15" placeholder="${L.namePh}" value="${state.names[i] || ""}" />
+          <span class="char-count">${(state.names[i] || "").length}/15</span>`;
+        const input = row.querySelector("input")!;
+        const count = row.querySelector(".char-count")!;
+        input.addEventListener("input", () => {
+          input.value = input.value.toUpperCase();
+          state.names[i] = input.value;
+          count.textContent = input.value.length + "/15";
+          if (i === 0) updatePreview();
+        });
+        cont.appendChild(row);
+      }
+      updatePreview();
+    }
+
+    function updatePreview() {
+      const el = $("previewName");
+      if (el) el.textContent = state.names[0] || "—";
+    }
+
+    // ── add-ons ──
+    function renderAddons() {
+      const cont = $("addonsList");
+      if (!cont) return;
+      const emoji = DESIGN_EMOJI[state.product || ""] || "🔑";
+      const L = tr();
+      cont.innerHTML = "";
+      for (let i = 0; i < state.bundle; i++) {
+        const a = state.addons[i];
+        const name = state.names[i] || "—";
+        const card = document.createElement("div");
+        card.className = "addon-card";
+        card.innerHTML = `
+          <div class="addon-head">
+            <span class="addon-emoji">${emoji}</span>
+            <span>
+              <span class="addon-head-label">${L.kcLabel(i + 1)}</span>
+              <span class="addon-head-name" style="display:block">${name}</span>
+            </span>
+          </div>
+          <div class="addon-row${a.opener ? " sel" : ""}" data-i="${i}" data-key="opener">
+            <span class="addon-row-left">
+              <span class="addon-row-emoji">🍺</span>
+              <span><span class="addon-row-name" style="display:block">${L.opener}</span><span class="addon-row-desc">${L.openerDesc}</span></span>
+            </span>
+            <span class="addon-row-right"><span class="addon-price">+$1</span><span class="addon-check">${a.opener ? "✓" : ""}</span></span>
+          </div>
+          <div class="addon-row${a.airtag ? " sel" : ""}" data-i="${i}" data-key="airtag">
+            <span class="addon-row-left">
+              <span class="addon-row-emoji">📍</span>
+              <span><span class="addon-row-name" style="display:block">${L.airtag}</span><span class="addon-row-desc">${L.airtagDesc}</span></span>
+            </span>
+            <span class="addon-row-right"><span class="addon-price">+$4</span><span class="addon-check">${a.airtag ? "✓" : ""}</span></span>
+          </div>`;
+        cont.appendChild(card);
+      }
+      cont.querySelectorAll<HTMLElement>(".addon-row").forEach((row) =>
+        row.addEventListener("click", () => {
+          const i = Number(row.dataset.i);
+          const key = row.dataset.key as "opener" | "airtag";
+          state.addons[i][key] = !state.addons[i][key];
+          const on = state.addons[i][key];
+          row.classList.toggle("sel", on);
+          const chk = row.querySelector(".addon-check")!;
+          chk.textContent = on ? "✓" : "";
+          updateFooter();
+        })
+      );
+    }
+
+    // ── termo ──
+    function toggleTermo(key: "cancun" | "name") {
+      const prop = key === "cancun" ? "withCancun" : "withName";
+      state.termo[prop] = !state.termo[prop];
+      const on = state.termo[prop];
+      $("topt-" + key)?.classList.toggle("selected", on);
+      if (key === "name") {
+        $("termoNameWrap")?.classList.toggle("ob-hidden", !on);
+        if (!on) state.termo.name = "";
+      }
+      updateTermoPreview();
+      updateFooter();
+    }
+    function updateTermoPreview() {
+      $("tep-cancun")?.classList.toggle("dim", !state.termo.withCancun);
+      const nameEl = $("tep-name");
+      nameEl?.classList.toggle("dim", !state.termo.withName);
+      if (nameEl) nameEl.textContent = state.termo.name || (state.termo.withName ? "…" : "—");
+      const tag = $("termoPriceTag");
+      if (tag) tag.textContent = "$" + calcTotal() + " USD";
+    }
+
+    // ── delivery ──
+    function selectDelivery(type: string) {
+      state.delivery = type;
+      document.querySelectorAll(".delivery-opt").forEach((d) => d.classList.remove("selected"));
+      $("del-" + type)?.classList.add("selected");
+      $("hotelFields")?.classList.toggle("ob-hidden", type !== "hotel");
+      $("addressFields")?.classList.toggle("ob-hidden", type !== "address");
+      $("pickupFields")?.classList.toggle("ob-hidden", type !== "pickup");
+    }
+
+    function checkZone() {
+      const zone = $<HTMLSelectElement>("hotelZone")?.value || "";
+      $("zoneWarning")?.classList.toggle("ob-hidden", zone !== "outside");
+    }
+    function validateHotel() {
+      const input = $<HTMLInputElement>("hotelName");
+      if (!input) return;
+      const val = input.value.trim();
+      if (!val) { input.style.borderColor = ""; $("hotelError")?.classList.add("ob-hidden"); return; }
+      const opts = Array.from(document.querySelectorAll("#hotelList option")).map((o) => (o as HTMLOptionElement).value.toLowerCase());
+      const ok = opts.includes(val.toLowerCase());
+      input.style.borderColor = ok ? "#1f9d55" : "#e0a000";
+      $("hotelError")?.classList.toggle("ob-hidden", ok || val.length < 3);
+    }
+
+    // ── summary ──
+    function buildSummary() {
+      const total = calcTotal();
+      const L = tr();
+      let productLabel = "", basePrice = total;
+
+      if (state.product === "portavasos") {
+        productLabel = L.coasters;
+      } else if (state.product === "termo") {
+        const eng: string[] = [];
+        if (state.termo.withCancun) eng.push("CANCUN");
+        if (state.termo.withName && state.termo.name) eng.push(state.termo.name);
+        productLabel = L.cup + (eng.length ? " · " + eng.join(" + ") : "");
+      } else {
+        const names = state.names.slice(0, state.bundle).filter(Boolean).join(", ");
+        productLabel = `${state.bundle}× ${DESIGN_NAMES[state.lang][state.product || ""]} · ${names}`;
+        basePrice = BUNDLE_PRICES[state.bundle];
+      }
+      ($("sumProduct") as HTMLElement).textContent = productLabel;
+      ($("sumBasePrice") as HTMLElement).textContent = "$" + basePrice + " USD";
+
+      // add-ons
+      const lines: string[] = [];
+      let addonCost = 0;
+      state.addons.slice(0, state.bundle).forEach((a, i) => {
+        const parts: string[] = [];
+        if (a.opener) { parts.push(L.opener); addonCost += 1; }
+        if (a.airtag) { parts.push("AirTag"); addonCost += 4; }
+        if (parts.length) lines.push(`#${i + 1} ${state.names[i] || ""}: ${parts.join(" + ")}`);
+      });
+      const addonRow = $("sumAddonRow");
+      if (lines.length && state.product !== "termo" && state.product !== "portavasos") {
+        addonRow?.classList.remove("ob-hidden");
+        ($("sumAddonLabel") as HTMLElement).textContent = lines.join(" · ");
+        ($("sumAddonPrice") as HTMLElement).textContent = "+$" + addonCost + " USD";
+      } else {
+        addonRow?.classList.add("ob-hidden");
+      }
+
+      const delLabel = state.delivery === "hotel" ? L.delHotel : state.delivery === "pickup" ? L.delPickup : L.delShip;
+      ($("sumDelivery") as HTMLElement).textContent = delLabel;
+      ($("sumTotal") as HTMLElement).textContent = "$" + total + " USD";
+
+      const savings = SAVINGS[state.bundle] || 0;
+      const note = $("savingsNote");
+      if (savings > 0 && state.product !== "termo" && state.product !== "portavasos") {
+        note?.classList.remove("ob-hidden");
+        if (note) note.textContent = L.saved(savings);
+      } else {
+        note?.classList.add("ob-hidden");
+      }
+    }
+
+    // ── submit → WhatsApp ──
+    function submitOrder() {
+      const name = ($("clientName") as HTMLInputElement)?.value.trim() || "";
+      const phone = ($("clientPhone") as HTMLInputElement)?.value.trim() || "";
+      const email = ($("clientEmail") as HTMLInputElement)?.value.trim() || "";
+      if (!name || !phone) { alert(tr().alertContact); return; }
+
+      const total = calcTotal();
+      const hotel = ($("hotelName") as HTMLInputElement)?.value.trim() || "";
+      const room = ($("roomNumber") as HTMLInputElement)?.value.trim() || "";
+      const zone = ($("hotelZone") as HTMLSelectElement)?.value || "";
+      const country = ($("addrCountry") as HTMLInputElement)?.value.trim() || "";
+      const street = ($("addrStreet") as HTMLInputElement)?.value.trim() || "";
+
+      let deliveryLine = "";
+      if (state.delivery === "hotel") deliveryLine = `Hotel: ${hotel}${room ? " · Hab " + room : ""}${zone ? " (" + zone + ")" : ""}`;
+      else if (state.delivery === "pickup") deliveryLine = "Recoge en el taller";
+      else deliveryLine = `Envío a casa: ${country}${street ? " — " + street : ""}`;
+
+      let productLine = "";
+      if (state.product === "portavasos") {
+        productLine = "🥂 Set de 5 portavasos";
+      } else if (state.product === "termo") {
+        const eng: string[] = [];
+        if (state.termo.withCancun) eng.push("CANCUN");
+        if (state.termo.withName && state.termo.name) eng.push(state.termo.name);
+        productLine = `☕ Termo 20oz${eng.length ? " | Grabado: " + eng.join(" + ") : " | Sin grabado"}`;
+      } else {
+        const addonDetail = state.addons.slice(0, state.bundle).map((a, i) => {
+          const p = [a.opener ? "Destapador" : "", a.airtag ? "AirTag" : ""].filter(Boolean);
+          return p.length ? `#${i + 1}${state.names[i] ? " " + state.names[i] : ""}: ${p.join("+")}` : null;
+        }).filter(Boolean).join(", ") || "Ninguno";
+        productLine = `🔑 ${state.bundle}× ${DESIGN_NAMES.es[state.product || ""]} llavero\n👤 Nombres: ${state.names.slice(0, state.bundle).join(", ")}\n➕ Extras: ${addonDetail}`;
+      }
+
+      const msg = encodeURIComponent(
+        [
+          "🌊 NUEVO PEDIDO LUMO",
+          "━━━━━━━━━━━━━━━",
+          productLine,
+          "━━━━━━━━━━━━━━━",
+          `🚚 ${deliveryLine}`,
+          "━━━━━━━━━━━━━━━",
+          `👤 ${name}`,
+          `📱 ${phone}`,
+          `📧 ${email || "—"}`,
+          "━━━━━━━━━━━━━━━",
+          `💰 TOTAL: $${total} USD`,
+        ].join("\n")
+      );
+      window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, "_blank");
+    }
+
+    // ── language ──
+    function setLang(lang: Lang) {
+      state.lang = lang;
+      // texto estático
+      root!.querySelectorAll<HTMLElement>("[data-es]").forEach((el) => {
+        const v = el.getAttribute("data-" + lang);
+        if (v != null) el.innerHTML = v;
+      });
+      // placeholders
+      root!.querySelectorAll<HTMLInputElement>("[data-es-ph]").forEach((el) => {
+        const v = el.getAttribute("data-" + lang + "-ph");
+        if (v != null) el.placeholder = v;
+      });
+      const lbl = $("obLangLabel");
+      if (lbl) lbl.textContent = lang === "es" ? "EN" : "ES";
+      // contenido dinámico (lo genera el JS, no lo cubren los data-*)
+      if (state.product && state.product !== "termo" && state.product !== "portavasos") {
+        renderBundles();
+        syncNameInputs();
+      }
+      if (state.currentPanel === "panel-addons") renderAddons();
+      if (state.currentPanel === "panel-summary") buildSummary();
+      updateTermoPreview();
+    }
+
+    // ── wire static elements ──
+    $("obLang")?.addEventListener("click", () => setLang(state.lang === "es" ? "en" : "es"));
+    document.querySelectorAll<HTMLElement>("[data-product]").forEach((el) =>
+      el.addEventListener("click", () => selectProduct(el.dataset.product!))
+    );
+    document.querySelectorAll<HTMLElement>("[data-termo]").forEach((el) =>
+      el.addEventListener("click", () => toggleTermo(el.dataset.termo as "cancun" | "name"))
+    );
+    document.querySelectorAll<HTMLElement>("[data-delivery]").forEach((el) =>
+      el.addEventListener("click", () => selectDelivery(el.dataset.delivery!))
+    );
+    $("hotelZone")?.addEventListener("change", checkZone);
+    $("hotelName")?.addEventListener("input", validateHotel);
+    $("hotelName")?.addEventListener("blur", validateHotel);
+    const termoField = $<HTMLInputElement>("termoNameField");
+    termoField?.addEventListener("input", () => {
+      termoField.value = termoField.value.toUpperCase();
+      state.termo.name = termoField.value;
+      const c = $("termoNameCount");
+      if (c) c.textContent = termoField.value.length + "/15";
+      updateTermoPreview();
+    });
+    $("btnNext")?.addEventListener("click", nextStep);
+    $("btnBack")?.addEventListener("click", prevStep);
+    $("btnSubmit")?.addEventListener("click", submitOrder);
+
+    renderDots();
+    updateFooter();
+  }
+
+  init();
+  document.addEventListener("astro:page-load", init);
+</script>

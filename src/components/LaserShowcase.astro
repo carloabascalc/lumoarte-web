@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import imgMain from "../assets/gallery/gal-04.jpg";
+import MachineArt from "./MachineArt.astro";
 import imgBack from "../assets/gallery/gal-06.jpg";
 import imgFront from "../assets/gallery/gal-12.jpg";
 ---
@@ -19,17 +19,7 @@ import imgFront from "../assets/gallery/gal-12.jpg";
     />
   </div>
   <div class="hero-card hero-card--main">
-    <Image
-      src={imgMain}
-      alt="Lámpara trébol de cuatro corazones en MDF cortada a láser"
-      widths={[500, 800]}
-      sizes="(max-width: 540px) 70vw, 380px"
-      quality={82}
-      loading="eager"
-      decoding="async"
-      fetchpriority="high"
-      class="hero-img"
-    />
+    <MachineArt machine="laser" class="hero-img" />
   </div>
   <div class="hero-card hero-card--front">
     <Image
@@ -71,10 +61,10 @@ import imgFront from "../assets/gallery/gal-12.jpg";
   }
 
   .hero-card--main {
-    width: 60%;
-    aspect-ratio: 4 / 5;
-    top: 8%;
-    left: 4%;
+    width: 64%;
+    aspect-ratio: 4 / 3;
+    top: 12%;
+    left: 2%;
     z-index: 3;
     transform: rotate(-2deg);
   }

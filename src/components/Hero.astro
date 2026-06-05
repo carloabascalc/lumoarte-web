@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import { altByFile } from "../data/galleryImages";
+import logoMark from "../assets/logos/logo-nav.png";
 
 // Pull all gallery photos for the marquee — they form the visual proof of work.
 const galleryFiles = import.meta.glob<{ default: ImageMetadata }>(
@@ -38,10 +39,10 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
 <section class="hero">
   {/* Atelier mark — top-right signature plaque */}
   <div class="hero-stamp" aria-hidden="true">
-    <span class="hero-stamp-mark">lm</span>
+    <Image src={logoMark} alt="" width={40} height={24} class="hero-stamp-mark" loading="eager" />
     <span class="hero-stamp-meta">
       <span>Lumo Cancún</span>
-      <span>Atelier · Cancún</span>
+      <span>Fabricación digital</span>
     </span>
   </div>
 
@@ -58,8 +59,9 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
     </div>
 
     <p class="hero-sub" data-reveal data-reveal-delay="0.12">
-      Corte láser, impresión 3D e impresión de gran formato bajo un mismo techo.
-      Manufactura creativa para arquitectos, diseñadores, agencias y eventos.
+      Corte láser, impresión 3D, viniles y lonas bajo un mismo techo.
+      Manufactura creativa para arquitectos, diseñadores, oficinas y eventos —
+      desde señalética hasta piezas a la medida.
     </p>
 
     <div class="hero-ctas" data-reveal data-reveal-delay="0.18">
@@ -72,7 +74,7 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
 
     <p class="hero-proof" data-reveal data-reveal-delay="0.24">
       <span class="hero-proof-stars" aria-hidden="true">★★★★★</span>
-      <strong><span data-count="200" data-prefix="+">+0</span> proyectos</strong> entregados desde Cancún
+      <strong><span data-count="200" data-prefix="+">+0</span> proyectos</strong> fabricados y entregados en Cancún
     </p>
   </div>
 
@@ -233,13 +235,10 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
   }
 
   .hero-stamp-mark {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 700;
-    font-size: 1.5rem;
-    line-height: 1;
-    color: var(--color-accent);
-    letter-spacing: -0.04em;
+    height: 22px;
+    width: auto;
+    object-fit: contain;
+    display: block;
   }
 
   .hero-stamp-meta {
@@ -525,7 +524,7 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
       padding: 6px 10px 6px 8px;
       gap: 8px;
     }
-    .hero-stamp-mark { font-size: 1.15rem; }
+    .hero-stamp-mark { height: 18px; }
     .hero-stamp-meta { font-size: 0.55rem; letter-spacing: 0.14em; }
 
     .hero-content {
@@ -566,7 +565,7 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
       gap: 6px;
       padding: 5px 8px 5px 6px;
     }
-    .hero-stamp-mark { font-size: 1rem; }
+    .hero-stamp-mark { height: 16px; }
     .hero-stamp-meta { font-size: 0.5rem; }
 
     .hero-content { padding: 40px 16px 20px; }

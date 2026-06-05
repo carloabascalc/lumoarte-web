@@ -4,8 +4,9 @@ import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";
 import ServicesGrid from "../components/ServicesGrid.astro";
 import MaterialAssembly from "../components/MaterialAssembly.astro";
+import Catalog from "../components/Catalog.astro";
 import Gallery from "../components/Gallery.astro";
-import InstagramCTA from "../components/InstagramCTA.astro";
+import InstagramFeed from "../components/InstagramFeed.astro";
 import TrustBand from "../components/TrustBand.astro";
 import FAQ from "../components/FAQ.astro";
 import QuoteForm from "../components/QuoteForm.astro";
@@ -19,12 +20,12 @@ const homeFaqs = [
   {
     question: "¿Qué servicios ofrece Lumo Cancún?",
     answer:
-      "Lumo Cancún es un taller de fabricación digital en Cancún con tres servicios bajo un mismo techo: corte láser y grabado, impresión 3D (FDM multicolor y resina) e impresión de gran formato (lonas, vinil y sublimación hasta 1.80 m de ancho). Atendemos pieza única, prototipos y producción en serie.",
+      "Lumo Cancún es un taller de fabricación digital en Cancún con tres servicios bajo un mismo techo: corte láser y grabado, impresión 3D (FDM multicolor y resina) e impresión de gran formato (lonas y vinil hasta 1.80 m de ancho; sublimación próximamente). Atendemos pieza única, prototipos y producción en serie.",
   },
   {
     question: "¿Cuánto tardan en cotizar y en entregar?",
     answer:
-      "Respondemos por WhatsApp en menos de 24 horas hábiles. Para corte láser de piezas pequeñas o medianas entregamos entre 24 y 72 horas; impresión 3D entre 1 y 5 días según volumen y tecnología; impresión de gran formato en 24 a 72 horas. Producciones grandes (cientos o miles de piezas) toman de 3 a 10 días hábiles.",
+      "Respondemos por WhatsApp al instante en horario de taller (lunes a sábado de 9 a 18 horas). Para corte láser de piezas pequeñas o medianas entregamos entre 24 y 72 horas; impresión 3D entre 1 y 5 días según volumen y tecnología; impresión de gran formato en 24 a 72 horas. Producciones grandes (cientos o miles de piezas) toman de 3 a 10 días hábiles.",
   },
   {
     question: "¿Cuál es el tamaño máximo que pueden fabricar?",
@@ -61,11 +62,12 @@ const homeFaqs = [
     <ServicesGrid />
     <MaterialAssembly />
     <TrustBand />
+    <Catalog />
     <Gallery
       title="Trabajos recientes"
       subtitle="Una muestra del taller. Para ver más por servicio, visita la página correspondiente."
     />
-    <InstagramCTA />
+    <InstagramFeed />
     <FAQ
       title="Preguntas frecuentes"
       subtitle="Las dudas que más nos llegan por WhatsApp. Si la tuya no aparece, mándanos un mensaje."

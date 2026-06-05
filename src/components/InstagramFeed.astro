@@ -1,0 +1,254 @@
+---
+import { Image } from "astro:assets";
+import logoMark from "../assets/logos/logo-nav.png";
+import { SITE } from "../data/services";
+
+// Curated grid of real shop work, shown in an Instagram-style card so the
+// content lives ON the page (the request was: don't bounce users off-site).
+//
+// ── Upgrade to a LIVE feed ─────────────────────────────────────────────
+// Drop public post shortcodes into `posts` (the XXXX in instagram.com/p/XXXX/)
+// and the grid renders the real posts via Instagram's tokenless /embed iframe.
+// Leave it empty to keep the curated photo grid below.
+const posts: string[] = [];
+
+import gal02 from "../assets/gallery/gal-02.jpg";
+import gal05 from "../assets/gallery/gal-05.jpg";
+import gal06 from "../assets/gallery/gal-06.jpg";
+import gal07 from "../assets/gallery/gal-07.jpg";
+import gal10 from "../assets/gallery/gal-10.jpg";
+import gal13 from "../assets/gallery/gal-13.jpg";
+
+const tiles = [
+  { src: gal02, alt: "Biombo de copos de nieve en madera y acrílico con vista al mar" },
+  { src: gal06, alt: "Letrero La Central en acrílico negro y dorado" },
+  { src: gal10, alt: "Paletas de madera grabadas para evento corporativo" },
+  { src: gal07, alt: "Cajones de madera con ensamble dovetail cortado a láser" },
+  { src: gal13, alt: "Caja de madera de dos tonos, diseño minimalista" },
+  { src: gal05, alt: "Caja conmemorativa con grabado en metal dorado y madera" },
+];
+---
+
+<section class="igfeed" aria-label="Instagram de Lumo Cancún">
+  <div class="container">
+    <div class="igfeed-card" data-reveal>
+      <header class="igfeed-head">
+        <div class="igfeed-id">
+          <span class="igfeed-avatar">
+            <Image src={logoMark} alt="" width={44} height={44} loading="lazy" />
+          </span>
+          <div class="igfeed-meta">
+            <a class="igfeed-handle" href={SITE.instagram} target="_blank" rel="noopener noreferrer">{SITE.instagramHandle}</a>
+            <span class="igfeed-tag">Fabricación digital · Cancún</span>
+          </div>
+        </div>
+        <a class="igfeed-follow" href={SITE.instagram} target="_blank" rel="noopener noreferrer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+          Seguir
+        </a>
+      </header>
+
+      {posts.length > 0 ? (
+        <div class="igfeed-grid igfeed-grid--embeds">
+          {posts.map((code) => (
+            <div class="igfeed-embed">
+              <iframe
+                src={`https://www.instagram.com/p/${code}/embed`}
+                title={`Publicación de ${SITE.instagramHandle}`}
+                loading="lazy"
+                scrolling="no"
+                frameborder="0"
+                allowtransparency="true"
+              ></iframe>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="igfeed-grid">
+          {tiles.map((t) => (
+            <a class="igfeed-tile" href={SITE.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Ver en Instagram: ${t.alt}`}>
+              <Image
+                src={t.src}
+                alt={t.alt}
+                widths={[300, 480]}
+                sizes="(max-width: 640px) 50vw, 280px"
+                quality={72}
+                loading="lazy"
+                decoding="async"
+                class="igfeed-img"
+              />
+              <span class="igfeed-tile-glyph" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                </svg>
+              </span>
+            </a>
+          ))}
+        </div>
+      )}
+
+      <a class="igfeed-more" href={SITE.instagram} target="_blank" rel="noopener noreferrer">
+        Ver más en {SITE.instagramHandle}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .igfeed {
+    padding: 80px 0;
+    background: var(--color-bg);
+  }
+
+  .igfeed-card {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-surface);
+    border-radius: 14px;
+    padding: 28px;
+    max-width: 920px;
+    margin: 0 auto;
+  }
+
+  .igfeed-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+
+  .igfeed-id {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .igfeed-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--color-accent);
+    padding: 6px;
+  }
+
+  .igfeed-avatar :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .igfeed-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .igfeed-handle {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+  .igfeed-handle:hover { color: var(--color-accent); }
+
+  .igfeed-tag {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+  }
+
+  .igfeed-follow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 9px 18px;
+    border-radius: 8px;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .igfeed-follow:hover { background: var(--color-accent-dark); }
+  .igfeed-follow:active { transform: scale(0.97); }
+
+  .igfeed-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .igfeed-tile {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 8px;
+    background: var(--color-surface);
+  }
+
+  .igfeed-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .igfeed-tile:hover .igfeed-img { transform: scale(1.06); }
+
+  .igfeed-tile-glyph {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: rgba(20, 10, 4, 0.32);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .igfeed-tile:hover .igfeed-tile-glyph { opacity: 1; }
+
+  /* Live-embed variant */
+  .igfeed-grid--embeds {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .igfeed-embed {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    min-height: 420px;
+  }
+  .igfeed-embed iframe {
+    width: 100%;
+    min-height: 420px;
+    border: 0;
+    display: block;
+  }
+
+  .igfeed-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 22px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-accent);
+    transition: gap 0.2s ease;
+  }
+  .igfeed-more:hover { gap: 12px; }
+
+  @media (max-width: 640px) {
+    .igfeed { padding: 56px 0; }
+    .igfeed-card { padding: 20px; }
+    .igfeed-grid,
+    .igfeed-grid--embeds { grid-template-columns: repeat(2, 1fr); }
+    .igfeed-follow { padding: 8px 14px; }
+  }
+</style>

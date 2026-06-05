@@ -1,25 +1,20 @@
 ---
+// 6 raw materials scatter, then converge into a tight cluster at center where
+// the finished laser-cut box "assembles" and fades in over them — telling the
+// story literally: de materiales sueltos → a la pieza terminada.
 const materials = [
-  { cls: "mdf",         fx: -38, fy: -32, fr: -22, tx: -22.5, ty: -6 },
-  { cls: "acril-clear", fx:  36, fy: -36, fr:  28, tx:  -7.5, ty: -6 },
-  { cls: "acril-terra", fx: -42, fy:  18, fr:  35, tx:   7.5, ty: -6 },
-  { cls: "cuero",       fx:  40, fy:  12, fr: -28, tx:  22.5, ty: -6 },
-  { cls: "papel",       fx: -28, fy: -42, fr:  18, tx: -22.5, ty:  6 },
-  { cls: "vidrio",      fx:  28, fy:  38, fr: -40, tx:  -7.5, ty:  6 },
-  { cls: "marmol",      fx: -44, fy:   6, fr:  12, tx:   7.5, ty:  6 },
-  { cls: "pla",         fx:  44, fy: -10, fr: -55, tx:  22.5, ty:  6 },
-  { cls: "tela",        fx: -18, fy:  42, fr: -16, tx: -22.5, ty: 18 },
-  { cls: "lona",        fx:  18, fy: -26, fr:  42, tx:  -7.5, ty: 18 },
-  { cls: "vinil",       fx: -36, fy:  32, fr:  25, tx:   7.5, ty: 18 },
-  { cls: "subli",       fx:  34, fy:  28, fr: -32, tx:  22.5, ty: 18 },
+  { cls: "mdf",         fx: -34, fy: -30, fr: -14, tx: -3, ty: -2 },
+  { cls: "acril-terra", fx:  36, fy: -26, fr:  16, tx:  3, ty: -3 },
+  { cls: "papel",       fx: -40, fy:  20, fr:  12, tx: -4, ty:  2 },
+  { cls: "pla",         fx:  42, fy:  16, fr: -18, tx:  4, ty:  1 },
+  { cls: "lona",        fx: -22, fy:  36, fr:  14, tx:  0, ty:  3 },
+  { cls: "vinil",       fx:  26, fy: -34, fr: -12, tx:  1, ty: -1 },
 ];
 ---
 
 <section class="assembly" aria-labelledby="assembly-title">
   <div class="assembly-wrap" id="assembly-wrap">
     <div class="assembly-stage">
-      <div class="assembly-grid-bg" aria-hidden="true"></div>
-
       <div class="container assembly-header">
         <p class="assembly-eyebrow">Del taller</p>
         <h2 class="sr-only" id="assembly-title">De materiales sueltos a la pieza terminada.</h2>
@@ -27,8 +22,8 @@ const materials = [
           De materiales sueltos<br/>a la pieza <em>terminada.</em>
         </p>
         <p class="assembly-sub">
-          Maderas, acrílicos, telas, vinilos, filamentos y resinas — cada
-          proyecto empieza eligiendo el material correcto.
+          Madera, acrílico, filamento, lona y vinil. Todo empieza eligiendo
+          el material correcto.
         </p>
       </div>
 
@@ -44,6 +39,52 @@ const materials = [
             data-ty={m.ty}
           ></span>
         ))}
+      </div>
+
+      {/* finished piece — fades/scales in as the materials converge */}
+      <div class="assembly-piece" id="assembly-piece" aria-hidden="true">
+        <svg viewBox="0 0 200 176" role="img">
+          <defs>
+            <linearGradient id="ap-top" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#dcae74" /><stop offset="1" stop-color="#cf9f63" />
+            </linearGradient>
+          </defs>
+          {/* drop shadow */}
+          <ellipse cx="100" cy="162" rx="64" ry="9" fill="#2b1d12" fill-opacity="0.12" />
+
+          {/* right face */}
+          <path d="M100 104 L174 66 L174 116 L100 154 Z" fill="#a87a3f" stroke="#2b1d12" stroke-width="2.5" stroke-linejoin="round" />
+          {/* left face */}
+          <path d="M26 66 L100 104 L100 154 L26 116 Z" fill="#c2914f" stroke="#2b1d12" stroke-width="2.5" stroke-linejoin="round" />
+          {/* top / lid */}
+          <path d="M100 28 L174 66 L100 104 L26 66 Z" fill="url(#ap-top)" stroke="#2b1d12" stroke-width="2.5" stroke-linejoin="round" />
+          {/* lid sheen */}
+          <path d="M100 34 L150 60 L100 86 L50 60 Z" fill="#ffffff" fill-opacity="0.12" />
+          {/* lid seam */}
+          <path d="M100 40 L162 72 L100 104 L38 72 Z" fill="none" stroke="#2b1d12" stroke-opacity="0.32" stroke-width="1.5" stroke-linejoin="round" />
+
+          {/* finger joints — the laser-cut signature, on the visible corners */}
+          <g stroke="#2b1d12" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round">
+            <line x1="100" y1="112" x2="100" y2="120" />
+            <line x1="100" y1="128" x2="100" y2="136" />
+            <line x1="100" y1="144" x2="100" y2="150" />
+            <line x1="26" y1="80" x2="26" y2="88" />
+            <line x1="26" y1="98" x2="26" y2="106" />
+            <line x1="174" y1="80" x2="174" y2="88" />
+            <line x1="174" y1="98" x2="174" y2="106" />
+          </g>
+
+          {/* engraved sun on the lid (brand touch) */}
+          <g stroke="#b34000" stroke-width="2" stroke-linecap="round">
+            <circle cx="100" cy="66" r="7" fill="#b34000" fill-opacity="0.18" />
+            <g class="ap-rays">
+              <line x1="100" y1="52" x2="100" y2="56" />
+              <line x1="100" y1="76" x2="100" y2="80" />
+              <line x1="82" y1="66" x2="86" y2="66" />
+              <line x1="114" y1="66" x2="118" y2="66" />
+            </g>
+          </g>
+        </svg>
       </div>
 
       <p class="assembly-hint" aria-hidden="true">
@@ -62,7 +103,7 @@ const materials = [
 
   .assembly-wrap {
     position: relative;
-    height: 240vh;
+    height: 200vh;
     contain: layout paint;
   }
 
@@ -136,6 +177,25 @@ const materials = [
     pointer-events: none;
   }
 
+  /* Finished piece — sits where the materials converge, revealed on scroll. */
+  .assembly-piece {
+    position: absolute;
+    left: 50%;
+    top: 68%;
+    z-index: 2;
+    width: clamp(150px, 22vw, 248px);
+    transform: translate(-50%, -50%) scale(0.84);
+    opacity: 0;
+    pointer-events: none;
+    filter: drop-shadow(0 18px 30px rgba(20, 10, 4, 0.16));
+    will-change: transform, opacity;
+  }
+  .assembly-piece svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   .mat {
     position: absolute;
     left: 50%;
@@ -148,15 +208,8 @@ const materials = [
   /* ── Material variants ─────────────────────────────── */
   .mat--mdf {
     width: 86px; height: 60px;
-    background:
-      repeating-linear-gradient(
-        92deg,
-        #c89669 0 4px,
-        #b9885d 4px 9px,
-        #c89669 9px 14px,
-        #ad7e54 14px 18px
-      );
-    box-shadow: 0 6px 18px rgba(140, 90, 40, 0.18);
+    background: linear-gradient(135deg, #c89669 0%, #b9885d 100%);
+    box-shadow: 0 6px 16px rgba(140, 90, 40, 0.14);
   }
 
   .mat--acril-clear {
@@ -282,12 +335,12 @@ const materials = [
   }
 
   @media (max-width: 980px) {
-    .assembly-wrap { height: 220vh; }
-    .assembly-stage { --mat-scale: 0.78; --mat-spread: 0.95; --mat-y-spread: 0.85; --mat-y-shift: 4vh; }
+    .assembly-wrap { height: 185vh; }
+    .assembly-stage { --mat-scale: 0.82; --mat-spread: 0.95; --mat-y-spread: 0.85; --mat-y-shift: 4vh; }
   }
 
   @media (max-width: 640px) {
-    .assembly-wrap { height: 200vh; }
+    .assembly-wrap { height: 175vh; }
     .assembly-stage { --mat-scale: 0.5; --mat-spread: 1.05; --mat-y-spread: 0.55; --mat-y-shift: 2vh; }
     .assembly-header { margin-top: -22vh; }
     .assembly-sub { font-size: 0.95rem; max-width: 320px; }
@@ -298,6 +351,13 @@ const materials = [
     .assembly-wrap { height: auto; }
     .assembly-stage { position: static; height: auto; padding: 100px 0; }
     .assembly-canvas { display: none; }
+    .assembly-hint { display: none; }
+    .assembly-piece {
+      position: static;
+      opacity: 1;
+      transform: none;
+      margin: 28px auto 0;
+    }
   }
 </style>
 
@@ -308,6 +368,7 @@ const materials = [
     const hintLabel = document.getElementById('assembly-hint-label');
     const hintStage = document.getElementById('assembly-hint-stage');
     const mats = Array.from(document.querySelectorAll<HTMLElement>('[data-mat]'));
+    const piece = document.getElementById('assembly-piece');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (!wrap || !mats.length || reduced) return;
@@ -354,17 +415,34 @@ const materials = [
       }
 
       if (hintLabel && hintStage) {
-        if (rawP < 0.33) { hintLabel.textContent = 'Materiales sueltos'; hintStage.textContent = '01'; }
-        else if (rawP < 0.7) { hintLabel.textContent = 'Tomando forma'; hintStage.textContent = '02'; }
-        else { hintLabel.textContent = 'Lista para producir'; hintStage.textContent = '03'; }
+        if (rawP < 0.4) { hintLabel.textContent = 'Materiales sueltos'; hintStage.textContent = '01'; }
+        else if (rawP < 0.72) { hintLabel.textContent = 'Ensamblando'; hintStage.textContent = '02'; }
+        else { hintLabel.textContent = 'Pieza terminada'; hintStage.textContent = '03'; }
       }
+
+      // Materials converge, shrink and get "absorbed" as the finished piece
+      // assembles and pops into place.
+      const pieceP = clamp((rawP - 0.52) / 0.34);
+      const chipFade = 1 - clamp((rawP - 0.55) / 0.3) * 0.95;
+      const chipScale = scale * (0.5 + 0.5 * chipFade);
+      const easeBack = (t: number) => {
+        const c1 = 1.70158, c3 = c1 + 1, u = t - 1;
+        return 1 + c3 * u * u * u + c1 * u * u;
+      };
 
       data.forEach((d) => {
         const x = lerp(d.fx, d.tx * spread, p);
         const y = lerp(d.fy, d.ty * ySpread, p) + yShift * p;
         const r = lerp(d.fr, 0, p);
-        d.el.style.transform = `translate(calc(-50% + ${x}vw), calc(-50% + ${y}vh)) rotate(${r}deg) scale(${scale})`;
+        d.el.style.transform = `translate(calc(-50% + ${x}vw), calc(-50% + ${y}vh)) rotate(${r}deg) scale(${chipScale})`;
+        d.el.style.opacity = String(chipFade);
       });
+
+      if (piece) {
+        piece.style.opacity = String(clamp(pieceP * 1.3));
+        const ps = (0.82 + 0.18 * easeBack(pieceP)) * scale;
+        piece.style.transform = `translate(-50%, -50%) scale(${ps})`;
+      }
     }
 
     function onScroll() {

@@ -1,5 +1,6 @@
 ---
 import MapEmbed from "./MapEmbed.astro";
+import { SITE } from "../data/services";
 ---
 
 <section class="contact" id="contacto">
@@ -14,7 +15,7 @@ import MapEmbed from "./MapEmbed.astro";
     <div class="contact-grid" data-reveal data-reveal-delay="0.15">
       <div class="contact-item contact-item--phone">
         <a
-          href="https://wa.me/528138913891"
+          href={`https://wa.me/${SITE.whatsapp}`}
           class="contact-icon"
           target="_blank"
           rel="noopener noreferrer"
@@ -28,15 +29,18 @@ import MapEmbed from "./MapEmbed.astro";
         <div>
           <p class="contact-label">WhatsApp · Llamar</p>
           <p class="contact-value contact-value--actions">
-            <a href="https://wa.me/528138913891" target="_blank" rel="noopener noreferrer" class="contact-action">Chat</a>
+            <a href={`https://wa.me/${SITE.whatsapp}`} target="_blank" rel="noopener noreferrer" class="contact-action">Chat</a>
             <span class="contact-action-sep" aria-hidden="true">·</span>
-            <a href="tel:+528138913891" class="contact-action">+52 813 891 3891</a>
+            <a href={`tel:+${SITE.phone}`} class="contact-action">{SITE.phoneDisplay}</a>
+          </p>
+          <p class="contact-value contact-value--secondary">
+            También: <a href={`tel:+${SITE.phoneSecondary}`} class="contact-action">{SITE.phoneSecondaryDisplay}</a>
           </p>
         </div>
       </div>
 
       <a
-        href="mailto:contacto@lumocancun.com"
+        href={`mailto:${SITE.email}`}
         class="contact-item"
         aria-label="Correo electrónico"
       >
@@ -48,7 +52,7 @@ import MapEmbed from "./MapEmbed.astro";
         </span>
         <div>
           <p class="contact-label">Correo</p>
-          <p class="contact-value">contacto@lumocancun.com</p>
+          <p class="contact-value">{SITE.email}</p>
         </div>
       </a>
 
@@ -226,6 +230,12 @@ import MapEmbed from "./MapEmbed.astro";
 
   .contact-action-sep {
     color: rgba(255, 255, 255, 0.3);
+  }
+
+  .contact-value--secondary {
+    margin-top: 4px;
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.55);
   }
 
   .contact-item--phone .contact-icon {

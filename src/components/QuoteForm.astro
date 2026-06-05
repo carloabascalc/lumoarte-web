@@ -58,7 +58,6 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
       "Lona (frontlit / blockout)",
       "Vinil adhesivo (corto plazo)",
       "Vinil para wrap vehicular",
-      "Tela para sublimación",
       "Papel sintético",
       "No estoy seguro",
     ],
@@ -67,8 +66,6 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
       "Wrap vehicular",
       "Sticker o decal",
       "Letrero / rotulación de ventana",
-      "Playera o textil sublimado",
-      "Banner textil para evento",
       "Otro",
     ],
   },
@@ -80,8 +77,8 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
     <div class="section-header">
       <h2 class="section-title" data-reveal>Cuéntanos tu idea</h2>
       <p class="section-subtitle" data-reveal data-reveal-delay="0.08">
-        Completa el formulario y te contactamos por WhatsApp con una cotización
-        en menos de 24 horas.
+        Completa el formulario y te contactamos por WhatsApp al instante con
+        tu cotización.
       </p>
     </div>
 
@@ -94,8 +91,8 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             </span>
             <div class="quote-trust-text">
-              <h3 class="quote-trust-label">Respuesta en 24 horas</h3>
-              <p>Te contactamos por WhatsApp el mismo día con una propuesta clara.</p>
+              <h3 class="quote-trust-label">Respuesta inmediata</h3>
+              <p>Te contestamos por WhatsApp al instante con una propuesta clara.</p>
             </div>
           </li>
           <li class="quote-trust-item">
@@ -125,7 +122,7 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
               <path d="M12 0C5.373 0 0 5.373 0 12c0 2.12.553 4.109 1.52 5.838L0 24l6.335-1.502A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.794 9.794 0 0 1-5.003-1.373l-.36-.213-3.76.891.946-3.658-.234-.376A9.79 9.79 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/>
             </svg>
-            +52 813 891 3891
+            {SITE.whatsappDisplay}
           </a>
         </div>
       </aside>
@@ -162,12 +159,29 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
           </div>
         </div>
 
+        <div class="form-row">
+          <div class="form-group">
+            <label for="descripcion">Descripción breve <span class="required">*</span></label>
+            <textarea
+              id="descripcion"
+              name="descripcion"
+              rows="3"
+              required
+              placeholder="Cuéntanos tu idea: qué necesitas, para qué y cualquier referencia."
+            ></textarea>
+            <p class="form-hint">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+              ¿Tienes un archivo (STL, OBJ, DWG, AI, PDF…)? Adjúntalo directo en el chat de WhatsApp cuando te contactemos.
+            </p>
+          </div>
+        </div>
+
         <details class="form-details">
           <summary class="form-details-summary">
             <span class="form-details-icon" aria-hidden="true">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </span>
-            Detalles del proyecto <span class="optional">(opcional)</span>
+            Medida y cantidad <span class="optional">(opcional)</span>
           </summary>
           <div class="form-details-body">
             <div class="form-row form-row--two">
@@ -190,18 +204,6 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
                   min="1"
                   placeholder="1"
                 />
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="descripcion">Descripción breve</label>
-                <textarea
-                  id="descripcion"
-                  name="descripcion"
-                  rows="3"
-                  placeholder="Cuéntanos más sobre tu idea..."
-                ></textarea>
               </div>
             </div>
           </div>
@@ -452,6 +454,22 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
     font-weight: 400;
   }
 
+  .form-hint {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-muted);
+  }
+
+  .form-hint svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--color-accent);
+  }
+
   input,
   select,
   textarea {
@@ -589,16 +607,18 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
       const tipo = form.tipo.value;
       const medida = form.medida.value.trim() || "No especificada";
       const cantidad = form.cantidad.value || "1";
-      const descripcion = form.descripcion.value.trim() || "Sin descripción adicional";
+      const descripcion = form.descripcion.value.trim();
 
-      if (!servicio || !nombre || !material || !tipo) {
+      if (!servicio || !material || !tipo || !descripcion || !nombre) {
         const first = !servicio
           ? form.servicio
-          : !nombre
-            ? form.nombre
-            : !material
-              ? form.material
-              : form.tipo;
+          : !material
+            ? form.material
+            : !tipo
+              ? form.tipo
+              : !descripcion
+                ? form.descripcion
+                : form.nombre;
         first.focus();
         first.reportValidity();
         return;
@@ -612,7 +632,9 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
 - Tipo de proyecto: ${tipo}
 - Medida aproximada: ${medida}
 - Cantidad: ${cantidad}
-- Descripción: ${descripcion}`;
+- Descripción: ${descripcion}
+
+Si tengo un archivo (STL, OBJ, DWG, AI, PDF), lo adjunto en este chat.`;
 
       const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(url, "_blank", "noopener");

@@ -1,25 +1,15 @@
 ---
-import { Image } from "astro:assets";
 import { services, getServiceUrl, isExternalService } from "../data/services";
-import laserCover from "../assets/gallery/gal-01.jpg";
-import card3d from "../assets/services/card-3d.jpg";
-import cardPlotter from "../assets/services/card-plotter.jpg";
-import cardRecuerdos from "../assets/services/card-recuerdos.jpg";
+import MachineArt from "./MachineArt.astro";
 
-const cover: Record<string, ImageMetadata> = {
-  "corte-laser": laserCover,
-  "impresion-3d": card3d,
-  "impresion-gran-formato": cardPlotter,
-  "recuerdos-cancun": cardRecuerdos,
-};
-
-// Descriptive alt per service card — helps image search even though the
-// surrounding text already names the service for screen readers.
-const coverAlt: Record<string, string> = {
-  "corte-laser": "Lámparas corazón en MDF cortadas con láser",
-  "impresion-3d": "Piezas impresas en 3D con filamento multicolor",
-  "impresion-gran-formato": "Lonas e impresos de gran formato producidos en Cancún",
-  "recuerdos-cancun": "Recuerdos personalizados con motivos de Cancún",
+// Every service card uses an on-brand illustration so the set reads as one
+// intentional family. The laser one is animated ("cortando y funcionando");
+// swap any for a real photo/video once Adriano sends machine media.
+const artByService: Record<string, "laser" | "printer" | "plotter" | "recuerdo"> = {
+  "corte-laser": "laser",
+  "impresion-3d": "printer",
+  "impresion-gran-formato": "plotter",
+  "recuerdos-cancun": "recuerdo",
 };
 ---
 
@@ -48,16 +38,7 @@ const coverAlt: Record<string, string> = {
           <li class={`servicio-card servicio-card--${s.id}`} data-reveal data-reveal-delay={`${0.05 + i * 0.06}`} data-tilt>
             <a href={href} class="servicio-link" {...linkAttrs}>
               <div class="servicio-media">
-                <Image
-                  src={cover[s.id]}
-                  alt={coverAlt[s.id]}
-                  widths={[400, 600, 900]}
-                  sizes="(max-width: 640px) 100vw, (max-width: 980px) 50vw, 33vw"
-                  quality={75}
-                  loading="lazy"
-                  decoding="async"
-                  class="servicio-media-img"
-                />
+                <MachineArt machine={artByService[s.id]} class="servicio-media-art" />
               </div>
               <span class="servicio-glare" aria-hidden="true"></span>
               <div class="servicio-body">
