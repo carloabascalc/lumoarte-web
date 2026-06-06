@@ -39,8 +39,15 @@
 
 ## Precios
 
-- [Lista de precios impresión 3D (PDF)](https://lumocancun.com/precios-impresion-3d.pdf)
+- Corte láser — lista de precios de materiales en HTML (MXN, sin IVA, 2026):
+  https://lumocancun.com/servicios/corte-laser/#precios-materiales
+  Lámina completa desde $16 (papel batería) hasta $953 (acrílico transparente
+  6 mm). Ejemplos: MDF 3 mm $72, MDF 9 mm $147, acrílico transparente 3 mm $533,
+  acrílico negro 3 mm $515, triplay Okumé 6 mm $221, triplay Tzalam 6 mm $304.
+  El precio final de cada pieza = material + tiempo de máquina ($14 MXN/min) +
+  manejo (4%) + IVA (16%). Diseño y ajustes $600 MXN/hr cuando el archivo lo requiere.
 - [Lista de precios corte láser (PDF)](https://lumocancun.com/precios-corte-laser.pdf)
+- Impresión 3D y gran formato: cotización personalizada por WhatsApp (precio = material + tiempo de máquina).
 
 ## Contacto
 

@@ -4,6 +4,8 @@ import Nav from "../../components/Nav.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import ServicePageHero from "../../components/ServicePageHero.astro";
 import ServicePdfs from "../../components/ServicePdfs.astro";
+import PricingFormula from "../../components/PricingFormula.astro";
+import PriceTable from "../../components/PriceTable.astro";
 import LaserShowcase from "../../components/LaserShowcase.astro";
 import LaserAssembly from "../../components/LaserAssembly.astro";
 import Materials from "../../components/Materials.astro";
@@ -16,8 +18,15 @@ import Contact from "../../components/Contact.astro";
 import Footer from "../../components/Footer.astro";
 import WhatsAppButton from "../../components/WhatsAppButton.astro";
 import { getService, SITE } from "../../data/services";
+import { PRICING } from "../../data/pricing";
 
 const service = getService("corte-laser");
+
+// Rango de precios de materiales (sin IVA) para el schema — lo mismo que se
+// muestra en HTML en <PriceTable>. Mantiene el dato estructurado en sync con
+// la tabla visible, ambos desde src/data/pricing.ts.
+const materialPrices = (PRICING["corte-laser"].materiales?.groups ?? [])
+  .flatMap((g) => g.items.map((i) => i.price));
 
 const sectores = [
   {
@@ -57,6 +66,15 @@ const serviceSchema = {
   serviceType: "Laser cutting and engraving",
   description: service.metaDescription,
   url: `${SITE.url}${service.slug}`,
+  offers: {
+    "@type": "AggregateOffer",
+    priceCurrency: "MXN",
+    lowPrice: Math.min(...materialPrices),
+    highPrice: Math.max(...materialPrices),
+    offerCount: materialPrices.length,
+    description:
+      "Precio de lámina completa de materiales para corte láser (MXN, sin IVA). El precio final de cada pieza depende del material y del tiempo de máquina.",
+  },
 };
 
 const faqs = [
@@ -141,6 +159,10 @@ const faqPageSchema = {
     <LaserAssembly />
 
     <Materials />
+
+    <PricingFormula serviceId="corte-laser" preciosPdf={service.preciosPdf} />
+
+    <PriceTable serviceId="corte-laser" />
 
     <section class="sectores section">
       <div class="container">

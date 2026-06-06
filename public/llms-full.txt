@@ -31,6 +31,8 @@ Cortamos y grabamos con láser CO₂ sobre madera, MDF (hasta 6 mm, hasta 9 mm c
 - Convención de archivo: rojo (#FF0000) = corte, negro = grabado.
 - Tiempos: piezas pequeñas y medianas en 24-72 horas. Producciones en serie de 3 a 10 días según volumen.
 - No cortamos: PVC (libera cloro tóxico), policarbonato, espejos de vidrio, materiales metálicos.
+- Precio = material + tiempo de máquina ($14 MXN/min) + manejo (4%) + IVA (16%). Diseño y ajustes $600 MXN/hr solo cuando el archivo lo requiere.
+- Precios de material por lámina completa (MXN, sin IVA, 2026): MDF 2.2 mm $52, MDF 3 mm $72, MDF 5.5 mm $114, MDF 9 mm $147; acrílico transparente 2 mm $390 / 3 mm $533 / 6 mm $953; acrílico negro 3 mm $515; acrílico espejo 3 mm $669; triplay Okumé 4 mm $169 / 6 mm $221; triplay chapado Tzalam 6 mm $304; cartón gris 2 mm $72; foamboard 3 mm $124; fieltro 3 mm $130; cuero sintético $195; piel natural $455/m². Rango total $16–$953. Lista completa en HTML: https://lumocancun.com/servicios/corte-laser/#precios-materiales
 
 ### Impresión 3D
 URL: https://lumocancun.com/servicios/impresion-3d

@@ -1,0 +1,183 @@
+---
+// Lista de precios de materiales en HTML (no solo PDF) — para que la IA y los
+// buscadores puedan leer y citar las cifras. Datos en src/data/pricing.ts.
+import { PRICING } from "../data/pricing";
+
+interface Props {
+  /** id del servicio (clave en PRICING). */
+  serviceId: string;
+}
+
+const { serviceId } = Astro.props;
+const content = PRICING[serviceId];
+const materiales = content?.materiales;
+if (!materiales) return;
+
+const { groups, note, currency, year } = materiales;
+
+// Rango global para el resumen + para schema.
+const allPrices = groups.flatMap((g) => g.items.map((i) => i.price));
+const low = Math.min(...allPrices);
+const high = Math.max(...allPrices);
+const fmt = (n: number) =>
+  new Intl.NumberFormat("es-MX").format(n);
+---
+
+<section class="price-table section" id="precios-materiales">
+  <div class="container">
+    <div class="section-header">
+      <p class="pt-eyebrow" data-reveal>Lista de precios {year}</p>
+      <h2 class="section-title" data-reveal data-reveal-delay="0.06">
+        Precios de materiales para corte láser
+      </h2>
+      <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
+        Estos son los precios de lámina completa de los materiales que tenemos
+        disponibles en Cancún. Van de <strong>${fmt(low)}</strong> a
+        <strong>${fmt(high)} {currency}</strong> según el material y el grosor.
+      </p>
+    </div>
+
+    <div class="pt-tables" data-reveal data-reveal-delay="0.06">
+      {groups.map((g) => (
+        <table class="pt-table">
+          <caption class="pt-cat">{g.category}</caption>
+          <thead>
+            <tr>
+              <th scope="col">Material</th>
+              <th scope="col">Grosor</th>
+              <th scope="col">Lámina</th>
+              <th scope="col" class="pt-num">Precio (sin IVA)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {g.items.map((i) => (
+              <tr>
+                <th scope="row" class="pt-name">{i.name}</th>
+                <td>{i.spec ?? "—"}</td>
+                <td>{i.size ?? "—"}</td>
+                <td class="pt-num pt-price">${fmt(i.price)} {currency}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ))}
+    </div>
+
+    <p class="pt-note" data-reveal>{note}</p>
+  </div>
+</section>
+
+<style>
+  .price-table {
+    background: var(--color-bg-alt);
+  }
+
+  .pt-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+  }
+
+  .section-subtitle strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .pt-tables {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .pt-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--color-bg);
+    border: 1px solid var(--color-surface);
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 0.9375rem;
+  }
+
+  .pt-cat {
+    caption-side: top;
+    text-align: left;
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    padding: 18px 20px 12px;
+    background: var(--color-bg);
+  }
+
+  .pt-table thead th {
+    text-align: left;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    background: var(--color-bg-alt);
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--color-surface);
+  }
+
+  .pt-table tbody th,
+  .pt-table tbody td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--color-surface);
+    vertical-align: top;
+    font-weight: 400;
+    color: var(--color-muted);
+  }
+
+  .pt-table tbody tr:last-child th,
+  .pt-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .pt-name {
+    text-align: left;
+    color: var(--color-text) !important;
+    font-weight: 500 !important;
+  }
+
+  .pt-num {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .pt-price {
+    color: var(--color-accent) !important;
+    font-weight: 600 !important;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pt-note {
+    margin-top: 28px;
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+    max-width: 760px;
+  }
+
+  @media (max-width: 880px) {
+    .pt-tables {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .pt-table {
+      font-size: 0.875rem;
+    }
+    .pt-table thead th,
+    .pt-table tbody th,
+    .pt-table tbody td {
+      padding: 9px 12px;
+    }
+  }
+</style>
