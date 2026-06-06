@@ -113,7 +113,10 @@ export const SITE = {
   email: 'lumocancun@gmail.com',
   instagram: 'https://www.instagram.com/_lumoarte',
   instagramHandle: '@_lumoarte',
-  facebook: 'https://www.facebook.com/share/1DqrrLK6A9/',
+  // Stable canonical Page URL (no redirect hops). Swap to a vanity URL
+  // (e.g. facebook.com/lumocancun) once Adriano claims a username in
+  // Facebook Page → Settings → Nombre de usuario.
+  facebook: 'https://www.facebook.com/profile.php?id=61590896720550',
   gbp: 'https://www.google.com/maps?cid=2574885880611067538',
   geo: { lat: 21.1546364, lng: -86.8257604 },
   // Horario oficial del Google Business Profile (Lun–Sáb 9–18, Dom cerrado)
