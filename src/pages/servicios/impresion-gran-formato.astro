@@ -23,37 +23,11 @@ const usos = [
     label: "Lonas y banners",
     description:
       "Para eventos, restaurantes, hoteles, real estate y retail. Imprimimos en lona frontlit (visible con luz frontal) o blockout (totalmente opaca, ideal para colgar al aire).",
-    examples: [
-      "Banners de evento y boda",
-      "Anuncios para fachadas",
-      "Backdrops para fotografía",
-      "Lonas publicitarias para vehículos",
-      "Cortinas para stands y ferias",
-    ],
   },
   {
-    label: "Vinil adhesivo y wraps",
+    label: "Viniles",
     description:
-      "Vinil para rotulación de ventanas, pisos, vehículos y mobiliario. Trabajamos vinil de corto plazo para campañas y vinil automotriz de largo plazo para wraps completos.",
-    examples: [
-      "Wraps vehiculares completos o parciales",
-      "Rotulación de ventanas para comercios",
-      "Decals y stickers personalizados",
-      "Letras adhesivas para señalética",
-      "Vinil de piso para eventos y promociones",
-    ],
-  },
-  {
-    label: "Sublimación textil",
-    description:
-      "Imprimimos en tela para sublimación con tintas que se transfieren al textil al calor. El resultado es un estampado que no se siente al tacto y resiste lavados sin agrietarse.",
-    examples: [
-      "Playeras y uniformes deportivos",
-      "Banderas y mantas textiles",
-      "Backdrops textiles para eventos",
-      "Almohadas, fundas y artículos personalizados",
-      "Toallas y artículos para hospedaje",
-    ],
+      "Vinil adhesivo para rotulación de ventanas, pisos, vehículos y mobiliario — desde campañas de corto plazo hasta rotulación de largo plazo.",
   },
 ];
 
@@ -61,9 +35,8 @@ const specs = [
   { label: "Ancho de impresión", value: "Hasta 1.80 m" },
   { label: "Resolución", value: "Hasta 1440 dpi" },
   { label: "Velocidad", value: "8 a 12 m²/h" },
-  { label: "Tintas", value: "Eco-solvente · Sublimación" },
   { label: "Cabezal", value: "Epson XP600" },
-  { label: "Materiales", value: "Lona, vinil, tela, papel sintético" },
+  { label: "Materiales", value: "Lona y vinil" },
 ];
 
 const serviceSchema = {
@@ -77,7 +50,7 @@ const faqs = [
   {
     question: "¿Cuánto tarda imprimir una lona o un wrap?",
     answer:
-      "Una lona estándar (1×2 m hasta 3×6 m) sale el mismo día o al siguiente, lista para colgar. Vinil para rotulación de ventanas u oficina toma 24–48 horas. Un wrap vehicular completo toma de 2 a 4 días, dependiendo del modelo y la complejidad del diseño. Sublimación textil: 2–5 días según cantidad.",
+      "Habitualmente menos de una semana. Cuando hay disponibilidad, una lona estándar puede salir el mismo día. El tiempo exacto te lo confirmamos en la cotización.",
   },
   {
     question: "¿Qué archivo necesito enviar?",
@@ -138,12 +111,14 @@ const faqPageSchema = {
         { label: "Servicios", href: "/#servicios" },
         { label: service.name },
       ]}
+      backHref="/#servicios"
+      backLabel="Regresar a servicios"
     />
 
     <ServicePageHero
       eyebrow="Impresión gran formato"
-      title="Hasta 1.80 m de ancho, sin salir de Cancún"
-      subtitle="Lonas, vinil y sublimación textil con tintas eco-solventes y de sublimación. Tres usos en una sola máquina industrial — desde un banner para tu evento hasta el wrap completo de tu vehículo."
+      title="Impresión en gran formato de hasta 1.80 m de ancho"
+      subtitle="Lonas y viniles en una máquina industrial — desde un banner para tu evento hasta la rotulación completa de tu vehículo. El ancho máximo depende del material."
       primaryCta={{ label: "Solicita tu cotización", href: "#cotiza" }}
       secondaryCta={{ label: "Ver usos", href: "#usos" }}
       service="plotter"
@@ -158,14 +133,13 @@ const faqPageSchema = {
     <section class="usos section" id="usos">
       <div class="container">
         <div class="section-header">
-          <p class="usos-eyebrow" data-reveal>Tres usos, una sola máquina</p>
+          <p class="usos-eyebrow" data-reveal>Lonas y viniles</p>
           <h2 class="section-title" data-reveal data-reveal-delay="0.06">
             Lo que sale del plotter
           </h2>
           <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
-            La misma impresora cubre desde el banner para tu evento hasta el
-            uniforme deportivo de tu equipo. Cambiamos el material y el tipo de
-            tinta — no la calidad.
+            La misma impresora cubre desde el banner para tu evento hasta la
+            rotulación de tu local. Cambiamos el material — no la calidad.
           </p>
         </div>
         <div class="usos-grid">
@@ -173,10 +147,6 @@ const faqPageSchema = {
             <article class="uso-card" data-tilt data-reveal data-reveal-delay={`${0.04 + i * 0.08}`}>
               <h3 class="uso-name">{u.label}</h3>
               <p class="uso-description">{u.description}</p>
-              <p class="uso-examples-label">Ejemplos:</p>
-              <ul class="uso-examples" role="list">
-                {u.examples.map((e) => <li>{e}</li>)}
-              </ul>
             </article>
           ))}
         </div>
@@ -192,10 +162,9 @@ const faqPageSchema = {
               Equipo industrial, calidad de fotograbado
             </h2>
             <p class="specs-description" data-reveal data-reveal-delay="0.12">
-              Trabajamos con un plotter de cabezal Epson XP600 y dos sistemas
-              de tinta independientes — uno eco-solvente para impresión directa
-              sobre lona y vinil, y uno de sublimación para textiles. Esto te
-              da en una misma cotización todas las piezas de tu campaña.
+              Trabajamos con un plotter industrial de cabezal Epson XP600 para
+              impresión directa sobre lona y vinil. Esto te da en una misma
+              cotización todas las piezas de tu campaña.
             </p>
           </div>
           <ul class="specs-list" role="list" data-reveal data-reveal-delay="0.18">
@@ -219,20 +188,6 @@ const faqPageSchema = {
     />
 
     <CrossServices excludeId="impresion-gran-formato" />
-
-    <section class="recurso-relacionado">
-      <div class="container">
-        <p class="rr-eyebrow">Lectura recomendada</p>
-        <a class="rr-card" href="/recursos/sublimacion-vs-vinil">
-          <div class="rr-text">
-            <p class="rr-topic">Impresión gran formato</p>
-            <h3 class="rr-title">Sublimación vs vinil: cuál técnica conviene a tu proyecto</h3>
-            <p class="rr-excerpt">Materiales compatibles, durabilidad al exterior (3–5 años con laminado UV), precios orientativos por m² y tiempos de entrega.</p>
-          </div>
-          <span class="rr-arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </section>
 
     <FAQ
       title="Preguntas frecuentes sobre impresión gran formato"

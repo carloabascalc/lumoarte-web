@@ -50,7 +50,7 @@ const brandHref = isMinimal ? `${SITE.url}/` : "/";
       <div class="footer-col" data-reveal data-reveal-delay="0.08">
         <p class="footer-col-label">Servicios</p>
         <ul role="list">
-          {services.map((s) => {
+          {services.filter((s) => s.linkable !== false).map((s) => {
             const external = isExternalService(s);
             return (
               <li>

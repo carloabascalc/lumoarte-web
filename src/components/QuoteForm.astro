@@ -9,7 +9,12 @@ const { defaultService } = Astro.props;
 
 const WA_NUMBER = SITE.whatsapp;
 
-const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[] }> = {
+// Announcement-only services (linkable: false) never appear in the form.
+const quoteServices = services.filter((s) => s.linkable !== false);
+
+// Services without an entry here (e.g. impresión gran formato) skip the
+// material/tipo selects — only descripción + datos.
+const optionsByService: Partial<Record<ServiceId, { materiales: string[]; tipos: string[] }>> = {
   "corte-laser": {
     materiales: [
       "MDF / Triplay / Madera",
@@ -39,33 +44,15 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
       "TPU (flexible)",
       "ABS o ASA (resistente)",
       "PA-CF (fibra de carbono)",
-      "Resina estándar",
-      "Resina dental / joyería",
+      "Resina (gran variedad de colores)",
       "No estoy seguro",
     ],
     tipos: [
       "Prototipo funcional",
       "Pieza mecánica o repuesto",
       "Figura o miniatura",
-      "Prop o decoración grande",
-      "Joyería o pieza dental",
+      "Joyería",
       "Producción en serie",
-      "Otro",
-    ],
-  },
-  "impresion-gran-formato": {
-    materiales: [
-      "Lona (frontlit / blockout)",
-      "Vinil adhesivo (corto plazo)",
-      "Vinil para wrap vehicular",
-      "Papel sintético",
-      "No estoy seguro",
-    ],
-    tipos: [
-      "Banner o lona para evento",
-      "Wrap vehicular",
-      "Sticker o decal",
-      "Letrero / rotulación de ventana",
       "Otro",
     ],
   },
@@ -136,24 +123,24 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
             <label for="servicio">Servicio <span class="required">*</span></label>
             <select id="servicio" name="servicio" required>
               <option value="" disabled selected={!defaultService}>Selecciona un servicio</option>
-              {services.map((s) => (
+              {quoteServices.map((s) => (
                 <option value={s.id} selected={defaultService === s.id}>{s.name}</option>
               ))}
             </select>
           </div>
         </div>
 
-        <div class="form-row form-row--two">
+        <div class="form-row form-row--two" id="materialTipoRow">
           <div class="form-group">
             <label for="material">Material <span class="required">*</span></label>
-            <select id="material" name="material" required disabled={!defaultService}>
+            <select id="material" name="material" disabled={!defaultService}>
               <option value="" disabled selected>Primero elige un servicio</option>
             </select>
           </div>
 
           <div class="form-group">
             <label for="tipo">Tipo de proyecto <span class="required">*</span></label>
-            <select id="tipo" name="tipo" required disabled={!defaultService}>
+            <select id="tipo" name="tipo" disabled={!defaultService}>
               <option value="" disabled selected>Primero elige un servicio</option>
             </select>
           </div>
@@ -213,7 +200,7 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
       <fieldset class="form-section">
         <legend class="form-section-title">Tus datos</legend>
 
-        <div class="form-row">
+        <div class="form-row form-row--two">
           <div class="form-group">
             <label for="nombre">Nombre <span class="required">*</span></label>
             <input
@@ -222,6 +209,18 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
               name="nombre"
               required
               placeholder="Tu nombre completo"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="whatsapp">WhatsApp <span class="required">*</span></label>
+            <input
+              type="tel"
+              id="whatsapp"
+              name="whatsapp"
+              required
+              inputmode="tel"
+              placeholder="Ej. 998 123 4567"
             />
           </div>
         </div>
@@ -557,6 +556,7 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
     const servicioSelect = form.servicio;
     const materialSelect = form.material;
     const tipoSelect = form.tipo;
+    const materialTipoRow = document.getElementById("materialTipoRow");
 
     const serviceNameById = Object.fromEntries(
       servicesData.map((s) => [s.id, s.name]),
@@ -582,12 +582,18 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
     function updateForService(serviceId) {
       const opts = optionsByService[serviceId];
       if (!opts) {
+        // Services like gran formato skip material/tipo: only the
+        // description and contact data matter.
+        materialTipoRow.hidden = true;
         materialSelect.disabled = true;
         tipoSelect.disabled = true;
-        materialSelect.innerHTML = '<option value="" disabled selected>Primero elige un servicio</option>';
-        tipoSelect.innerHTML = '<option value="" disabled selected>Primero elige un servicio</option>';
+        materialSelect.required = false;
+        tipoSelect.required = false;
         return;
       }
+      materialTipoRow.hidden = false;
+      materialSelect.required = true;
+      tipoSelect.required = true;
       populateOptions(materialSelect, opts.materiales, "Selecciona un material");
       populateOptions(tipoSelect, opts.tipos, "Selecciona un tipo");
     }
@@ -603,22 +609,27 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
 
       const servicio = form.servicio.value;
       const nombre = form.nombre.value.trim();
-      const material = form.material.value;
-      const tipo = form.tipo.value;
+      const whatsapp = form.whatsapp.value.trim();
+      const detailsVisible = !materialTipoRow.hidden;
+      const material = detailsVisible ? form.material.value : "";
+      const tipo = detailsVisible ? form.tipo.value : "";
       const medida = form.medida.value.trim() || "No especificada";
       const cantidad = form.cantidad.value || "1";
       const descripcion = form.descripcion.value.trim();
 
-      if (!servicio || !material || !tipo || !descripcion || !nombre) {
+      const missingDetails = detailsVisible && (!material || !tipo);
+      if (!servicio || missingDetails || !descripcion || !nombre || !whatsapp) {
         const first = !servicio
           ? form.servicio
-          : !material
+          : detailsVisible && !material
             ? form.material
-            : !tipo
+            : detailsVisible && !tipo
               ? form.tipo
               : !descripcion
                 ? form.descripcion
-                : form.nombre;
+                : !nombre
+                  ? form.nombre
+                  : form.whatsapp;
         first.focus();
         first.reportValidity();
         return;
@@ -626,13 +637,16 @@ const optionsByService: Record<ServiceId, { materiales: string[]; tipos: string[
 
       const servicioName = serviceNameById[servicio] ?? servicio;
 
+      const detailLines = detailsVisible
+        ? `\n- Material: ${material}\n- Tipo de proyecto: ${tipo}`
+        : "";
+
       const message = `Hola, me llamo ${nombre}. Estoy interesado en un proyecto:
-- Servicio: ${servicioName}
-- Material: ${material}
-- Tipo de proyecto: ${tipo}
+- Servicio: ${servicioName}${detailLines}
 - Medida aproximada: ${medida}
 - Cantidad: ${cantidad}
 - Descripción: ${descripcion}
+- Mi WhatsApp: ${whatsapp}
 
 Si tengo un archivo (STL, OBJ, DWG, AI, PDF), lo adjunto en este chat.`;
 

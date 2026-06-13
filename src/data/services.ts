@@ -24,6 +24,8 @@ export interface Service {
   emdRoute?: string;
   manualPdf: string;
   preciosPdf: string;
+  /** When false, the service is shown as a non-clickable announcement (no page, no links). */
+  linkable?: boolean;
 }
 
 export const services: Service[] = [
@@ -46,7 +48,7 @@ export const services: Service[] = [
     shortName: '3D',
     slug: '/servicios/impresion-3d',
     blurb: 'Prototipos y piezas finales en FDM (multi-color, gran formato) y resina de alta definición.',
-    metaDescription: 'Servicio de impresión 3D en Cancún. FDM multi-color con Bambu Lab H2C y Artillery Sidewinder XL, y resina de alta definición con Anycubic. Prototipos, repuestos, miniaturas, joyería.',
+    metaDescription: 'Servicio de impresión 3D en Cancún. FDM multi-color con impresoras Bambu Lab y resina de alta definición. Prototipos, repuestos, miniaturas, joyería.',
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`,
     emdDomain: 'impresion3dcancun.com',
     emdRoute: '/impresion3dcancun',
@@ -58,8 +60,8 @@ export const services: Service[] = [
     name: 'Impresión Gran Formato',
     shortName: 'Gran Formato',
     slug: '/servicios/impresion-gran-formato',
-    blurb: 'Lonas, vinil y sublimación hasta 1.80 m de ancho para eventos, retail, vehículos y textiles.',
-    metaDescription: 'Impresión gran formato en Cancún hasta 1.80 m de ancho. Lonas para eventos, vinil para wraps y rotulación, sublimación textil. Tintas eco-solventes y de sublimación.',
+    blurb: 'Lonas y vinil hasta 1.80 m de ancho para eventos, retail y vehículos.',
+    metaDescription: 'Impresión gran formato en Cancún hasta 1.80 m de ancho. Lonas para eventos, vinil para rotulación y vehículos.',
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="1"/><path d="M6 10h12"/><path d="M6 14h8"/></svg>`,
     manualPdf: '/manual-impresion-gran-formato.pdf',
     preciosPdf: '/precios-impresion-gran-formato.pdf',
@@ -69,6 +71,7 @@ export const services: Service[] = [
     name: 'Regalos y Recuerdos Cancún',
     shortName: 'Regalos',
     slug: '/servicios/recuerdos-cancun',
+    linkable: false,
     blurb: 'Llaveros de Cancún impresos en 3D. Mándanos tu propio modelo o elige uno de nuestro catálogo.',
     metaDescription: 'Impresión 3D de llaveros en Cancún. Mándanos tu propio modelo 3D (.stl, .3mf, .obj) o elige uno de nuestro catálogo. También diseños a la medida para bodas, eventos y empresas.',
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><path d="M12 8v3"/><rect x="9" y="11" width="6" height="10" rx="2"/></svg>`,

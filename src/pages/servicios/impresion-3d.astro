@@ -21,28 +21,24 @@ const service = getService("impresion-3d");
 const technologies = [
   {
     label: "FDM — plástico fundido",
-    eyebrow: "Bambu Lab H2C · Artillery Sidewinder XL ×2",
+    eyebrow: "Bambu Lab H2C · Línea de impresoras Bambu Lab",
     description:
-      "Imprimimos con filamentos termoplásticos sobre tres máquinas profesionales. La Bambu Lab H2C imprime hasta cuatro colores en una misma pieza con una velocidad y consistencia de nivel industrial. Las dos Artillery Sidewinder XL nos permiten producir piezas de gran tamaño en un solo block.",
-    materiales: ["PLA", "PETG", "TPU (flexible)", "ABS / ASA", "PA-CF (fibra de carbono)"],
+      "Imprimimos con filamentos termoplásticos en máquinas Bambu Lab. La H2C imprime hasta cuatro colores en una misma pieza con una velocidad y consistencia de nivel industrial.",
+    materiales: ["Gran variedad de colores"],
     usos: [
       "Prototipos funcionales",
       "Piezas mecánicas y repuestos",
-      "Props y decoración a escala XL",
-      "Soportes y bases para producto",
-      "Producción en lote pequeño",
     ],
   },
   {
     label: "Resina — alta definición",
-    eyebrow: "Anycubic · MSLA / DLP",
+    eyebrow: "Resina · MSLA / DLP",
     description:
       "La impresión por resina captura detalle a nivel de micras — superficies lisas y geometría imposible para FDM. Es nuestra herramienta para piezas pequeñas, intricadas o que necesitan un acabado premium directamente desde la máquina.",
-    materiales: ["Resina estándar", "Resina dental / joyería", "Resina ABS-like", "Resina flexible"],
+    materiales: ["Gran variedad de colores"],
     usos: [
       "Miniaturas y figuras coleccionables",
       "Joyería y prototipos para fundición",
-      "Modelos dentales",
       "Cabezas de personajes y detalle escultórico",
       "Moldes y matrices de precisión",
     ],
@@ -56,12 +52,12 @@ const machines = [
     note: "Para piezas con detalle de color, lotes pequeños y prototipos rápidos.",
   },
   {
-    name: "Artillery Sidewinder XL ×2",
+    name: "Formato XL",
     spec: "Volumen 300 × 300 × 400 mm",
     note: "Para piezas grandes que normalmente requerirían dividir el modelo.",
   },
   {
-    name: "Anycubic Resina",
+    name: "Impresora de resina",
     spec: "Volumen ≈ 150 × 80 × 165 mm · Resolución de fotograbado",
     note: "Para detalle fino, miniaturas y piezas con superficie lisa.",
   },
@@ -78,7 +74,7 @@ const faqs = [
   {
     question: "¿Cuánto tarda imprimir una pieza?",
     answer:
-      "Depende del tamaño y la técnica. Una pieza pequeña en FDM (un prototipo, una figura mediana) puede salir el mismo día o al siguiente. Una pieza grande en formato XL (60–80 cm de altura) toma de 2 a 4 días. Resina alta definición: 1 a 3 días según el detalle. Lotes y producciones se cotizan caso por caso.",
+      "Habitualmente menos de una semana. Cuando hay disponibilidad, una pieza pequeña puede salir el mismo día. Lotes y producciones se cotizan caso por caso.",
   },
   {
     question: "¿Qué archivo necesitan para imprimir?",
@@ -88,12 +84,12 @@ const faqs = [
   {
     question: "¿Cómo elijo entre FDM y resina?",
     answer:
-      "FDM (filamento) es ideal para piezas funcionales, prototipos, repuestos, soportes y piezas grandes. Es más resistente y económico. Resina es para alta definición — miniaturas, joyería, piezas dentales, cabezas de personajes con detalle escultórico. Si no estás seguro, mándanos el archivo y te recomendamos sin compromiso.",
+      "FDM (filamento) es ideal para piezas funcionales, prototipos, repuestos, soportes y piezas grandes. Es más resistente y económico. Resina es para alta definición — miniaturas, joyería, cabezas de personajes con detalle escultórico. Si no estás seguro, mándanos el archivo y te recomendamos sin compromiso.",
   },
   {
     question: "¿Cuál es el tamaño máximo que pueden imprimir?",
     answer:
-      "En una sola pieza FDM imprimimos hasta 30 × 30 × 40 cm (Artillery Sidewinder XL). En multi-color hasta 25.6 × 25.6 × 25.6 cm (Bambu Lab H2C). En resina hasta 15 × 8 × 16.5 cm. Para piezas más grandes, las dividimos en módulos que se ensamblan después con casi ninguna línea visible.",
+      "En una sola pieza FDM imprimimos hasta 30 × 30 × 40 cm. En multi-color hasta 25.6 × 25.6 × 25.6 cm (Bambu Lab H2C). En resina hasta 15 × 8 × 16.5 cm. Para piezas más grandes, las dividimos en módulos que se ensamblan después con casi ninguna línea visible.",
   },
   {
     question: "¿Pintan o dan acabado a la pieza?",
@@ -139,12 +135,14 @@ const faqPageSchema = {
         { label: "Servicios", href: "/#servicios" },
         { label: service.name },
       ]}
+      backHref="/#servicios"
+      backLabel="Regresar a servicios"
     />
 
     <ServicePageHero
       eyebrow="Impresión 3D profesional"
       title="Del prototipo al producto final, imprimido en Cancún"
-      subtitle="Imprimimos en 3D con cuatro máquinas profesionales — multi-color FDM, formato XL y resina de alta definición. Tu pieza, en el material y la técnica que mejor se ajuste al proyecto, sin enviarla fuera de la ciudad."
+      subtitle="Imprimimos en 3D con máquinas profesionales Bambu Lab — FDM multi-color, formato XL y resina de alta definición. Tu pieza, en el material y la técnica que mejor se ajuste al proyecto, sin enviarla fuera de la ciudad."
       primaryCta={{ label: "Solicita tu cotización", href: "#cotiza" }}
       secondaryCta={{ label: "Ver tecnologías", href: "#tecnologias" }}
       service="3d"
@@ -200,7 +198,7 @@ const faqPageSchema = {
             Tamaños y características
           </h2>
           <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
-            Cuatro máquinas trabajando en paralelo. Esto se traduce en tiempos
+            Máquinas trabajando en paralelo. Esto se traduce en tiempos
             de entrega cortos, capacidad para piezas grandes y la flexibilidad
             de dividir lotes complejos sin renegociar plazos.
           </p>
@@ -215,8 +213,8 @@ const faqPageSchema = {
           ))}
         </ul>
         <p class="lead-time" data-reveal>
-          <strong>Tiempos de entrega:</strong> entre 1 y 5 días hábiles según
-          tamaño y complejidad. Pedidos urgentes se cotizan en el momento.
+          <strong>Tiempos de entrega:</strong> habitualmente menos de una semana;
+          cuando hay disponibilidad, el mismo día. Pedidos urgentes se cotizan en el momento.
         </p>
       </div>
     </section>

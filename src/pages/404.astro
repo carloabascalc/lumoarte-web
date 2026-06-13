@@ -30,7 +30,7 @@ import { services } from "../data/services";
       <div class="not-found-services">
         <p class="not-found-services-label">O explora un servicio:</p>
         <ul role="list">
-          {services.map((s) => (
+          {services.filter((s) => s.linkable !== false).map((s) => (
             <li>
               <a href={s.slug}>
                 <span class="not-found-service-name">{s.name}</span>

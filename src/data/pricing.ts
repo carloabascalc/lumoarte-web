@@ -271,7 +271,7 @@ export const PRICING: Record<string, PricingContent> = {
       {
         name: "Tinta",
         points: [
-          "Cobertura de tinta eco-solvente",
+          "Cobertura de tinta",
           "Resolución hasta 1440 dpi",
           "Depende de la calidad del archivo",
         ],

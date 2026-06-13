@@ -1,7 +1,7 @@
 ---
 // Plotter / gran formato hero showcase — 3 illustrated mockup cards.
 // Polished with cleaner gradients, drop shadows, edge-to-edge content.
-// One card per service: lona (banner), vinil (decal), sublimación (textil).
+// One card per service: lona (banner), vinil (decal).
 ---
 
 <div class="hero-stack">
@@ -115,66 +115,6 @@
     </div>
   </div>
 
-  {/* FRONT — sublimated tee (bottom-left, with fabric folds) */}
-  <div class="hero-card hero-card--front" aria-hidden="true">
-    <div class="specimen-card specimen-card--tee">
-      <svg viewBox="0 0 200 200" class="specimen-svg" preserveAspectRatio="xMidYMid meet">
-        <defs>
-          <linearGradient id="tee-grad" x1="0.3" y1="0" x2="0.7" y2="1">
-            <stop offset="0%" stop-color="#e8946e"/>
-            <stop offset="60%" stop-color="#c96b3a"/>
-            <stop offset="100%" stop-color="#7a2a02"/>
-          </linearGradient>
-          <pattern id="tee-pattern" patternUnits="userSpaceOnUse" width="14" height="14" patternTransform="rotate(45)">
-            <line x1="0" y1="0" x2="0" y2="14" stroke="rgba(244, 236, 216, 0.18)" stroke-width="1"/>
-          </pattern>
-        </defs>
-        {/* Ground shadow */}
-        <ellipse cx="100" cy="178" rx="62" ry="4" fill="rgba(20, 10, 4, 0.20)"/>
-        {/* T-shirt silhouette — proper t-shape with sleeves */}
-        <path
-          d="M 50 50
-             L 70 36
-             L 86 42
-             C 90 36, 110 36, 114 42
-             L 130 36
-             L 150 50
-             L 168 64
-             L 154 76
-             L 144 70
-             L 144 168
-             C 144 172, 140 176, 136 176
-             L 64 176
-             C 60 176, 56 172, 56 168
-             L 56 70
-             L 46 76
-             L 32 64 Z"
-          fill="url(#tee-grad)"
-        />
-        {/* Sublimation pattern overlay */}
-        <path
-          d="M 50 50 L 70 36 L 86 42 C 90 36, 110 36, 114 42 L 130 36 L 150 50 L 168 64 L 154 76 L 144 70 L 144 168 C 144 172, 140 176, 136 176 L 64 176 C 60 176, 56 172, 56 168 L 56 70 L 46 76 L 32 64 Z"
-          fill="url(#tee-pattern)"
-        />
-        {/* Collar */}
-        <path
-          d="M 86 42 C 92 52, 108 52, 114 42"
-          fill="rgba(20, 10, 4, 0.35)"
-        />
-        {/* Subtle fold/wrinkle lines */}
-        <g stroke="rgba(20, 10, 4, 0.20)" stroke-width="0.6" fill="none">
-          <path d="M 80 90 Q 100 100 120 90"/>
-          <path d="M 70 130 L 80 145"/>
-          <path d="M 130 130 L 120 145"/>
-        </g>
-        {/* Subtle highlight on left chest */}
-        <path
-          d="M 56 70 L 56 168 C 56 172, 60 176, 64 176 L 78 176 L 78 80 L 70 75 Z"
-          fill="rgba(255, 240, 220, 0.08)"
-        />
-      </svg>
-    </div>
-  </div>
 </div>
 
 <style>
@@ -203,8 +143,7 @@
     padding: 14px;
   }
 
-  .specimen-card--banner,
-  .specimen-card--tee {
+  .specimen-card--banner {
     background:
       radial-gradient(ellipse 90% 70% at 50% 30%, rgba(255, 255, 255, 0.55), transparent 70%),
       linear-gradient(180deg, #f8f1e2 0%, #e8ddc6 100%);
@@ -226,34 +165,24 @@
   }
 
   .hero-card--main {
-    width: 60%;
+    width: 62%;
     aspect-ratio: 4 / 5;
-    top: 8%;
-    left: 4%;
+    top: 6%;
+    left: 6%;
     z-index: 3;
     transform: rotate(-2deg);
   }
 
   .hero-card--back {
-    width: 46%;
+    width: 50%;
     aspect-ratio: 1 / 1;
-    top: 0;
+    bottom: 4%;
     right: 0;
     z-index: 1;
     transform: rotate(6deg);
     opacity: 0.96;
   }
 
-  .hero-card--front {
-    width: 50%;
-    aspect-ratio: 1 / 1;
-    bottom: 0;
-    left: 22%;
-    z-index: 4;
-    transform: rotate(-5deg);
-  }
-
   .hero-stack:hover .hero-card--main { transform: rotate(-1deg) translateY(-4px); }
   .hero-stack:hover .hero-card--back { transform: rotate(8deg) translateX(4px); }
-  .hero-stack:hover .hero-card--front { transform: rotate(-6deg) translate(-4px, 4px); }
 </style>

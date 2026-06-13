@@ -8,9 +8,12 @@ interface Crumb {
 
 interface Props {
   items: Crumb[];
+  /** Shows an explicit "← Regresar" button on the right side of the bar. */
+  backHref?: string;
+  backLabel?: string;
 }
 
-const { items } = Astro.props;
+const { items, backHref, backLabel = "Regresar" } = Astro.props;
 
 // Emit BreadcrumbList JSON-LD so search engines + AI crawlers understand
 // the page's place in the site hierarchy. Items without an href (the current
@@ -55,6 +58,11 @@ const breadcrumbSchema = {
         );
       })}
     </ol>
+    {backHref && (
+      <a class="breadcrumb-back" href={backHref}>
+        <span aria-hidden="true">←</span> {backLabel}
+      </a>
+    )}
   </div>
 </nav>
 
@@ -115,6 +123,26 @@ const breadcrumbSchema = {
     transform: translateY(-3px);
   }
 
+  .breadcrumb-back {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-text);
+    border: 1px solid var(--color-surface);
+    border-radius: 4px;
+    padding: 7px 14px;
+    white-space: nowrap;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .breadcrumb-back:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
   /* Current page — drops the eyebrow treatment and goes editorial. */
   .breadcrumb-item--current {
     font-size: 1rem;
@@ -159,6 +187,11 @@ const breadcrumbSchema = {
 
     .breadcrumb-item--current {
       font-size: 0.9375rem;
+    }
+
+    .breadcrumb-back {
+      padding: 5px 10px;
+      font-size: 0.75rem;
     }
   }
 </style>

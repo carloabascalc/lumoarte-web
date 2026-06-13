@@ -86,7 +86,7 @@ const navClass = isEmd ? "nav nav--solid nav--emd" : `nav nav--${variant}`;
   {!isEmd && (
     <div class="nav-drawer" id="navDrawer" hidden>
       <a href="/#servicios" class="nav-drawer-link nav-drawer-link--head">Servicios</a>
-      {services.map((s) => {
+      {services.filter((s) => s.linkable !== false).map((s) => {
         const external = isExternalService(s);
         return (
           <a

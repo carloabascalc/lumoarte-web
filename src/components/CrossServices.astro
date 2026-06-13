@@ -6,7 +6,7 @@ interface Props {
 }
 
 const { excludeId } = Astro.props;
-const others = services.filter((s) => s.id !== excludeId);
+const others = services.filter((s) => s.id !== excludeId && s.linkable !== false);
 ---
 
 <section class="cross-services section">

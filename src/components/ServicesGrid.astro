@@ -34,9 +34,12 @@ const artByService: Record<string, "laser" | "printer" | "plotter" | "recuerdo">
         const linkAttrs = isExternal
           ? { target: "_blank", rel: "noopener" }
           : {};
+        const isAnnouncement = s.linkable === false;
+        const Wrapper = isAnnouncement ? "div" : "a";
+        const wrapperAttrs = isAnnouncement ? {} : { href, ...linkAttrs };
         return (
           <li class={`servicio-card servicio-card--${s.id}`} data-reveal data-reveal-delay={`${0.05 + i * 0.06}`} data-tilt>
-            <a href={href} class="servicio-link" {...linkAttrs}>
+            <Wrapper class="servicio-link" {...wrapperAttrs}>
               <div class="servicio-media">
                 <MachineArt machine={artByService[s.id]} class="servicio-media-art" />
               </div>
@@ -45,12 +48,14 @@ const artByService: Record<string, "laser" | "printer" | "plotter" | "recuerdo">
                 <span class="servicio-icon" aria-hidden="true" set:html={s.icon} />
                 <h3 class="servicio-name">{s.name}</h3>
                 <p class="servicio-blurb">{s.blurb}</p>
-                <span class="servicio-cta">
-                  Ver servicio
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </span>
+                {!isAnnouncement && (
+                  <span class="servicio-cta">
+                    Ver servicio
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </span>
+                )}
               </div>
-            </a>
+            </Wrapper>
           </li>
         );
       })}

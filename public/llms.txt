@@ -11,12 +11,10 @@
   en madera, acrílico, MDF, cartón, papel, tela y piel. Área de trabajo: 130×90
   cm. Formatos: AI, EPS, SVG, PDF, DXF.
 - [Impresión 3D](https://lumocancun.com/servicios/impresion-3d/): FDM multicolor
-  y resina de alta definición. Bambu Lab H2C, Artillery Sidewinder XL ×2,
-  Anycubic. Prototipos y producción.
+  y resina de alta definición con impresoras Bambu Lab y Anycubic.
+  Prototipos y producción.
 - [Impresión Gran Formato](https://lumocancun.com/servicios/impresion-gran-formato/):
-  Eco-solvente y sublimación, hasta 1.80 m de ancho, 1440 dpi, cabezal Epson XP600.
-- [Recuerdos Cancún](https://lumocancun.com/servicios/recuerdos-cancun/):
-  Llaveros personalizados desde $9 USD. Entrega 72 h. Sin pedido mínimo.
+  Lonas y vinil, hasta 1.80 m de ancho (según el material), 1440 dpi, cabezal Epson XP600.
 
 ## Recursos
 

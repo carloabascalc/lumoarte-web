@@ -1,6 +1,6 @@
 # Lumo Cancún — Información completa
 
-> Taller de fabricación digital en Cancún, México. Tres servicios bajo un mismo techo: corte láser y grabado, impresión 3D (FDM multicolor y resina), e impresión de gran formato (lonas, vinil y sublimación hasta 1.80 m de ancho). Atendemos pieza única, prototipos y producción en serie para arquitectos, diseñadores, agencias y eventos.
+> Taller de fabricación digital en Cancún, México. Tres servicios bajo un mismo techo: corte láser y grabado, impresión 3D (FDM multicolor y resina), e impresión de gran formato (lonas y vinil hasta 1.80 m de ancho). Atendemos pieza única, prototipos y producción en serie para arquitectos, diseñadores, agencias y eventos.
 
 Fundado por Adriano Abascal, arquitecto. Cotización inmediata por WhatsApp. Atención en español. Lunes a sábado, 9:00 a 18:00.
 
@@ -10,7 +10,7 @@ Fundado por Adriano Abascal, arquitecto. Cotización inmediata por WhatsApp. Ate
 
 Lumo Cancún nació en Cancún como una extensión natural del estudio de arquitectura de Adriano Abascal. Empezamos con una sola cortadora láser para resolver maquetas, piezas a medida y elementos decorativos para los proyectos del despacho. Cada pieza que salía revelaba una nueva posibilidad — y un nuevo grupo de clientes que querían lo mismo: piezas hechas con cuidado, no producidas en masa.
 
-Hoy operamos cuatro impresoras 3D (Bambu Lab H2C, Anycubic de resina y dos Artillery Sidewinder XL), un plotter Sino Supply XP600 de 1.80 metros de ancho, y la misma cortadora láser de los inicios con área útil de 130 × 90 cm. Tres procesos, un solo taller.
+Hoy operamos impresoras 3D Bambu Lab y de resina Anycubic, un plotter Sino Supply XP600 de 1.80 metros de ancho, y la misma cortadora láser de los inicios con área útil de 130 × 90 cm. Tres procesos, un solo taller.
 
 Servimos a arquitectos, diseñadores, agencias, eventos, restaurantes y particulares que buscan piezas que se sientan hechas. Hemos trabajado para L'Oréal, estudios de arquitectura locales, bares y restaurantes de Cancún, y cientos de proyectos personales.
 
@@ -29,7 +29,7 @@ Cortamos y grabamos con láser CO₂ sobre madera, MDF (hasta 6 mm, hasta 9 mm c
 - Área útil: 130 × 90 cm en una sola pieza. Piezas mayores se modulan con ensambles invisibles (biombos de 2.5 m, paneles de 3 m).
 - Formatos aceptados: AI, EPS, SVG, PDF, DXF.
 - Convención de archivo: rojo (#FF0000) = corte, negro = grabado.
-- Tiempos: piezas pequeñas y medianas en 24-72 horas. Producciones en serie de 3 a 10 días según volumen.
+- Tiempos: habitualmente menos de una semana; cuando hay disponibilidad, el mismo día. Producciones grandes se cotizan caso por caso.
 - No cortamos: PVC (libera cloro tóxico), policarbonato, espejos de vidrio, materiales metálicos.
 - Precio = material + tiempo de máquina ($14 MXN/min) + manejo (4%) + IVA (16%). Diseño y ajustes $600 MXN/hr solo cuando el archivo lo requiere.
 - Precios de material por lámina completa (MXN, sin IVA, 2026): MDF 2.2 mm $52, MDF 3 mm $72, MDF 5.5 mm $114, MDF 9 mm $147; acrílico transparente 2 mm $390 / 3 mm $533 / 6 mm $953; acrílico negro 3 mm $515; acrílico espejo 3 mm $669; triplay Okumé 4 mm $169 / 6 mm $221; triplay chapado Tzalam 6 mm $304; cartón gris 2 mm $72; foamboard 3 mm $124; fieltro 3 mm $130; cuero sintético $195; piel natural $455/m². Rango total $16–$953. Lista completa en HTML: https://lumocancun.com/servicios/corte-laser/#precios-materiales
@@ -41,16 +41,16 @@ Operamos dos tecnologías:
 
 FDM (depósito de filamento fundido):
 - Bambu Lab H2C: 256 × 256 × 256 mm, multicolor hasta 4 colores.
-- Artillery Sidewinder XL ×2: 300 × 300 × 400 mm.
+- Formato XL: 300 × 300 × 400 mm.
 - Materiales: PLA, PETG, ABS, TPU, PLA-Wood, PLA-Metal.
 
 Resina MSLA:
 - Anycubic Photon: 192 × 120 × 245 mm.
 - Resoluciones de 25 a 50 micras (0.025-0.05 mm).
-- Para joyería, miniaturas, prototipos dentales.
+- Para joyería y miniaturas.
 
 - Formatos aceptados: STL, OBJ, 3MF, STEP.
-- Tiempos: 1-5 días para piezas pequeñas; lotes grandes de 5 a 10 días.
+- Tiempos: habitualmente menos de una semana; cuando hay disponibilidad, el mismo día. Lotes se cotizan caso por caso.
 
 ### Impresión de gran formato
 URL: https://lumocancun.com/servicios/impresion-gran-formato
@@ -60,7 +60,7 @@ Plotter Sino Supply XP600 E-1801 con tintas eco-solvente.
 - Ancho de impresión: 1.80 metros. Largo prácticamente ilimitado.
 - Resolución: hasta 1440 dpi.
 - Rendimiento: 8 a 12 m²/h.
-- Tres técnicas: impresión sobre vinil adhesivo, sobre lona, y sublimación sobre poliéster.
+- Impresión sobre lona y vinil adhesivo.
 - Durabilidad: 3-5 años en exterior con laminado UV; 1-2 años sin laminado.
 - Tiempos: lonas y vinil estándar en 24-48 horas; lotes en 2-4 días.
 
@@ -69,10 +69,10 @@ Plotter Sino Supply XP600 E-1801 con tintas eco-solvente.
 ## Preguntas frecuentes
 
 ### ¿Qué servicios ofrece Lumo Cancún?
-Corte láser y grabado, impresión 3D (FDM y resina), e impresión de gran formato (lonas, vinil, sublimación hasta 1.80 m). Pieza única, prototipos y producción en serie.
+Corte láser y grabado, impresión 3D (FDM y resina), e impresión de gran formato (lonas y vinil hasta 1.80 m). Pieza única, prototipos y producción en serie.
 
 ### ¿Cuánto tardan en cotizar y en entregar?
-Cotización inmediata por WhatsApp. Corte láser de piezas pequeñas en 24-72 horas; impresión 3D de 1 a 5 días; gran formato en 24-72 horas; producciones grandes de 3 a 10 días.
+Cotización inmediata por WhatsApp. Los proyectos habitualmente se entregan en menos de una semana; cuando hay disponibilidad, el mismo día. Producciones grandes se cotizan caso por caso.
 
 ### ¿Cuál es el tamaño máximo que pueden fabricar?
 Corte láser: 130 × 90 cm en una sola pieza. Gran formato: 1.80 m de ancho. Impresión 3D: hasta 300 × 300 × 400 mm en FDM XL.

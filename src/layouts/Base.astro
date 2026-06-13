@@ -135,12 +135,13 @@ const organizationSchema = {
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Servicios de fabricación digital",
-    // All four services are genuinely offered by the business and live under
-    // /servicios/*. The `emdDomain` flag only changes where marketing links
-    // point (dormant EMD strategy) — it must NOT prune the offer catalog, or
-    // the two flagship services (corte láser, impresión 3D) vanish from the
-    // brand's structured offering. Always list every service.
-    itemListElement: services.map((s) => ({
+    // Every linkable service lives under /servicios/*. The `emdDomain` flag
+    // only changes where marketing links point (dormant EMD strategy) — it
+    // must NOT prune the offer catalog, or the two flagship services (corte
+    // láser, impresión 3D) vanish from the brand's structured offering.
+    // Announcement-only services (linkable: false) have no page, so their
+    // URL would 404 — those do get pruned.
+    itemListElement: services.filter((s) => s.linkable !== false).map((s) => ({
       "@type": "Offer",
       itemOffered: {
         "@type": "Service",
