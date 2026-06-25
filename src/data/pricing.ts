@@ -43,6 +43,25 @@ export interface MaterialPricing {
   groups: PriceGroup[];
 }
 
+/** Una herramienta / complemento (se vende por separado, sin servicio de corte). */
+export interface ToolItem {
+  name: string;
+  /** Medida o presentación (ej. "100 ml", "18 mm", "unidad"). */
+  measure?: string;
+  /** Precio en MXN, sin IVA. */
+  price: number;
+}
+
+/** Lista "Herramientas y complementos" (página 2 del PDF de precios). Va en su
+ *  propia tabla, fuera del AggregateOffer de materiales del láser. */
+export interface ToolsPricing {
+  intro: string;
+  note: string;
+  currency: string;
+  year: number;
+  items: ToolItem[];
+}
+
 export interface PricingContent {
   intro: string;
   tipos: PricingTipo[];
@@ -57,6 +76,8 @@ export interface PricingContent {
   formulaPdf?: string;
   /** Lista de precios de materiales en HTML (solo cuando hay cifras reales). */
   materiales?: MaterialPricing;
+  /** Herramientas y complementos (página 2 del PDF), si existe. */
+  herramientas?: ToolsPricing;
 }
 
 const TIPOS_GENERICOS = (noun: string): PricingTipo[] => [
@@ -175,10 +196,12 @@ export const PRICING: Record<string, PricingContent> = {
         {
           category: "MDF",
           items: [
-            { name: "MDF", spec: "2.2 mm", size: "122 × 81 cm", price: 52 },
-            { name: "MDF", spec: "3.0 mm", size: "122 × 81 cm", price: 72 },
-            { name: "MDF", spec: "5.5 mm", size: "122 × 81 cm", price: 114 },
-            { name: "MDF", spec: "9.0 mm", size: "122 × 81 cm", price: 147 },
+            { name: "MDF", spec: "2.7 mm", size: "122 × 81 cm", price: 63 },
+            { name: "MDF", spec: "3 mm", size: "122 × 81 cm", price: 82 },
+            { name: "MDF", spec: "4.7 mm", size: "122 × 81 cm", price: 104 },
+            { name: "MDF", spec: "5.5 mm", size: "122 × 81 cm", price: 121 },
+            { name: "MDF", spec: "9 mm", size: "122 × 81 cm", price: 171 },
+            { name: "MDF", spec: "12 mm", size: "122 × 81 cm", price: 206 },
           ],
         },
         {
@@ -198,11 +221,11 @@ export const PRICING: Record<string, PricingContent> = {
             { name: "Cartón ilustración negro", size: "70 × 100 cm", price: 150 },
             { name: "Cartón ilustración blanco", size: "70 × 100 cm", price: 85 },
             { name: "Cartulina de color", size: "50 × 70 cm", price: 20 },
-            { name: "Papel batería", size: "70 × 100 cm", price: 16 },
-            { name: "Cartulina batería", spec: "1.5 mm", size: "69 × 112 cm", price: 129 },
-            { name: "Cartulina batería", spec: "2.5 mm", size: "69 × 112 cm", price: 233 },
+            { name: "Papel batería · delgada", spec: "1.5 mm", size: "69 × 112 cm", price: 129 },
+            { name: "Papel batería · gruesa", spec: "2.5 mm", size: "69 × 112 cm", price: 233 },
             { name: "Coroplast", spec: "3 mm", size: "122 × 81 cm", price: 87 },
-            { name: "Foamboard", spec: "3 mm", size: "70 × 100 cm", price: 124 },
+            { name: "Foamboard blanco", size: "80 × 120 cm", price: 207 },
+            { name: "Foamboard negro", size: "80 × 120 cm", price: 207 },
             { name: "Foamy (EVA)", spec: "3 mm", size: "60 × 90 cm", price: 52 },
             { name: "Corcho", spec: "3 mm", size: "60 × 90 cm", price: 130 },
             { name: "Fieltro", spec: "3 mm", size: "100 × 90 cm", price: 130 },
@@ -211,6 +234,36 @@ export const PRICING: Record<string, PricingContent> = {
             { name: "Piel natural", size: "por m²", price: 455 },
           ],
         },
+      ],
+    },
+    herramientas: {
+      currency: "MXN",
+      year: 2026,
+      intro:
+        "Para maquetas y diseño: vendemos los materiales por separado, sin servicio de corte. Artículos de uso frecuente para arquitectura, diseño y modelismo, disponibles en Cancún.",
+      note: "Precios en MXN, sin IVA · vigentes 2026 · precios de referencia · algunos artículos se gestionan sobre pedido, sujetos a disponibilidad local en Cancún.",
+      items: [
+        { name: "Silicón frío líquido Mil-U", measure: "100 ml", price: 75 },
+        { name: "Silicón frío líquido Mil-U", measure: "250 ml", price: 163 },
+        { name: "Silicón líquido", measure: "150 ml", price: 98 },
+        { name: "Pegamento UHU", measure: "tubo 21 g", price: 52 },
+        { name: "Pegamento en barra", measure: "40 g", price: 52 },
+        { name: "Cutter Olfa", measure: "18 mm", price: 169 },
+        { name: "Repuestos cutter Olfa", measure: "caja 10 pzas", price: 85 },
+        { name: "Cutter", measure: "unidad", price: 117 },
+        { name: "Regla metálica con corcho", measure: "30 cm", price: 117 },
+        { name: "Base de corte", measure: "A3 · 30 × 45 cm", price: 364 },
+        { name: "Masking tape", measure: "18 mm", price: 39 },
+        { name: "Cinta doble cara", measure: "12 mm", price: 59 },
+        { name: "Lápiz HB", measure: "unidad", price: 13 },
+        { name: "Portaminas", measure: "0.5 mm", price: 78 },
+        { name: "Borrador plástico", measure: "unidad", price: 20 },
+        { name: "Pluma técnica", measure: "unidad", price: 104 },
+        { name: "Rapidógrafo", measure: "0.5 mm", price: 260 },
+        { name: "Escuadra 45°", measure: "25 cm", price: 111 },
+        { name: "Escuadra 30°/60°", measure: "25 cm", price: 111 },
+        { name: "Compás de dibujo", measure: "metálico", price: 156 },
+        { name: "Acetato transparente", measure: "A3 · 0.3 mm", price: 30 },
       ],
     },
   },

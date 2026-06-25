@@ -1,0 +1,159 @@
+---
+// "Herramientas y complementos" — página 2 del PDF de precios, en HTML para que
+// la IA y los buscadores la puedan leer. Datos en src/data/pricing.ts
+// (`herramientas`). Va en su propia tabla, fuera del AggregateOffer del láser.
+import { PRICING } from "../data/pricing";
+
+interface Props {
+  /** id del servicio (clave en PRICING). */
+  serviceId: string;
+}
+
+const { serviceId } = Astro.props;
+const tools = PRICING[serviceId]?.herramientas;
+if (!tools) return;
+
+const { items, intro, note, currency, year } = tools;
+const fmt = (n: number) => new Intl.NumberFormat("es-MX").format(n);
+
+// Dos columnas en desktop (como el PDF): se parte la lista a la mitad.
+const half = Math.ceil(items.length / 2);
+const columns = [items.slice(0, half), items.slice(half)];
+---
+
+<section class="tools-table section" id="herramientas">
+  <div class="container">
+    <div class="section-header">
+      <p class="tt-eyebrow" data-reveal>Herramientas y complementos {year}</p>
+      <h2 class="section-title" data-reveal data-reveal-delay="0.06">
+        También vendemos materiales por separado
+      </h2>
+      <p class="section-subtitle" data-reveal data-reveal-delay="0.12">{intro}</p>
+    </div>
+
+    <div class="tt-tables" data-reveal data-reveal-delay="0.06">
+      {columns.map((col) => (
+        <table class="tt-table">
+          <thead>
+            <tr>
+              <th scope="col">Producto</th>
+              <th scope="col">Medida</th>
+              <th scope="col" class="tt-num">Precio (sin IVA)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {col.map((it) => (
+              <tr>
+                <th scope="row" class="tt-name">{it.name}</th>
+                <td>{it.measure ?? "—"}</td>
+                <td class="tt-num tt-price">${fmt(it.price)} {currency}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ))}
+    </div>
+
+    <p class="tt-note" data-reveal>{note}</p>
+  </div>
+</section>
+
+<style>
+  .tools-table {
+    background: var(--color-bg);
+  }
+
+  .tt-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+  }
+
+  .tt-tables {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .tt-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-surface);
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 0.9375rem;
+    align-self: start;
+  }
+
+  .tt-table thead th {
+    text-align: left;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    background: var(--color-bg);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-surface);
+  }
+
+  .tt-table tbody th,
+  .tt-table tbody td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--color-surface);
+    vertical-align: top;
+    font-weight: 400;
+    color: var(--color-muted);
+  }
+
+  .tt-table tbody tr:last-child th,
+  .tt-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .tt-name {
+    text-align: left;
+    color: var(--color-text) !important;
+    font-weight: 500 !important;
+  }
+
+  .tt-num {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .tt-price {
+    color: var(--color-accent) !important;
+    font-weight: 600 !important;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tt-note {
+    margin-top: 28px;
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+    max-width: 760px;
+  }
+
+  @media (max-width: 880px) {
+    .tt-tables {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .tt-table {
+      font-size: 0.875rem;
+    }
+    .tt-table thead th,
+    .tt-table tbody th,
+    .tt-table tbody td {
+      padding: 9px 12px;
+    }
+  }
+</style>

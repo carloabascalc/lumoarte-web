@@ -6,6 +6,7 @@ import ServicePageHero from "../../components/ServicePageHero.astro";
 import ServicePdfs from "../../components/ServicePdfs.astro";
 import PricingFormula from "../../components/PricingFormula.astro";
 import PriceTable from "../../components/PriceTable.astro";
+import ToolsTable from "../../components/ToolsTable.astro";
 import LaserShowcase from "../../components/LaserShowcase.astro";
 import LaserAssembly from "../../components/LaserAssembly.astro";
 import Materials from "../../components/Materials.astro";
@@ -168,6 +169,8 @@ const faqPageSchema = {
     <PricingFormula serviceId="corte-laser" preciosPdf={service.preciosPdf} />
 
     <PriceTable serviceId="corte-laser" />
+
+    <ToolsTable serviceId="corte-laser" />
 
     <section class="sectores section">
       <div class="container">
