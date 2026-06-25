@@ -108,6 +108,11 @@ const faqs = [
     answer:
       "Aceptamos transferencia bancaria, depósito en efectivo, tarjeta de débito y crédito (con pequeño cargo bancario). Para producciones grandes pedimos 50% de anticipo y 50% al entregar. Para piezas únicas y trabajos pequeños el pago es completo al confirmar.",
   },
+  {
+    question: "¿Cómo te cobramos? ¿Cómo calculan el precio?",
+    answer:
+      'Cobramos por lo que realmente lleva tu pieza: el material que usa y el tiempo que tarda la máquina, más manejo e IVA. Nada de mínimos sorpresa ni precios inflados. Puedes ver el desglose completo en la sección "¿Cómo calculamos tu precio?" y descargar la guía paso a paso en PDF: <a href="/como-cotizamos-corte-laser.pdf" target="_blank" rel="noopener noreferrer">¿Cómo te cobramos? (PDF)</a>.',
+  },
 ];
 
 const faqPageSchema = {
@@ -216,6 +221,7 @@ const faqPageSchema = {
       title="Preguntas frecuentes sobre corte láser"
       subtitle="Las dudas que nos hacen más seguido. Si la tuya no aparece, mándanos un WhatsApp."
       items={faqs}
+      downloadCta={{ href: "/como-cotizamos-corte-laser.pdf", label: "¿Cómo te cobramos? (PDF)" }}
     />
 
     <QuoteForm defaultService="corte-laser" />

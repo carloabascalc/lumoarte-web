@@ -199,6 +199,8 @@ export const PRICING: Record<string, PricingContent> = {
             { name: "Cartón ilustración blanco", size: "70 × 100 cm", price: 85 },
             { name: "Cartulina de color", size: "50 × 70 cm", price: 20 },
             { name: "Papel batería", size: "70 × 100 cm", price: 16 },
+            { name: "Cartulina batería", spec: "1.5 mm", size: "69 × 112 cm", price: 129 },
+            { name: "Cartulina batería", spec: "2.5 mm", size: "69 × 112 cm", price: 233 },
             { name: "Coroplast", spec: "3 mm", size: "122 × 81 cm", price: 87 },
             { name: "Foamboard", spec: "3 mm", size: "70 × 100 cm", price: 124 },
             { name: "Foamy (EVA)", spec: "3 mm", size: "60 × 90 cm", price: 52 },

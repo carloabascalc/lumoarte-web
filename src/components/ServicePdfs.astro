@@ -1,11 +1,19 @@
 ---
 import type { Service } from "../data/services";
+import { PRICING } from "../data/pricing";
 
 interface Props {
   service: Service;
 }
 
 const { service } = Astro.props;
+
+// "¿Cómo te cobramos?" — tercer botón, en todos los servicios. Si el servicio
+// tiene la guía/fórmula en PDF (hoy solo corte láser) abre el PDF; si no, baja
+// a la sección "¿Cómo calculamos tu precio?" (#como-cotizamos) de esa página.
+const formulaPdf = PRICING[service.id]?.formulaPdf;
+const formulaHref = formulaPdf ?? "#como-cotizamos";
+const formulaIsPdf = !!formulaPdf;
 
 // Match the hero tint per service so the fill strip below the bar reads as a
 // continuation of the hero (same mapping the ServicePageHero uses).
@@ -34,6 +42,14 @@ const variant = heroVariant[service.id] ?? "laser";
         Lista de precios
       </a>
       <a
+        href={formulaHref}
+        class="service-pdf-btn"
+        {...(formulaIsPdf ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 0 1 4.6 1.2c0 1.7-2.6 2.3-2.6 2.3"/><line x1="12" y1="16.5" x2="12" y2="16.6"/></svg>
+        ¿Cómo te cobramos?
+      </a>
+      <a
         href={service.manualPdf}
         target="_blank"
         rel="noopener noreferrer"
@@ -52,6 +68,12 @@ const variant = heroVariant[service.id] ?? "laser";
   .service-pdfs {
     background: var(--color-bg);
     border-bottom: 1px solid var(--color-surface);
+    /* Pinned just under the fixed nav so las descargas (precios, cómo te
+       cobramos, cómo enviar tu proyecto) quedan siempre visibles "hasta
+       arriba" al hacer scroll. z-index por debajo de la nav (z:100). */
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 40;
   }
 
   /* Strip of the hero's colour right below the white bar, so the bar reads as
