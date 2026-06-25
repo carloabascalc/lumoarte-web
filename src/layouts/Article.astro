@@ -32,6 +32,12 @@ const {
 const canonical = `/recursos/${slug}`;
 const url = `${SITE.url}${canonical}`;
 
+// Freshness signal: only surface "Actualizado" when the guide was genuinely
+// revised after publishing (dateModified defaults to datePublished).
+const wasUpdated = dateModified && dateModified !== datePublished;
+const fmtDate = (iso: string) =>
+  new Date(iso).toLocaleDateString("es-MX", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
+
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -79,13 +85,19 @@ const articleSchema = {
         <p class="article-meta" data-reveal data-reveal-delay="0.12">
           Por <a href="/sobre-nosotros">Adriano Abascal</a>
           <span aria-hidden="true">·</span>
-          <time datetime={datePublished}>
-            {new Date(datePublished).toLocaleDateString("es-MX", { year: "numeric", month: "long", day: "numeric" })}
-          </time>
+          <time datetime={datePublished}>{fmtDate(datePublished)}</time>
           {readingTime && (
             <>
               <span aria-hidden="true">·</span>
               <span>{readingTime} de lectura</span>
+            </>
+          )}
+          {wasUpdated && (
+            <>
+              <span aria-hidden="true">·</span>
+              <span class="article-updated">
+                Actualizado: <time datetime={dateModified}>{fmtDate(dateModified)}</time>
+              </span>
             </>
           )}
         </p>
@@ -94,6 +106,23 @@ const articleSchema = {
       <div class="article-body container">
         <slot />
       </div>
+
+      <aside class="author-box container" aria-label="Sobre el autor">
+        {/* Monograma de marca como avatar. Cuando Adriano envíe una foto suya,
+            reemplaza este <div> por un <img src="/images/adriano-abascal.jpg" ...>
+            y añade `image` al founderSchema en Base.astro. */}
+        <div class="author-avatar" aria-hidden="true">AA</div>
+        <div class="author-info">
+          <p class="author-name">Adriano Abascal</p>
+          <p class="author-role">Arquitecto y fundador de Lumo Cancún</p>
+          <p class="author-bio">
+            Arquitecto cancunense. Dirige el taller donde su práctica profesional
+            se encuentra con la fabricación digital: corte láser, impresión 3D y
+            gran formato. Estas guías salen del trabajo diario en el taller.
+          </p>
+          <a class="author-link" href="/sobre-nosotros">Conoce a Lumo Cancún →</a>
+        </div>
+      </aside>
 
       <footer class="article-footer container">
         <p class="article-cta-eyebrow">¿Listo para tu proyecto?</p>
@@ -261,6 +290,75 @@ const articleSchema = {
   .article-body :global(.source-note strong) {
     color: var(--color-text);
     font-weight: 600;
+  }
+
+  .article-updated {
+    color: var(--color-muted);
+  }
+
+  /* Author box — Experience/Expertise signal (E-E-A-T): puts a real, named,
+     credentialed author at the foot of every guide, linked to the About page. */
+  .author-box {
+    max-width: 760px;
+    margin: 24px auto 0;
+    padding: 24px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-surface);
+    border-radius: 10px;
+  }
+
+  .author-avatar {
+    flex: 0 0 auto;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    letter-spacing: 0.02em;
+  }
+
+  .author-name {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 1.0625rem;
+  }
+
+  .author-role {
+    color: var(--color-accent);
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .author-bio {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    margin-bottom: 10px;
+  }
+
+  .author-link {
+    color: var(--color-text);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  @media (max-width: 540px) {
+    .author-box {
+      flex-direction: column;
+      gap: 14px;
+    }
   }
 
   .article-footer {
