@@ -33,9 +33,6 @@ import { SITE } from "../data/services";
             <span class="contact-action-sep" aria-hidden="true">·</span>
             <a href={`tel:+${SITE.phone}`} class="contact-action">{SITE.phoneDisplay}</a>
           </p>
-          <p class="contact-value contact-value--secondary">
-            También: <a href={`tel:+${SITE.phoneSecondary}`} class="contact-action">{SITE.phoneSecondaryDisplay}</a>
-          </p>
         </div>
       </div>
 
@@ -243,12 +240,6 @@ import { SITE } from "../data/services";
 
   .contact-action-sep {
     color: rgba(255, 255, 255, 0.3);
-  }
-
-  .contact-value--secondary {
-    margin-top: 4px;
-    font-size: 0.8125rem;
-    color: rgba(255, 255, 255, 0.55);
   }
 
   .contact-item--phone .contact-icon {

@@ -103,8 +103,6 @@ export const SITE = {
   phone: '529981888048',
   phoneDisplay: '+52 998 188 8048',
   // Secondary line — call-only, shown after the primary number (813).
-  phoneSecondary: '528138913891',
-  phoneSecondaryDisplay: '+52 813 891 3891',
   email: 'lumocancun@gmail.com',
   instagram: 'https://www.instagram.com/_lumoarte',
   instagramHandle: '@_lumoarte',
