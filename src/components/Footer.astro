@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import logoFooter from "../assets/logos/logo-footer.png";
 import { services, SITE, getServiceUrl, isExternalService } from "../data/services";
+import { segments } from "../data/segments";
 
 interface Props {
   /** "full" = umbrella footer (default). "minimal" = EMD footer (NAP + back-link only). */
@@ -35,8 +36,8 @@ const brandHref = isMinimal ? `${SITE.url}/` : "/";
       </a>
       <p class="footer-tagline">
         {isMinimal
-          ? "Taller de fabricación digital en Cancún. Corte láser, impresión 3D e impresión gran formato."
-          : "Cortamos, imprimimos y rotulamos. Diseñamos, transformamos y damos vida a las ideas."}
+          ? "Taller de producción en serie en Cancún. Corte láser e impresión 3D por volumen."
+          : "Producción en serie con corte láser e impresión 3D para hoteles, restaurantes, marcas, tiendas y eventos."}
       </p>
       {!isMinimal && (
         <button class="about-trigger" id="aboutTrigger" aria-haspopup="dialog">
@@ -67,12 +68,23 @@ const brandHref = isMinimal ? `${SITE.url}/` : "/";
     )}
 
     {!isMinimal && (
+      <div class="footer-col" data-reveal data-reveal-delay="0.1">
+        <p class="footer-col-label">Sectores</p>
+        <ul role="list">
+          {segments.map((s) => (
+            <li><a href={s.slug} class="footer-col-link">{s.name}</a></li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {!isMinimal && (
       <div class="footer-col" data-reveal data-reveal-delay="0.12">
         <p class="footer-col-label">Información</p>
         <ul role="list">
-          <li><a href="/sobre-nosotros" class="footer-col-link">Sobre nosotros</a></li>
-          <li><a href="/recursos" class="footer-col-link">Recursos / Guías</a></li>
-          <li><a href="/#cotiza" class="footer-col-link">Cotizar proyecto</a></li>
+          <li><a href="/sobre-nosotros/" class="footer-col-link">Sobre nosotros</a></li>
+          <li><a href="/recursos/" class="footer-col-link">Recursos / Guías</a></li>
+          <li><a href="/#cotiza" class="footer-col-link">Cotizar producción</a></li>
           <li>
             <a
               href="https://search.google.com/local/writereview?placeid=ChIJIXu8ARErTI8Rktb96hDVuyM"
@@ -128,7 +140,7 @@ const brandHref = isMinimal ? `${SITE.url}/` : "/";
     <div class="container footer-bottom-inner">
       <p>© 2026 Lumo Cancún — Cancún, México</p>
       <a
-        href={isMinimal ? `${SITE.url}/aviso-de-privacidad` : "/aviso-de-privacidad"}
+        href={isMinimal ? `${SITE.url}/aviso-de-privacidad/` : "/aviso-de-privacidad/"}
         class="footer-bottom-link"
       >Aviso de privacidad</a>
     </div>
@@ -147,24 +159,22 @@ const brandHref = isMinimal ? `${SITE.url}/` : "/";
     <h3 class="about-title" id="aboutModalTitle">Quiénes somos</h3>
     <div class="about-body">
       <p>
-        Lumo Cancún es un taller de fabricación digital en Cancún, fundado por
+        Lumo Cancún es un taller de producción en serie en Cancún, fundado por
         Adriano Abascal — arquitecto e hijo de la ciudad.
       </p>
       <p>
-        Trabajamos donde se cruzan tres oficios: la precisión de la máquina,
-        la sensibilidad del diseño y la paciencia del trabajo manual. Empezamos
-        con una sola cortadora láser; hoy operamos cuatro impresoras 3D, un
-        plotter de gran formato y seguimos cortando láser todos los días.
+        Empezamos con una cortadora láser; hoy producimos con corte láser e
+        impresión 3D Bambu Lab. No somos carpintería: fabricamos a partir de
+        un archivo, y por eso la pieza 1 y la 500 salen iguales.
       </p>
       <p>
-        Servimos a arquitectos, diseñadores, agencias, eventos, restaurantes
-        y particulares que buscan piezas que se sientan hechas — no producidas
-        en masa. Nos interesa más el detalle que el volumen, aunque producimos
-        en serie cuando tiene sentido.
+        Producimos para hoteles, restaurantes, marcas, tiendas de souvenirs y
+        eventos — negocios que necesitan la misma pieza muchas veces, con el
+        cuidado de una pieza hecha a mano.
       </p>
       <p>
-        Si tienes una idea, mándanos un mensaje. Te decimos qué máquina, qué
-        material y cuánto cuesta — sin compromiso.
+        Mándanos qué pieza necesitas y cuántas. Te cotizamos el lote con
+        precio por volumen — sin compromiso.
       </p>
     </div>
   </div>

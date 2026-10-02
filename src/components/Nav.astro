@@ -3,14 +3,17 @@ import { Image } from "astro:assets";
 import logoNav from "../assets/logos/logo-nav.png";
 import { SITE, services, getServiceUrl, isExternalService } from "../data/services";
 import type { ServiceId } from "../data/services";
+import { segments } from "../data/segments";
 
 interface Props {
   variant?: "overlay" | "solid" | "emd";
   /** Required when variant === "emd": which service this EMD page belongs to. */
   emdService?: ServiceId;
+  /** Quote CTA target. Pages without their own QuoteForm pass "/#cotiza". */
+  ctaHref?: string;
 }
 
-const { variant = "overlay", emdService } = Astro.props;
+const { variant = "overlay", emdService, ctaHref = "#cotiza" } = Astro.props;
 const isEmd = variant === "emd";
 
 // EMD nav uses absolute lumocancun.com URLs so the umbrella link works
@@ -34,11 +37,12 @@ const navClass = isEmd ? "nav nav--solid nav--emd" : `nav nav--${variant}`;
     </a>
     <nav class="nav-actions" aria-label="Navegación principal">
       <a href={serviciosHref} class="nav-link nav-link--desktop">Servicios</a>
+      {!isEmd && <a href="/sectores/" class="nav-link nav-link--desktop">Sectores</a>}
       {!isEmd && (
         <a
-          href="#cotiza"
+          href={ctaHref}
           class="btn btn-primary nav-cta nav-cta--desktop"
-        >Solicita tu cotización</a>
+        >Cotiza tu producción</a>
       )}
       {isEmd && (
         <a
@@ -96,7 +100,11 @@ const navClass = isEmd ? "nav nav--solid nav--emd" : `nav nav--${variant}`;
           >{s.name}</a>
         );
       })}
-      <a href="#cotiza" class="btn btn-primary nav-drawer-cta">Solicita tu cotización</a>
+      <a href="/sectores/" class="nav-drawer-link nav-drawer-link--head">Sectores</a>
+      {segments.map((s) => (
+        <a href={s.slug} class="nav-drawer-link nav-drawer-sub">{s.name}</a>
+      ))}
+      <a href={ctaHref} class="btn btn-primary nav-drawer-cta">Cotiza tu producción</a>
     </div>
   )}
 </header>

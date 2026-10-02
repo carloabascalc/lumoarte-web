@@ -1,0 +1,112 @@
+---
+// "Cómo funciona un pedido por volumen" — the B2B buying steps in one
+// self-contained, quotable block. Only policies already stated on the site
+// (50/50, delivery wording, file kept for reorders).
+const steps = [
+  {
+    title: "Cotización",
+    text: "Mándanos la pieza, la medida y cuántas necesitas. Te respondemos por WhatsApp con precio por pieza según la cantidad.",
+  },
+  {
+    title: "Aprobación y anticipo",
+    text: "Apruebas diseño y material. En producciones grandes, 50% de anticipo para arrancar y 50% al entregar.",
+  },
+  {
+    title: "Producción",
+    text: "Habitualmente menos de una semana; cuando hay disponibilidad, el mismo día. Los lotes grandes los calendarizamos contigo.",
+  },
+  {
+    title: "Entrega",
+    text: "Entregamos en Cancún y enviamos a Playa del Carmen, Tulum, Mérida y todo México por DHL o Estafeta.",
+  },
+  {
+    title: "Reposición",
+    text: "Guardamos tu archivo: reponer el mismo lote es un solo mensaje, y sale igual que el anterior.",
+  },
+];
+---
+
+<section class="process section" id="como-funciona">
+  <div class="container">
+    <div class="section-header">
+      <p class="process-eyebrow" data-reveal>Paso a paso</p>
+      <h2 class="section-title" data-reveal data-reveal-delay="0.06">
+        Cómo funciona un pedido por volumen
+      </h2>
+    </div>
+    <ol class="process-list">
+      {steps.map((s, i) => (
+        <li class="process-step" data-reveal data-reveal-delay={`${0.04 + i * 0.05}`}>
+          <span class="process-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+          <h3 class="process-title">{s.title}</h3>
+          <p class="process-text">{s.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process {
+    background: var(--color-bg-alt);
+  }
+
+  .process-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+  }
+
+  .process-list {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    list-style: none;
+    counter-reset: none;
+  }
+
+  .process-step {
+    position: relative;
+    padding-top: 18px;
+    border-top: 2px solid var(--color-accent);
+  }
+
+  .process-num {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--color-accent);
+    margin-bottom: 8px;
+  }
+
+  .process-title {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 8px;
+  }
+
+  .process-text {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 960px) {
+    .process-list {
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: 32px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .process-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

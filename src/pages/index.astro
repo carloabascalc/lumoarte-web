@@ -3,6 +3,9 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";
 import ServicesGrid from "../components/ServicesGrid.astro";
+import SectorsGrid from "../components/SectorsGrid.astro";
+import BusinessCases from "../components/BusinessCases.astro";
+import VolumeProcess from "../components/VolumeProcess.astro";
 import MaterialAssembly from "../components/MaterialAssembly.astro";
 import Catalog from "../components/Catalog.astro";
 import Gallery from "../components/Gallery.astro";
@@ -18,29 +21,39 @@ import WhatsAppButton from "../components/WhatsAppButton.astro";
 // citability for AI search (ChatGPT, Perplexity, Google AI Overviews).
 const homeFaqs = [
   {
-    question: "¿Qué servicios ofrece Lumo Cancún?",
+    question: "¿Qué hace Lumo Cancún?",
     answer:
-      "Lumo Cancún es un taller de fabricación digital en Cancún con tres servicios bajo un mismo techo: corte láser y grabado, impresión 3D (FDM multicolor y resina) e impresión de gran formato (lonas y vinil hasta 1.80 m de ancho). Atendemos pieza única, prototipos y producción en serie.",
+      "Lumo Cancún (antes Lumo Arte) es un taller de producción en serie en Cancún: corte láser, grabado láser e impresión 3D (FDM multicolor y resina) por volumen. Fabricamos para hoteles, restaurantes, marcas y corporativos, tiendas de souvenirs y eventos — lotes de decenas a miles de piezas idénticas, con precio por volumen; por ejemplo, alrededor de 1,500 cuadros enmarcados para un hotel en Cancún. No es carpintería y no imprime gran formato.",
+  },
+  {
+    question: "¿Hacen producción por volumen o mayoreo?",
+    answer:
+      "Sí, es nuestro enfoque. Producimos lotes de piezas idénticas: llaveros, posavasos, placas, cajas, señalética, regalos corporativos con logo y souvenirs de Cancún. Trabajamos lotes de decenas a miles de piezas, y el costo por pieza baja conforme sube la cantidad. Guardamos tu archivo, así que reponer un pedido es un solo mensaje por WhatsApp.",
+  },
+  {
+    question: "¿Desde cuántas piezas trabajan?",
+    answer:
+      "Trabajamos lotes de decenas a miles de piezas. Como referencia, hemos entregado lotes de alrededor de 1,500 piezas en un solo pedido (cuadros enmarcados para un hotel en Cancún). Entre más piezas, menor el costo por pieza; cada lote se cotiza según la pieza, el material y la cantidad.",
+  },
+  {
+    question: "¿Son carpintería? ¿Hacen muebles?",
+    answer:
+      "No. Lumo no es carpintería: somos un taller de fabricación digital. Cortamos y grabamos con láser e imprimimos en 3D a partir de un archivo — en MDF, triplay, acrílico, cuero, filamento y resina. No fabricamos muebles ni hacemos trabajos de carpintería.",
   },
   {
     question: "¿Cuánto tardan en cotizar y en entregar?",
     answer:
-      "Respondemos por WhatsApp al instante en horario de taller (lunes a sábado de 9 a 18 horas). Los proyectos habitualmente se entregan en menos de una semana; cuando hay disponibilidad, el mismo día. Producciones grandes se cotizan caso por caso.",
+      "Respondemos por WhatsApp al instante en horario de taller (lunes a sábado de 9 a 18 horas). Los proyectos habitualmente se entregan en menos de una semana; cuando hay disponibilidad, el mismo día. Las producciones grandes las calendarizamos contigo al cotizar.",
   },
   {
     question: "¿Cuál es el tamaño máximo que pueden fabricar?",
     answer:
-      "Corte láser: área útil de 130 × 90 cm en una sola pieza (piezas mayores se modulan). Impresión de gran formato: 1.80 m de ancho por largo prácticamente ilimitado, con resolución de hasta 1440 dpi. Impresión 3D: hasta 256 × 256 × 256 mm en FDM (Bambu Lab H2C) y hasta 300 × 300 × 400 mm en formato XL.",
-  },
-  {
-    question: "¿Hay pedido mínimo?",
-    answer:
-      "No. Cobramos por minuto de máquina y por área de material, así que aceptamos desde una sola pieza personalizada hasta producción en serie. Para lotes grandes ofrecemos descuento por volumen.",
+      "Corte láser: área útil de 130 × 90 cm en una sola pieza (piezas mayores se modulan). Impresión 3D: hasta 256 × 256 × 256 mm en FDM multicolor (Bambu Lab H2C) y hasta 300 × 300 × 400 mm en formato XL.",
   },
   {
     question: "¿Qué archivos aceptan y diseñan ustedes?",
     answer:
-      "Aceptamos vectores en AI, EPS, SVG, PDF y DXF para corte láser y plotter. Para impresión 3D recibimos STL, OBJ, 3MF y STEP. Si solo tienes una imagen JPG o PNG nítida, podemos vectorizarla por ti — incluido en la cotización cuando es sencillo. El diseño desde cero lo trabajamos por separado, con propuesta dedicada.",
+      "Aceptamos vectores en AI, EPS, SVG, PDF y DXF para corte láser. Para impresión 3D recibimos STL, OBJ, 3MF y STEP. Si solo tienes tu logo en JPG o PNG nítido, podemos vectorizarlo por ti — incluido en la cotización cuando es sencillo. El diseño desde cero lo trabajamos por separado, con propuesta dedicada.",
   },
   {
     question: "¿Dónde están y a qué zonas entregan?",
@@ -51,8 +64,8 @@ const homeFaqs = [
 ---
 
 <Base
-  title="Lumo Cancún — Corte láser, impresión 3D y gran formato"
-  description="Corte láser, impresión 3D e impresión gran formato en Cancún. Un solo taller, tres servicios. Cotización por WhatsApp en menos de 24 horas."
+  title="Lumo Cancún — Producción en serie con corte láser e impresión 3D"
+  description="Corte láser e impresión 3D en serie en Cancún para hoteles, restaurantes, marcas, tiendas de souvenirs y eventos. Precio por volumen, cotización por WhatsApp."
   ogImage="/og/default.jpg"
   schemaType="LocalBusiness"
 >
@@ -60,6 +73,8 @@ const homeFaqs = [
   <main>
     <Hero />
     <ServicesGrid />
+    <SectorsGrid />
+    <BusinessCases />
     <MaterialAssembly />
     <TrustBand />
     <Catalog />
@@ -68,6 +83,7 @@ const homeFaqs = [
       subtitle="Una muestra del taller. Para ver más por servicio, visita la página correspondiente."
     />
     <InstagramFeed />
+    <VolumeProcess />
     <FAQ
       title="Preguntas frecuentes"
       subtitle="Las dudas que más nos llegan por WhatsApp. Si la tuya no aparece, mándanos un mensaje."

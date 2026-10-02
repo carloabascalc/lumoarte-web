@@ -5,7 +5,7 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
 import Contact from "../../components/Contact.astro";
 import Footer from "../../components/Footer.astro";
 import WhatsAppButton from "../../components/WhatsAppButton.astro";
-import { SITE } from "../../data/services";
+import { SITE, absUrl, ORG_ID, FOUNDER_ID } from "../../data/services";
 
 const articles = [
   {
@@ -28,7 +28,7 @@ const articles = [
   },
   {
     slug: "sublimacion-vs-vinil",
-    topic: "Impresión gran formato",
+    topic: "Guía de técnicas",
     title: "Sublimación vs vinil: cuál técnica conviene a tu proyecto",
     excerpt:
       "Cuándo usar sublimación vs impresión de vinil: materiales compatibles, durabilidad, costo, acabados y casos de uso.",
@@ -40,17 +40,17 @@ const articles = [
 const collectionSchema = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  url: `${SITE.url}/recursos`,
+  url: absUrl("/recursos/"),
   name: "Recursos — Lumo Cancún",
   description:
-    "Guías técnicas sobre fabricación digital: corte láser, impresión 3D e impresión de gran formato.",
-  publisher: { "@id": `${SITE.url}#organization` },
+    "Guías técnicas sobre fabricación digital: corte láser, impresión 3D y técnicas de impresión.",
+  publisher: { "@id": ORG_ID },
   hasPart: articles.map((a) => ({
     "@type": "Article",
     headline: a.title,
-    url: `${SITE.url}/recursos/${a.slug}`,
+    url: absUrl(`/recursos/${a.slug}/`),
     datePublished: a.datePublished,
-    author: { "@id": `${SITE.url}#founder` },
+    author: { "@id": FOUNDER_ID },
   })),
 };
 ---
@@ -62,7 +62,7 @@ const collectionSchema = {
   ogImage="/og/default.jpg"
   extraSchemas={[collectionSchema]}
 >
-  <Nav variant="solid" />
+  <Nav variant="solid" ctaHref="/#cotiza" />
   <main>
     <Breadcrumb
       items={[
@@ -88,7 +88,7 @@ const collectionSchema = {
           <ul class="recursos-list" role="list">
             {articles.map((a) => (
               <li class="recurso-card" data-reveal>
-                <a class="recurso-link" href={`/recursos/${a.slug}`}>
+                <a class="recurso-link" href={`/recursos/${a.slug}/`}>
                   <p class="recurso-topic">{a.topic}</p>
                   <h2 class="recurso-title">{a.title}</h2>
                   <p class="recurso-excerpt">{a.excerpt}</p>

@@ -25,6 +25,8 @@ const technologies = [
       "Imprimimos con filamentos termoplásticos en máquinas Bambu Lab. La H2C imprime hasta cuatro colores en una misma pieza con una velocidad y consistencia de nivel industrial.",
     materiales: ["Gran variedad de colores"],
     usos: [
+      "Producción en serie de piezas y productos",
+      "Souvenirs, llaveros y merch por lote",
       "Prototipos funcionales",
       "Piezas mecánicas y repuestos",
     ],
@@ -36,9 +38,8 @@ const technologies = [
       "La impresión por resina captura detalle a nivel de micras — superficies lisas y geometría imposible para FDM. Es nuestra herramienta para piezas pequeñas, intricadas o que necesitan un acabado premium directamente desde la máquina.",
     materiales: ["Gran variedad de colores"],
     usos: [
-      "Miniaturas y figuras coleccionables",
+      "Piezas pequeñas de detalle fino, por lote",
       "Joyería y prototipos para fundición",
-      "Cabezas de personajes y detalle escultórico",
       "Moldes y matrices de precisión",
     ],
   },
@@ -48,7 +49,7 @@ const machines = [
   {
     name: "Bambu Lab H2C",
     spec: "Volumen 256 × 256 × 256 mm · Multi-color hasta 4 filamentos",
-    note: "Para piezas con detalle de color, lotes pequeños y prototipos rápidos.",
+    note: "Para piezas multicolor, producción por lote y prototipos rápidos.",
   },
   {
     name: "Formato XL",
@@ -58,7 +59,7 @@ const machines = [
   {
     name: "Impresora de resina",
     spec: "Volumen ≈ 150 × 80 × 165 mm · Resolución de fotograbado",
-    note: "Para detalle fino, miniaturas y piezas con superficie lisa.",
+    note: "Para detalle fino y piezas pequeñas con superficie lisa.",
   },
 ];
 
@@ -73,7 +74,7 @@ const faqs = [
   {
     question: "¿Cuánto tarda imprimir una pieza?",
     answer:
-      "Habitualmente menos de una semana. Cuando hay disponibilidad, una pieza pequeña puede salir el mismo día. Lotes y producciones se cotizan caso por caso.",
+      "Habitualmente menos de una semana; cuando hay disponibilidad, el mismo día. Las producciones por lote las calendarizamos contigo al cotizar, según cantidad y material.",
   },
   {
     question: "¿Qué archivo necesitan para imprimir?",
@@ -83,7 +84,7 @@ const faqs = [
   {
     question: "¿Cómo elijo entre FDM y resina?",
     answer:
-      "FDM (filamento) es ideal para piezas funcionales, prototipos, repuestos, soportes y piezas grandes. Es más resistente y económico. Resina es para alta definición — miniaturas, joyería, cabezas de personajes con detalle escultórico. Si no estás seguro, mándanos el archivo y te recomendamos sin compromiso.",
+      "FDM (filamento) es ideal para piezas funcionales, prototipos, repuestos, soportes y piezas grandes. Es más resistente y económico. Resina es para alta definición — piezas pequeñas de detalle fino, joyería y moldes. Si no estás seguro, mándanos el archivo y te recomendamos sin compromiso.",
   },
   {
     question: "¿Cuál es el tamaño máximo que pueden imprimir?",
@@ -96,17 +97,17 @@ const faqs = [
       "Sí. Ofrecemos lijado, primer, pintura con aerógrafo y acabados especiales (mate, satinado, brillante, metalizado). El acabado se cotiza aparte porque toma tiempo de mano de obra. Para FDM también podemos hacer alisado con vapor de acetona en piezas ABS.",
   },
   {
-    question: "¿Hay cantidad mínima?",
+    question: "¿Hacen impresión 3D en serie o por volumen?",
     answer:
-      "No. Imprimimos desde una sola pieza. Para producción en serie ofrecemos descuento progresivo por cantidad — entre más unidades, menor el costo por pieza.",
+      "Sí. Imprimimos lotes de piezas idénticas para negocios: souvenirs y llaveros, merch con logo, piezas de producto y refacciones. El precio baja conforme sube la cantidad — entre más unidades, menor el costo por pieza.",
   },
 ];
 ---
 
 <Base
-  title="Impresión 3D en Cancún — FDM y resina | Lumo Cancún"
-  description="Servicio de impresión 3D en Cancún. FDM multi-color con impresoras Bambu Lab y resina de alta definición. Prototipos, repuestos, miniaturas, joyería."
-  canonical={`${emdUrl}/`}
+  title="Impresión 3D en serie en Cancún — FDM y resina | Lumo Cancún"
+  description="Impresión 3D en serie en Cancún con impresoras Bambu Lab: productos, souvenirs y refacciones por lote para negocios. Del prototipo a la producción, precio por volumen."
+  canonical={EMD_ENABLED ? `${emdUrl}/` : service.slug}
   ogImage="/og/impresion-3d.jpg"
   schemaType="Service"
   schemaData={serviceSchema}
@@ -117,9 +118,9 @@ const faqs = [
   <main>
     <ServicePageHero
       eyebrow="Impresión 3D en Cancún"
-      title="Del prototipo al producto final, imprimido en Cancún"
-      subtitle="Imprimimos en 3D con máquinas profesionales Bambu Lab — FDM multi-color, formato XL y resina de alta definición. Tu pieza, en el material y la técnica que mejor se ajuste al proyecto, sin enviarla fuera de la ciudad."
-      primaryCta={{ label: "Solicita tu cotización", href: "#cotiza" }}
+      title="Del prototipo a la producción en serie, en <em>Cancún</em>"
+      subtitle="Imprimimos en 3D por lote con máquinas Bambu Lab — FDM multicolor, formato XL y resina de alta definición. Productos, souvenirs y piezas para tu negocio, con precio por volumen y sin enviarlos fuera de la ciudad."
+      primaryCta={{ label: "Cotiza tu producción", href: "#cotiza" }}
       secondaryCta={{ label: "Ver tecnologías", href: "#tecnologias" }}
       service="3d"
     >
@@ -196,7 +197,7 @@ const faqs = [
     <Gallery
       filterService="impresion-3d"
       title="Trabajos de impresión 3D"
-      subtitle="Estamos documentando los proyectos del taller. Mientras tanto, sigue nuestro Instagram para ver lo más reciente."
+      subtitle="Producción por lote salida de nuestras Bambu Lab: llaveros, figuras, trofeos y piezas en serie."
     />
 
     <InstagramCTA />

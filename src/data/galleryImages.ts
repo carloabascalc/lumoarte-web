@@ -26,6 +26,14 @@ export const galleryItems: GalleryItem[] = [
   { file: "gal-12.jpg", alt: "Cesta pequeña de madera oscura con ensamble de dedos cortado a láser", service: "corte-laser" },
   { file: "gal-13.jpg", alt: "Caja larga de madera con tapa de dos tonos, diseño minimalista", service: "corte-laser" },
   { file: "gal-14.jpg", alt: "Marco corazón de madera con corazones de acrílico sobre escultura de bronce", service: "corte-laser" },
+  { file: "gal-15.jpg", alt: "Lote de trofeos dorados impresos en 3D para un evento, sobre mesa en terraza", service: "impresion-3d" },
+  { file: "gal-16.jpg", alt: "Cama de impresora 3D llena de llaveros Cancún tricolor impresos en serie", service: "impresion-3d" },
+  { file: "gal-17.jpg", alt: "Lote de cangrejos articulados rojos impresos en 3D", service: "impresion-3d" },
+  { file: "gal-18.jpg", alt: "Decenas de llaveros de pez impresos en 3D multicolor en la cama de impresión", service: "impresion-3d" },
+  { file: "gal-19.jpg", alt: "Placas impresas en 3D en serie sobre la cama de una Bambu Lab", service: "impresion-3d" },
+  { file: "gal-20.jpg", alt: "Organizador porta controles impreso en 3D en negro y terracota", service: "impresion-3d" },
+  { file: "gal-21.jpg", alt: "Lote de tiburones articulados grises impresos en 3D", service: "impresion-3d" },
+  { file: "gal-22.jpg", alt: "Figuras articuladas multicolor impresas en 3D por lote", service: "impresion-3d" },
 ];
 
 /** filename → alt lookup, for components that resolve images via import.meta.glob. */

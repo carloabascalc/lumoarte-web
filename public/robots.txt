@@ -3,6 +3,8 @@
 # documentan la intención y evitan bloqueos por defaults conservadores.
 
 User-agent: *
+# Content signal for AI systems (IETF draft)
+Content-Signal: ai-train=yes, search=yes, ai-retrieval=yes
 Allow: /
 
 # --- Crawlers de IA generativa / búsqueda con IA (acceso explícito) ---
@@ -46,5 +48,3 @@ Allow: /
 
 Sitemap: https://lumocancun.com/sitemap-index.xml
 
-# Content signal for AI systems (IETF draft)
-Content-Signal: ai-train=yes, search=yes, ai-retrieval=yes

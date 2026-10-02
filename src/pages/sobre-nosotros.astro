@@ -5,7 +5,7 @@ import Breadcrumb from "../components/Breadcrumb.astro";
 import Contact from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
-import { SITE } from "../data/services";
+import { SITE, absUrl, ORG_ID, FOUNDER_ID } from "../data/services";
 
 // Person schema for Adriano — links the founder to the LocalBusiness and to
 // his architecture firm. Improves E-E-A-T signals because the business now
@@ -13,14 +13,14 @@ import { SITE } from "../data/services";
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
-  "@id": `${SITE.url}#founder`,
+  "@id": FOUNDER_ID,
   name: "Adriano Abascal",
-  jobTitle: "Arquitecto · Fundador de Lumo Cancún",
+  jobTitle: "Fundador de Lumo Cancún",
+  hasOccupation: { "@type": "Occupation", name: "Arquitecto" },
   description:
-    "Arquitecto cancunense, fundador de Lumo Cancún. Trabaja donde se cruzan la precisión de la máquina, la sensibilidad del diseño y la paciencia del trabajo manual.",
-  url: `${SITE.url}/sobre-nosotros`,
-  image: `${SITE.url}${SITE.ogDefault}`,
-  worksFor: { "@id": `${SITE.url}#organization` },
+    "Arquitecto cancunense, fundador de Lumo Cancún, taller de producción en serie con corte láser e impresión 3D para hoteles, restaurantes, marcas, tiendas de souvenirs y eventos.",
+  url: absUrl("/sobre-nosotros/"),
+  worksFor: { "@id": ORG_ID },
   affiliation: {
     "@type": "Organization",
     name: "Abascal Arquitectos",
@@ -29,6 +29,7 @@ const personSchema = {
   knowsAbout: [
     "Arquitectura",
     "Fabricación digital",
+    "Producción en serie",
     "Corte láser",
     "Impresión 3D",
     "Diseño paramétrico",
@@ -39,21 +40,21 @@ const personSchema = {
 const aboutPageSchema = {
   "@context": "https://schema.org",
   "@type": "AboutPage",
-  url: `${SITE.url}/sobre-nosotros`,
+  url: absUrl("/sobre-nosotros/"),
   name: "Sobre nosotros — Lumo Cancún",
-  mainEntity: { "@id": `${SITE.url}#organization` },
-  about: { "@id": `${SITE.url}#founder` },
+  mainEntity: { "@id": ORG_ID },
+  about: { "@id": FOUNDER_ID },
 };
 ---
 
 <Base
-  title="Sobre nosotros — Lumo Cancún | Taller de fabricación digital en Cancún"
-  description="Lumo Cancún es un taller de fabricación digital en Cancún fundado por Adriano Abascal, arquitecto. Tres oficios bajo un techo: corte láser, impresión 3D e impresión de gran formato."
-  canonical="/sobre-nosotros"
+  title="Sobre nosotros — Lumo Cancún | Producción en serie en Cancún"
+  description="Lumo Cancún es un taller de producción en serie en Cancún fundado por Adriano Abascal, arquitecto. Corte láser e impresión 3D por volumen para hoteles, restaurantes, marcas, tiendas y eventos."
+  canonical="/sobre-nosotros/"
   ogImage="/og/default.jpg"
   extraSchemas={[personSchema, aboutPageSchema]}
 >
-  <Nav variant="solid" />
+  <Nav variant="solid" ctaHref="/#cotiza" />
   <main>
     <Breadcrumb
       items={[
@@ -67,12 +68,12 @@ const aboutPageSchema = {
         <div class="container">
           <p class="about-eyebrow" data-reveal>Sobre Lumo Cancún</p>
           <h1 class="about-h1" data-reveal data-reveal-delay="0.06">
-            Tres oficios bajo un mismo techo.
+            La misma pieza, muchas veces, bien hecha.
           </h1>
           <p class="about-lede" data-reveal data-reveal-delay="0.12">
             Fundado en Cancún por Adriano Abascal, arquitecto e hijo de la
-            ciudad. Trabajamos donde se cruzan la precisión de la máquina,
-            la sensibilidad del diseño y la paciencia del trabajo manual.
+            ciudad. Producimos en serie con corte láser e impresión 3D para
+            negocios que necesitan piezas idénticas, lote tras lote.
           </p>
         </div>
       </header>
@@ -83,35 +84,33 @@ const aboutPageSchema = {
             <h2>Cómo empezamos</h2>
             <p>
               Lumo Cancún nació en Cancún como una extensión natural del estudio
-              de arquitectura de Adriano. Empezamos con una sola cortadora
-              láser para resolver maquetas, piezas a medida y elementos
-              decorativos para los proyectos del despacho. Cada pieza que
-              salía revelaba una nueva posibilidad — y un nuevo grupo de
-              clientes que querían lo mismo: piezas hechas con cuidado, no
-              producidas en masa.
+              de arquitectura de Adriano. Empezamos con corte láser
+              para resolver maquetas, piezas a medida y elementos
+              decorativos para los proyectos del despacho. Pronto llegaron
+              negocios que querían esas piezas por cientos — y la producción
+              en serie se volvió el centro del taller.
             </p>
 
             <h2>Hoy</h2>
             <p>
-              Operamos impresoras 3D Bambu Lab y de resina, un plotter Sino Supply
-              XP600 de 1.80 metros de ancho, y la misma cortadora láser
-              de los inicios — ahora trabajando todos los días con un área
-              útil de 130 × 90 cm. Tres procesos, un solo taller, atendidos
-              por la misma persona que decide qué máquina, qué material y
-              cuánto cuesta.
+              Producimos con impresión 3D Bambu Lab y resina, y con corte
+              láser de 130 × 90 cm de área útil, todos los días. No somos carpintería:
+              todo se fabrica a partir de un archivo digital, por eso cada
+              pieza del lote sale igual y reponer un pedido es un mensaje.
             </p>
 
             <h2>A quién servimos</h2>
             <p>
-              A arquitectos, diseñadores, agencias, eventos, restaurantes y
-              particulares que buscan piezas que se sientan hechas. Nos
-              interesa más el detalle que el volumen — aunque producimos en
-              serie cuando tiene sentido.
+              A hoteles y restaurantes, marcas y corporativos, tiendas de
+              souvenirs y mayoristas, y a wedding planners y agencias de
+              eventos — negocios que necesitan la misma pieza muchas veces,
+              con el cuidado de una pieza hecha a mano.
             </p>
 
             <h2>Cómo trabajamos</h2>
             <p>
-              Cotización inmediata por WhatsApp. Los proyectos
+              Cotización inmediata por WhatsApp, con precio por volumen: entre
+              más piezas, menor el costo por pieza. Los proyectos
               habitualmente se entregan en menos de una semana — cuando hay
               disponibilidad, el mismo día. Aceptamos archivos
               vectoriales (AI, EPS, SVG, PDF, DXF) y modelos 3D (STL, OBJ,
@@ -129,12 +128,16 @@ const aboutPageSchema = {
                   <span class="client-desc">Piezas corporativas personalizadas</span>
                 </li>
                 <li class="client-item">
-                  <strong class="client-name">Estudios de arquitectura</strong>
-                  <span class="client-desc">Maquetas, celosías y paneles a escala</span>
+                  <strong class="client-name">Hotelería en Cancún</strong>
+                  <span class="client-desc">Cerca de 1,500 cuadros enmarcados para un hotel</span>
                 </li>
                 <li class="client-item">
-                  <strong class="client-name">Bares y restaurantes de Cancún</strong>
-                  <span class="client-desc">Señalética, decoración y branding interior</span>
+                  <strong class="client-name">La Central Vinos &amp; Licores</strong>
+                  <span class="client-desc">Señalética en acrílico negro y dorado</span>
+                </li>
+                <li class="client-item">
+                  <strong class="client-name">BeStar Generation · Emerald B2</strong>
+                  <span class="client-desc">Placas grabadas y termos con logo para eventos y marca</span>
                 </li>
               </ul>
             </div>
@@ -167,8 +170,8 @@ const aboutPageSchema = {
             <div class="about-card about-card--cta">
               <p class="about-card-eyebrow">Contáctanos</p>
               <p class="about-card-bio">
-                Si tienes una idea, mándanos un mensaje. Te decimos qué
-                máquina, qué material y cuánto cuesta — sin compromiso.
+                Mándanos la pieza, la cantidad y la fecha. Te cotizamos el
+                lote con precio por volumen — sin compromiso.
               </p>
               <a class="btn btn-primary" href={`https://wa.me/${SITE.whatsapp}`}>
                 WhatsApp

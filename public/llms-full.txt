@@ -1,6 +1,6 @@
 # Lumo Cancún — Información completa
 
-> Taller de fabricación digital en Cancún, México. Tres servicios bajo un mismo techo: corte láser y grabado, impresión 3D (FDM multicolor y resina), e impresión de gran formato (lonas y vinil hasta 1.80 m de ancho). Atendemos pieza única, prototipos y producción en serie para arquitectos, diseñadores, agencias y eventos.
+> Taller de producción en serie en Cancún, México: corte láser, grabado láser e impresión 3D (FDM multicolor y resina) por volumen. Fabricamos para hoteles y restaurantes, marcas y corporativos, tiendas de souvenirs y mayoristas, y eventos, bodas y agencias — lotes de decenas a miles de piezas idénticas, con precio por volumen. No somos carpintería ni fabricamos muebles.
 
 Fundado por Adriano Abascal, arquitecto. Cotización inmediata por WhatsApp. Atención en español. Lunes a sábado, 9:00 a 18:00.
 
@@ -8,80 +8,104 @@ Fundado por Adriano Abascal, arquitecto. Cotización inmediata por WhatsApp. Ate
 
 ## Quiénes somos
 
-Lumo Cancún nació en Cancún como una extensión natural del estudio de arquitectura de Adriano Abascal. Empezamos con una sola cortadora láser para resolver maquetas, piezas a medida y elementos decorativos para los proyectos del despacho. Cada pieza que salía revelaba una nueva posibilidad — y un nuevo grupo de clientes que querían lo mismo: piezas hechas con cuidado, no producidas en masa.
+Lumo Cancún nació en Cancún como una extensión del estudio de arquitectura de Adriano Abascal. Empezamos con una cortadora láser para resolver maquetas, piezas a medida y elementos decorativos para los proyectos del despacho. Pronto llegaron negocios que querían esas piezas por cientos — y la producción en serie se volvió el centro del taller.
 
-Hoy operamos impresoras 3D Bambu Lab y de resina Anycubic, un plotter Sino Supply XP600 de 1.80 metros de ancho, y la misma cortadora láser de los inicios con área útil de 130 × 90 cm. Tres procesos, un solo taller.
+Hoy producimos con impresoras 3D Bambu Lab y de resina, y con la misma cortadora láser de los inicios (área útil de 130 × 90 cm). Todo se fabrica a partir de un archivo digital: cada pieza del lote sale igual, y reponer un pedido es un mensaje por WhatsApp.
 
-Servimos a arquitectos, diseñadores, agencias, eventos, restaurantes y particulares que buscan piezas que se sientan hechas. Hemos trabajado para L'Oréal, estudios de arquitectura locales, bares y restaurantes de Cancún, y cientos de proyectos personales.
+Servimos a hoteles y restaurantes, marcas y corporativos, tiendas de souvenirs y mayoristas, y wedding planners y agencias de eventos. Antes nos conocían como Lumo Arte (Instagram @_lumoarte).
+
+### Trabajos para negocios (clientes reales)
+- Hotel en Cancún: ≈1,500 cuadros enmarcados para habitaciones, entregados como un solo lote.
+- La Central Vinos & Licores: señalética en acrílico negro con grabado dorado.
+- L'Oréal: paletas de madera grabadas con el nombre de cada asistente para un evento corporativo.
+- BeStar Generation: placas de aluminio grabadas con logo y fecha del evento.
+- Emerald B2: termos de acero grabados con logo.
+
+### Qué NO somos
+Lumo Cancún no es carpintería. No fabricamos muebles ni hacemos trabajos de carpintería. Tampoco imprimimos gran formato (lonas o vinil).
 
 ### Fundador
 Adriano Abascal — arquitecto cancunense. También dirige Abascal Arquitectos (https://abascalarquitectos.com/), su estudio de arquitectura. Lumo es donde su práctica profesional se encuentra con la fabricación digital.
 
 ---
 
+## Sectores
+
+### Hoteles y restaurantes
+URL: https://lumocancun.com/sectores/hoteles-y-restaurantes/
+Posavasos con logo, llaveros de habitación, señalética interior, estuches y cajas de amenidades, menús y portamenús, indicadores y avisos. Reposición con el mismo archivo; misma imagen en todas las sucursales.
+
+### Marcas y corporativos
+URL: https://lumocancun.com/sectores/marcas-y-corporativos/
+Dijes y llaveros de marca, regalos corporativos grabados, placas y reconocimientos, kits y cajas de bienvenida, piezas para activaciones (paletas con nombre, gafetes), displays y exhibidores.
+
+### Souvenirs por mayoreo
+URL: https://lumocancun.com/sectores/souvenirs-mayoreo/
+Llaveros de Cancún (madera, acrílico o impresos en 3D), dijes y colgantes, líneas exclusivas para tiendas, empaque para souvenirs. Para tiendas de souvenirs, hoteles y revendedores.
+
+### Eventos y bodas
+URL: https://lumocancun.com/sectores/eventos-y-bodas/
+Recuerdos para invitados, cajas y dulceros, números de mesa y señalética, piezas con nombre por invitado, invitaciones y decoración. Para wedding planners, agencias y eventos corporativos.
+
+---
+
 ## Servicios
 
 ### Corte láser y grabado
-URL: https://lumocancun.com/servicios/corte-laser
+URL: https://lumocancun.com/servicios/corte-laser/
 
-Cortamos y grabamos con láser CO₂ sobre madera, MDF (hasta 6 mm, hasta 9 mm con pasadas múltiples), acrílico (hasta 8 mm), cartón, papel, tela y piel.
+Cortamos y grabamos en serie con láser CO₂ sobre acrílico, MDF, triplay, cartón, papel, tela y piel; grabamos vidrio, mármol y cerámica.
 
-- Área útil: 130 × 90 cm en una sola pieza. Piezas mayores se modulan con ensambles invisibles (biombos de 2.5 m, paneles de 3 m).
+- Área útil: 130 × 90 cm en una sola pieza. Piezas mayores se modulan con ensambles invisibles.
 - Formatos aceptados: AI, EPS, SVG, PDF, DXF.
 - Convención de archivo: rojo (#FF0000) = corte, negro = grabado.
-- Tiempos: habitualmente menos de una semana; cuando hay disponibilidad, el mismo día. Producciones grandes se cotizan caso por caso.
+- Tiempos: habitualmente menos de una semana; cuando hay disponibilidad, el mismo día. Producciones grandes se calendarizan al cotizar.
 - No cortamos: PVC (libera cloro tóxico), policarbonato, espejos de vidrio, materiales metálicos.
-- Precio = material + tiempo de máquina ($14 MXN/min) + manejo (4%) + IVA (16%). Diseño y ajustes $600 MXN/hr solo cuando el archivo lo requiere.
-- Precios de material por lámina completa (MXN, sin IVA, 2026): MDF 2.2 mm $52, MDF 3 mm $72, MDF 5.5 mm $114, MDF 9 mm $147; acrílico transparente 2 mm $390 / 3 mm $533 / 6 mm $953; acrílico negro 3 mm $515; acrílico espejo 3 mm $669; triplay Okumé 4 mm $169 / 6 mm $221; triplay chapado Tzalam 6 mm $304; cartón gris 2 mm $72; foamboard 3 mm $124; fieltro 3 mm $130; cuero sintético $195; piel natural $455/m². Rango total $16–$953. Lista completa en HTML: https://lumocancun.com/servicios/corte-laser/#precios-materiales
+- Precio = material + tiempo de máquina ($14 MXN/min) + manejo (4%) + IVA (16%). Diseño y ajustes $600 MXN/hr solo cuando el archivo lo requiere. En volumen el costo por pieza baja.
+- Precios de material por lámina completa (MXN, sin IVA, 2026): MDF 2.7 mm $63, MDF 3 mm $82, MDF 5.5 mm $121, MDF 9 mm $171, MDF 12 mm $206; acrílico transparente 2 mm $390 / 3 mm $533 / 6 mm $953; acrílico negro 3 mm $515; acrílico espejo 3 mm $669; triplay Okumé 4 mm $169 / 6 mm $221; triplay chapado Tzalam 6 mm $304; cartón gris 2 mm $72; foamboard $207; fieltro 3 mm $130; cuero sintético $195; piel natural $455/m². Rango total $20–$953. Lista completa en HTML: https://lumocancun.com/servicios/corte-laser/#precios-materiales
 
 ### Impresión 3D
-URL: https://lumocancun.com/servicios/impresion-3d
+URL: https://lumocancun.com/servicios/impresion-3d/
 
-Operamos dos tecnologías:
+Producción por lote con dos tecnologías:
 
 FDM (depósito de filamento fundido):
 - Bambu Lab H2C: 256 × 256 × 256 mm, multicolor hasta 4 colores.
 - Formato XL: 300 × 300 × 400 mm.
-- Materiales: PLA, PETG, ABS, TPU, PLA-Wood, PLA-Metal.
+- Materiales: PLA, PETG, TPU, ABS/ASA, PA-CF.
+- Usos: producción en serie de piezas y productos, souvenirs y merch por lote, prototipos, refacciones.
 
-Resina MSLA:
-- Anycubic Photon: 192 × 120 × 245 mm.
-- Resoluciones de 25 a 50 micras (0.025-0.05 mm).
-- Para joyería y miniaturas.
+Resina:
+- Volumen ≈ 150 × 80 × 165 mm, alta definición.
+- Usos: piezas pequeñas de detalle fino por lote, joyería y prototipos para fundición, moldes.
 
 - Formatos aceptados: STL, OBJ, 3MF, STEP.
-- Tiempos: habitualmente menos de una semana; cuando hay disponibilidad, el mismo día. Lotes se cotizan caso por caso.
-
-### Impresión de gran formato
-URL: https://lumocancun.com/servicios/impresion-gran-formato
-
-Plotter Sino Supply XP600 E-1801 con tintas eco-solvente.
-
-- Ancho de impresión: 1.80 metros. Largo prácticamente ilimitado.
-- Resolución: hasta 1440 dpi.
-- Rendimiento: 8 a 12 m²/h.
-- Impresión sobre lona y vinil adhesivo.
-- Durabilidad: 3-5 años en exterior con laminado UV; 1-2 años sin laminado.
-- Tiempos: lonas y vinil estándar en 24-48 horas; lotes en 2-4 días.
+- Tiempos: habitualmente menos de una semana; cuando hay disponibilidad, el mismo día. Producciones por lote se calendarizan al cotizar.
 
 ---
 
 ## Preguntas frecuentes
 
-### ¿Qué servicios ofrece Lumo Cancún?
-Corte láser y grabado, impresión 3D (FDM y resina), e impresión de gran formato (lonas y vinil hasta 1.80 m). Pieza única, prototipos y producción en serie.
+### ¿Qué hace Lumo Cancún?
+Producción en serie con corte láser, grabado láser e impresión 3D en Cancún, para hoteles, restaurantes, marcas, tiendas de souvenirs y eventos. Lotes de piezas idénticas con precio por volumen.
+
+### ¿Desde cuántas piezas trabajan?
+Trabajamos lotes de decenas a miles de piezas. Como referencia, hemos entregado lotes de alrededor de 1,500 piezas en un solo pedido (cuadros enmarcados para un hotel en Cancún). Entre más piezas, menor el costo por pieza; cada lote se cotiza según la pieza, el material y la cantidad.
+
+### ¿Hacen producción por volumen o mayoreo?
+Sí, es nuestro enfoque. Llaveros, posavasos, placas, cajas, señalética, regalos corporativos con logo y souvenirs de Cancún por lote. El costo por pieza baja conforme sube la cantidad.
+
+### ¿Son carpintería? ¿Hacen muebles?
+No. Somos un taller de fabricación digital (corte láser e impresión 3D a partir de un archivo). No fabricamos muebles ni hacemos trabajos de carpintería.
 
 ### ¿Cuánto tardan en cotizar y en entregar?
-Cotización inmediata por WhatsApp. Los proyectos habitualmente se entregan en menos de una semana; cuando hay disponibilidad, el mismo día. Producciones grandes se cotizan caso por caso.
+Cotización inmediata por WhatsApp. Los proyectos habitualmente se entregan en menos de una semana; cuando hay disponibilidad, el mismo día. Producciones grandes se calendarizan al cotizar.
 
 ### ¿Cuál es el tamaño máximo que pueden fabricar?
-Corte láser: 130 × 90 cm en una sola pieza. Gran formato: 1.80 m de ancho. Impresión 3D: hasta 300 × 300 × 400 mm en FDM XL.
-
-### ¿Hay pedido mínimo?
-No. Cobramos por minuto de máquina y por área de material. Aceptamos desde una sola pieza personalizada hasta lotes de cientos o miles.
+Corte láser: 130 × 90 cm en una sola pieza. Impresión 3D: hasta 300 × 300 × 400 mm en FDM XL.
 
 ### ¿Qué archivos aceptan?
-Vectores en AI, EPS, SVG, PDF, DXF para láser y plotter. STL, OBJ, 3MF, STEP para impresión 3D. Vectorizamos imagen JPG o PNG nítida cuando es sencillo.
+Vectores en AI, EPS, SVG, PDF, DXF para láser. STL, OBJ, 3MF, STEP para impresión 3D. Vectorizamos tu logo en JPG o PNG nítido cuando es sencillo.
 
 ### ¿Dónde están y a qué zonas entregan?
 Retorno Tejón, Sm 20, Mz 3, Lt 2, Cancún, Q. Roo 77500. Entrega a domicilio en Cancún metropolitano. Envíos por DHL y Estafeta a Playa del Carmen, Tulum, Mérida y resto de México.
@@ -93,9 +117,8 @@ Transferencia bancaria, depósito en efectivo, tarjeta de débito y crédito (co
 
 ## Guías y recursos
 
-- [Cómo preparar un archivo para corte láser](https://lumocancun.com/recursos/preparar-archivo-corte-laser): trazos vs rellenos, escala, capas, formatos aceptados y errores comunes.
-- [FDM vs resina: cuál impresión 3D elegir](https://lumocancun.com/recursos/fdm-vs-resina): precisión, costo, materiales, tamaño máximo y casos de uso.
-- [Sublimación vs vinil](https://lumocancun.com/recursos/sublimacion-vs-vinil): materiales compatibles, durabilidad, costo y cuándo usar cada técnica.
+- [Cómo preparar un archivo para corte láser](https://lumocancun.com/recursos/preparar-archivo-corte-laser/): trazos vs rellenos, escala, capas, formatos aceptados y errores comunes.
+- [FDM vs resina: cuál impresión 3D elegir](https://lumocancun.com/recursos/fdm-vs-resina/): precisión, costo, materiales, tamaño máximo y casos de uso.
 
 ---
 
@@ -116,9 +139,13 @@ Transferencia bancaria, depósito en efectivo, tarjeta de débito y crédito (co
 ## Páginas principales
 
 - [Inicio](https://lumocancun.com/)
-- [Sobre nosotros](https://lumocancun.com/sobre-nosotros)
-- [Corte láser](https://lumocancun.com/servicios/corte-laser)
-- [Impresión 3D](https://lumocancun.com/servicios/impresion-3d)
-- [Impresión gran formato](https://lumocancun.com/servicios/impresion-gran-formato)
-- [Recursos](https://lumocancun.com/recursos)
-- [Aviso de privacidad](https://lumocancun.com/aviso-de-privacidad)
+- [Sobre nosotros](https://lumocancun.com/sobre-nosotros/)
+- [Corte láser](https://lumocancun.com/servicios/corte-laser/)
+- [Impresión 3D](https://lumocancun.com/servicios/impresion-3d/)
+- [Hoteles y restaurantes](https://lumocancun.com/sectores/hoteles-y-restaurantes/)
+- [Marcas y corporativos](https://lumocancun.com/sectores/marcas-y-corporativos/)
+- [Souvenirs por mayoreo](https://lumocancun.com/sectores/souvenirs-mayoreo/)
+- [Eventos y bodas](https://lumocancun.com/sectores/eventos-y-bodas/)
+- [Sectores](https://lumocancun.com/sectores/)
+- [Recursos](https://lumocancun.com/recursos/)
+- [Aviso de privacidad](https://lumocancun.com/aviso-de-privacidad/)

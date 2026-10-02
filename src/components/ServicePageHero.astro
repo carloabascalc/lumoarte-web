@@ -5,14 +5,14 @@ interface Props {
   subtitle: string;
   primaryCta?: { label: string; href: string };
   secondaryCta?: { label: string; href: string };
-  service?: "laser" | "3d" | "plotter";
+  service?: "laser" | "3d";
 }
 
 const {
   eyebrow,
   title,
   subtitle,
-  primaryCta = { label: "Solicita tu cotización", href: "#cotiza" },
+  primaryCta = { label: "Cotiza tu producción", href: "#cotiza" },
   secondaryCta,
   service = "laser",
 } = Astro.props;
@@ -72,7 +72,6 @@ const {
   /* Per-service warm tints, kept subtle so the showcase carries the visual weight */
   .service-hero--laser   { background: var(--color-bg-alt); }
   .service-hero--3d      { background: var(--service-3d-bg, #f3ece2); }
-  .service-hero--plotter { background: var(--service-plotter-bg, #efe8db); }
 
   /* Soft accent glow top-right of the section */
   .service-hero::before {

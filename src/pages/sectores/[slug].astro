@@ -1,0 +1,224 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import ServicePageHero from "../../components/ServicePageHero.astro";
+import SectorShowcase from "../../components/SectorShowcase.astro";
+import TrustBand from "../../components/TrustBand.astro";
+import SectorsGrid from "../../components/SectorsGrid.astro";
+import BusinessCases from "../../components/BusinessCases.astro";
+import VolumeProcess from "../../components/VolumeProcess.astro";
+import FAQ from "../../components/FAQ.astro";
+import QuoteForm from "../../components/QuoteForm.astro";
+import Contact from "../../components/Contact.astro";
+import Footer from "../../components/Footer.astro";
+import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import { segments, type Segment } from "../../data/segments";
+import { SITE, absUrl } from "../../data/services";
+import { segmentImage, segmentAlt } from "../../data/segmentImages";
+import { getImage } from "astro:assets";
+
+export function getStaticPaths() {
+  return segments.map((segment) => ({
+    params: { slug: segment.slug.split("/").filter(Boolean).pop() },
+    props: { segment },
+  }));
+}
+
+const { segment } = Astro.props as { segment: Segment };
+
+// Range + past fact, never a promised capacity or a hard minimum.
+const faqs = [
+  ...segment.faqs,
+  {
+    question: "¿Desde cuántas piezas trabajan?",
+    answer: "Trabajamos lotes de decenas a miles de piezas. Como referencia, hemos entregado lotes de alrededor de 1,500 piezas en un solo pedido (cuadros enmarcados para un hotel en Cancún). Entre más piezas, menor el costo por pieza; cada lote se cotiza según la pieza, el material y la cantidad.",
+  },
+];
+
+// Production photos as ImageObjects (hashed /_astro URLs resolved at build).
+const schemaImages = await Promise.all(
+  segment.images.map(async (file) => {
+    const img = await getImage({ src: segmentImage(file), width: 1200, format: "jpg" });
+    return {
+      "@type": "ImageObject",
+      contentUrl: new URL(img.src, SITE.url).href,
+      caption: segmentAlt(file),
+      creditText: SITE.name,
+    };
+  }),
+);
+
+const serviceSchema = {
+  "@id": `${absUrl(segment.slug)}#service`,
+  name: `Producción en serie para ${segment.audience.toLowerCase()}`,
+  serviceType: "Corte láser, grabado láser e impresión 3D en serie",
+  description: segment.metaDescription,
+  url: absUrl(segment.slug),
+  audience: {
+    "@type": "BusinessAudience",
+    audienceType: segment.audience,
+    geographicArea: { "@type": "Country", name: "México" },
+  },
+  image: schemaImages,
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: `Qué fabricamos para ${segment.name.toLowerCase()}`,
+    itemListElement: segment.productos.map((p) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Product", name: p.name, description: p.desc },
+    })),
+  },
+};
+---
+
+<Base
+  title={segment.metaTitle}
+  description={segment.metaDescription}
+  canonical={segment.slug}
+  schemaType="Service"
+  schemaData={serviceSchema}
+>
+  <Nav variant="solid" />
+  <main>
+    <Breadcrumb
+      items={[
+        { label: "Inicio", href: "/" },
+        { label: "Sectores", href: "/sectores/" },
+        { label: segment.name },
+      ]}
+      backHref="/sectores/"
+      backLabel="Regresar a sectores"
+    />
+
+    <ServicePageHero
+      eyebrow={segment.eyebrow}
+      title={segment.h1}
+      subtitle={segment.subtitle}
+      primaryCta={{ label: "Cotiza tu producción", href: "#cotiza" }}
+      secondaryCta={{ label: "Qué fabricamos", href: "#productos" }}
+      service="laser"
+    >
+      <SectorShowcase slot="showcase" images={segment.images} />
+    </ServicePageHero>
+
+    <section class="productos section" id="productos">
+      <div class="container">
+        <div class="section-header">
+          <p class="productos-eyebrow" data-reveal>En serie, con tu marca</p>
+          <h2 class="section-title" data-reveal data-reveal-delay="0.06">Qué fabricamos</h2>
+        </div>
+        <ul class:list={["productos-grid", { "productos-grid--two": segment.productos.length % 3 !== 0 }]} role="list">
+          {segment.productos.map((p, i) => (
+            <li class="producto" data-reveal data-reveal-delay={`${0.04 + i * 0.04}`}>
+              <h3 class="producto-name">{p.name}</h3>
+              <p class="producto-desc">{p.desc}</p>
+            </li>
+          ))}
+        </ul>
+        <p class="productos-services" data-reveal>
+          Con <a href="/servicios/corte-laser/">corte láser</a> e
+          <a href="/servicios/impresion-3d/">impresión 3D</a> — en acrílico,
+          MDF, triplay, cuero, filamento y resina.
+        </p>
+      </div>
+    </section>
+
+    <BusinessCases sector={segment.id} title="Trabajos reales" />
+
+    <TrustBand />
+
+    <VolumeProcess />
+
+    <FAQ
+      title={`Preguntas frecuentes · ${segment.name}`}
+      subtitle="Si la tuya no aparece, mándanos un WhatsApp."
+      items={faqs}
+    />
+
+    <QuoteForm defaultCliente={segment.cliente} />
+
+    <SectorsGrid
+      excludeId={segment.id}
+      title="Otros sectores"
+      subtitle="También producimos en serie para:"
+    />
+  </main>
+  <div class="page-end">
+    <Contact />
+    <Footer />
+  </div>
+  <WhatsAppButton />
+</Base>
+
+<style>
+  .productos {
+    background: var(--color-bg);
+  }
+
+  .productos-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+  }
+
+  .productos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    list-style: none;
+    background: var(--color-surface);
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .productos-grid--two {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .producto {
+    background: var(--color-bg);
+    padding: 32px 28px;
+  }
+
+  .producto-name {
+    font-family: var(--font-display);
+    font-size: 1.1875rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 8px;
+  }
+
+  .producto-desc {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .productos-services {
+    margin-top: 28px;
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+  }
+
+  .productos-services a {
+    color: var(--color-accent);
+    font-weight: 500;
+  }
+
+  @media (max-width: 880px) {
+    .productos-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .productos-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

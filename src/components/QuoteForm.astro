@@ -3,17 +3,30 @@ import { services, type ServiceId, SITE } from "../data/services";
 
 interface Props {
   defaultService?: ServiceId;
+  /** Preselects "Tipo de cliente" (used on the /sectores/* pages). */
+  defaultCliente?: string;
 }
 
-const { defaultService } = Astro.props;
+const { defaultService, defaultCliente } = Astro.props;
+
+// Volume + client type travel in the WhatsApp message so Adriano can
+// prioritise production orders without turning anyone away.
+const cantidades = ["1 a 49 piezas", "50 a 199 piezas", "200 a 999 piezas", "1,000 piezas o más"];
+const tiposCliente = [
+  "Hotel o restaurante",
+  "Marca o empresa",
+  "Tienda o mayoreo",
+  "Evento, boda o agencia",
+  "Particular",
+];
 
 const WA_NUMBER = SITE.whatsapp;
 
 // Announcement-only services (linkable: false) never appear in the form.
 const quoteServices = services.filter((s) => s.linkable !== false);
 
-// Services without an entry here (e.g. impresión gran formato) skip the
-// material/tipo selects — only descripción + datos.
+// Services without an entry here skip the material/tipo selects —
+// only descripción + datos.
 const optionsByService: Partial<Record<ServiceId, { materiales: string[]; tipos: string[] }>> = {
   "corte-laser": {
     materiales: [
@@ -27,13 +40,13 @@ const optionsByService: Partial<Record<ServiceId, { materiales: string[]; tipos:
       "Otro",
     ],
     tipos: [
-      "Letrero o señalética",
-      "Lámpara o luminaria",
-      "Celosía o biombo",
-      "Escultura decorativa",
-      "Maqueta arquitectónica",
-      "Regalo personalizado",
-      "Producción en serie",
+      "Artículos para hotel o restaurante",
+      "Regalo corporativo con logo",
+      "Souvenir o llavero",
+      "Señalética o letreros",
+      "Empaque o caja",
+      "Exhibidor o display",
+      "Decoración para evento",
       "Otro",
     ],
   },
@@ -48,11 +61,11 @@ const optionsByService: Partial<Record<ServiceId, { materiales: string[]; tipos:
       "No estoy seguro",
     ],
     tipos: [
-      "Prototipo funcional",
-      "Pieza mecánica o repuesto",
-      "Figura o miniatura",
-      "Joyería",
-      "Producción en serie",
+      "Producto o línea propia",
+      "Souvenir o llavero",
+      "Merch con logo",
+      "Refacción o pieza técnica",
+      "Prototipo para producción",
       "Otro",
     ],
   },
@@ -62,16 +75,16 @@ const optionsByService: Partial<Record<ServiceId, { materiales: string[]; tipos:
 <section class="section quote" id="cotiza">
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title" data-reveal>Cuéntanos tu idea</h2>
+      <h2 class="section-title" data-reveal>Cotiza tu producción</h2>
       <p class="section-subtitle" data-reveal data-reveal-delay="0.08">
-        Completa el formulario y te contactamos por WhatsApp al instante con
-        tu cotización.
+        Dinos qué pieza necesitas y cuántas. Te contactamos por WhatsApp con
+        tu cotización por volumen.
       </p>
     </div>
 
     <div class="quote-grid">
       <aside class="quote-trust" data-reveal data-reveal-delay="0.1">
-        <p class="quote-trust-eyebrow">Cómo funciona</p>
+        <p class="quote-trust-eyebrow">Por qué Lumo</p>
         <ul class="quote-trust-list" role="list">
           <li class="quote-trust-item">
             <span class="quote-trust-icon" aria-hidden="true">
@@ -96,8 +109,8 @@ const optionsByService: Partial<Record<ServiceId, { materiales: string[]; tipos:
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
             </span>
             <div class="quote-trust-text">
-              <h3 class="quote-trust-label">Todos los servicios</h3>
-              <p>Una sola conversación para corte láser, impresión 3D y gran formato.</p>
+              <h3 class="quote-trust-label">Precio por volumen</h3>
+              <p>Entre más piezas, menor el costo por pieza. Una sola conversación para láser e impresión 3D.</p>
             </div>
           </li>
         </ul>
@@ -130,6 +143,16 @@ const optionsByService: Partial<Record<ServiceId, { materiales: string[]; tipos:
           </div>
         </div>
 
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cantidad">Cantidad <span class="required">*</span></label>
+            <select id="cantidad" name="cantidad" required>
+              <option value="" disabled selected>¿Cuántas piezas?</option>
+              {cantidades.map((c) => <option value={c}>{c}</option>)}
+            </select>
+          </div>
+        </div>
+
         <div class="form-row form-row--two" id="materialTipoRow">
           <div class="form-group">
             <label for="material">Material <span class="required">*</span></label>
@@ -154,7 +177,7 @@ const optionsByService: Partial<Record<ServiceId, { materiales: string[]; tipos:
               name="descripcion"
               rows="3"
               required
-              placeholder="Cuéntanos tu idea: qué necesitas, para qué y cualquier referencia."
+              placeholder="Qué pieza necesitas, para qué negocio o evento y cualquier referencia."
             ></textarea>
             <p class="form-hint">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
@@ -168,7 +191,7 @@ const optionsByService: Partial<Record<ServiceId, { materiales: string[]; tipos:
             <span class="form-details-icon" aria-hidden="true">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </span>
-            Medida y cantidad <span class="optional">(opcional)</span>
+            Medida y fecha <span class="optional">(opcional)</span>
           </summary>
           <div class="form-details-body">
             <div class="form-row form-row--two">
@@ -178,18 +201,17 @@ const optionsByService: Partial<Record<ServiceId, { materiales: string[]; tipos:
                   type="text"
                   id="medida"
                   name="medida"
-                  placeholder="Ej. 60 x 90 cm"
+                  placeholder="Ej. 10 x 10 cm"
                 />
               </div>
 
               <div class="form-group">
-                <label for="cantidad">Cantidad</label>
+                <label for="fecha">¿Para cuándo?</label>
                 <input
-                  type="number"
-                  id="cantidad"
-                  name="cantidad"
-                  min="1"
-                  placeholder="1"
+                  type="text"
+                  id="fecha"
+                  name="fecha"
+                  placeholder="Ej. fin de mes"
                 />
               </div>
             </div>
@@ -199,6 +221,18 @@ const optionsByService: Partial<Record<ServiceId, { materiales: string[]; tipos:
 
       <fieldset class="form-section">
         <legend class="form-section-title">Tus datos</legend>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cliente">Tipo de cliente <span class="required">*</span></label>
+            <select id="cliente" name="cliente" required>
+              <option value="" disabled selected={!defaultCliente}>Selecciona una opción</option>
+              {tiposCliente.map((t) => (
+                <option value={t} selected={defaultCliente === t}>{t}</option>
+              ))}
+            </select>
+          </div>
+        </div>
 
         <div class="form-row form-row--two">
           <div class="form-group">
@@ -582,7 +616,7 @@ const optionsByService: Partial<Record<ServiceId, { materiales: string[]; tipos:
     function updateForService(serviceId) {
       const opts = optionsByService[serviceId];
       if (!opts) {
-        // Services like gran formato skip material/tipo: only the
+        // Services without options skip material/tipo: only the
         // description and contact data matter.
         materialTipoRow.hidden = true;
         materialSelect.disabled = true;
@@ -614,19 +648,25 @@ const optionsByService: Partial<Record<ServiceId, { materiales: string[]; tipos:
       const material = detailsVisible ? form.material.value : "";
       const tipo = detailsVisible ? form.tipo.value : "";
       const medida = form.medida.value.trim() || "No especificada";
-      const cantidad = form.cantidad.value || "1";
+      const fecha = form.fecha.value.trim();
+      const cantidad = form.cantidad.value;
+      const cliente = form.cliente.value;
       const descripcion = form.descripcion.value.trim();
 
       const missingDetails = detailsVisible && (!material || !tipo);
-      if (!servicio || missingDetails || !descripcion || !nombre || !whatsapp) {
+      if (!servicio || !cantidad || missingDetails || !descripcion || !cliente || !nombre || !whatsapp) {
         const first = !servicio
           ? form.servicio
+          : !cantidad
+            ? form.cantidad
           : detailsVisible && !material
             ? form.material
             : detailsVisible && !tipo
               ? form.tipo
               : !descripcion
                 ? form.descripcion
+                : !cliente
+                  ? form.cliente
                 : !nombre
                   ? form.nombre
                   : form.whatsapp;
@@ -641,10 +681,13 @@ const optionsByService: Partial<Record<ServiceId, { materiales: string[]; tipos:
         ? `\n- Material: ${material}\n- Tipo de proyecto: ${tipo}`
         : "";
 
-      const message = `Hola, me llamo ${nombre}. Estoy interesado en un proyecto:
-- Servicio: ${servicioName}${detailLines}
-- Medida aproximada: ${medida}
-- Cantidad: ${cantidad}
+      const fechaLine = fecha ? `\n- Para cuándo: ${fecha}` : "";
+
+      const message = `Hola, me llamo ${nombre}. Quiero cotizar una producción:
+- Cliente: ${cliente}
+- Servicio: ${servicioName}
+- Cantidad: ${cantidad}${detailLines}
+- Medida aproximada: ${medida}${fechaLine}
 - Descripción: ${descripcion}
 - Mi WhatsApp: ${whatsapp}
 

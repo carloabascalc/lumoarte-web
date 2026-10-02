@@ -9,8 +9,8 @@ interface Props {
   subtitle?: string;
 }
 const {
-  title = "Catálogo",
-  subtitle = "Piezas que ya fabricamos, listas para pedir y personalizar. Cajas, huacales, dijes y más — hechos en Cancún. Agregamos cosas nuevas cada semana.",
+  title = "Productos de línea",
+  subtitle = "Piezas que ya fabricamos en serie, listas para tu marca: cajas, huacales, dijes y más — hechos en Cancún. Pídelas por mayoreo con tu logo o nombre.",
 } = Astro.props;
 
 // Imágenes del catálogo (src/assets/catalogo/<id>.jpg)
@@ -30,7 +30,7 @@ const fmt = (n: number) => n.toLocaleString("es-MX");
 <section class="catalog" id="catalogo">
   <div class="container">
     <div class="section-header">
-      <p class="eyebrow" data-reveal>Pídelo hoy</p>
+      <p class="eyebrow" data-reveal>Por mayoreo</p>
       <h2 class="section-title" data-reveal data-reveal-delay="0.06">{title}</h2>
       <p class="section-subtitle" data-reveal data-reveal-delay="0.12">{subtitle}</p>
     </div>
@@ -92,8 +92,8 @@ const fmt = (n: number) => n.toLocaleString("es-MX");
     </ul>
 
     <p class="catalog-note" data-reveal>
-      Precios base. La personalización (nombre, logo, color) y los pedidos por volumen se cotizan al confirmar.
-      ¿Buscas algo que no está aquí? <a href="#cotiza">Pídelo a la medida</a>.
+      Precio base por pieza. Por volumen el precio baja; la personalización (logo, nombre, color) se cotiza con tu lote.
+      ¿Necesitas otra pieza en serie? <a href="#cotiza">Cotiza tu producción</a>.
     </p>
   </div>
 </section>
@@ -340,7 +340,7 @@ const fmt = (n: number) => n.toLocaleString("es-MX");
           ? ` (${from ? "desde " : ""}$${Number(price).toLocaleString("es-MX")} MXN${unit ? " " + unit : ""})`
           : "";
         const msg = encodeURIComponent(
-          `Hola Lumo 👋 Me interesa este producto del catálogo:\n\n• ${name}${priceStr}\n\n¿Me pasas disponibilidad y opciones de personalización?`,
+          `Hola Lumo 👋 Me interesa este producto por mayoreo:\n\n• ${name}${priceStr}\n\n¿Me pasas precio por volumen y opciones de personalización? Cantidad aproximada: `,
         );
         window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, "_blank");
       });

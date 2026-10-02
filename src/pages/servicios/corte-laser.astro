@@ -6,7 +6,6 @@ import ServicePageHero from "../../components/ServicePageHero.astro";
 import ServicePdfs from "../../components/ServicePdfs.astro";
 import PricingFormula from "../../components/PricingFormula.astro";
 import PriceTable from "../../components/PriceTable.astro";
-import ToolsTable from "../../components/ToolsTable.astro";
 import LaserShowcase from "../../components/LaserShowcase.astro";
 import LaserAssembly from "../../components/LaserAssembly.astro";
 import Materials from "../../components/Materials.astro";
@@ -18,63 +17,64 @@ import QuoteForm from "../../components/QuoteForm.astro";
 import Contact from "../../components/Contact.astro";
 import Footer from "../../components/Footer.astro";
 import WhatsAppButton from "../../components/WhatsAppButton.astro";
-import { getService, SITE } from "../../data/services";
-import { PRICING } from "../../data/pricing";
+import { getService, absUrl } from "../../data/services";
 
 const service = getService("corte-laser");
 
-// Rango de precios de materiales (sin IVA) para el schema — lo mismo que se
-// muestra en HTML en <PriceTable>. Mantiene el dato estructurado en sync con
-// la tabla visible, ambos desde src/data/pricing.ts.
-const materialPrices = (PRICING["corte-laser"].materiales?.groups ?? [])
-  .flatMap((g) => g.items.map((i) => i.price));
 
 const sectores = [
   {
-    label: "Arquitectura y diseño",
+    label: "Hoteles y restaurantes",
     description:
-      "Maquetas a escala, paneles calados, celosías, planos en relieve y elementos decorativos para proyectos residenciales y comerciales.",
+      "Posavasos, menús, llaveros de habitación, señalética y amenidades grabadas con tu marca — en lotes y con reposición.",
+  },
+  {
+    label: "Marcas y corporativos",
+    description:
+      "Regalos corporativos, placas, reconocimientos, kits de bienvenida y displays con el logo de tu empresa, por cientos.",
+  },
+  {
+    label: "Tiendas de souvenirs y mayoreo",
+    description:
+      "Llaveros, imanes y recuerdos de Cancún fabricados por lote para tiendas, hoteles y revendedores.",
   },
   {
     label: "Eventos y bodas",
     description:
-      "Invitaciones intricadas, números de mesa, seating charts, recuerdos personalizados y elementos de decoración únicos.",
+      "Números de mesa, recuerdos, señalética y decoración para eventos de cientos de invitados, iguales pieza a pieza.",
   },
   {
-    label: "Retail y branding",
+    label: "Retail y señalética",
     description:
-      "Señalética interior y exterior, displays, escaparates, lettering volumétrico y piezas de marca a medida.",
+      "Señalética interior, displays, exhibidores y lettering volumétrico para sucursales y puntos de venta.",
   },
   {
-    label: "Regalos corporativos",
+    label: "Líneas de producto",
     description:
-      "Placas de reconocimiento, premios, llaveros, kits de bienvenida grabados con el logo de tu empresa.",
-  },
-  {
-    label: "Decoración y arte",
-    description:
-      "Lámparas, esculturas, marcos, cuadros y piezas únicas para hogares, oficinas y espacios públicos.",
-  },
-  {
-    label: "Producción en serie",
-    description:
-      "Lotes de cientos o miles de piezas con la misma precisión que una pieza única — souvenirs, líneas de producto, kits.",
+      "Si vendes un producto cortado o grabado, lo fabricamos para ti en serie — cajas, empaques, kits y piezas de línea.",
   },
 ];
 
 const serviceSchema = {
+  "@id": `${absUrl(service.slug)}#service`,
   name: service.name,
-  serviceType: "Laser cutting and engraving",
+  serviceType: "Corte y grabado láser en serie",
   description: service.metaDescription,
-  url: `${SITE.url}${service.slug}`,
+  url: absUrl(service.slug),
   offers: {
-    "@type": "AggregateOffer",
+    "@type": "Offer",
+    url: `${absUrl(service.slug)}#cotiza`,
     priceCurrency: "MXN",
-    lowPrice: Math.min(...materialPrices),
-    highPrice: Math.max(...materialPrices),
-    offerCount: materialPrices.length,
-    description:
-      "Precio de lámina completa de materiales para corte láser (MXN, sin IVA). El precio final de cada pieza depende del material y del tiempo de máquina.",
+    businessFunction: "http://purl.org/goodrelations/v1#Sell",
+    eligibleCustomerType: "http://purl.org/goodrelations/v1#Business",
+    eligibleRegion: { "@type": "Country", name: "MX" },
+    priceSpecification: {
+      "@type": "UnitPriceSpecification",
+      priceCurrency: "MXN",
+      valueAddedTaxIncluded: false,
+      description:
+        "Precio por pieza según material y tiempo de máquina; el costo unitario baja conforme sube la cantidad. Cotización por lote vía WhatsApp.",
+    },
   },
 };
 
@@ -82,7 +82,7 @@ const faqs = [
   {
     question: "¿Cuánto tarda un trabajo de corte láser?",
     answer:
-      "Habitualmente menos de una semana. Cuando hay disponibilidad, una pieza pequeña (invitaciones, regalos, llaveros, placas) puede salir el mismo día. Si tu proyecto es urgente, dilo en la cotización — siempre revisamos prioridades.",
+      "Habitualmente menos de una semana; cuando hay disponibilidad, el mismo día. Las producciones grandes las calendarizamos contigo al cotizar, según cantidad y material. Si tu fecha es fija, dila en la cotización.",
   },
   {
     question: "¿Qué tipo de archivo necesito enviar?",
@@ -92,12 +92,17 @@ const faqs = [
   {
     question: "¿Cuál es el tamaño máximo de corte?",
     answer:
-      "El área útil de nuestra máquina es de 130 × 90 cm en una sola pieza. Para piezas más grandes, las dividimos en módulos que ensamblan invisiblemente — así hemos hecho biombos de 2.5 m, paneles de 3 m y celosías arquitectónicas a escala completa.",
+      "El área útil de nuestra máquina es de 130 × 90 cm en una sola pieza. Para piezas más grandes, las dividimos en módulos que ensamblan invisiblemente — así hemos hecho paneles y celosías de varios metros.",
   },
   {
-    question: "¿Aceptan pedidos de una sola pieza?",
+    question: "¿Hacen producción en serie o por volumen?",
     answer:
-      "Sí. Cobramos por minuto de máquina, no por mínimo de lote. Una sola pieza personalizada (un regalo, un prototipo arquitectónico) puede salir el mismo día cuando hay disponibilidad. Para producción en serie ofrecemos descuento por volumen.",
+      "Sí, es nuestro fuerte. Cortamos y grabamos lotes de decenas a miles de piezas idénticas —hemos entregado lotes de alrededor de 1,500 piezas—: llaveros, posavasos, placas, cajas, señalética y regalos corporativos con logo. El costo por pieza baja conforme sube la cantidad, porque el material se aprovecha mejor y la máquina trabaja en corridas continuas. Guardamos tu archivo para que reponer sea un solo mensaje.",
+  },
+  {
+    question: "¿Son carpintería? ¿Hacen muebles?",
+    answer:
+      "No. Somos un taller de fabricación digital: cortamos y grabamos con láser láminas de MDF, triplay, acrílico, cuero y otros materiales a partir de un archivo. No fabricamos muebles ni hacemos trabajos de carpintería.",
   },
   {
     question: "¿Hacen entrega o envíos?",
@@ -107,37 +112,24 @@ const faqs = [
   {
     question: "¿Cómo pago?",
     answer:
-      "Aceptamos transferencia bancaria, depósito en efectivo, tarjeta de débito y crédito (con pequeño cargo bancario). Para producciones grandes pedimos 50% de anticipo y 50% al entregar. Para piezas únicas y trabajos pequeños el pago es completo al confirmar.",
+      "Aceptamos transferencia bancaria, depósito en efectivo, tarjeta de débito y crédito (con pequeño cargo bancario). Para producciones grandes pedimos 50% de anticipo y 50% al entregar. Para trabajos pequeños el pago es completo al confirmar.",
   },
   {
     question: "¿Cómo te cobramos? ¿Cómo calculan el precio?",
     answer:
-      'Cobramos por lo que realmente lleva tu pieza: el material que usa y el tiempo que tarda la máquina, más manejo e IVA. Nada de mínimos sorpresa ni precios inflados. Puedes ver el desglose completo en la sección "¿Cómo calculamos tu precio?" y descargar la guía paso a paso en PDF: <a href="/como-cotizamos-corte-laser.pdf" target="_blank" rel="noopener noreferrer">¿Cómo te cobramos? (PDF)</a>.',
+      'Cobramos por lo que realmente lleva tu pieza: el material que usa y el tiempo que tarda la máquina, más manejo e IVA. Sin precios inflados, y en volumen el costo por pieza baja. Puedes ver el desglose completo en la sección "¿Cómo calculamos tu precio?" y descargar la guía paso a paso en PDF: <a href="https://lumocancun.com/como-cotizamos-corte-laser.pdf" target="_blank" rel="noopener noreferrer">¿Cómo te cobramos? (PDF)</a>.',
   },
 ];
 
-const faqPageSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((faq) => ({
-    "@type": "Question",
-    name: faq.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: faq.answer,
-    },
-  })),
-};
 ---
 
 <Base
-  title={`${service.name} en Cancún | Lumo Cancún`}
+  title={`${service.name} en serie en Cancún | Lumo Cancún`}
   description={service.metaDescription}
   canonical={service.slug}
   ogImage="/og/corte-laser.jpg"
   schemaType="Service"
   schemaData={serviceSchema}
-  extraSchemas={[faqPageSchema]}
 >
   <Nav variant="solid" />
   <main>
@@ -150,10 +142,10 @@ const faqPageSchema = {
     />
 
     <ServicePageHero
-      eyebrow="Precisión milimétrica"
-      title="Corte láser en <em>Cancún</em> que le da forma a tus ideas"
-      subtitle="Cortamos y grabamos materiales con precisión milimétrica. Desde una pieza única hasta producción en serie de miles de unidades, con acabados limpios y repetibles."
-      primaryCta={{ label: "Solicita tu cotización", href: "#cotiza" }}
+      eyebrow="Producción en serie"
+      title="Corte láser en serie en <em>Cancún</em>"
+      subtitle="Cortamos y grabamos en serie para hoteles, restaurantes, marcas, tiendas y eventos. Lotes de decenas a miles de piezas idénticas, con precio por volumen."
+      primaryCta={{ label: "Cotiza tu producción", href: "#cotiza" }}
       secondaryCta={{ label: "Ver materiales", href: "#materiales" }}
       service="laser"
     >
@@ -170,19 +162,17 @@ const faqPageSchema = {
 
     <PriceTable serviceId="corte-laser" />
 
-    <ToolsTable serviceId="corte-laser" />
 
     <section class="sectores section">
       <div class="container">
         <div class="section-header">
           <p class="sectores-eyebrow" data-reveal>Para quién trabajamos</p>
           <h2 class="section-title" data-reveal data-reveal-delay="0.06">
-            Sectores que confían en el corte láser
+            Negocios que producen con nosotros
           </h2>
           <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
-            El láser es uno de los procesos más versátiles que existen. Estos
-            son los sectores donde más se aprovecha lo que sale de nuestro
-            taller.
+            Fabricamos en serie para negocios que necesitan la misma pieza
+            muchas veces — y que vuelven a pedirla.
           </p>
         </div>
         <ul class="sectores-grid" role="list">
@@ -209,7 +199,7 @@ const faqPageSchema = {
     <section class="recurso-relacionado">
       <div class="container">
         <p class="rr-eyebrow">Lectura recomendada</p>
-        <a class="rr-card" href="/recursos/preparar-archivo-corte-laser">
+        <a class="rr-card" href="/recursos/preparar-archivo-corte-laser/">
           <div class="rr-text">
             <p class="rr-topic">Corte láser</p>
             <h3 class="rr-title">Cómo preparar un archivo para corte láser</h3>

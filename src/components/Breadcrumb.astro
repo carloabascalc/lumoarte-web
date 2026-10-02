@@ -1,5 +1,5 @@
 ---
-import { SITE } from "../data/services";
+import { absUrl } from "../data/services";
 
 interface Crumb {
   label: string;
@@ -23,17 +23,23 @@ const toAbsolute = (href?: string): string => {
   if (/^https?:\/\//i.test(path)) return path;
   // Strip in-page anchors so the schema URL points to a real page.
   const cleanPath = path.split("#")[0] || "/";
-  return new URL(cleanPath, SITE.url).href;
+  return absUrl(cleanPath);
 };
+
+// A visual crumb that only anchors into another page (e.g. "/#servicios")
+// resolves to that same page; drop those repeats so the schema has no
+// fake levels.
+const schemaItems = items
+  .map((item) => ({ name: item.label, item: toAbsolute(item.href) }))
+  .filter((it, i, all) => i === 0 || it.item !== all[i - 1].item);
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  itemListElement: items.map((item, i) => ({
+  itemListElement: schemaItems.map((it, i) => ({
     "@type": "ListItem",
     position: i + 1,
-    name: item.label,
-    item: toAbsolute(item.href),
+    ...it,
   })),
 };
 ---

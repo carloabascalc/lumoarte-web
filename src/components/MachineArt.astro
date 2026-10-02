@@ -6,13 +6,12 @@
  *  - "laser"   → CO2 laser cutter with an animated cutting head + beam + sparks
  *                (fulfils the "máquina cortando y funcionando" request).
  *  - "printer" → enclosed FDM 3D printer (Bambu-style) with a printed piece.
- *  - "plotter" → large-format eco-solvent printer feeding a printed sheet.
  *
  * Palette is pulled from the site tokens so the set reads as intentional.
  * Animations respect prefers-reduced-motion.
  */
 interface Props {
-  machine: "laser" | "printer" | "plotter" | "recuerdo";
+  machine: "laser" | "printer" | "recuerdo";
   class?: string;
 }
 const { machine, class: className } = Astro.props;
@@ -135,57 +134,6 @@ const { machine, class: className } = Astro.props;
         <circle cx="300" cy="120" r="26" fill="none" stroke="#c87a2a" stroke-opacity="0.5" stroke-width="6" />
       </g>
       <path d="M283 134 C268 150 262 168 268 92" fill="none" stroke="#b34000" stroke-width="2" stroke-opacity="0.7" stroke-linecap="round" />
-    </svg>
-  )}
-
-  {machine === "plotter" && (
-    <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">
-      <rect width="400" height="300" fill="url(#mq-bg)" />
-      <defs>
-        <linearGradient id="mq-bg" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#f7f1e6" />
-          <stop offset="1" stop-color="#efe6d6" />
-        </linearGradient>
-      </defs>
-
-      <g stroke="#2b1d12" stroke-opacity="0.07" stroke-width="1.5">
-        <line x1="40" y1="262" x2="360" y2="262" />
-      </g>
-
-      {/* printed sheet feeding out the front */}
-      <g>
-        <path d="M96 168 L304 168 L292 244 L108 244 Z" fill="#fbf6ec" stroke="#2b1d12" stroke-width="2" stroke-opacity="0.5" stroke-linejoin="round" />
-        <rect x="120" y="184" width="60" height="40" rx="3" fill="#b34000" fill-opacity="0.85" />
-        <rect x="190" y="184" width="34" height="40" rx="3" fill="#c87a2a" fill-opacity="0.85" />
-        <g stroke="#2b1d12" stroke-opacity="0.35" stroke-width="3" stroke-linecap="round">
-          <line x1="234" y1="190" x2="276" y2="190" />
-          <line x1="234" y1="202" x2="270" y2="202" />
-          <line x1="234" y1="214" x2="276" y2="214" />
-        </g>
-      </g>
-
-      {/* printer body */}
-      <g fill="#fbf6ec" stroke="#2b1d12" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.88">
-        <rect x="64" y="104" width="272" height="60" rx="10" />
-      </g>
-      {/* rail */}
-      <line x1="82" y1="122" x2="318" y2="122" stroke="#2b1d12" stroke-width="2.5" stroke-opacity="0.55" />
-      {/* moving print carriage */}
-      <g class="ma-head">
-        <rect x="180" y="113" width="34" height="18" rx="3" fill="#b34000" stroke="#2b1d12" stroke-width="2" />
-        <rect x="190" y="131" width="14" height="5" rx="2" fill="#3a2a1e" />
-      </g>
-      {/* control screen */}
-      <rect x="296" y="132" width="26" height="18" rx="2" fill="#2b1d12" />
-      <rect x="300" y="137" width="18" height="3" rx="1.5" fill="#ff7a2a" />
-
-      {/* legs */}
-      <g stroke="#2b1d12" stroke-width="3" stroke-linecap="round" stroke-opacity="0.85">
-        <path d="M96 164 L84 250" />
-        <path d="M304 164 L316 250" />
-        <line x1="78" y1="250" x2="110" y2="250" />
-        <line x1="290" y1="250" x2="322" y2="250" />
-      </g>
     </svg>
   )}
 
@@ -335,16 +283,6 @@ const { machine, class: className } = Astro.props;
   @keyframes ma-grow {
     0%, 100% { transform: scaleY(0.86); }
     50%      { transform: scaleY(1); }
-  }
-
-  /* ── Plotter: head sweep ─────────────────────────────── */
-  .ma-head {
-    animation: ma-headsweep 4.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-  }
-  @keyframes ma-headsweep {
-    0%   { transform: translateX(-86px); }
-    50%  { transform: translateX(86px); }
-    100% { transform: translateX(-86px); }
   }
 
   /* ── Recuerdo: keychain sway + shine sweep + sparkle ─── */

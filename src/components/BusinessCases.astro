@@ -1,0 +1,159 @@
+---
+// "Trabajos para negocios" — real named clients as short, quotable cases.
+// Pass `sector` to show only that segment's cases (falls back to all).
+import { Image } from "astro:assets";
+import { cases } from "../data/cases";
+import type { SegmentId } from "../data/segments";
+import { segmentImage, segmentAlt } from "../data/segmentImages";
+
+interface Props {
+  sector?: SegmentId;
+  title?: string;
+}
+const { sector, title = "Trabajos para negocios" } = Astro.props;
+
+// Sector pages show only their own cases (none → section hidden); the
+// general view shows the first four so the grid stays one clean row.
+const filtered = sector ? cases.filter((c) => c.sector === sector) : cases.slice(0, 4);
+const items = filtered.map((c) => ({
+  ...c,
+  img: segmentImage(c.image),
+  alt: segmentAlt(c.image),
+}));
+---
+
+{items.length > 0 && (
+<section class="cases section" id="casos">
+  <div class="container">
+    <div class="section-header">
+      <p class="cases-eyebrow" data-reveal>Clientes reales</p>
+      <h2 class="section-title" data-reveal data-reveal-delay="0.06">{title}</h2>
+    </div>
+
+    <ul class="cases-grid" role="list" style={`--cols:${Math.min(items.length, 4)}`}>
+      {items.map((c, i) => (
+        <li class="case" data-reveal data-reveal-delay={`${0.04 + i * 0.05}`}>
+          <div class="case-media">
+            <Image
+              src={c.img}
+              alt={c.alt}
+              widths={[360, 540]}
+              sizes="(max-width: 640px) 100vw, 320px"
+              quality={75}
+              loading="lazy"
+              decoding="async"
+              class="case-img"
+            />
+            {c.quantity && <span class="case-qty">{c.quantity}</span>}
+          </div>
+          <div class="case-body">
+            <h3 class="case-client">{c.client}</h3>
+            <p class="case-what">{c.what}</p>
+            <p class="case-tech">{c.technique}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+)}
+
+<style>
+  .cases {
+    background: var(--color-bg);
+  }
+
+  .cases-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+  }
+
+  .cases-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+    max-width: calc(var(--cols, 4) * 300px);
+    gap: 20px;
+    list-style: none;
+  }
+
+  @media (max-width: 960px) {
+    .cases-grid {
+      grid-template-columns: repeat(min(var(--cols, 4), 2), minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .cases-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .case {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-surface);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+
+  .case-media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background: var(--color-surface);
+    overflow: hidden;
+  }
+
+  .case-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .case-qty {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--color-accent);
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+
+  .case-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px 22px 22px;
+  }
+
+  .case-client {
+    font-family: var(--font-display);
+    font-size: 1.1875rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .case-what {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .case-tech {
+    margin-top: auto;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+</style>

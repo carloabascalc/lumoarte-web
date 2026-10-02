@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": true,
   "rewrites": [
     {
       "source": "/",
@@ -23,29 +24,57 @@
     }
   ],
   "redirects": [
+    { "source": "/servicios/impresion-gran-formato", "destination": "/", "permanent": true },
+    { "source": "/servicios/impresion-gran-formato/", "destination": "/", "permanent": true },
+    { "source": "/precios-impresion-gran-formato.pdf", "destination": "/", "permanent": true },
+    { "source": "/manual-impresion-gran-formato.pdf", "destination": "/", "permanent": true },
     {
       "source": "/cortelasercancun",
       "has": [{ "type": "host", "value": "lumocancun.com" }],
-      "destination": "/servicios/corte-laser",
-      "permanent": false
+      "destination": "/servicios/corte-laser/",
+      "permanent": true
+    },
+    {
+      "source": "/cortelasercancun/",
+      "has": [{ "type": "host", "value": "lumocancun.com" }],
+      "destination": "/servicios/corte-laser/",
+      "permanent": true
     },
     {
       "source": "/cortelasercancun",
       "has": [{ "type": "host", "value": "www.lumocancun.com" }],
-      "destination": "/servicios/corte-laser",
-      "permanent": false
+      "destination": "/servicios/corte-laser/",
+      "permanent": true
+    },
+    {
+      "source": "/cortelasercancun/",
+      "has": [{ "type": "host", "value": "www.lumocancun.com" }],
+      "destination": "/servicios/corte-laser/",
+      "permanent": true
     },
     {
       "source": "/impresion3dcancun",
       "has": [{ "type": "host", "value": "lumocancun.com" }],
-      "destination": "/servicios/impresion-3d",
-      "permanent": false
+      "destination": "/servicios/impresion-3d/",
+      "permanent": true
+    },
+    {
+      "source": "/impresion3dcancun/",
+      "has": [{ "type": "host", "value": "lumocancun.com" }],
+      "destination": "/servicios/impresion-3d/",
+      "permanent": true
     },
     {
       "source": "/impresion3dcancun",
       "has": [{ "type": "host", "value": "www.lumocancun.com" }],
-      "destination": "/servicios/impresion-3d",
-      "permanent": false
+      "destination": "/servicios/impresion-3d/",
+      "permanent": true
+    },
+    {
+      "source": "/impresion3dcancun/",
+      "has": [{ "type": "host", "value": "www.lumocancun.com" }],
+      "destination": "/servicios/impresion-3d/",
+      "permanent": true
     }
   ],
   "headers": [

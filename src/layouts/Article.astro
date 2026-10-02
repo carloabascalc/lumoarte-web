@@ -5,7 +5,7 @@ import Breadcrumb from "../components/Breadcrumb.astro";
 import Contact from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
-import { SITE } from "../data/services";
+import { SITE, absUrl, ORG_ID, FOUNDER_ID } from "../data/services";
 
 interface Props {
   title: string;
@@ -16,6 +16,8 @@ interface Props {
   readingTime?: string; // e.g. "6 min"
   topic?: string; // e.g. "Corte láser"
   ogImage?: string;
+  /** Keep the guide reachable but out of search/AI indexes. */
+  noindex?: boolean;
 }
 
 const {
@@ -27,10 +29,11 @@ const {
   readingTime,
   topic,
   ogImage = "/og/default.jpg",
+  noindex = false,
 } = Astro.props;
 
-const canonical = `/recursos/${slug}`;
-const url = `${SITE.url}${canonical}`;
+const canonical = `/recursos/${slug}/`;
+const url = absUrl(canonical);
 
 // Freshness signal: only surface "Actualizado" when the guide was genuinely
 // revised after publishing (dateModified defaults to datePublished).
@@ -47,15 +50,15 @@ const articleSchema = {
   image: `${SITE.url}${ogImage}`,
   datePublished,
   dateModified,
-  author: { "@id": `${SITE.url}#founder` },
-  publisher: { "@id": `${SITE.url}#organization` },
+  author: { "@id": FOUNDER_ID },
+  publisher: { "@id": ORG_ID },
   mainEntityOfPage: { "@type": "WebPage", "@id": url },
   inLanguage: "es-MX",
   speakable: {
     "@type": "SpeakableSpecification",
     cssSelector: [".article-title", ".article-body p:first-child"],
   },
-  ...(topic ? { about: topic } : {}),
+  ...(topic ? { about: { "@type": "Thing", name: topic } } : {}),
 };
 ---
 
@@ -65,13 +68,14 @@ const articleSchema = {
   canonical={canonical}
   ogImage={ogImage}
   extraSchemas={[articleSchema]}
+  noindex={noindex}
 >
-  <Nav variant="solid" />
+  <Nav variant="solid" ctaHref="/#cotiza" />
   <main>
     <Breadcrumb
       items={[
         { label: "Inicio", href: "/" },
-        { label: "Recursos", href: "/recursos" },
+        { label: "Recursos", href: "/recursos/" },
         { label: title },
       ]}
     />
@@ -83,7 +87,7 @@ const articleSchema = {
           {title}
         </h1>
         <p class="article-meta" data-reveal data-reveal-delay="0.12">
-          Por <a href="/sobre-nosotros">Adriano Abascal</a>
+          Por <a href="/sobre-nosotros/">Adriano Abascal</a>
           <span aria-hidden="true">·</span>
           <time datetime={datePublished}>{fmtDate(datePublished)}</time>
           {readingTime && (
@@ -117,15 +121,15 @@ const articleSchema = {
           <p class="author-role">Arquitecto y fundador de Lumo Cancún</p>
           <p class="author-bio">
             Arquitecto cancunense. Dirige el taller donde su práctica profesional
-            se encuentra con la fabricación digital: corte láser, impresión 3D y
-            gran formato. Estas guías salen del trabajo diario en el taller.
+            se encuentra con la fabricación digital: corte láser e impresión 3D
+            en serie. Estas guías salen del trabajo diario en el taller.
           </p>
-          <a class="author-link" href="/sobre-nosotros">Conoce a Lumo Cancún →</a>
+          <a class="author-link" href="/sobre-nosotros/">Conoce a Lumo Cancún →</a>
         </div>
       </aside>
 
       <footer class="article-footer container">
-        <p class="article-cta-eyebrow">¿Listo para tu proyecto?</p>
+        <p class="article-cta-eyebrow">¿Necesitas producir en serie?</p>
         <a href={`https://wa.me/${SITE.whatsapp}`} class="btn btn-primary">
           Cotiza por WhatsApp
         </a>

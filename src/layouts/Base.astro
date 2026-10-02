@@ -1,6 +1,7 @@
 ---
 import { ClientRouter } from "astro:transitions";
-import { SITE, services } from "../data/services";
+import { SITE, services, absUrl, ORG_ID, FOUNDER_ID, CATALOG_ID } from "../data/services";
+import { segments } from "../data/segments";
 import PageTransition from "../components/PageTransition.astro";
 
 interface Props {
@@ -13,13 +14,13 @@ interface Props {
   /** Additional JSON-LD blocks injected alongside the sitewide Organization
    *  and the per-page schemaType. Use for Article, Person, Project, etc. */
   extraSchemas?: Record<string, unknown>[];
-  pageAccent?: "laser" | "3d" | "plotter";
+  pageAccent?: "laser" | "3d";
   /** Adds <meta name="robots" content="noindex,nofollow"> — for dormant EMD pages. */
   noindex?: boolean;
 }
 
 const {
-  title = "Lumo Cancún — Fabricación digital en Cancún | Corte láser, impresión 3D y gran formato",
+  title = "Lumo Cancún — Producción en serie en Cancún | Corte láser e impresión 3D",
   description = SITE.description,
   canonical,
   ogImage = SITE.ogDefault,
@@ -40,19 +41,59 @@ if (!/\.[a-z0-9]+$/i.test(_canonical.pathname) && !_canonical.pathname.endsWith(
 const canonicalURL = _canonical.href;
 const ogImageURL = new URL(ogImage, Astro.site).href;
 
-const localBusinessSchema = {
+// One business entity (LocalBusiness) + founder + catalog, emitted on every
+// page under a single @id so every Service/Article on the site points at the
+// same node. AI crawlers land anywhere, so the full entity travels sitewide.
+const founderSchema = {
+  "@type": "Person",
+  "@id": FOUNDER_ID,
+  name: "Adriano Abascal",
+  jobTitle: "Fundador de Lumo Cancún",
+  hasOccupation: { "@type": "Occupation", name: "Arquitecto" },
+  url: absUrl("/sobre-nosotros/"),
+  worksFor: { "@id": ORG_ID },
+  affiliation: {
+    "@type": "Organization",
+    name: "Abascal Arquitectos",
+    url: "https://abascalarquitectos.com/",
+  },
+};
+
+const serviceRef = (name: string, description: string, path: string, audience?: string) => ({
+  "@type": "Offer",
+  itemOffered: {
+    "@type": "Service",
+    "@id": `${absUrl(path)}#service`,
+    name,
+    description,
+    url: absUrl(path),
+    provider: { "@id": ORG_ID },
+    ...(audience ? { audience: { "@type": "BusinessAudience", audienceType: audience } } : {}),
+  },
+});
+
+const businessSchema = {
   "@context": "https://schema.org",
-  "@type": ["LocalBusiness", "ProfessionalService"],
-  "@id": `${SITE.url}#business`,
+  "@type": "LocalBusiness",
+  "@id": ORG_ID,
+  additionalType: [
+    "http://www.productontology.org/id/Laser_cutting",
+    "http://www.productontology.org/id/3D_printing",
+    "http://www.productontology.org/id/Mass_production",
+  ],
   name: SITE.name,
-  alternateName: "Lumo",
+  alternateName: ["Lumo", "Lumo Arte", "Lumoarte"],
   description: SITE.description,
-  url: SITE.url,
-  telephone: [`+${SITE.whatsapp}`, `+${SITE.phone}`],
-  email: SITE.email,
+  disambiguatingDescription:
+    "Taller de producción en serie en Cancún (corte láser e impresión 3D por volumen). No es carpintería ni fabrica muebles, no imprime gran formato y no tiene relación con otras empresas llamadas Lumo.",
+  slogan: SITE.tagline,
+  url: absUrl("/"),
+  logo: { "@type": "ImageObject", url: `${SITE.url}/images/logo-nav.png` },
   image: `${SITE.url}${SITE.ogDefault}`,
+  telephone: `+${SITE.phone}`,
+  email: SITE.email,
   priceRange: "$$",
-  currenciesAccepted: "MXN, USD",
+  currenciesAccepted: "MXN",
   paymentAccepted: "Cash, Credit Card, Bank Transfer, SPEI",
   address: {
     "@type": "PostalAddress",
@@ -62,7 +103,6 @@ const localBusinessSchema = {
     postalCode: SITE.address.postalCode,
     addressCountry: SITE.address.country,
   },
-  sameAs: [SITE.instagram, SITE.facebook, SITE.gbp],
   geo: {
     "@type": "GeoCoordinates",
     latitude: SITE.geo.lat,
@@ -75,103 +115,95 @@ const localBusinessSchema = {
     opens: SITE.hours.opens,
     closes: SITE.hours.closes,
   },
-  areaServed: {
-    "@type": "City",
-    name: "Cancún",
+  // Matches the shipping FAQ: local delivery in Cancún, parcel to the rest of México.
+  areaServed: [
+    { "@type": "City", name: "Cancún" },
+    { "@type": "City", name: "Playa del Carmen" },
+    { "@type": "City", name: "Tulum" },
+    { "@type": "City", name: "Mérida" },
+    { "@type": "Country", name: "México" },
+  ],
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "sales",
+      telephone: `+${SITE.whatsapp}`,
+      email: SITE.email,
+      url: `https://wa.me/${SITE.whatsapp}`,
+      areaServed: "MX",
+      availableLanguage: "es",
+    },
+    {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      telephone: `+${SITE.phoneSecondary}`,
+      areaServed: "MX",
+      availableLanguage: "es",
+    },
+  ],
+  knowsAbout: [
+    "Producción en serie",
+    "Corte láser",
+    "Grabado láser",
+    "Impresión 3D",
+    "Regalos corporativos",
+    "Souvenirs por mayoreo",
+    "Señalética",
+    "Posavasos con logo",
+    "Llaveros personalizados por lote",
+    "Trofeos impresos en 3D",
+  ],
+  sameAs: [SITE.instagram, SITE.facebook, SITE.gbp],
+  founder: founderSchema,
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    "@id": CATALOG_ID,
+    name: "Producción en serie: corte láser e impresión 3D",
+    itemListElement: [
+      {
+        "@type": "OfferCatalog",
+        name: "Por técnica",
+        // Announcement-only services (linkable: false) have no page of their own.
+        itemListElement: services
+          .filter((s) => s.linkable !== false)
+          .map((s) => serviceRef(s.name, s.metaDescription, s.slug)),
+      },
+      {
+        "@type": "OfferCatalog",
+        name: "Por sector",
+        itemListElement: segments.map((g) => serviceRef(g.name, g.metaDescription, g.slug, g.audience)),
+      },
+    ],
   },
-  founder: { "@id": `${SITE.url}#founder` },
 };
 
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "@id": `${SITE.url}#website`,
-  url: SITE.url,
+  "@id": `${SITE.url}/#website`,
+  url: absUrl("/"),
   name: SITE.name,
   description: SITE.description,
   inLanguage: "es-MX",
-  publisher: { "@id": `${SITE.url}#business` },
+  publisher: { "@id": ORG_ID },
 };
 
-// Sitewide Organization + Person(founder) + OfferCatalog. Injected on every
-// page so AI crawlers see the brand entity, its founder, and the full catalog
-// of services regardless of which page they land on. Linked by @id to
-// LocalBusiness so they form a single graph.
-const founderSchema = {
-  "@type": "Person",
-  "@id": `${SITE.url}#founder`,
-  name: "Adriano Abascal",
-  jobTitle: "Arquitecto · Fundador",
-  worksFor: { "@id": `${SITE.url}#organization` },
-  affiliation: {
-    "@type": "Organization",
-    name: "Abascal Arquitectos",
-    url: "https://abascalarquitectos.com/",
-  },
-};
+// Order: business entity (every page), WebSite (home), per-page Service, extras.
+const schemas: Record<string, unknown>[] = [businessSchema];
 
-const organizationSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "@id": `${SITE.url}#organization`,
-  name: SITE.name,
-  alternateName: "Lumo",
-  url: SITE.url,
-  logo: `${SITE.url}/images/logo-nav.png`,
-  image: `${SITE.url}${SITE.ogDefault}`,
-  description: SITE.description,
-  email: SITE.email,
-  telephone: `+${SITE.phone}`,
-  sameAs: [SITE.instagram, SITE.facebook, SITE.gbp],
-  founder: founderSchema,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: SITE.address.street,
-    addressLocality: SITE.address.city,
-    addressRegion: SITE.address.state,
-    postalCode: SITE.address.postalCode,
-    addressCountry: SITE.address.country,
-  },
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Servicios de fabricación digital",
-    // Every linkable service lives under /servicios/*. The `emdDomain` flag
-    // only changes where marketing links point (dormant EMD strategy) — it
-    // must NOT prune the offer catalog, or the two flagship services (corte
-    // láser, impresión 3D) vanish from the brand's structured offering.
-    // Announcement-only services (linkable: false) have no page, so their
-    // URL would 404 — those do get pruned.
-    itemListElement: services.filter((s) => s.linkable !== false).map((s) => ({
-      "@type": "Offer",
-      itemOffered: {
-        "@type": "Service",
-        name: s.name,
-        description: s.metaDescription,
-        url: `${SITE.url}${s.slug}`,
-        provider: { "@id": `${SITE.url}#business` },
-        areaServed: { "@type": "City", name: "Cancún" },
-      },
-    })),
-  },
-};
-
-// Build the list of JSON-LD blocks to emit. Order: Organization (entity),
-// per-page schema (LocalBusiness / WebSite / Service), then any extras
-// passed by the page (Article, Person, Project, etc.).
-const schemas: Record<string, unknown>[] = [organizationSchema];
-
-if (schemaType === "LocalBusiness") schemas.push(localBusinessSchema);
-else if (schemaType === "WebSite") schemas.push(websiteSchema);
+if (schemaType === "LocalBusiness" || schemaType === "WebSite") schemas.push(websiteSchema);
 else if (schemaType === "Service" && schemaData) {
   schemas.push({
     "@context": "https://schema.org",
     "@type": "Service",
-    provider: { "@id": `${SITE.url}#business` },
-    areaServed: { "@type": "City", name: "Cancún" },
+    provider: { "@id": ORG_ID },
+    areaServed: [
+      { "@type": "City", name: "Cancún" },
+      { "@type": "Country", name: "México" },
+    ],
     ...schemaData,
   });
 }
-
 schemas.push(...extraSchemas);
 ---
 
@@ -296,10 +328,8 @@ schemas.push(...extraSchemas);
     /* Per-service tints (hero bg + accents) */
     --service-laser: #A53A04;
     --service-3d: #c87a2a;
-    --service-plotter: #6b2c0a;
     --service-laser-bg: #f4e3cf;
     --service-3d-bg: #f5e6c8;
-    --service-plotter-bg: #ead9c2;
 
     /* Page-level accent — defaults to brand terracotta. Service pages override. */
     --page-accent: var(--color-accent);
@@ -369,11 +399,6 @@ schemas.push(...extraSchemas);
   body[data-page="3d"] {
     --page-accent: var(--service-3d);
     --page-accent-soft: rgba(200, 122, 42, 0.14);
-  }
-
-  body[data-page="plotter"] {
-    --page-accent: var(--service-plotter);
-    --page-accent-soft: rgba(107, 44, 10, 0.14);
   }
 
   /* Section eyebrows + accent dashes pick up the per-page accent colour.

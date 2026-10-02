@@ -5,10 +5,9 @@ import MachineArt from "./MachineArt.astro";
 // Every service card uses an on-brand illustration so the set reads as one
 // intentional family. The laser one is animated ("cortando y funcionando");
 // swap any for a real photo/video once Adriano sends machine media.
-const artByService: Record<string, "laser" | "printer" | "plotter" | "recuerdo"> = {
+const artByService: Record<string, "laser" | "printer" | "recuerdo"> = {
   "corte-laser": "laser",
   "impresion-3d": "printer",
-  "impresion-gran-formato": "plotter",
   "recuerdos-cancun": "recuerdo",
 };
 ---
@@ -16,14 +15,13 @@ const artByService: Record<string, "laser" | "printer" | "plotter" | "recuerdo">
 <section class="servicios" id="servicios">
   <div class="container">
     <div class="section-header">
-      <p class="servicios-eyebrow" data-reveal>Cuatro líneas, un solo taller</p>
+      <p class="servicios-eyebrow" data-reveal>Producción en serie</p>
       <h2 class="section-title" data-reveal data-reveal-delay="0.06">
         Lo que hacemos
       </h2>
       <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
-        Corte láser, impresión 3D e impresión de gran formato para tu proyecto
-        a medida — y una línea de recuerdos personalizados para llevarte algo
-        hecho en Cancún sin tener que diseñar nada.
+        Corte láser e impresión 3D en serie para negocios — y una línea de
+        souvenirs de Cancún por mayoreo para tiendas y hoteles.
       </p>
     </div>
 
@@ -34,9 +32,9 @@ const artByService: Record<string, "laser" | "printer" | "plotter" | "recuerdo">
         const linkAttrs = isExternal
           ? { target: "_blank", rel: "noopener" }
           : {};
-        const isAnnouncement = s.linkable === false;
+        const isAnnouncement = s.linkable === false && !s.cardHref;
         const Wrapper = isAnnouncement ? "div" : "a";
-        const wrapperAttrs = isAnnouncement ? {} : { href, ...linkAttrs };
+        const wrapperAttrs = isAnnouncement ? {} : { href: s.cardHref ?? href, ...linkAttrs };
         return (
           <li class={`servicio-card servicio-card--${s.id}`} data-reveal data-reveal-delay={`${0.05 + i * 0.06}`} data-tilt>
             <Wrapper class="servicio-link" {...wrapperAttrs}>
@@ -50,7 +48,7 @@ const artByService: Record<string, "laser" | "printer" | "plotter" | "recuerdo">
                 <p class="servicio-blurb">{s.blurb}</p>
                 {!isAnnouncement && (
                   <span class="servicio-cta">
-                    Ver servicio
+                    {s.cardHref ? "Ver más" : "Ver servicio"}
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                   </span>
                 )}
@@ -80,7 +78,7 @@ const artByService: Record<string, "laser" | "printer" | "plotter" | "recuerdo">
 
   .servicios-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
     list-style: none;
     perspective: 1400px;
@@ -231,7 +229,20 @@ const artByService: Record<string, "laser" | "printer" | "plotter" | "recuerdo">
     transform: translateX(3px);
   }
 
+  @media (max-width: 960px) {
+    .servicios-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .servicio-card:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
+
   @media (max-width: 640px) {
+    .servicio-card:last-child:nth-child(odd) {
+      grid-column: auto;
+    }
+
     .servicios {
       padding: 80px 0;
     }

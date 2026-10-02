@@ -1,6 +1,6 @@
 // Contenido de la sección "¿Cómo calculamos tu precio?" por servicio.
 // Láser tiene cifras reales (de la Fórmula de Cálculo de Adriano).
-// 3D y gran formato describen el MODELO de precio sin cifras exactas
+// 3D describe el MODELO de precio sin cifras exactas
 // hasta que Adriano confirme las tarifas — entonces se llena `tarifas`.
 
 export interface PricingTipo {
@@ -43,25 +43,6 @@ export interface MaterialPricing {
   groups: PriceGroup[];
 }
 
-/** Una herramienta / complemento (se vende por separado, sin servicio de corte). */
-export interface ToolItem {
-  name: string;
-  /** Medida o presentación (ej. "100 ml", "18 mm", "unidad"). */
-  measure?: string;
-  /** Precio en MXN, sin IVA. */
-  price: number;
-}
-
-/** Lista "Herramientas y complementos" (página 2 del PDF de precios). Va en su
- *  propia tabla, fuera del AggregateOffer de materiales del láser. */
-export interface ToolsPricing {
-  intro: string;
-  note: string;
-  currency: string;
-  year: number;
-  items: ToolItem[];
-}
-
 export interface PricingContent {
   intro: string;
   tipos: PricingTipo[];
@@ -76,8 +57,6 @@ export interface PricingContent {
   formulaPdf?: string;
   /** Lista de precios de materiales en HTML (solo cuando hay cifras reales). */
   materiales?: MaterialPricing;
-  /** Herramientas y complementos (página 2 del PDF), si existe. */
-  herramientas?: ToolsPricing;
 }
 
 const TIPOS_GENERICOS = (noun: string): PricingTipo[] => [
@@ -236,41 +215,11 @@ export const PRICING: Record<string, PricingContent> = {
         },
       ],
     },
-    herramientas: {
-      currency: "MXN",
-      year: 2026,
-      intro:
-        "Para maquetas y diseño: vendemos los materiales por separado, sin servicio de corte. Artículos de uso frecuente para arquitectura, diseño y modelismo, disponibles en Cancún.",
-      note: "Precios en MXN, sin IVA · vigentes 2026 · precios de referencia · algunos artículos se gestionan sobre pedido, sujetos a disponibilidad local en Cancún.",
-      items: [
-        { name: "Silicón frío líquido Mil-U", measure: "100 ml", price: 75 },
-        { name: "Silicón frío líquido Mil-U", measure: "250 ml", price: 163 },
-        { name: "Silicón líquido", measure: "150 ml", price: 98 },
-        { name: "Pegamento UHU", measure: "tubo 21 g", price: 52 },
-        { name: "Pegamento en barra", measure: "40 g", price: 52 },
-        { name: "Cutter Olfa", measure: "18 mm", price: 169 },
-        { name: "Repuestos cutter Olfa", measure: "caja 10 pzas", price: 85 },
-        { name: "Cutter", measure: "unidad", price: 117 },
-        { name: "Regla metálica con corcho", measure: "30 cm", price: 117 },
-        { name: "Base de corte", measure: "A3 · 30 × 45 cm", price: 364 },
-        { name: "Masking tape", measure: "18 mm", price: 39 },
-        { name: "Cinta doble cara", measure: "12 mm", price: 59 },
-        { name: "Lápiz HB", measure: "unidad", price: 13 },
-        { name: "Portaminas", measure: "0.5 mm", price: 78 },
-        { name: "Borrador plástico", measure: "unidad", price: 20 },
-        { name: "Pluma técnica", measure: "unidad", price: 104 },
-        { name: "Rapidógrafo", measure: "0.5 mm", price: 260 },
-        { name: "Escuadra 45°", measure: "25 cm", price: 111 },
-        { name: "Escuadra 30°/60°", measure: "25 cm", price: 111 },
-        { name: "Compás de dibujo", measure: "metálico", price: 156 },
-        { name: "Acetato transparente", measure: "A3 · 0.3 mm", price: 30 },
-      ],
-    },
   },
 
   "impresion-3d": {
     intro:
-      "Cobramos por lo que realmente consume tu pieza: el material y el tiempo que la impresora está trabajando. Sin mínimos ni precios inflados — así se arma cada cotización.",
+      "Cobramos por lo que realmente consume tu pieza: el material y el tiempo que la impresora está trabajando. En lotes, el costo por pieza baja — así se arma cada cotización.",
     tipos: TIPOS_GENERICOS("Modelo 3D"),
     flow: ["Material", "Tiempo de impresión", "Manejo", "IVA"],
     componentes: [
@@ -302,47 +251,6 @@ export const PRICING: Record<string, PricingContent> = {
         name: "IVA (16%)",
         points: [
           "Sobre subtotal + manejo",
-          "Siempre desglosado en tu cotización",
-          "Nunca escondido en el precio base",
-        ],
-      },
-    ],
-  },
-
-  "impresion-gran-formato": {
-    intro:
-      "Cobramos por el área que imprimes y el acabado que necesitas — nada más. Sin mínimos sorpresa ni precios inflados; así se arma cada cotización.",
-    tipos: TIPOS_GENERICOS("Arte"),
-    flow: ["Material", "Tinta", "Acabados", "IVA"],
-    componentes: [
-      {
-        name: "Material",
-        points: [
-          "Por metro cuadrado de lona o vinil",
-          "Según el sustrato y su resistencia",
-          "Solo pagas el área que imprimes",
-        ],
-      },
-      {
-        name: "Tinta",
-        points: [
-          "Cobertura de tinta",
-          "Resolución hasta 1440 dpi",
-          "Depende de la calidad del archivo",
-        ],
-      },
-      {
-        name: "Acabados",
-        points: [
-          "Bastilla, ojillos, laminado o corte",
-          "Montaje y terminado según el uso",
-          "Se aplica sobre el subtotal",
-        ],
-      },
-      {
-        name: "IVA (16%)",
-        points: [
-          "Sobre subtotal + acabados",
           "Siempre desglosado en tu cotización",
           "Nunca escondido en el precio base",
         ],
