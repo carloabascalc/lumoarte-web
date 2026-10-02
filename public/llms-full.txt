@@ -59,10 +59,10 @@ Cortamos y grabamos en serie con láser CO₂ sobre acrílico, MDF, triplay, car
 - Área útil: 130 × 90 cm en una sola pieza. Piezas mayores se modulan con ensambles invisibles.
 - Formatos aceptados: AI, EPS, SVG, PDF, DXF.
 - Convención de archivo: rojo (#FF0000) = corte, negro = grabado.
-- Tiempos: habitualmente menos de una semana; cuando hay disponibilidad, el mismo día. Producciones grandes se calendarizan al cotizar.
+- Tiempos: habitualmente menos de una semana. Producciones grandes se calendarizan al cotizar.
 - No cortamos: PVC (libera cloro tóxico), policarbonato, espejos de vidrio, materiales metálicos.
 - Precio = material + tiempo de máquina ($14 MXN/min) + manejo (4%) + IVA (16%). Diseño y ajustes $600 MXN/hr solo cuando el archivo lo requiere. En volumen el costo por pieza baja.
-- Precios de material por lámina completa (MXN, sin IVA, 2026): MDF 2.7 mm $63, MDF 3 mm $82, MDF 5.5 mm $121, MDF 9 mm $171, MDF 12 mm $206; acrílico transparente 2 mm $390 / 3 mm $533 / 6 mm $953; acrílico negro 3 mm $515; acrílico espejo 3 mm $669; triplay Okumé 4 mm $169 / 6 mm $221; triplay chapado Tzalam 6 mm $304; cartón gris 2 mm $72; foamboard $207; fieltro 3 mm $130; cuero sintético $195; piel natural $455/m². Rango total $20–$953. Lista completa en HTML: https://lumocancun.com/servicios/corte-laser/#precios-materiales
+- Precios de material por lámina completa (MXN, sin IVA, 2026): MDF 2.7 mm $63, MDF 3 mm $82, MDF 5.5 mm $121, MDF 9 mm $171, MDF 12 mm $206; acrílico transparente 2 mm $390 / 3 mm $533 / 6 mm $953; acrílico negro 3 mm $515; acrílico espejo 3 mm $669; triplay Okumé 4 mm $169 / 6 mm $221; triplay chapado Tzalam 6 mm $304; cartón gris 2 mm $72; fieltro 3 mm $130; cuero sintético $195; piel natural $455/m². Rango total $63–$953. Lista completa en HTML: https://lumocancun.com/servicios/corte-laser/#precios-materiales
 
 ### Impresión 3D
 URL: https://lumocancun.com/servicios/impresion-3d/
@@ -80,7 +80,7 @@ Resina:
 - Usos: piezas pequeñas de detalle fino por lote, joyería y prototipos para fundición, moldes.
 
 - Formatos aceptados: STL, OBJ, 3MF, STEP.
-- Tiempos: habitualmente menos de una semana; cuando hay disponibilidad, el mismo día. Producciones por lote se calendarizan al cotizar.
+- Tiempos: habitualmente menos de una semana. Producciones por lote se calendarizan al cotizar.
 
 ---
 
@@ -99,7 +99,7 @@ Sí, es nuestro enfoque. Llaveros, posavasos, placas, cajas, señalética, regal
 No. Somos un taller de fabricación digital (corte láser e impresión 3D a partir de un archivo). No fabricamos muebles ni hacemos trabajos de carpintería.
 
 ### ¿Cuánto tardan en cotizar y en entregar?
-Cotización inmediata por WhatsApp. Los proyectos habitualmente se entregan en menos de una semana; cuando hay disponibilidad, el mismo día. Producciones grandes se calendarizan al cotizar.
+Cotización inmediata por WhatsApp. Los proyectos habitualmente se entregan en menos de una semana. Producciones grandes se calendarizan al cotizar.
 
 ### ¿Cuál es el tamaño máximo que pueden fabricar?
 Corte láser: 130 × 90 cm en una sola pieza. Impresión 3D: hasta 300 × 300 × 400 mm en FDM XL.
@@ -108,7 +108,7 @@ Corte láser: 130 × 90 cm en una sola pieza. Impresión 3D: hasta 300 × 300 ×
 Vectores en AI, EPS, SVG, PDF, DXF para láser. STL, OBJ, 3MF, STEP para impresión 3D. Vectorizamos tu logo en JPG o PNG nítido cuando es sencillo.
 
 ### ¿Dónde están y a qué zonas entregan?
-Retorno Tejón, Sm 20, Mz 3, Lt 2, Cancún, Q. Roo 77500. Entrega a domicilio en Cancún metropolitano. Envíos por DHL y Estafeta a Playa del Carmen, Tulum, Mérida y resto de México.
+Retorno Tejón, Sm 20, Mz 3, Lt 2, Cancún, Q. Roo 77500. Entrega a domicilio en Cancún metropolitano. Envíos por DHL y Estafeta a Playa del Carmen y Tulum (Riviera Maya), Mérida y resto de México.
 
 ### ¿Cómo pago?
 Transferencia bancaria, depósito en efectivo, tarjeta de débito y crédito (con cargo bancario). Producciones grandes: 50% anticipo, 50% al entregar. Trabajos pequeños: pago completo al confirmar.

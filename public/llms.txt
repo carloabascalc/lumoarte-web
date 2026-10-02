@@ -52,7 +52,7 @@
 1. Cotización por WhatsApp (pieza, medida, cantidad) → precio por pieza según cantidad.
 2. Aprobación de diseño y material; en producciones grandes 50% de anticipo y 50% al entregar.
 3. Producción: habitualmente menos de una semana; los lotes grandes se calendarizan.
-4. Entrega en Cancún; envío a Playa del Carmen, Tulum, Mérida y todo México (DHL, Estafeta).
+4. Entrega en Cancún; envío a Playa del Carmen y Tulum (Riviera Maya), Mérida y todo México (DHL, Estafeta).
 5. Reposición: guardamos el archivo, el siguiente lote sale igual.
 
 ## Precios

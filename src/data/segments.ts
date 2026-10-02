@@ -202,7 +202,7 @@ export const segments: Segment[] = [
       {
         question: '¿Con cuánto tiempo debo pedir para mi evento?',
         answer:
-          'Habitualmente entregamos en menos de una semana; cuando hay disponibilidad, el mismo día. Para eventos grandes conviene cotizar en cuanto tengas la cantidad de invitados, y calendarizamos la producción contigo.',
+          'Habitualmente entregamos en menos de una semana. Para eventos grandes conviene cotizar en cuanto tengas la cantidad de invitados, y calendarizamos la producción contigo.',
       },
     ],
   },
