@@ -14,7 +14,7 @@ import Contact from "../../components/Contact.astro";
 import Footer from "../../components/Footer.astro";
 import WhatsAppButton from "../../components/WhatsAppButton.astro";
 import { segments, type Segment } from "../../data/segments";
-import { SITE, absUrl } from "../../data/services";
+import { SITE, absUrl, ORG_ID } from "../../data/services";
 import { segmentImage, segmentAlt } from "../../data/segmentImages";
 import { getImage } from "astro:assets";
 
@@ -45,6 +45,8 @@ const schemaImages = await Promise.all(
       contentUrl: new URL(img.src, SITE.url).href,
       caption: segmentAlt(file),
       creditText: SITE.name,
+      creator: { "@type": "Organization", "@id": ORG_ID, name: SITE.name },
+      copyrightNotice: `© ${new Date().getFullYear()} ${SITE.name}`,
     };
   }),
 );
@@ -66,7 +68,7 @@ const serviceSchema = {
     name: `Qué fabricamos para ${segment.name.toLowerCase()}`,
     itemListElement: segment.productos.map((p) => ({
       "@type": "Offer",
-      itemOffered: { "@type": "Product", name: p.name, description: p.desc },
+      itemOffered: { "@type": "Service", name: p.name, description: p.desc },
     })),
   },
 };
