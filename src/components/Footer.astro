@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import logoFooter from "../assets/logos/logo-footer.png";
 import { services, SITE, getServiceUrl, isExternalService } from "../data/services";
 import { segments } from "../data/segments";
+import { products } from "../data/products";
 
 interface Props {
   /** "full" = umbrella footer (default). "minimal" = EMD footer (NAP + back-link only). */
@@ -72,6 +73,17 @@ const brandHref = isMinimal ? `${SITE.url}/` : "/";
         <ul role="list">
           {segments.map((s) => (
             <li><a href={s.slug} class="footer-col-link">{s.name}</a></li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {!isMinimal && (
+      <div class="footer-col" data-reveal data-reveal-delay="0.11">
+        <p class="footer-col-label">Productos</p>
+        <ul role="list">
+          {products.map((p) => (
+            <li><a href={p.slug} class="footer-col-link">{p.name}</a></li>
           ))}
         </ul>
       </div>

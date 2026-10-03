@@ -8,13 +8,19 @@ import { segmentImage, segmentAlt } from "../data/segmentImages";
 
 interface Props {
   sector?: SegmentId;
+  /** Show only these named clients (product pages). */
+  clients?: string[];
   title?: string;
 }
-const { sector, title = "Trabajos para negocios" } = Astro.props;
+const { sector, clients, title = "Trabajos para negocios" } = Astro.props;
 
 // Sector pages show only their own cases (none → section hidden); the
 // general view shows the first four so the grid stays one clean row.
-const filtered = sector ? cases.filter((c) => c.sector === sector) : cases.slice(0, 4);
+const filtered = clients
+  ? cases.filter((c) => clients.includes(c.client))
+  : sector
+    ? cases.filter((c) => c.sector === sector)
+    : cases.slice(0, 4);
 const items = filtered.map((c) => ({
   ...c,
   img: segmentImage(c.image),

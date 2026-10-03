@@ -4,6 +4,7 @@ import logoNav from "../assets/logos/logo-nav.png";
 import { SITE, services, getServiceUrl, isExternalService } from "../data/services";
 import type { ServiceId } from "../data/services";
 import { segments } from "../data/segments";
+import { products } from "../data/products";
 
 interface Props {
   variant?: "overlay" | "solid" | "emd";
@@ -38,6 +39,7 @@ const navClass = isEmd ? "nav nav--solid nav--emd" : `nav nav--${variant}`;
     <nav class="nav-actions" aria-label="Navegación principal">
       <a href={serviciosHref} class="nav-link nav-link--desktop">Servicios</a>
       {!isEmd && <a href="/sectores/" class="nav-link nav-link--desktop">Sectores</a>}
+      {!isEmd && <a href="/productos/" class="nav-link nav-link--desktop">Productos</a>}
       {!isEmd && (
         <a
           href={ctaHref}
@@ -103,6 +105,10 @@ const navClass = isEmd ? "nav nav--solid nav--emd" : `nav nav--${variant}`;
       <a href="/sectores/" class="nav-drawer-link nav-drawer-link--head">Sectores</a>
       {segments.map((s) => (
         <a href={s.slug} class="nav-drawer-link nav-drawer-sub">{s.name}</a>
+      ))}
+      <a href="/productos/" class="nav-drawer-link nav-drawer-link--head">Productos</a>
+      {products.map((p) => (
+        <a href={p.slug} class="nav-drawer-link nav-drawer-sub">{p.name}</a>
       ))}
       <a href={ctaHref} class="btn btn-primary nav-drawer-cta">Cotiza tu producción</a>
     </div>

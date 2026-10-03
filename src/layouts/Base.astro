@@ -2,6 +2,7 @@
 import { ClientRouter } from "astro:transitions";
 import { SITE, services, absUrl, ORG_ID, FOUNDER_ID, CATALOG_ID } from "../data/services";
 import { segments } from "../data/segments";
+import { products } from "../data/products";
 import PageTransition from "../components/PageTransition.astro";
 
 interface Props {
@@ -166,6 +167,11 @@ const businessSchema = {
         "@type": "OfferCatalog",
         name: "Por sector",
         itemListElement: segments.map((g) => serviceRef(g.name, g.metaDescription, g.slug, g.audience)),
+      },
+      {
+        "@type": "OfferCatalog",
+        name: "Por producto",
+        itemListElement: products.map((p) => serviceRef(p.name, p.metaDescription, p.slug, p.audience)),
       },
     ],
   },

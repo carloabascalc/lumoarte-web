@@ -32,6 +32,19 @@
 - [Eventos y bodas](https://lumocancun.com/sectores/eventos-y-bodas/): recuerdos
   para invitados, cajas, números de mesa, señalética y decoración.
 
+## Productos
+
+- [Todos los productos](https://lumocancun.com/productos/): tabla de lo que fabricamos en serie.
+- [Llaveros con logo](https://lumocancun.com/productos/llaveros-con-logo/):
+  llaveros de habitación, de marca y souvenir por mayoreo; grabados a láser en
+  madera o acrílico, o impresos en 3D a color.
+- [Trofeos impresos en 3D](https://lumocancun.com/productos/trofeos-impresos-3d/):
+  trofeos y premios con diseño propio, sin molde, en lotes para eventos,
+  torneos y empresas.
+- [Placas y señalética](https://lumocancun.com/productos/placas-y-senaletica/):
+  placas de reconocimiento, letreros de marca y señalética interior grabados a
+  láser en acrílico, madera o aluminio.
+
 ## Recursos
 
 - [FDM vs Resina](https://lumocancun.com/recursos/fdm-vs-resina/): Guía de

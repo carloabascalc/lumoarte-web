@@ -20,7 +20,7 @@ export default defineConfig({
       serialize(item) {
         if (item.url === 'https://lumocancun.com/') {
           item.priority = 1.0;
-        } else if (item.url.includes('/sectores/') || item.url.includes('/servicios/')) {
+        } else if (item.url.includes('/sectores/') || item.url.includes('/servicios/') || item.url.includes('/productos/')) {
           item.priority = 0.9;
         } else if (item.url.includes('/recursos/')) {
           item.priority = 0.7;

@@ -49,6 +49,22 @@ Recuerdos para invitados, cajas y dulceros, números de mesa y señalética, pie
 
 ---
 
+## Productos
+
+### Llaveros con logo por mayoreo
+URL: https://lumocancun.com/productos/llaveros-con-logo/
+Llaveros de habitación para hoteles (número de cada habitación + marca, mismo diseño en todo el lote), llaveros de marca para empresas y llaveros souvenir para tiendas. Grabados a láser en madera (triplay, Tzalam) o acrílico (transparente, color, espejo oro/plata), o impresos en 3D a color con volumen y varios colores en la misma pieza. Reposición desde el mismo archivo.
+
+### Trofeos impresos en 3D
+URL: https://lumocancun.com/productos/trofeos-impresos-3d/
+Trofeos y premios con la forma de tu logo o tu idea, impresos en 3D (Bambu Lab) para eventos corporativos, torneos y equipos. Sin molde: el diseño propio es viable en lotes medianos, a diferencia de un trofeo inyectado. Se combinan con placas grabadas a láser con nombre y fecha. Modelado 3D se cotiza aparte si no hay archivo.
+
+### Placas y señalética grabada a láser
+URL: https://lumocancun.com/productos/placas-y-senaletica/
+Placas de reconocimiento (aluminio, madera, acrílico, vidrio, mármol), letreros de marca (p. ej. La Central Vinos & Licores), señalética interior para hoteles y oficinas, señalética de reciclaje, indicadores de estacionamiento y placas conmemorativas para eventos (p. ej. BeStar Generation). El grabado láser marca el material: no se despega como un vinil.
+
+---
+
 ## Servicios
 
 ### Corte láser y grabado
@@ -146,5 +162,9 @@ Transferencia bancaria, depósito en efectivo, tarjeta de débito y crédito (co
 - [Souvenirs por mayoreo](https://lumocancun.com/sectores/souvenirs-mayoreo/)
 - [Eventos y bodas](https://lumocancun.com/sectores/eventos-y-bodas/)
 - [Sectores](https://lumocancun.com/sectores/)
+- [Productos](https://lumocancun.com/productos/)
+- [Llaveros con logo](https://lumocancun.com/productos/llaveros-con-logo/)
+- [Trofeos impresos en 3D](https://lumocancun.com/productos/trofeos-impresos-3d/)
+- [Placas y señalética](https://lumocancun.com/productos/placas-y-senaletica/)
 - [Recursos](https://lumocancun.com/recursos/)
 - [Aviso de privacidad](https://lumocancun.com/aviso-de-privacidad/)

@@ -13,32 +13,34 @@ import QuoteForm from "../../components/QuoteForm.astro";
 import Contact from "../../components/Contact.astro";
 import Footer from "../../components/Footer.astro";
 import WhatsAppButton from "../../components/WhatsAppButton.astro";
-import { segments, type Segment } from "../../data/segments";
+import { products, type Product } from "../../data/products";
 import { SITE, absUrl } from "../../data/services";
 import { segmentImage, segmentAlt } from "../../data/segmentImages";
 import { getImage } from "astro:assets";
 
 export function getStaticPaths() {
-  return segments.map((segment) => ({
-    params: { slug: segment.slug.split("/").filter(Boolean).pop() },
-    props: { segment },
+  return products.map((product) => ({
+    params: { slug: product.slug.split("/").filter(Boolean).pop() },
+    props: { product },
   }));
 }
 
-const { segment } = Astro.props as { segment: Segment };
+const { product } = Astro.props as { product: Product };
 
 // Range + past fact, never a promised capacity or a hard minimum.
 const faqs = [
-  ...segment.faqs,
+  ...product.faqs,
   {
     question: "¿Desde cuántas piezas trabajan?",
     answer: "Trabajamos lotes de decenas a miles de piezas. Como referencia, hemos entregado lotes de alrededor de 1,500 piezas en un solo pedido (cuadros enmarcados para un hotel en Cancún). Entre más piezas, menor el costo por pieza; cada lote se cotiza según la pieza, el material y la cantidad.",
   },
 ];
 
+const others = products.filter((p) => p.id !== product.id);
+
 // Production photos as ImageObjects (hashed /_astro URLs resolved at build).
 const schemaImages = await Promise.all(
-  segment.images.map(async (file) => {
+  product.images.map(async (file) => {
     const img = await getImage({ src: segmentImage(file), width: 1200, format: "jpg" });
     return {
       "@type": "ImageObject",
@@ -50,32 +52,32 @@ const schemaImages = await Promise.all(
 );
 
 const serviceSchema = {
-  "@id": `${absUrl(segment.slug)}#service`,
-  name: `Producción en serie para ${segment.audience.toLowerCase()}`,
-  serviceType: "Corte láser, grabado láser e impresión 3D en serie",
-  description: segment.metaDescription,
-  url: absUrl(segment.slug),
+  "@id": `${absUrl(product.slug)}#service`,
+  name: product.name,
+  serviceType: product.serviceType,
+  description: product.metaDescription,
+  url: absUrl(product.slug),
   audience: {
     "@type": "BusinessAudience",
-    audienceType: segment.audience,
+    audienceType: product.audience,
     geographicArea: { "@type": "Country", name: "México" },
   },
   image: schemaImages,
   hasOfferCatalog: {
     "@type": "OfferCatalog",
-    name: `Qué fabricamos para ${segment.name.toLowerCase()}`,
-    itemListElement: segment.productos.map((p) => ({
+    name: product.name,
+    itemListElement: product.variantes.map((v) => ({
       "@type": "Offer",
-      itemOffered: { "@type": "Product", name: p.name, description: p.desc },
+      itemOffered: { "@type": "Product", name: v.name, description: v.desc },
     })),
   },
 };
 ---
 
 <Base
-  title={segment.metaTitle}
-  description={segment.metaDescription}
-  canonical={segment.slug}
+  title={product.metaTitle}
+  description={product.metaDescription}
+  canonical={product.slug}
   schemaType="Service"
   schemaData={serviceSchema}
 >
@@ -84,34 +86,34 @@ const serviceSchema = {
     <Breadcrumb
       items={[
         { label: "Inicio", href: "/" },
-        { label: "Sectores", href: "/sectores/" },
-        { label: segment.name },
+        { label: "Productos", href: "/productos/" },
+        { label: product.name },
       ]}
-      backHref="/sectores/"
-      backLabel="Regresar a sectores"
+      backHref="/productos/"
+      backLabel="Regresar a productos"
     />
 
     <ServicePageHero
-      eyebrow={segment.eyebrow}
-      title={segment.h1}
-      subtitle={segment.subtitle}
+      eyebrow={product.eyebrow}
+      title={product.h1}
+      subtitle={product.subtitle}
       primaryCta={{ label: "Cotiza tu producción", href: "#cotiza" }}
-      secondaryCta={{ label: "Qué fabricamos", href: "#productos" }}
-      service="laser"
+      secondaryCta={{ label: "Opciones", href: "#productos" }}
+      service={product.service}
     >
-      <SectorShowcase slot="showcase" images={segment.images} />
+      <SectorShowcase slot="showcase" images={product.images} />
     </ServicePageHero>
 
     <section class="productos section" id="productos">
       <div class="container">
         <div class="section-header">
           <p class="productos-eyebrow" data-reveal>En serie, con tu marca</p>
-          <h2 class="section-title" data-reveal data-reveal-delay="0.06">Qué fabricamos</h2>
+          <h2 class="section-title" data-reveal data-reveal-delay="0.06">Opciones</h2>
         </div>
-        <ul class:list={["productos-grid", { "productos-grid--two": segment.productos.length % 3 !== 0 }]} role="list">
-          {segment.productos.map((p, i) => (
+        <ul class:list={["productos-grid", { "productos-grid--two": product.variantes.length % 3 !== 0 }]} role="list">
+          {product.variantes.map((p, i) => (
             <li class="producto" data-reveal data-reveal-delay={`${0.04 + i * 0.04}`}>
-              <h3 class="producto-name">{p.href ? <a href={p.href}>{p.name} →</a> : p.name}</h3>
+              <h3 class="producto-name">{p.name}</h3>
               <p class="producto-desc">{p.desc}</p>
             </li>
           ))}
@@ -124,25 +126,37 @@ const serviceSchema = {
       </div>
     </section>
 
-    <BusinessCases sector={segment.id} title="Trabajos reales" />
+    {product.cases && <BusinessCases clients={product.cases} title="Trabajos reales" />}
 
     <TrustBand />
 
     <VolumeProcess />
 
     <FAQ
-      title={`Preguntas frecuentes · ${segment.name}`}
+      title={`Preguntas frecuentes · ${product.name}`}
       subtitle="Si la tuya no aparece, mándanos un WhatsApp."
       items={faqs}
     />
 
-    <QuoteForm defaultCliente={segment.cliente} />
+    <QuoteForm />
 
     <SectorsGrid
-      excludeId={segment.id}
-      title="Otros sectores"
-      subtitle="También producimos en serie para:"
+      onlyIds={product.sectors}
+      title="Para quién los fabricamos"
+      subtitle="Cada sector tiene su página con más productos y casos:"
     />
+
+    <section class="otros section">
+      <div class="container">
+        <h2 class="section-title">Otros productos</h2>
+        <ul class="otros-list" role="list">
+          {others.map((o) => (
+            <li><a href={o.slug}><strong>{o.name}</strong><span>{o.blurb}</span></a></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
   </main>
   <div class="page-end">
     <Contact />
@@ -193,15 +207,6 @@ const serviceSchema = {
     margin-bottom: 8px;
   }
 
-  .producto-name a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .producto-name a:hover {
-    color: var(--color-accent);
-  }
-
   .producto-desc {
     color: var(--color-muted);
     font-size: 0.9375rem;
@@ -227,6 +232,52 @@ const serviceSchema = {
 
   @media (max-width: 560px) {
     .productos-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .otros {
+    background: var(--color-bg-alt);
+  }
+
+  .otros-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    list-style: none;
+    max-width: 880px;
+  }
+
+  .otros-list a {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 22px 24px;
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    background: var(--color-bg);
+    text-decoration: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .otros-list a:hover {
+    border-color: var(--color-accent);
+  }
+
+  .otros-list strong {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    color: var(--color-text);
+  }
+
+  .otros-list span {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 560px) {
+    .otros-list {
       grid-template-columns: 1fr;
     }
   }

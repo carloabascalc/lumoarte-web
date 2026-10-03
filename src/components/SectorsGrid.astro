@@ -9,17 +9,20 @@ import { segmentImage, segmentAlt } from "../data/segmentImages";
 interface Props {
   /** Hide the current segment when used on a sector page. */
   excludeId?: string;
+  /** Show only these segments (product pages). */
+  onlyIds?: string[];
   title?: string;
   subtitle?: string;
 }
 const {
   excludeId,
+  onlyIds,
   title = "Para quién fabricamos",
   subtitle = "Producimos en serie para negocios que necesitan la misma pieza muchas veces — y que vuelven a pedirla.",
 } = Astro.props;
 
 const items = segments
-  .filter((s) => s.id !== excludeId)
+  .filter((s) => s.id !== excludeId && (!onlyIds || onlyIds.includes(s.id)))
   .map((s) => ({ ...s, img: segmentImage(s.cardImage) as ImageMetadata, alt: segmentAlt(s.cardImage) }));
 ---
 
@@ -31,7 +34,7 @@ const items = segments
       <p class="section-subtitle" data-reveal data-reveal-delay="0.12">{subtitle}</p>
     </div>
 
-    <ul class:list={["sectors-grid", { "sectors-grid--three": items.length === 3 }]} role="list">
+    <ul class:list={["sectors-grid", { "sectors-grid--three": items.length === 3, "sectors-grid--two": items.length === 2 }]} role="list">
       {items.map((s, i) => (
         <li class="sector" data-reveal data-reveal-delay={`${0.04 + i * 0.05}`}>
           <a class="sector-link" href={s.slug}>
@@ -86,6 +89,11 @@ const items = segments
 
   .sectors-grid--three {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .sectors-grid--two {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 640px;
   }
 
   .sector-link {

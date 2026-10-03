@@ -40,7 +40,8 @@ export interface Segment {
   images: [string, string, string];
   /** Homepage card photo (distinct per segment). */
   cardImage: string;
-  productos: { name: string; desc: string }[];
+  /** `href` links a product to its /productos/* page. */
+  productos: { name: string; desc: string; href?: string }[];
   faqs: SegmentFaq[];
 }
 
@@ -63,8 +64,8 @@ export const segments: Segment[] = [
     cardImage: 'hotel-la-central.jpg',
     productos: [
       { name: 'Posavasos con tu logo', desc: 'Grabados en madera, MDF o acrílico, por cientos.' },
-      { name: 'Llaveros de habitación', desc: 'En triplay, acrílico o impresos en 3D, con número y marca.' },
-      { name: 'Señalética interior', desc: 'Letreros, numeración de habitaciones y placas en acrílico o madera.' },
+      { name: 'Llaveros de habitación', desc: 'En triplay, acrílico o impresos en 3D, con número y marca.', href: '/productos/llaveros-con-logo/' },
+      { name: 'Señalética interior', desc: 'Letreros, numeración de habitaciones y placas en acrílico o madera.', href: '/productos/placas-y-senaletica/' },
       { name: 'Estuches y cajas', desc: 'Estuches de vino, cajas de amenidades y empaques con tu marca.' },
       { name: 'Menús y portamenús', desc: 'Tapas grabadas y soportes para mesa y barra.' },
       { name: 'Cuadros para habitaciones', desc: 'Arte enmarcado producido por lote para todas tus habitaciones.' },
@@ -104,11 +105,11 @@ export const segments: Segment[] = [
     images: ['corp-placas.jpg', 'corp-trofeos.jpg', 'corp-termo.jpg'],
     cardImage: 'corp-trofeos.jpg',
     productos: [
-      { name: 'Dijes y llaveros de marca', desc: 'En acrílico espejo, triplay o impresos en 3D, con tu logo.' },
+      { name: 'Dijes y llaveros de marca', desc: 'En acrílico espejo, triplay o impresos en 3D, con tu logo.', href: '/productos/llaveros-con-logo/' },
       { name: 'Regalos corporativos', desc: 'Piezas grabadas para clientes, equipos y fin de año.' },
-      { name: 'Placas y reconocimientos', desc: 'Grabado en aluminio, madera, acrílico, vidrio o mármol.' },
+      { name: 'Placas y reconocimientos', desc: 'Grabado en aluminio, madera, acrílico, vidrio o mármol.', href: '/productos/placas-y-senaletica/' },
       { name: 'Kits y cajas de bienvenida', desc: 'Cajas de MDF o madera grabadas con tu marca.' },
-      { name: 'Trofeos impresos en 3D', desc: 'Trofeos y premios con tu diseño, en lotes para eventos y equipos.' },
+      { name: 'Trofeos impresos en 3D', desc: 'Trofeos y premios con tu diseño, en lotes para eventos y equipos.', href: '/productos/trofeos-impresos-3d/' },
       { name: 'Displays y exhibidores', desc: 'Para punto de venta, mostrador y stands.' },
     ],
     faqs: [
@@ -146,7 +147,7 @@ export const segments: Segment[] = [
     images: ['souv-tiburones.jpg', 'souv-llaveros-cancun.jpg', 'souv-peces.jpg'],
     cardImage: 'souv-llaveros-cancun.jpg',
     productos: [
-      { name: 'Llaveros de Cancún', desc: 'Grabados en madera o acrílico, o impresos en 3D a color.' },
+      { name: 'Llaveros de Cancún', desc: 'Grabados en madera o acrílico, o impresos en 3D a color.', href: '/productos/llaveros-con-logo/' },
       { name: 'Figuras y llaveros articulados', desc: 'Peces, tiburones y animales impresos en 3D a color, por lote.' },
       { name: 'Línea exclusiva para tu tienda', desc: 'Tu diseño, producido solo para ti.' },
       { name: 'Empaque para souvenirs', desc: 'Cajas y estuches cortados a láser.' },
@@ -183,7 +184,7 @@ export const segments: Segment[] = [
     productos: [
       { name: 'Recuerdos para invitados', desc: 'Llaveros, dijes y piezas grabadas con nombres o fecha.' },
       { name: 'Cajas y dulceros', desc: 'Cajas de MDF y acrílico para regalos y mesas de dulces.' },
-      { name: 'Números de mesa y señalética', desc: 'Del mismo diseño para todo el evento.' },
+      { name: 'Números de mesa y señalética', desc: 'Del mismo diseño para todo el evento.', href: '/productos/placas-y-senaletica/' },
       { name: 'Piezas con nombre', desc: 'Paletas, gafetes y lugares de mesa personalizados por invitado.' },
       { name: 'Invitaciones', desc: 'Invitaciones cortadas o grabadas a láser en papel, madera o acrílico.' },
       { name: 'Decoración', desc: 'Paneles, centros de mesa y piezas decorativas cortadas a láser.' },
