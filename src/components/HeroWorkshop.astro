@@ -1,0 +1,465 @@
+---
+/**
+ * Ambient workshop behind the home hero — the same illustrated world as the
+ * video ads (warm pendant lamps, laser cutting with sparks, 3D printer building
+ * articulated crabs), so people who arrive from an ad recognise the place.
+ *
+ *  - Wide screens: laser on the left and printer on the right, placed in the
+ *    free space beside the headline (measured at runtime), each under its lamp.
+ *  - Narrow screens: only two small lamps with their light and floating dust.
+ *  - Pure inline SVG + one small script: no images, no video, no requests.
+ *  - Pauses offscreen / in background tabs; static frame for reduced motion.
+ */
+---
+
+<div class="hw" aria-hidden="true">
+  <noscript><style>.hw { opacity: 1 !important; }</style></noscript>
+
+  <svg class="hw-defs" width="0" height="0" focusable="false">
+    <defs>
+      <linearGradient id="hw-cone" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffd08f" stop-opacity="0.5" />
+        <stop offset="0.55" stop-color="#ffd59c" stop-opacity="0.16" />
+        <stop offset="1" stop-color="#ffd59c" stop-opacity="0" />
+      </linearGradient>
+      <radialGradient id="hw-bulb">
+        <stop offset="0" stop-color="#fff3d6" stop-opacity="1" />
+        <stop offset="0.35" stop-color="#ffd59c" stop-opacity="0.55" />
+        <stop offset="1" stop-color="#ffd59c" stop-opacity="0" />
+      </radialGradient>
+      <radialGradient id="hw-spill">
+        <stop offset="0" stop-color="#ffc27a" stop-opacity="0.95" />
+        <stop offset="0.4" stop-color="#ff9a4a" stop-opacity="0.35" />
+        <stop offset="1" stop-color="#ff8a3a" stop-opacity="0" />
+      </radialGradient>
+      <radialGradient id="hw-shadow">
+        <stop offset="0" stop-color="#2b1d12" stop-opacity="0.2" />
+        <stop offset="1" stop-color="#2b1d12" stop-opacity="0" />
+      </radialGradient>
+      <linearGradient id="hw-wood" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#cf9a68" />
+        <stop offset="1" stop-color="#b98351" />
+      </linearGradient>
+      <clipPath id="hw-glass"><rect x="132" y="92" width="122" height="118" rx="6" /></clipPath>
+      <clipPath id="hw-print" clipPathUnits="userSpaceOnUse"><polygon class="hw-print-poly" points="0,0 0,0 0,0" /></clipPath>
+      <g id="hw-lamp">
+        <rect x="-7" y="-50" width="14" height="12" rx="2" fill="#2b1d12" fill-opacity="0.75" />
+        <path d="M-48 0 C-48 -34 -27 -46 0 -46 C27 -46 48 -34 48 0 Z" fill="#b34000" stroke="#2b1d12" stroke-opacity="0.5" stroke-width="2.5" />
+        <line x1="-51" y1="0" x2="51" y2="0" stroke="#2b1d12" stroke-opacity="0.5" stroke-width="3.5" stroke-linecap="round" />
+        <circle cx="0" cy="3" r="9" fill="#fff0d6" />
+      </g>
+    </defs>
+  </svg>
+
+  {/* ── left: laser cutter under its lamp ── */}
+  <svg class="hw-side hw-left" viewBox="0 0 360 640" preserveAspectRatio="xMidYMin meet" overflow="visible">
+    <polygon points="152,150 218,150 350,610 20,610" fill="url(#hw-cone)" />
+    <circle cx="185" cy="154" r="44" fill="url(#hw-bulb)" />
+    <g class="hw-sway" data-ox="185" data-oy="-40" data-f="1.61" data-ph="0">
+      <line x1="185" y1="-400" x2="185" y2="104" stroke="#2b1d12" stroke-opacity="0.42" stroke-width="2" />
+      <use href="#hw-lamp" x="185" y="150" />
+    </g>
+    <ellipse cx="185" cy="603" rx="168" ry="10" fill="url(#hw-shadow)" />
+    <g class="hw-dust hw-dust--l"></g>
+    <g transform="translate(-35 338) scale(1.1)">
+      <g fill="none" stroke="#2b1d12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.85">
+        <path d="M58 86 V238 M342 86 V238 M50 86 H350 M51 238 H65 M335 238 H349" />
+        <path d="M70 104 H330" stroke-width="2.5" stroke-opacity="0.55" />
+      </g>
+      <rect x="84" y="208" width="232" height="22" rx="3" fill="url(#hw-wood)" stroke="#8a5c33" stroke-width="1.2" stroke-opacity="0.55" />
+      <line x1="86" y1="213" x2="314" y2="213" stroke="#fff" stroke-opacity="0.35" stroke-width="1.5" />
+      <g class="hw-kerfs"></g>
+      <g class="hw-carriage" transform="translate(106 0)">
+        <ellipse class="hw-spill" cx="0" cy="206" rx="42" ry="13" fill="url(#hw-spill)" opacity="0" />
+        <line class="hw-beam-glow" x1="0" y1="100" x2="0" y2="208" stroke="#ff6a1a" stroke-width="10" stroke-opacity="0.2" stroke-linecap="round" opacity="0" />
+        <line class="hw-beam" x1="0" y1="100" x2="0" y2="208" stroke="#ff5a1f" stroke-width="2.6" stroke-linecap="round" opacity="0" />
+        <line class="hw-beam-hot" x1="0" y1="100" x2="0" y2="208" stroke="#fff3da" stroke-width="1" stroke-linecap="round" opacity="0" />
+        <ellipse class="hw-contact" cx="0" cy="208" rx="6" ry="2.4" fill="#ff7a2a" opacity="0" />
+        <rect x="-14" y="70" width="28" height="22" rx="3" fill="#fbf6ec" stroke="#2b1d12" stroke-width="2.5" stroke-linejoin="round" />
+        <path d="M-7 92 L7 92 L0 100 Z" fill="#3a2a1e" />
+        <rect class="hw-headlamp" x="-8" y="76" width="16" height="4" rx="2" fill="#b34000" />
+      </g>
+      <g class="hw-sparks"></g>
+    </g>
+  </svg>
+
+  {/* ── right: 3D printer building articulated crabs ── */}
+  <svg class="hw-side hw-right" viewBox="0 0 360 640" preserveAspectRatio="xMidYMin meet" overflow="visible">
+    <g class="hw-drop">
+      <polygon points="142,130 208,130 335,610 15,610" fill="url(#hw-cone)" />
+      <circle cx="175" cy="134" r="44" fill="url(#hw-bulb)" />
+      <g class="hw-sway" data-ox="175" data-oy="-40" data-f="1.37" data-ph="2.3">
+        <line x1="175" y1="-400" x2="175" y2="84" stroke="#2b1d12" stroke-opacity="0.42" stroke-width="2" />
+        <use href="#hw-lamp" x="175" y="130" />
+      </g>
+    </g>
+    <ellipse cx="190" cy="603" rx="150" ry="10" fill="url(#hw-shadow)" />
+    <g class="hw-dust hw-dust--r"></g>
+    <g transform="translate(-47 216) scale(1.15)">
+      <g stroke="#2b1d12" stroke-linecap="round" stroke-opacity="0.7" stroke-width="3">
+        <path d="M118 238.7 V334 M268 238.7 V334 M112 334 H124 M262 334 H274" />
+      </g>
+      <rect x="104" y="232" width="178" height="6.7" rx="2" fill="#eadfcd" stroke="#2b1d12" stroke-width="2.5" stroke-opacity="0.8" />
+      <rect x="118" y="64" width="150" height="168" rx="10" fill="#fbf6ec" stroke="#2b1d12" stroke-width="3" stroke-opacity="0.88" />
+      <rect x="132" y="92" width="122" height="118" rx="6" fill="#dfe6e6" fill-opacity="0.45" stroke="#2b1d12" stroke-width="2" stroke-opacity="0.5" />
+      <line x1="118" y1="84" x2="268" y2="84" stroke="#2b1d12" stroke-width="2.5" stroke-opacity="0.88" />
+      <g clip-path="url(#hw-glass)">
+        <line x1="140" y1="198" x2="246" y2="198" stroke="#2b1d12" stroke-width="3" stroke-linecap="round" stroke-opacity="0.7" />
+        <g class="hw-crabs" clip-path="url(#hw-print)"></g>
+        <g class="hw-done"></g>
+        <line x1="136" x2="250" y1="108" y2="108" stroke="#2b1d12" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.6" />
+        <g class="hw-nozzle" transform="translate(193 118)">
+          <rect x="-7" y="-18" width="14" height="12" rx="2" fill="#b34000" />
+          <path d="M-3 -6 L3 -6 L0 0 Z" fill="#3a2a1e" />
+        </g>
+      </g>
+      <rect x="236" y="196" width="22" height="16" rx="2" fill="#2b1d12" />
+      <rect class="hw-prog" x="240" y="200" width="0" height="3" rx="1.5" fill="#ff7a2a" />
+      <g stroke="#2b1d12" stroke-width="2.5" fill="#fbf6ec">
+        <circle cx="300" cy="120" r="26" />
+        <circle cx="300" cy="120" r="7" fill="#b34000" stroke="none" />
+        <circle cx="300" cy="120" r="26" fill="none" stroke="#c87a2a" stroke-opacity="0.5" stroke-width="6" />
+      </g>
+      <path d="M283 134 C268 150 262 168 268 92" fill="none" stroke="#b34000" stroke-width="2" stroke-opacity="0.7" stroke-linecap="round" />
+    </g>
+  </svg>
+
+  {/* ── narrow screens: two small lamps in the corners ── */}
+  <svg class="hw-corner hw-corner--l" viewBox="0 0 120 420" overflow="visible">
+    <polygon points="42,58 78,58 150,420 -30,420" fill="url(#hw-cone)" opacity="0.8" />
+    <circle cx="60" cy="61" r="26" fill="url(#hw-bulb)" />
+    <g class="hw-sway" data-ox="60" data-oy="-40" data-f="1.61" data-ph="0">
+      <line x1="60" y1="-400" x2="60" y2="30" stroke="#2b1d12" stroke-opacity="0.42" stroke-width="1.6" />
+      <use href="#hw-lamp" transform="translate(60 58) scale(0.55)" />
+    </g>
+    <g class="hw-dust hw-dust--cl"></g>
+  </svg>
+  <svg class="hw-corner hw-corner--r" viewBox="0 0 120 420" overflow="visible">
+    <polygon points="42,58 78,58 150,420 -30,420" fill="url(#hw-cone)" opacity="0.8" />
+    <circle cx="60" cy="61" r="26" fill="url(#hw-bulb)" />
+    <g class="hw-sway" data-ox="60" data-oy="-40" data-f="1.37" data-ph="2.3">
+      <line x1="60" y1="-400" x2="60" y2="30" stroke="#2b1d12" stroke-opacity="0.42" stroke-width="1.6" />
+      <use href="#hw-lamp" transform="translate(60 58) scale(0.55)" />
+    </g>
+    <g class="hw-dust hw-dust--cr"></g>
+  </svg>
+</div>
+
+<style>
+  .hw {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.4s ease 0.25s;
+  }
+  .hw.is-on { opacity: 1; }
+  .hw-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  .hw-side,
+  .hw-corner { will-change: transform; }   /* own layers: repaints never touch the textured hero background */
+  .hw-side {
+    position: absolute;
+    top: var(--nav-h);
+    display: none;
+    height: var(--hw-h, 600px);
+    width: calc(var(--hw-h, 600px) * 0.5625);
+  }
+  .hw-left { left: var(--hw-lx, 0px); }
+  .hw-right { left: var(--hw-rx, auto); }
+  .hw--wide .hw-side { display: block; }
+
+  .hw-corner {
+    position: absolute;
+    top: var(--nav-h);
+    width: 64px;
+    height: 224px;
+  }
+  .hw-corner--l { left: var(--hw-cl, 2%); }
+  .hw-corner--r { left: var(--hw-cr, auto); right: auto; }
+  .hw--wide .hw-corner { display: none; }
+
+</style>
+
+<script>
+  type Num = number;
+  const NS = "http://www.w3.org/2000/svg";
+  const clamp = (x: Num, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const lerp = (a: Num, b: Num, t: Num) => a + (b - a) * t;
+  const P = (t: Num, a: Num, b: Num) => clamp((t - a) / (b - a));
+  const inOutSine = (x: Num) => -(Math.cos(Math.PI * x) - 1) / 2;
+  const outBack = (x: Num) => 1 + 2.45 * Math.pow(x - 1, 3) + 1.45 * Math.pow(x - 1, 2);
+  function rng(seed: Num) {
+    return () => {
+      seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function mk(tag: string, attrs: Record<string, string | number>, parent?: Element) {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, String(attrs[k]));
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  // ── articulated crab (same design as the ads) ─────────────────────────────
+  const CRAB = { body: "#d9432b", leg: "#c23a24", joint: "#7a1e10", hi: "#f08a6a" };
+  type Crab = { g: Element; legs: { el: Element; ax: Num; ay: Num; sd: Num; i: Num }[]; claws: { el: Element; ax: Num; ay: Num; sd: Num }[]; eyes: Element };
+  function crab(parent: Element): Crab {
+    const g = mk("g", {}, parent);
+    const R: Crab = { g, legs: [], claws: [], eyes: g };
+    const LEGS = [[13, -10, 22, -14, 27, -1], [11, -8, 19, -9, 22, 0], [8, -7, 14, -5, 16, 0]];
+    [-1, 1].forEach((sd) => LEGS.forEach(([ax, ay, kx, ky, tx, ty], i) => {
+      const lg = mk("g", {}, g);
+      mk("path", { d: `M${ax * sd} ${ay} L${kx * sd} ${ky} L${tx * sd} ${ty}`, fill: "none", stroke: CRAB.leg, "stroke-width": 4.4, "stroke-linecap": "round", "stroke-linejoin": "round" }, lg);
+      mk("circle", { cx: kx * sd, cy: ky, r: 1.5, fill: CRAB.joint }, lg);
+      R.legs.push({ el: lg, ax: ax * sd, ay, sd, i });
+    }));
+    [-1, 1].forEach((sd) => {
+      const cg = mk("g", {}, g);
+      mk("path", { d: `M${14 * sd} -22 L${21 * sd} -30`, fill: "none", stroke: CRAB.leg, "stroke-width": 4.4, "stroke-linecap": "round" }, cg);
+      mk("circle", { cx: 23 * sd, cy: -33, r: 5.6, fill: CRAB.body, stroke: "#2b1d12", "stroke-opacity": 0.5, "stroke-width": 2 }, cg);
+      mk("path", { d: `M${23 * sd} -33 L${29.5 * sd} -37.5 L${28.5 * sd} -31.5 Z`, fill: "#f4ebdc" }, cg);
+      R.claws.push({ el: cg, ax: 14 * sd, ay: -22, sd });
+    });
+    const eg = mk("g", {}, g);
+    [-1, 1].forEach((sd) => {
+      mk("path", { d: `M${5 * sd} -26 L${7.5 * sd} -34`, fill: "none", stroke: CRAB.leg, "stroke-width": 3, "stroke-linecap": "round" }, eg);
+      mk("circle", { cx: 7.8 * sd, cy: -36.5, r: 4.3, fill: "#fff", stroke: "#2b1d12", "stroke-opacity": 0.6, "stroke-width": 1.8 }, eg);
+      mk("circle", { cx: 8.3 * sd, cy: -36.8, r: 2, fill: "#2b1d12" }, eg);
+    });
+    R.eyes = eg;
+    mk("ellipse", { cx: 0, cy: -17, rx: 17, ry: 11.5, fill: CRAB.body, stroke: "#2b1d12", "stroke-opacity": 0.55, "stroke-width": 2.4 }, g);
+    mk("ellipse", { cx: -6, cy: -22, rx: 6, ry: 3.2, fill: CRAB.hi, opacity: 0.65 }, g);
+    mk("path", { d: "M-8 -12.5 Q0 -9.5 8 -12.5", fill: "none", stroke: CRAB.joint, "stroke-opacity": 0.5, "stroke-width": 1.5, "stroke-linecap": "round" }, g);
+    return R;
+  }
+  function pose(c: Crab, amp: Num, t: Num, ph: Num, cheer = 0) {
+    c.legs.forEach((L) => L.el.setAttribute("transform", `rotate(${(amp * 14 * Math.sin(t * 18 + ph + L.i * 1.3 + (L.sd > 0 ? 0 : Math.PI))).toFixed(2)} ${L.ax} ${L.ay})`));
+    c.claws.forEach((C) => C.el.setAttribute("transform", `rotate(${(C.sd * amp * 18 * Math.sin(t * 9 + ph + (C.sd > 0 ? 0 : 1.2)) - C.sd * 44 * cheer).toFixed(2)} ${C.ax} ${C.ay})`));
+    c.eyes.setAttribute("transform", `translate(0 ${(-amp * 1.4 * Math.abs(Math.sin(t * 9 + ph))).toFixed(2)})`);
+  }
+
+  // ── one controller per hero ───────────────────────────────────────────────
+  function setup(root: HTMLElement) {
+    if (root.dataset.hwInit) return;
+    root.dataset.hwInit = "1";
+    const hero = root.closest(".hero") as HTMLElement | null;
+    if (!hero) return;
+    const q = <T extends Element>(s: string) => root.querySelector(s) as T;
+
+    // layout: place the machines in the free space beside the headline
+    function layout() {
+      const title = hero!.querySelector(".hero-title") as HTMLElement | null;
+      const content = hero!.querySelector(".hero-content") as HTMLElement | null;
+      const marquee = hero!.querySelector(".hero-marquee") as HTMLElement | null;
+      if (!title || !content) return;
+      const W = hero!.clientWidth;
+      const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 72;
+      const tl = content.offsetLeft + title.offsetLeft, tr = tl + title.offsetWidth;
+      const mTop = marquee ? marquee.offsetTop : hero!.clientHeight * 0.62;
+      const gap = clamp(W * 0.03, 10, 60);
+      const avail = Math.min(tl, W - tr) - gap;           // free width on each side of the headline
+      let h = (mTop - navH - 18) / 0.9375;                 // machine base a little above the photo strip
+      h = Math.min(h, (avail / 0.85) / 0.5625, 760);       // never cover the headline (up to 15% may bleed offscreen)
+      const wide = h * 0.5625 >= 215 && h >= 380;
+      root.classList.toggle("hw--wide", wide);
+      if (wide) {
+        const w = h * 0.5625;
+        root.style.setProperty("--hw-h", `${h.toFixed(1)}px`);
+        root.style.setProperty("--hw-lx", `${(tl - gap - w).toFixed(1)}px`);
+        root.style.setProperty("--hw-rx", `${(tr + gap).toFixed(1)}px`);
+        // keep the right lamp clear of the "Lumo Cancún" plaque in the top-right corner
+        const stamp = hero!.querySelector(".hero-stamp") as HTMLElement | null;
+        const s = h / 640, lampX = tr + gap + 175 * s, half = 54 * s;
+        let drop = 0;
+        if (stamp && stamp.offsetParent && lampX + half > stamp.offsetLeft && lampX - half < stamp.offsetLeft + stamp.offsetWidth) {
+          drop = Math.max(0, (stamp.offsetTop + stamp.offsetHeight + 10 - (navH + 72 * s)) / s);
+        }
+        root.querySelector(".hw-drop")?.setAttribute("transform", `translate(0 ${drop.toFixed(1)})`);
+      } else {
+        const free = Math.min(tl, W - tr);
+        const cx = free >= 80 ? free / 2 : Math.max(26, W * 0.07);
+        root.style.setProperty("--hw-cl", `${(cx - 32).toFixed(1)}px`);
+        root.style.setProperty("--hw-cr", `${(W - cx - 32).toFixed(1)}px`);
+        // phones: lamps stay above the headline; tablets: they can hang lower beside it
+        const top = navH + (free >= 80 ? 89 : 17);          // shade bottom sits ~31px below the svg top
+        root.querySelectorAll<SVGElement>(".hw-corner").forEach((s) => (s.style.top = `${top}px`));
+      }
+    }
+
+    // laser: three cuts per cycle, then the cut pieces are lifted out
+    const CUT = [[106, 154], [176, 224], [246, 294]];
+    const TC = [[0.25, 1.05], [1.4, 2.2], [2.55, 3.35]];
+    const PL = 4.3;
+    const kerfG = q<SVGGElement>(".hw-kerfs");
+    const KERF = CUT.map(([a]) => ({
+      slot: mk("rect", { x: a, y: 209, width: 48, height: 5, rx: 2, fill: "#5a3418", opacity: 0 }, kerfG),
+      d: mk("line", { x1: a, y1: 209.5, x2: a, y2: 209.5, stroke: "#4a2610", "stroke-width": 2.6, "stroke-linecap": "round" }, kerfG),
+      h: mk("line", { x1: a, y1: 209.5, x2: a, y2: 209.5, stroke: "#ff6a1a", "stroke-width": 4, "stroke-linecap": "round" }, kerfG),
+    }));
+    function headX(u: Num) {
+      if (u < TC[0][0]) return CUT[0][0];
+      for (let k = 0; k < 3; k++) {
+        const [c0, c1] = TC[k];
+        if (u < c1) return lerp(CUT[k][0], CUT[k][1], P(u, c0, c1));
+        if (k < 2 && u < TC[k + 1][0]) return lerp(CUT[k][1], CUT[k + 1][0], inOutSine(P(u, c1, TC[k + 1][0])));
+      }
+      return lerp(CUT[2][1], CUT[0][0], inOutSine(P(u, 3.55, 4.25)));   // rapid back while the pieces are lifted out
+    }
+    const sparkG = q<SVGGElement>(".hw-sparks");
+    const RS = rng(41);
+    const SP: { t0: Num; life: Num; vx: Num; vy: Num; w: Num; el: Element; k: Num }[] = [];
+    TC.forEach(([c0, c1], k) => {
+      for (let i = 0; i < 16; i++) {
+        SP.push({ t0: lerp(c0, c1, (i + RS()) / 16), life: 0.22 + RS() * 0.3, vx: (RS() - 0.55) * 150, vy: -(70 + RS() * 140), w: 1.2 + RS() * 1.3, el: mk("line", { "stroke-linecap": "round", opacity: 0 }, sparkG), k });
+      }
+    });
+    const carriage = q<SVGGElement>(".hw-carriage");
+    const beamEls = [".hw-beam-glow", ".hw-beam", ".hw-beam-hot", ".hw-contact"].map((s) => q<SVGElement>(s));
+    const spill = q<SVGElement>(".hw-spill"), headLamp = q<SVGElement>(".hw-headlamp");
+
+    function laser(t: Num) {
+      const u = t % PL;
+      const x = headX(u);
+      carriage.setAttribute("transform", `translate(${x.toFixed(2)} 0)`);
+      let beam = 0;
+      TC.forEach(([c0, c1]) => { beam = Math.max(beam, Math.min(P(u, c0 - 0.04, c0 + 0.02), 1 - P(u, c1 - 0.02, c1 + 0.05))); });
+      const flick = 0.86 + 0.14 * Math.abs(Math.sin(t * 97.3));
+      beamEls.forEach((e) => e.setAttribute("opacity", (beam * flick).toFixed(3)));
+      spill.setAttribute("opacity", (beam * flick * 0.8).toFixed(3));
+      headLamp.setAttribute("fill", beam > 0.5 ? "#ff7a1a" : "#b34000");
+      const lift = P(u, 3.6, 4.0), reset = P(u, 4.05, 4.3);
+      KERF.forEach((K, k) => {
+        const [c0, c1] = TC[k], cp = P(u, c0, c1), x2 = lerp(CUT[k][0], CUT[k][1], cp);
+        K.d.setAttribute("x2", x2.toFixed(2));
+        K.d.setAttribute("opacity", (cp > 0 ? 1 - lift : 0).toFixed(3));
+        K.h.setAttribute("x1", Math.max(CUT[k][0], x2 - 12).toFixed(2));
+        K.h.setAttribute("x2", x2.toFixed(2));
+        K.h.setAttribute("opacity", (cp > 0 && cp < 1 ? 1 : Math.max(0, 1 - P(u, c1, c1 + 0.15)) * (cp > 0 ? 1 : 0)).toFixed(3));
+        K.slot.setAttribute("opacity", (clamp(lift * 3) * (1 - reset)).toFixed(3));
+      });
+      for (const s of SP) {
+        const dt = u - s.t0;
+        if (dt < 0 || dt > s.life) { s.el.setAttribute("opacity", "0"); continue; }
+        const v = dt / s.life, x0 = headX(s.t0), g = 900;
+        const px = (d: Num) => x0 + s.vx * d, py = (d: Num) => Math.min(206.5, 206.5 + s.vy * d + 0.5 * g * d * d);
+        const d0 = Math.max(0, dt - 0.03);
+        const c = v < 0.3 ? "#fff1c8" : v < 0.6 ? "#ffbe68" : "#ff7a2a";
+        s.el.setAttribute("x1", px(d0).toFixed(2)); s.el.setAttribute("y1", py(d0).toFixed(2));
+        s.el.setAttribute("x2", px(dt).toFixed(2)); s.el.setAttribute("y2", py(dt).toFixed(2));
+        s.el.setAttribute("stroke", c); s.el.setAttribute("stroke-width", (s.w * (1 - 0.4 * v)).toFixed(2));
+        s.el.setAttribute("opacity", Math.pow(1 - v, 0.6).toFixed(3));
+      }
+    }
+
+    // printer: three crabs printed layer by layer, they cheer, then the bed is cleared
+    const VCS = [156, 193, 230], CS = 0.62, CNL = 10, PP = 6.6;
+    const crabG = q<SVGGElement>(".hw-crabs");
+    const CR = VCS.map((c, j) => ({ w: mk("g", { transform: `translate(${c} 198) scale(${CS})` }, crabG), j })).map((o) => ({ ...o, c: crab(o.w) }));
+    const doneG = q<SVGGElement>(".hw-done");
+    const STARS = [[150, 150], [236, 140], [196, 128]].map(([x, y]) => mk("path", { d: "M0 -6 L1.6 -1.6 L6 0 L1.6 1.6 L0 6 L-1.6 1.6 L-6 0 L-1.6 -1.6 Z", fill: "#c87a2a", opacity: 0, transform: `translate(${x} ${y})` }, doneG));
+    const polyEl = root.querySelector(".hw-print-poly") as SVGPolygonElement;
+    const nozzle = q<SVGGElement>(".hw-nozzle"), prog = q<SVGElement>(".hw-prog");
+
+    function printer(t: Num) {
+      const u = t % PP;
+      const pp = P(u, 0.2, 4.2), CB = 199, CT = 198 - 41 * CS - 1, XL = VCS[0] - 19, XR = VCS[2] + 19, hL = (CB - CT) / CNL;
+      let qq = pp * CNL, li = Math.floor(qq), f = qq - li;
+      if (li >= CNL) { li = CNL - 1; f = 1; }
+      const yDone = CB - li * hL, yBand = yDone - hL, dir = li % 2 === 0 ? 1 : -1, xs = dir > 0 ? XL + f * (XR - XL) : XR - f * (XR - XL);
+      let poly;
+      if (pp <= 0) poly = "0,0 0,0 0,0";
+      else if (pp >= 1) poly = "0,0 400,0 400,400 0,400";
+      else if (dir > 0) poly = `${XL - 60},${CB + 40} ${XL - 60},${yBand} ${xs},${yBand} ${xs},${yDone} ${XR + 60},${yDone} ${XR + 60},${CB + 40}`;
+      else poly = `${XR + 60},${CB + 40} ${XR + 60},${yBand} ${xs},${yBand} ${xs},${yDone} ${XL - 60},${yDone} ${XL - 60},${CB + 40}`;
+      polyEl.setAttribute("points", poly);
+      let tipX = pp <= 0 ? XL : xs, tipY = pp <= 0 ? CB - hL : yBand;
+      const lift = inOutSine(P(u, 4.25, 4.6)), back = inOutSine(P(u, 6.1, 6.5));
+      tipX = lerp(lerp(tipX, 246, lift), XL, back); tipY = lerp(lerp(tipY, 118, lift), CB - hL, back);
+      nozzle.setAttribute("transform", `translate(${tipX.toFixed(2)} ${tipY.toFixed(2)})`);
+      prog.setAttribute("width", (14 * pp * (1 - P(u, 6.0, 6.3))).toFixed(2));
+      const cheer = Math.sin(Math.PI * P(u, 4.7, 5.5)), gone = P(u, 5.75, 6.15);
+      CR.forEach((o) => {
+        const amp = u > 4.4 && u < 5.9 ? 0.55 : 0;
+        pose(o.c, amp, t, o.j * 1.7, cheer);
+        o.w.setAttribute("opacity", (1 - gone).toFixed(3));
+        o.w.setAttribute("transform", `translate(${VCS[o.j]} ${(198 - 5 * cheer).toFixed(2)}) scale(${CS})`);
+      });
+      STARS.forEach((s, k) => {
+        const v = P(u, 4.35 + k * 0.12, 4.95 + k * 0.12), a = Math.sin(Math.PI * v);
+        const [x, y] = [[150, 150], [236, 140], [196, 128]][k];
+        s.setAttribute("opacity", a.toFixed(3));
+        s.setAttribute("transform", `translate(${x} ${y}) scale(${(0.4 + 0.8 * a).toFixed(3)}) rotate(${(v * 90).toFixed(1)})`);
+      });
+    }
+
+    // dust drifting through the light cones
+    type Mote = { el: Element; x: Num; y: Num; v: Num; a: Num; f: Num; ph: Num; o: Num; y0: Num; y1: Num };
+    const DUST: Mote[] = [];
+    const RD = rng(7);
+    function dust(sel: string, n: number, cx: number, top: number, bot: number, spread: number, rmax: number) {
+      const g = root.querySelector(sel);
+      if (!g) return;
+      for (let i = 0; i < n; i++) {
+        const y = lerp(top, bot, RD()), sp = spread * (0.25 + 0.75 * (y - top) / (bot - top));
+        DUST.push({ el: mk("circle", { r: (0.8 + RD() * rmax).toFixed(2), fill: RD() < 0.6 ? "#e8b06a" : "#ffffff", opacity: 0 }, g),
+          x: cx + (RD() - 0.5) * 2 * sp, y, v: 5 + RD() * 10, a: 4 + RD() * 10, f: 0.3 + RD() * 0.6, ph: RD() * 6.3, o: 0.25 + RD() * 0.45, y0: top, y1: bot });
+      }
+    }
+    dust(".hw-dust--l", 16, 185, 180, 590, 140, 2.2);
+    dust(".hw-dust--r", 16, 175, 160, 590, 140, 2.2);
+    dust(".hw-dust--cl", 7, 60, 70, 400, 60, 1.6);
+    dust(".hw-dust--cr", 7, 60, 70, 400, 60, 1.6);
+    function motes(t: Num) {
+      for (const d of DUST) {
+        const span = d.y1 - d.y0, y = d.y0 + (((d.y - d.v * t - d.y0) % span) + span) % span;
+        const edge = Math.min(1, (y - d.y0) / 40, (d.y1 - y) / 60);
+        d.el.setAttribute("cx", (d.x + d.a * Math.sin(t * d.f + d.ph)).toFixed(2));
+        d.el.setAttribute("cy", y.toFixed(2));
+        d.el.setAttribute("opacity", (d.o * Math.max(0, edge) * (0.55 + 0.45 * Math.sin(t * 1.7 + d.ph))).toFixed(3));
+      }
+    }
+
+    const SWAY = [...root.querySelectorAll<SVGGElement>(".hw-sway")].map((g) => ({ g, ox: +g.dataset.ox!, oy: +g.dataset.oy!, f: +g.dataset.f!, ph: +g.dataset.ph! }));
+    function frame(t: Num) {
+      const wide = root.classList.contains("hw--wide");
+      if (wide) { laser(t); printer(t); }
+      motes(t);
+      for (const L of SWAY) L.g.setAttribute("transform", `rotate(${(1.3 * Math.sin(t * L.f + L.ph)).toFixed(3)} ${L.ox} ${L.oy})`);
+    }
+
+    // run loop: ~30 fps, only while the hero is on screen and the tab is visible
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+    let raf = 0, last = 0, visible = true, t0 = performance.now();
+    const tick = (now: number) => {
+      raf = requestAnimationFrame(tick);
+      if (now - last < 31) return;
+      last = now;
+      frame((now - t0) / 1000);
+    };
+    const manual = !!(window as any).__hwManual;           // preview captures only
+    const start = () => { if (!manual && !raf && visible && !document.hidden && !reduce.matches) { raf = requestAnimationFrame(tick); root.classList.remove("is-paused"); } };
+    const stop = () => { if (raf) cancelAnimationFrame(raf); raf = 0; root.classList.add("is-paused"); };
+    new IntersectionObserver((es) => { visible = es[0].isIntersecting; visible ? start() : stop(); }).observe(hero);
+    document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
+
+    layout();
+    new ResizeObserver(() => layout()).observe(hero);
+    document.fonts?.ready.then(layout);
+    frame(reduce.matches ? 4.6 : 0);                       // reduced motion: one calm, representative still
+    requestAnimationFrame(() => root.classList.add("is-on"));
+    // preview captures drive the clock by hand (never set on the live site)
+    if (manual) { (window as any).__hwFrame = frame; (window as any).__hwLayout = layout; return; }
+    start();
+  }
+
+  function initWorkshop() {
+    document.querySelectorAll<HTMLElement>(".hero .hw").forEach(setup);
+  }
+  initWorkshop();
+  document.addEventListener("astro:page-load", initWorkshop);
+</script>

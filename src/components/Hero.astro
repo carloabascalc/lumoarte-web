@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import { altByFile } from "../data/galleryImages";
 import logoMark from "../assets/logos/logo-nav.png";
+import HeroWorkshop from "./HeroWorkshop.astro";
 
 // Pull all gallery photos for the marquee — they form the visual proof of work.
 const galleryFiles = import.meta.glob<{ default: ImageMetadata }>(
@@ -37,6 +38,9 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
 ---
 
 <section class="hero">
+  {/* Living workshop behind the headline — same world as the video ads */}
+  <HeroWorkshop />
+
   {/* Atelier mark — top-right signature plaque */}
   <div class="hero-stamp" aria-hidden="true">
     <Image src={logoMark} alt="" width={40} height={24} class="hero-stamp-mark" loading="eager" />
@@ -555,12 +559,8 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
   }
 
   @media (max-width: 540px) {
-    .hero-stamp {
-      gap: 6px;
-      padding: 5px 8px 5px 6px;
-    }
-    .hero-stamp-mark { height: 16px; }
-    .hero-stamp-meta { font-size: 0.5rem; }
+    /* On phones the plaque sat on top of the kicker line; the nav already shows the mark */
+    .hero-stamp { display: none; }
 
     .hero-content { padding: 40px 16px 20px; }
 
