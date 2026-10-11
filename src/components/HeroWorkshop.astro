@@ -1,12 +1,13 @@
 ---
 /**
- * Ambient workshop behind the home hero — the same illustrated world as the
- * video ads (warm pendant lamps, laser cutting with sparks, 3D printer building
- * articulated crabs), so people who arrive from an ad recognise the place.
+ * Ambient workshop behind the home hero — a faint line sketch of the same world
+ * as the video ads (pendant lamps, laser cutting, 3D printer building articulated
+ * crabs), so people who arrive from an ad recognise the place. Kept deliberately
+ * quiet: muted, slow, no light cones; the headline stays the only loud thing.
  *
  *  - Wide screens: laser on the left and printer on the right, placed in the
  *    free space beside the headline (measured at runtime), each under its lamp.
- *  - Narrow screens: only two small lamps with their light and floating dust.
+ *  - Narrow screens: only two small lamps with a soft glow and a little dust.
  *  - Pure inline SVG + one small script: no images, no video, no requests.
  *  - Pauses offscreen / in background tabs; static frame for reduced motion.
  */
@@ -33,7 +34,7 @@
         <stop offset="1" stop-color="#ff8a3a" stop-opacity="0" />
       </radialGradient>
       <radialGradient id="hw-shadow">
-        <stop offset="0" stop-color="#2b1d12" stop-opacity="0.2" />
+        <stop offset="0" stop-color="#2b1d12" stop-opacity="0.08" />
         <stop offset="1" stop-color="#2b1d12" stop-opacity="0" />
       </radialGradient>
       <linearGradient id="hw-wood" x1="0" y1="0" x2="0" y2="1">
@@ -43,26 +44,25 @@
       <clipPath id="hw-glass"><rect x="132" y="92" width="122" height="118" rx="6" /></clipPath>
       <clipPath id="hw-print" clipPathUnits="userSpaceOnUse"><polygon class="hw-print-poly" points="0,0 0,0 0,0" /></clipPath>
       <g id="hw-lamp">
-        <rect x="-7" y="-50" width="14" height="12" rx="2" fill="#2b1d12" fill-opacity="0.75" />
-        <path d="M-48 0 C-48 -34 -27 -46 0 -46 C27 -46 48 -34 48 0 Z" fill="#b34000" stroke="#2b1d12" stroke-opacity="0.5" stroke-width="2.5" />
-        <line x1="-51" y1="0" x2="51" y2="0" stroke="#2b1d12" stroke-opacity="0.5" stroke-width="3.5" stroke-linecap="round" />
-        <circle cx="0" cy="3" r="9" fill="#fff0d6" />
+        <rect x="-6" y="-48" width="12" height="10" rx="2" fill="#2b1d12" fill-opacity="0.3" />
+        <path d="M-44 0 C-44 -32 -25 -43 0 -43 C25 -43 44 -32 44 0 Z" fill="#c9774f" fill-opacity="0.3" stroke="#2b1d12" stroke-opacity="0.35" stroke-width="1.8" />
+        <line x1="-46" y1="0" x2="46" y2="0" stroke="#2b1d12" stroke-opacity="0.35" stroke-width="2.2" stroke-linecap="round" />
+        <circle cx="0" cy="3" r="7" fill="#fff0d6" fill-opacity="0.9" />
       </g>
     </defs>
   </svg>
 
   {/* ── left: laser cutter under its lamp ── */}
   <svg class="hw-side hw-left" viewBox="0 0 360 640" preserveAspectRatio="xMidYMin meet" overflow="visible">
-    <polygon points="152,150 218,150 350,610 20,610" fill="url(#hw-cone)" />
-    <circle cx="185" cy="154" r="44" fill="url(#hw-bulb)" />
+    <circle cx="185" cy="160" r="80" fill="url(#hw-bulb)" opacity="0.4" />
     <g class="hw-sway" data-ox="185" data-oy="-40" data-f="1.61" data-ph="0">
-      <line x1="185" y1="-400" x2="185" y2="104" stroke="#2b1d12" stroke-opacity="0.42" stroke-width="2" />
+      <line x1="185" y1="-400" x2="185" y2="104" stroke="#2b1d12" stroke-opacity="0.25" stroke-width="1.4" />
       <use href="#hw-lamp" x="185" y="150" />
     </g>
     <ellipse cx="185" cy="603" rx="168" ry="10" fill="url(#hw-shadow)" />
     <g class="hw-dust hw-dust--l"></g>
-    <g transform="translate(-35 338) scale(1.1)">
-      <g fill="none" stroke="#2b1d12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.85">
+    <g transform="translate(-35 338) scale(1.1)" opacity="0.42">
+      <g fill="none" stroke="#2b1d12" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.85">
         <path d="M58 86 V238 M342 86 V238 M50 86 H350 M51 238 H65 M335 238 H349" />
         <path d="M70 104 H330" stroke-width="2.5" stroke-opacity="0.55" />
       </g>
@@ -86,16 +86,15 @@
   {/* ── right: 3D printer building articulated crabs ── */}
   <svg class="hw-side hw-right" viewBox="0 0 360 640" preserveAspectRatio="xMidYMin meet" overflow="visible">
     <g class="hw-drop">
-      <polygon points="142,130 208,130 335,610 15,610" fill="url(#hw-cone)" />
-      <circle cx="175" cy="134" r="44" fill="url(#hw-bulb)" />
+      <circle cx="175" cy="140" r="80" fill="url(#hw-bulb)" opacity="0.4" />
       <g class="hw-sway" data-ox="175" data-oy="-40" data-f="1.37" data-ph="2.3">
-        <line x1="175" y1="-400" x2="175" y2="84" stroke="#2b1d12" stroke-opacity="0.42" stroke-width="2" />
+        <line x1="175" y1="-400" x2="175" y2="84" stroke="#2b1d12" stroke-opacity="0.25" stroke-width="1.4" />
         <use href="#hw-lamp" x="175" y="130" />
       </g>
     </g>
     <ellipse cx="190" cy="603" rx="150" ry="10" fill="url(#hw-shadow)" />
     <g class="hw-dust hw-dust--r"></g>
-    <g transform="translate(-47 216) scale(1.15)">
+    <g transform="translate(-47 216) scale(1.15)" opacity="0.4">
       <g stroke="#2b1d12" stroke-linecap="round" stroke-opacity="0.7" stroke-width="3">
         <path d="M118 238.7 V334 M268 238.7 V334 M112 334 H124 M262 334 H274" />
       </g>
@@ -126,19 +125,17 @@
 
   {/* ── narrow screens: two small lamps in the corners ── */}
   <svg class="hw-corner hw-corner--l" viewBox="0 0 120 420" overflow="visible">
-    <polygon points="42,58 78,58 150,420 -30,420" fill="url(#hw-cone)" opacity="0.8" />
-    <circle cx="60" cy="61" r="26" fill="url(#hw-bulb)" />
+    <circle cx="60" cy="64" r="44" fill="url(#hw-bulb)" opacity="0.35" />
     <g class="hw-sway" data-ox="60" data-oy="-40" data-f="1.61" data-ph="0">
-      <line x1="60" y1="-400" x2="60" y2="30" stroke="#2b1d12" stroke-opacity="0.42" stroke-width="1.6" />
+      <line x1="60" y1="-400" x2="60" y2="30" stroke="#2b1d12" stroke-opacity="0.25" stroke-width="1.2" />
       <use href="#hw-lamp" transform="translate(60 58) scale(0.55)" />
     </g>
     <g class="hw-dust hw-dust--cl"></g>
   </svg>
   <svg class="hw-corner hw-corner--r" viewBox="0 0 120 420" overflow="visible">
-    <polygon points="42,58 78,58 150,420 -30,420" fill="url(#hw-cone)" opacity="0.8" />
-    <circle cx="60" cy="61" r="26" fill="url(#hw-bulb)" />
+    <circle cx="60" cy="64" r="44" fill="url(#hw-bulb)" opacity="0.35" />
     <g class="hw-sway" data-ox="60" data-oy="-40" data-f="1.37" data-ph="2.3">
-      <line x1="60" y1="-400" x2="60" y2="30" stroke="#2b1d12" stroke-opacity="0.42" stroke-width="1.6" />
+      <line x1="60" y1="-400" x2="60" y2="30" stroke="#2b1d12" stroke-opacity="0.25" stroke-width="1.2" />
       <use href="#hw-lamp" transform="translate(60 58) scale(0.55)" />
     </g>
     <g class="hw-dust hw-dust--cr"></g>
@@ -264,7 +261,7 @@
       const gap = clamp(W * 0.03, 10, 60);
       const avail = Math.min(tl, W - tr) - gap;           // free width on each side of the headline
       let h = (mTop - navH - 18) / 0.9375;                 // machine base a little above the photo strip
-      h = Math.min(h, (avail / 0.85) / 0.5625, 760);       // never cover the headline (up to 15% may bleed offscreen)
+      h = Math.min(h, (avail / 0.85) / 0.5625, 560);       // never cover the headline (up to 15% may bleed offscreen)
       const wide = h * 0.5625 >= 215 && h >= 380;
       root.classList.toggle("hw--wide", wide);
       if (wide) {
@@ -314,8 +311,8 @@
     const RS = rng(41);
     const SP: { t0: Num; life: Num; vx: Num; vy: Num; w: Num; el: Element; k: Num }[] = [];
     TC.forEach(([c0, c1], k) => {
-      for (let i = 0; i < 16; i++) {
-        SP.push({ t0: lerp(c0, c1, (i + RS()) / 16), life: 0.22 + RS() * 0.3, vx: (RS() - 0.55) * 150, vy: -(70 + RS() * 140), w: 1.2 + RS() * 1.3, el: mk("line", { "stroke-linecap": "round", opacity: 0 }, sparkG), k });
+      for (let i = 0; i < 6; i++) {
+        SP.push({ t0: lerp(c0, c1, (i + RS()) / 6), life: 0.22 + RS() * 0.3, vx: (RS() - 0.55) * 150, vy: -(70 + RS() * 140), w: 1.2 + RS() * 1.3, el: mk("line", { "stroke-linecap": "round", opacity: 0 }, sparkG), k });
       }
     });
     const carriage = q<SVGGElement>(".hw-carriage");
@@ -361,7 +358,7 @@
     const crabG = q<SVGGElement>(".hw-crabs");
     const CR = VCS.map((c, j) => ({ w: mk("g", { transform: `translate(${c} 198) scale(${CS})` }, crabG), j })).map((o) => ({ ...o, c: crab(o.w) }));
     const doneG = q<SVGGElement>(".hw-done");
-    const STARS = [[150, 150], [236, 140], [196, 128]].map(([x, y]) => mk("path", { d: "M0 -6 L1.6 -1.6 L6 0 L1.6 1.6 L0 6 L-1.6 1.6 L-6 0 L-1.6 -1.6 Z", fill: "#c87a2a", opacity: 0, transform: `translate(${x} ${y})` }, doneG));
+    const STARS = ([] as Num[][]).map(([x, y]) => mk("path", { d: "M0 -6 L1.6 -1.6 L6 0 L1.6 1.6 L0 6 L-1.6 1.6 L-6 0 L-1.6 -1.6 Z", fill: "#c87a2a", opacity: 0, transform: `translate(${x} ${y})` }, doneG));
     const polyEl = root.querySelector(".hw-print-poly") as SVGPolygonElement;
     const nozzle = q<SVGGElement>(".hw-nozzle"), prog = q<SVGElement>(".hw-prog");
 
@@ -385,9 +382,9 @@
       const cheer = Math.sin(Math.PI * P(u, 4.7, 5.5)), gone = P(u, 5.75, 6.15);
       CR.forEach((o) => {
         const amp = u > 4.4 && u < 5.9 ? 0.55 : 0;
-        pose(o.c, amp, t, o.j * 1.7, cheer);
+        pose(o.c, amp * 0.7, t, o.j * 1.7, cheer * 0.5);
         o.w.setAttribute("opacity", (1 - gone).toFixed(3));
-        o.w.setAttribute("transform", `translate(${VCS[o.j]} ${(198 - 5 * cheer).toFixed(2)}) scale(${CS})`);
+        o.w.setAttribute("transform", `translate(${VCS[o.j]} ${(198 - 2 * cheer).toFixed(2)}) scale(${CS})`);
       });
       STARS.forEach((s, k) => {
         const v = P(u, 4.35 + k * 0.12, 4.95 + k * 0.12), a = Math.sin(Math.PI * v);
@@ -407,13 +404,13 @@
       for (let i = 0; i < n; i++) {
         const y = lerp(top, bot, RD()), sp = spread * (0.25 + 0.75 * (y - top) / (bot - top));
         DUST.push({ el: mk("circle", { r: (0.8 + RD() * rmax).toFixed(2), fill: RD() < 0.6 ? "#e8b06a" : "#ffffff", opacity: 0 }, g),
-          x: cx + (RD() - 0.5) * 2 * sp, y, v: 5 + RD() * 10, a: 4 + RD() * 10, f: 0.3 + RD() * 0.6, ph: RD() * 6.3, o: 0.25 + RD() * 0.45, y0: top, y1: bot });
+          x: cx + (RD() - 0.5) * 2 * sp, y, v: 5 + RD() * 10, a: 4 + RD() * 10, f: 0.3 + RD() * 0.6, ph: RD() * 6.3, o: 0.12 + RD() * 0.22, y0: top, y1: bot });
       }
     }
-    dust(".hw-dust--l", 16, 185, 180, 590, 140, 2.2);
-    dust(".hw-dust--r", 16, 175, 160, 590, 140, 2.2);
-    dust(".hw-dust--cl", 7, 60, 70, 400, 60, 1.6);
-    dust(".hw-dust--cr", 7, 60, 70, 400, 60, 1.6);
+    dust(".hw-dust--l", 7, 185, 190, 590, 120, 1.6);
+    dust(".hw-dust--r", 7, 175, 170, 590, 120, 1.6);
+    dust(".hw-dust--cl", 4, 60, 80, 380, 50, 1.2);
+    dust(".hw-dust--cr", 4, 60, 80, 380, 50, 1.2);
     function motes(t: Num) {
       for (const d of DUST) {
         const span = d.y1 - d.y0, y = d.y0 + (((d.y - d.v * t - d.y0) % span) + span) % span;
@@ -426,10 +423,11 @@
 
     const SWAY = [...root.querySelectorAll<SVGGElement>(".hw-sway")].map((g) => ({ g, ox: +g.dataset.ox!, oy: +g.dataset.oy!, f: +g.dataset.f!, ph: +g.dataset.ph! }));
     function frame(t: Num) {
+      t *= 0.75;                                            // calm pace: everything a quarter slower
       const wide = root.classList.contains("hw--wide");
       if (wide) { laser(t); printer(t); }
       motes(t);
-      for (const L of SWAY) L.g.setAttribute("transform", `rotate(${(1.3 * Math.sin(t * L.f + L.ph)).toFixed(3)} ${L.ox} ${L.oy})`);
+      for (const L of SWAY) L.g.setAttribute("transform", `rotate(${(0.8 * Math.sin(t * L.f + L.ph)).toFixed(3)} ${L.ox} ${L.oy})`);
     }
 
     // run loop: ~30 fps, only while the hero is on screen and the tab is visible
