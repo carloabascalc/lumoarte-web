@@ -444,40 +444,44 @@ const brandHref = isMinimal ? `${SITE.url}/` : "/";
 </style>
 
 <script>
-  const overlay = document.getElementById("aboutOverlay");
-  const trigger = document.getElementById("aboutTrigger");
-  const closeBtn = document.getElementById("aboutClose");
+  // The site uses Astro's <ClientRouter />: bundled scripts run once, so the
+  // modal must be (re)bound on every page swap, not only on first load.
+  function bootAbout() {
+    const overlay = document.getElementById("aboutOverlay");
+    const trigger = document.getElementById("aboutTrigger");
+    const closeBtn = document.getElementById("aboutClose");
+    // Minimal footer (EMD pages) doesn't render the modal — bail early.
+    if (!overlay || !trigger || !closeBtn) return;
+    if (overlay.dataset.booted === "1") return;
+    overlay.dataset.booted = "1";
 
-  // Minimal footer (EMD pages) doesn't render the modal — bail early.
-  if (overlay && trigger && closeBtn) {
-    bootAbout(overlay, trigger, closeBtn);
-  }
+    function openAbout() {
+      overlay!.removeAttribute("hidden");
+      overlay!.removeAttribute("aria-hidden");
+      overlay!.offsetHeight;
+      overlay!.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+      closeBtn!.focus();
+    }
 
-  function bootAbout(overlay: HTMLElement, trigger: HTMLElement, closeBtn: HTMLElement) {
-  function openAbout() {
-    overlay.removeAttribute("hidden");
-    overlay.removeAttribute("aria-hidden");
-    overlay.offsetHeight;
-    overlay.classList.add("is-open");
-    document.body.style.overflow = "hidden";
-    closeBtn.focus();
-  }
+    function closeAbout() {
+      overlay!.classList.remove("is-open");
+      document.body.style.overflow = "";
+      overlay!.addEventListener("transitionend", function handler() {
+        overlay!.setAttribute("hidden", "");
+        overlay!.setAttribute("aria-hidden", "true");
+        overlay!.removeEventListener("transitionend", handler);
+      });
+    }
 
-  function closeAbout() {
-    overlay.classList.remove("is-open");
-    document.body.style.overflow = "";
-    overlay.addEventListener("transitionend", function handler() {
-      overlay.setAttribute("hidden", "");
-      overlay.setAttribute("aria-hidden", "true");
-      overlay.removeEventListener("transitionend", handler);
+    trigger.addEventListener("click", openAbout);
+    closeBtn.addEventListener("click", closeAbout);
+    overlay.addEventListener("click", (e) => { if (e.target === overlay) closeAbout(); });
+    overlay.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeAbout();
     });
   }
 
-  trigger.addEventListener("click", openAbout);
-  closeBtn.addEventListener("click", closeAbout);
-  overlay.addEventListener("click", (e) => { if (e.target === overlay) closeAbout(); });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !overlay.hasAttribute("hidden")) closeAbout();
-  });
-  }
+  bootAbout();
+  document.addEventListener("astro:page-load", bootAbout);
 </script>

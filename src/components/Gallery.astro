@@ -412,6 +412,8 @@ const isEmpty = images.length === 0;
 </style>
 
 <script>
+  // Re-bound on every <ClientRouter /> page swap (bundled scripts run once).
+  function bootGallery() {
   const filmstrip = document.getElementById("filmstrip");
   const arrowLeft = document.getElementById("arrowLeft");
   const arrowRight = document.getElementById("arrowRight");
@@ -419,7 +421,8 @@ const isEmpty = images.length === 0;
   const lightboxImg = document.getElementById("lightboxImg") as HTMLImageElement | null;
   const lightboxClose = document.getElementById("lightboxClose");
 
-  if (filmstrip && arrowLeft && arrowRight && lightbox && lightboxImg && lightboxClose) {
+  if (filmstrip && arrowLeft && arrowRight && lightbox && lightboxImg && lightboxClose && filmstrip.dataset.booted !== "1") {
+    filmstrip.dataset.booted = "1";
     // ── Arrow navigation ──────────────────────────────────
     arrowLeft.addEventListener("click", () => {
       filmstrip.scrollBy({ left: -400, behavior: "smooth" });
@@ -467,6 +470,7 @@ const isEmpty = images.length === 0;
         lightboxImg.alt = img.alt;
         lightbox.removeAttribute("hidden");
         document.body.style.overflow = "hidden";
+        lightboxClose.focus();
       });
     });
 
@@ -482,10 +486,8 @@ const isEmpty = images.length === 0;
       if (e.target === lightbox) closeLightbox();
     });
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && !lightbox.hasAttribute("hidden")) {
-        closeLightbox();
-      }
+    lightbox.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLightbox();
     });
 
     // ── Progress dots ─────────────────────────────────────
@@ -507,4 +509,8 @@ const isEmpty = images.length === 0;
       });
     });
   }
+  }
+
+  bootGallery();
+  document.addEventListener("astro:page-load", bootGallery);
 </script>
