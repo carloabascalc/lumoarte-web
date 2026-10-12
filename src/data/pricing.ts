@@ -152,7 +152,7 @@ export const PRICING: Record<string, PricingContent> = {
     materiales: {
       currency: "MXN",
       year: 2026,
-      note: "Precios por lámina completa en MXN, sin IVA · vigentes 2026 · sobre pedido, disponibilidad sujeta a proveedor local (2 a 5 días hábiles). El precio final de tu pieza depende del material que usa y del tiempo de máquina — esto es solo el costo del material.",
+      note: "Precios por lámina completa en MXN, sin IVA · vigentes 2026 · sobre pedido, disponibilidad sujeta a proveedor local. El precio final de tu pieza depende del material que usa y del tiempo de máquina — esto es solo el costo del material.",
       groups: [
         {
           category: "Acrílico",
