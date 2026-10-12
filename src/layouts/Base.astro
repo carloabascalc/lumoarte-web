@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from "astro:transitions";
+import Analytics from "@vercel/analytics/astro";
 import { SITE, services, absUrl, ORG_ID, FOUNDER_ID, CATALOG_ID } from "../data/services";
 import { segments } from "../data/segments";
 import { products } from "../data/products";
@@ -252,6 +253,7 @@ schemas.push(...extraSchemas);
     <ClientRouter />
   </head>
   <body data-page={pageAccent}>
+    <Analytics />
     <slot />
     <PageTransition transition:persist />
 
@@ -305,6 +307,16 @@ schemas.push(...extraSchemas);
         init();
         document.addEventListener("astro:page-load", init);
       })();
+    </script>
+    <script>
+      // Count WhatsApp clicks per page (Vercel Analytics custom event).
+      // Delegated on document, so it survives ClientRouter swaps.
+      import { track } from "@vercel/analytics";
+      document.addEventListener("click", (e) => {
+        const a = (e.target as Element | null)?.closest?.('a[href*="wa.me/"]');
+        if (!a) return;
+        track("WhatsApp", { page: location.pathname });
+      });
     </script>
   </body>
 </html>
