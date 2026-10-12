@@ -71,12 +71,10 @@
 ## Precios
 
 - Precio por volumen: entre más piezas, menor el costo por pieza. Cada lote se
-  cotiza por WhatsApp según pieza, material y cantidad. Ejemplos de catálogo:
-  dijes corporativos de acrílico espejo desde $10 MXN c/u; dijes de marca en
-  triplay Tzalam desde $18 MXN c/u.
+  cotiza por WhatsApp según pieza, material y cantidad.
 - Corte láser — lista de precios de materiales en HTML (MXN, sin IVA, 2026):
   https://lumocancun.com/servicios/corte-laser/#precios-materiales
-  Lámina completa desde $20 hasta $953 (acrílico transparente 6 mm). Ejemplos:
+  Lámina completa desde $63 (MDF 2.7 mm) hasta $953 (acrílico transparente 6 mm). Ejemplos:
   MDF 3 mm $82, MDF 9 mm $171, acrílico transparente 3 mm $533, acrílico negro
   3 mm $515, triplay Okumé 6 mm $221, triplay Tzalam 6 mm $304.
   El precio de cada pieza = material + tiempo de máquina ($14 MXN/min) +
