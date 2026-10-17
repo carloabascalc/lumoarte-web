@@ -179,7 +179,7 @@ export const segments: Segment[] = [
     metaDescription:
       'Recuerdos para invitados, números de mesa, cajas y placas para bodas y eventos en Cancún. Producción en serie para wedding planners y agencias.',
     audience: 'Wedding planners, agencias de eventos y organizadores',
-    images: ['evento-cajas.jpg', 'evento-recuerdos.jpg', 'evento-cajas-corazon.jpg'],
+    images: ['evento-cajas.jpg', 'gal-35.jpg', 'evento-cajas-corazon.jpg'],
     cardImage: 'evento-cajas.jpg',
     productos: [
       { name: 'Recuerdos para invitados', desc: 'Llaveros, dijes y piezas grabadas con nombres o fecha.' },

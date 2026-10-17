@@ -23,7 +23,6 @@ export const galleryItems: GalleryItem[] = [
   { file: "gal-31.jpg", alt: "Torre de cajas de madera cortadas a láser para un pedido por volumen", service: "corte-laser" },
   { file: "gal-32.jpg", alt: "Cientos de etiquetas de cuero grabadas a láser en una sola lámina", service: "corte-laser" },
   { file: "gal-33.jpg", alt: "Par de cajas de vino de madera con frente calado de hojas de palma", service: "corte-laser" },
-  { file: "gal-34.jpg", alt: "Lote de piezas religiosas de madera grabadas con oración, sobre mesa", service: "corte-laser" },
   { file: "gal-35.jpg", alt: "Anzuelos decorativos impresos en 3D con nombre grabado, recuerdo para evento", service: "impresion-3d" },
   { file: "gal-36.jpg", alt: "Termos grabados a láser con las iniciales de cada persona", service: "corte-laser" },
   { file: "gal-37.jpg", alt: "Lote de cangrejos articulados rojos impresos en 3D sobre mesa", service: "impresion-3d" },

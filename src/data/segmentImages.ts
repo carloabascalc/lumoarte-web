@@ -27,7 +27,6 @@ const sectorAlts: Record<string, string> = {
   "souv-llaveros-cancun.jpg": "Llaveros Cancún tricolor impresos en 3D en serie sobre la cama de impresión",
   "souv-peces.jpg": "Decenas de llaveros de pez multicolor impresos en 3D por lote",
   "souv-tiburones.jpg": "Lote de tiburones articulados impresos en 3D",
-  "evento-recuerdos.jpg": "Decenas de recuerdos de madera grabados con texto para un evento",
   "evento-cajas.jpg": "Torre de cajas de madera cortadas a láser, producción para evento",
   "evento-cajas-corazon.jpg": "Lote de cajas de regalo con corazón apiladas en el taller",
 };
