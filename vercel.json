@@ -28,6 +28,8 @@
     { "source": "/servicios/impresion-gran-formato/", "destination": "/", "permanent": true },
     { "source": "/precios-impresion-gran-formato.pdf", "destination": "/", "permanent": true },
     { "source": "/manual-impresion-gran-formato.pdf", "destination": "/", "permanent": true },
+    { "source": "/precios-lumoarte.pdf", "destination": "/precios-corte-laser.pdf", "permanent": true },
+    { "source": "/manual-lumoarte.pdf", "destination": "/manual-corte-laser.pdf", "permanent": true },
     {
       "source": "/cortelasercancun",
       "has": [{ "type": "host", "value": "lumocancun.com" }],

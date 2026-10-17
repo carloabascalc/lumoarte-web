@@ -24,8 +24,8 @@ const emd = isEmd && emdService
   : null;
 const homeHref = isEmd ? `${SITE.url}/` : "/";
 const serviciosHref = isEmd ? `${SITE.url}/#servicios` : "/#servicios";
-const preciosHref = emd?.preciosPdf ?? "/precios-lumoarte.pdf";
-const manualHref = emd?.manualPdf ?? "/manual-lumoarte.pdf";
+const preciosHref = emd?.preciosPdf ?? "/precios-corte-laser.pdf";
+const manualHref = emd?.manualPdf ?? "/manual-corte-laser.pdf";
 const waHref = `https://wa.me/${SITE.whatsapp}`;
 // EMD always renders on a solid surface (no overlay over hero photo)
 const navClass = isEmd ? "nav nav--solid nav--emd" : `nav nav--${variant}`;
