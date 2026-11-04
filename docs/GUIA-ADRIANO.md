@@ -152,6 +152,62 @@ te gusta, le dices **"descarta la rama"** y queda como si nada.
 
 ---
 
+## 5bis. Cosas que tu Claude sabe hacer sin que se lo expliques
+
+Además de tocar código, tu Claude ya tiene en contexto cómo aplicar
+estas disciplinas en este repo (están documentadas en `CLAUDE.md` §6).
+Puedes pedirle cosas como:
+
+### SEO (Google)
+
+> "Revisa el SEO de la página de corte láser y mejora lo que haga
+> falta"
+
+> "Añade una página nueva sobre 'corte láser para hoteles en Cancún'
+> optimizada para que Google la posicione"
+
+> "Los títulos de las páginas de /productos/ están duplicados, dale a
+> cada uno uno único"
+
+### GEO (que ChatGPT, Perplexity y Claude citen Lumo)
+
+> "Quiero que cuando alguien pregunte a ChatGPT dónde imprimir en 3D
+> en volumen en Cancún, salga Lumo. Revisa qué podemos mejorar"
+
+> "Convierte los precios del PDF de láser en una tabla HTML para que
+> las IA los puedan leer"
+
+> "Añade una sección de preguntas frecuentes en impresión 3D con
+> respuestas que una IA pueda citar directamente"
+
+### UI / UX
+
+> "El botón de WhatsApp en móvil queda muy pequeño, hazlo más
+> accesible"
+
+> "Revisa el flujo desde que alguien entra a la home hasta que pide
+> una cotización, dime qué fricciones hay"
+
+> "La home tarda en cargar en 4G, optimízala"
+
+### Diseño web
+
+> "La paleta se siente un poco plana, propón 2-3 variaciones
+> respetando los acentos laser y 3d actuales"
+
+> "Añade una animación sutil cuando aparecen las fotos de la galería
+> al hacer scroll"
+
+> "El Hero necesita más jerarquía visual, el título y el CTA
+> compiten"
+
+**Importante:** cuando le pidas cosas de estas disciplinas, Claude
+puede proponer cambios que afecten varias páginas. Siempre te va a
+enseñar el diff antes de pushear. Si dudas, pídele que primero te
+haga un **"plan en 5 bullets"** antes de tocar nada.
+
+---
+
 ## 6. Las reglas que Claude ya sabe (no te preocupes)
 
 Claude lee `CLAUDE.md` del repo cada vez que se abre, así que ya sabe:

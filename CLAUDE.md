@@ -129,18 +129,103 @@ Solo cuando el humano lo pida explícitamente. No abrir PRs "por si acaso".
 
 ---
 
-## 6. SEO / JSON-LD (importante)
+## 6. Disciplinas que Claude debe aplicar en este repo
 
-- El sitio emite JSON-LD rico desde `src/layouts/Base.astro`: `LocalBusiness`,
-  `Person` (Adriano como fundador), `Service` por cada servicio, `ImageObject`
-  con creator y copyright.
-- `ORG_ID`, `FOUNDER_ID`, `CATALOG_ID` son `@id`s canónicos — **no cambiar**
-  sin razón fuerte, los crawlers (Google, Perplexity, ChatGPT) ya los
-  tienen indexados.
+Cuando el usuario (Carlo o Adriano) pida trabajar sobre una página,
+sección o componente, Claude asume responsabilidad sobre **las cuatro
+disciplinas** siguientes. No hace falta que el usuario las pida por
+nombre: forman parte del trabajo.
+
+### 6.1 SEO (Google y buscadores tradicionales)
+
+- Cada página tiene un `<title>` descriptivo y único, y una `description`
+  propia. Nunca copiar entre páginas.
+- `canonical` siempre con slash final (lo normaliza `Base.astro` l. 37-41).
+  Mismatches de slash llevan a GSC a reportar "Alternative page with
+  proper canonical tag".
 - Las páginas EMD (`cortelasercancun.astro`, `impresion3dcancun.astro`)
   se excluyen del sitemap para que Google no las indexe como duplicadas
   (ver `astro.config.mjs` filter).
-- `canonical` siempre con slash final (lo normaliza `Base.astro` l. 37-41).
+- Jerarquía semántica real: un solo `<h1>` por página, `<h2>` para
+  secciones, `<h3>` bajo cada `<h2>`. No usar headings para tamaño.
+- Imágenes con `alt` descriptivo (los alts de galería viven en
+  `src/data/galleryImages.ts`, no inventar sobre la marcha).
+- Internal linking entre servicios, sectores y productos — cada página
+  de servicio debe enlazar a sectores relevantes y viceversa.
+- Core Web Vitals: evitar bloquear el main thread, imágenes con
+  `loading="lazy"` excepto el LCP, no cargar JS que no se use.
+
+### 6.2 GEO (Generative Engine Optimization — ChatGPT, Perplexity, Claude, Gemini)
+
+Objetivo: que cuando alguien pregunte a una IA "¿dónde hago impresión
+3D en volumen en Cancún?", la respuesta cite Lumo.
+
+- **JSON-LD rico** en `Base.astro`: `LocalBusiness` + `Person`
+  (fundador) + `Service` por cada servicio + `ImageObject` con
+  creator y copyright. Los `@id` (`ORG_ID`, `FOUNDER_ID`, `CATALOG_ID`)
+  son estables — **no cambiar** sin razón fuerte, los crawlers ya los
+  tienen indexados.
+- **Datos en texto HTML, no solo en imágenes**: los crawlers de IA
+  leen HTML plano. Precios, materiales, tiempos y capacidades deben
+  estar en el `<body>` como texto, no solo embebidos en PDFs o
+  rasterizados.
+- **Lenguaje directo, estructura de pregunta-respuesta**: componentes
+  como `FAQ.astro` y texto expositivo ayudan al scraping LLM. Preferir
+  listas y tablas sobre párrafos densos cuando el dato es concreto
+  (precio, material, dimensión).
+- **E-E-A-T**: los artículos en `/recursos/` llevan autor visible
+  (Adriano Abascal, arquitecto), fecha de actualización, citas
+  externas. Esto sube la confianza del modelo en el contenido.
+- **Consistencia de entidad**: NAP (Name, Address, Phone) idéntico
+  sitewide, a través de `SITE` en `src/data/services.ts`. Cualquier
+  variación confunde al grafo de conocimiento.
+
+### 6.3 UI / UX
+
+- **Mobile-first**: ~70% del tráfico es móvil. Diseñar primero para
+  375px de ancho y escalar a desktop.
+- **Jerarquía visual clara**: una sola acción primaria por vista
+  (WhatsApp o cotización). Las secundarias (teléfono, descarga de PDF)
+  en estilo subordinado.
+- **Flujos cortos**: nunca más de 2 clicks del landing al contacto.
+  El `WhatsAppButton.astro` persiste en todas las páginas.
+- **Feedback inmediato**: botones con hover/active states, formularios
+  con validación inline, animaciones de transición entre páginas
+  (`PageTransition.astro` + `ClientRouter`).
+- **Accesibilidad**: contrastes AA mínimo, `aria-label` en iconos
+  interactivos, focus visible, orden de tabulación lógico.
+- **Carga percibida**: hero con imagen crítica, resto diferido.
+  Evitar CLS (saltos de layout) reservando espacio para imágenes.
+
+### 6.4 Diseño web
+
+- **Sistema tipográfico**: una familia principal, 3-4 escalas máximo.
+  Jerarquía por peso + tamaño, no por color.
+- **Espaciado consistente**: usar múltiplos de un grid (8 o 16px).
+  No improvisar márgenes.
+- **Paleta restringida**: acento `laser` y acento `3d` (ver
+  `pageAccent` en `Base.astro`). No introducir colores nuevos sin
+  propósito claro.
+- **Fotografía real**: la galería (`src/assets/gallery/`) es el
+  portfolio de piezas que ha hecho Lumo. Nunca sustituir por stock.
+- **Animación con propósito**: `motion` y `lenis` están para reforzar
+  jerarquía (reveal al scroll, parallax sutil), no para decorar.
+  Animaciones largas o complejas se eliminan en móvil (`prefers-reduced-motion`).
+- **Consistencia entre páginas**: Nav, Footer, Hero pattern, CTAs,
+  todos repetibles. Si una página necesita un componente nuevo,
+  considerar si debería ser global.
+
+### Checklist tácito antes de reportar una tarea terminada
+
+Cuando Claude termine un cambio visible, verificar:
+
+1. ¿La página sigue respondiendo las preguntas "qué, para quién, cómo
+   contactar, cuánto"?
+2. ¿JSON-LD sigue validando (sin errores de schema.org)?
+3. ¿El `<title>` y `description` son únicos y descriptivos?
+4. ¿Funciona bien en 375px de ancho sin scroll horizontal?
+5. ¿Las imágenes nuevas tienen `alt` y pasan por Astro Image?
+6. ¿No hay texto o CTA que viole las reglas de marca (§7)?
 
 ---
 
