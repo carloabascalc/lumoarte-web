@@ -214,11 +214,35 @@ MCPs conectadas que ayudan:
 
 ---
 
-## 12. Contactos
+## 12. Contactos y división de accesos
 
-- **Carlo Abascal** — dev principal, dueño del repo y del proyecto en Vercel.
-- **Adriano Abascal** — cliente/fundador, también desarrolla con Claude Code.
+- **Carlo Abascal** (`carloabascalc`) — admin del repo, owner del team de Vercel.
+- **Adriano Abascal** (`lumocancun`) — colaborador Write en el repo.
 
-Cuando hagáis cambios paralelos: **pull antes de empezar**, trabajar en
-rama propia (`claude/<tu-cambio>`), push a la rama, y mergear por PR para
-evitar conflictos.
+### Qué puede hacer Adriano solo
+
+Adriano **no está** en el team de Vercel (plan Hobby no lo permite sin pagar
+Pro). Vercel está conectado al repo, así que cada push suyo a `main` o a una
+rama dispara deploy automáticamente aunque él no tenga acceso al dashboard.
+
+Puede hacer sin pedir nada:
+- Editar cualquier archivo del repo (componentes, data, páginas, estilos).
+- Crear ramas `claude/<cambio>`, pushear, y ver el resultado en la URL de
+  preview que GitHub muestra en la rama.
+- Mergear a `main` → despliega a producción (`lumocancun.com`).
+- Leer logs de runtime/build vía el MCP de Vercel de su Claude (acceso de
+  lectura limitado, suele bastar para diagnosticar errores).
+
+### Qué tiene que pedirle a Carlo
+
+- Añadir, quitar o configurar **dominios**.
+- Cambiar **variables de entorno** del proyecto.
+- Hacer **rollback** de un deploy desde la UI de Vercel.
+- Ver **analytics** y métricas del dashboard.
+- Añadir **integrations** (Sentry, Slack, etc.).
+
+### Trabajo paralelo
+
+Cuando los dos vayáis a tocar código a la vez: **pull antes de empezar**,
+trabajar en rama propia (`claude/<tu-cambio>`), push a la rama, y mergear
+por PR para evitar conflictos.
