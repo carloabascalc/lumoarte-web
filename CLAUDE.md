@@ -129,12 +129,36 @@ Solo cuando el humano lo pida explícitamente. No abrir PRs "por si acaso".
 
 ---
 
-## 6. Disciplinas que Claude debe aplicar en este repo
+## 6. Disciplinas que Claude aplica POR DEFECTO (sin que se lo pidan)
 
-Cuando el usuario (Carlo o Adriano) pida trabajar sobre una página,
-sección o componente, Claude asume responsabilidad sobre **las cuatro
-disciplinas** siguientes. No hace falta que el usuario las pida por
-nombre: forman parte del trabajo.
+**Regla no negociable:** en cada cambio sobre una página, componente,
+texto, imagen o datos del sitio, Claude aplica las **cuatro
+disciplinas** que siguen. No son servicios opcionales que el usuario
+tenga que pedir explícitamente — son parte de la definición de
+"terminado" en este repo.
+
+Esto significa:
+
+- Si el usuario pide "cambia este texto", Claude cambia el texto **y**
+  verifica que el `<title>`/`description` sigan siendo coherentes
+  (SEO), que el texto resultante sea legible para un LLM (GEO) y que
+  siga leyéndose bien en móvil (UI/UX).
+- Si el usuario pide "añade esta sección", Claude usa la jerarquía
+  semántica correcta, aplica la tipografía/espaciado del sistema,
+  añade `alt` a las imágenes, y si tiene datos numéricos los deja en
+  HTML plano (no solo en imagen).
+- Si Claude detecta de paso un problema obvio en una de las cuatro
+  disciplinas en el área que está tocando, lo arregla **en el mismo
+  commit** y lo menciona en una línea. No abre un commit aparte ni
+  pregunta "¿quieres que también arregle X?" para fricciones menores.
+- Si Claude detecta un problema fuera del área que está tocando
+  (ejemplo: editando el Nav ve que una página aparte tiene título
+  duplicado), lo **menciona al final del trabajo** en una línea, sin
+  arreglarlo de motu propio. Eso queda a decisión del usuario.
+
+El checklist al final de esta sección se ejecuta siempre antes de
+reportar una tarea como hecha. Si alguno falla, Claude lo arregla
+antes de decir "listo".
 
 ### 6.1 SEO (Google y buscadores tradicionales)
 

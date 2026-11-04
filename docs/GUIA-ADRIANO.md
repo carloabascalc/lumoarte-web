@@ -152,59 +152,46 @@ te gusta, le dices **"descarta la rama"** y queda como si nada.
 
 ---
 
-## 5bis. Cosas que tu Claude sabe hacer sin que se lo expliques
+## 5bis. Lo que tu Claude hace solo (sin que se lo pidas)
 
-Además de tocar código, tu Claude ya tiene en contexto cómo aplicar
-estas disciplinas en este repo (están documentadas en `CLAUDE.md` §6).
-Puedes pedirle cosas como:
+**No tienes que pedir SEO, GEO, UI/UX ni diseño.** Tu Claude los aplica
+de oficio en todo lo que haga. Está escrito como regla no negociable en
+el `CLAUDE.md` que lee al abrir el repo.
 
-### SEO (Google)
+### Qué significa en la práctica
 
-> "Revisa el SEO de la página de corte láser y mejora lo que haga
-> falta"
+Tú le pides algo normal como:
 
-> "Añade una página nueva sobre 'corte láser para hoteles en Cancún'
-> optimizada para que Google la posicione"
+> "Cambia el precio de impresión 3D a 9 pesos el gramo"
 
-> "Los títulos de las páginas de /productos/ están duplicados, dale a
-> cada uno uno único"
+Y por debajo tu Claude, sin preguntarte, además de cambiar el precio:
 
-### GEO (que ChatGPT, Perplexity y Claude citen Lumo)
+- Verifica que el precio nuevo quede en **HTML plano**, no solo en una
+  imagen (así ChatGPT y Perplexity lo pueden leer y citar — GEO).
+- Comprueba que el `<title>` y la `description` de la página sigan
+  siendo coherentes (SEO).
+- Revisa que en móvil el número se siga leyendo bien (UI).
+- Mantiene la tipografía, color y espaciado del sistema (Diseño).
 
-> "Quiero que cuando alguien pregunte a ChatGPT dónde imprimir en 3D
-> en volumen en Cancún, salga Lumo. Revisa qué podemos mejorar"
+Si de paso ve un problema obvio en el área que está tocando (un `alt`
+vacío, un heading mal usado, un contraste bajo), lo arregla **en el
+mismo commit** y te lo menciona en una línea.
 
-> "Convierte los precios del PDF de láser en una tabla HTML para que
-> las IA los puedan leer"
+Si ve un problema **fuera** del área que estás cambiando (ej. editando
+el Nav ve que una página aparte tiene título duplicado), te lo
+**menciona al final** y tú decides si lo arregla o no.
 
-> "Añade una sección de preguntas frecuentes en impresión 3D con
-> respuestas que una IA pueda citar directamente"
+### Qué sigue siendo tu decisión
 
-### UI / UX
+Tu Claude aplica las disciplinas de oficio, pero **no inventa
+estrategia** sin que lo pidas. Para cosas de dirección — "quiero
+posicionar mejor en Google para la palabra X", "quiero rediseñar la
+home entera", "la paleta necesita refresco" — ahí sí tienes que
+arrancar tú la conversación.
 
-> "El botón de WhatsApp en móvil queda muy pequeño, hazlo más
-> accesible"
-
-> "Revisa el flujo desde que alguien entra a la home hasta que pide
-> una cotización, dime qué fricciones hay"
-
-> "La home tarda en cargar en 4G, optimízala"
-
-### Diseño web
-
-> "La paleta se siente un poco plana, propón 2-3 variaciones
-> respetando los acentos laser y 3d actuales"
-
-> "Añade una animación sutil cuando aparecen las fotos de la galería
-> al hacer scroll"
-
-> "El Hero necesita más jerarquía visual, el título y el CTA
-> compiten"
-
-**Importante:** cuando le pidas cosas de estas disciplinas, Claude
-puede proponer cambios que afecten varias páginas. Siempre te va a
-enseñar el diff antes de pushear. Si dudas, pídele que primero te
-haga un **"plan en 5 bullets"** antes de tocar nada.
+Lo mismo con decisiones de negocio: Claude no decide bajar precios,
+cambiar el teléfono, eliminar un servicio ni añadir una promoción.
+Eso siempre viene de ti.
 
 ---
 
