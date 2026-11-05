@@ -1,0 +1,216 @@
+---
+// Escenario común de las secciones «assembly»: título y dibujo fijos en pantalla
+// mientras el scroll avanza el proceso (la lógica de cada una vive en su componente).
+import LazyArt from "./LazyArt.astro";
+
+interface Props {
+  /** id del contenedor que lee src/scripts/assembly.ts */
+  id: string;
+  eyebrow: string;
+  titleId: string;
+  sub: string;
+  hint: string;
+  src: string;
+  width: number;
+  height: number;
+  /** Largo del recorrido de scroll en escritorio y móvil. */
+  scroll?: string;
+  scrollMobile?: string;
+}
+const { id, eyebrow, titleId, sub, hint, src, width, height, scroll = "220vh", scrollMobile = "200vh" } = Astro.props;
+---
+
+<section class="assembly" aria-labelledby={titleId}>
+  <div class="assembly-wrap" id={id} style={`--scroll:${scroll};--scroll-m:${scrollMobile}`}>
+    <div class="assembly-stage">
+      <div class="assembly-grid-bg" aria-hidden="true"></div>
+
+      <div class="assembly-header">
+        <p class="assembly-eyebrow">{eyebrow}</p>
+        <h2 class="assembly-title section-title" id={titleId}><slot /></h2>
+        <p class="assembly-sub">{sub}</p>
+      </div>
+
+      <div class="assembly-canvas">
+        <LazyArt src={src} width={width} height={height} class="assembly-art" />
+      </div>
+
+      <p class="assembly-hint" aria-hidden="true">
+        <span data-hint-label>{hint}</span>
+        <b data-hint-stage>01</b><span class="assembly-hint-of"> / 03</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .assembly {
+    background: var(--color-bg);
+    position: relative;
+  }
+
+  .assembly-wrap {
+    position: relative;
+    height: var(--scroll-m);
+    contain: layout paint;
+  }
+
+  .assembly-stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    justify-items: center;
+    gap: 12px;
+    padding: calc(var(--nav-h) + 20px) 16px 20px;
+    background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+  }
+
+  .assembly-grid-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(20, 10, 4, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(20, 10, 4, 0.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+    opacity: 0;
+    will-change: opacity;
+    pointer-events: none;
+  }
+
+  .assembly-header {
+    position: relative;
+    z-index: 4;
+    text-align: center;
+    max-width: 560px;
+  }
+
+  .assembly-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 12px;
+  }
+
+  .assembly-title { margin-bottom: 12px; }
+  .assembly-title :global(em) { font-style: italic; color: var(--color-accent); }
+
+  .assembly-sub {
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 auto;
+  }
+
+  .assembly-canvas {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    min-height: 0;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .assembly-canvas :global(.assembly-art) {
+    background: none;
+    overflow: visible;
+  }
+
+  /* La sombra del piso puede pasarse del cuadro del dibujo sin que se note el corte. */
+  .assembly-canvas :global(svg) {
+    overflow: visible;
+  }
+
+  .assembly-hint {
+    position: relative;
+    z-index: 5;
+    font-family: var(--font-body);
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--color-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    margin: 0;
+  }
+
+  .assembly-hint b {
+    color: var(--color-accent);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .assembly-hint-of { color: var(--color-muted); opacity: 0.6; }
+
+  /* La barra de documentos de los servicios (ServicePdfs) se queda pegada arriba.
+     Mientras no le alcanza una sola línea ocupa de 140 a 275 px y taparía el dibujo o el
+     título, así que el escenario le pasa por encima durante el recorrido. */
+  @media (max-width: 1199px) {
+    .assembly-wrap { z-index: 41; }
+  }
+
+  /* En una sola línea mide 92 px: ahí se le deja su lugar. */
+  @media (min-width: 1200px) {
+    :global(main:has(.service-pdfs)) .assembly-stage {
+      padding-top: calc(var(--nav-h) + 100px);
+    }
+  }
+
+  /* Pantalla ancha: el texto a un lado y el dibujo a todo lo alto del otro. */
+  @media (min-width: 1000px) {
+    .assembly-wrap { height: var(--scroll); }
+
+    .assembly-stage {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      grid-template-rows: 1fr 1fr;
+      justify-items: start;
+      column-gap: 40px;
+      row-gap: 0;
+      padding: calc(var(--nav-h) + 8px) clamp(32px, 7vw, 120px) 24px;
+    }
+
+    .assembly-header {
+      grid-column: 1;
+      grid-row: 1;
+      align-self: end;
+      text-align: left;
+    }
+
+    .assembly-sub { font-size: 1.0625rem; margin: 0; }
+
+    .assembly-canvas {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+    }
+
+    .assembly-hint {
+      grid-column: 1;
+      grid-row: 2;
+      align-self: start;
+      margin-top: 28px;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+    }
+  }
+
+  /* En teléfonos bajitos el dibujo importa más que el párrafo. */
+  @media (max-width: 999px) and (max-height: 640px) {
+    .assembly-sub { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .assembly-wrap { height: auto; }
+    .assembly-stage { position: static; height: auto; padding: 100px 16px; }
+    .assembly-canvas { height: min(70vh, 520px); }
+    .assembly-hint { display: none; }
+  }
+</style>
