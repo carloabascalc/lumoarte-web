@@ -104,8 +104,11 @@ ramas de feature generan preview deploys en URLs tipo `lumoarte-<hash>.vercel.ap
 ### Arte generado de las impresoras
 
 Los SVG animados de la sección "Equipo del taller"
-(`src/assets/printers/{h2c,a2l,h3c}.svg`) se generan con un script
-Python: `tools/printer_art.py`. Están minificados en una sola línea
+(`src/assets/printers/{h2c,a2l,h3c}.svg`) y la cortadora láser
+(`src/assets/printers/laser.svg`, usada en la tarjeta de servicio, el hero
+de corte láser y `LaserAssembly`) se generan con un script
+Python: `tools/printer_art.py`. Es el estilo de **todas** las animaciones
+de máquinas del sitio: modelos en mm, axonométrico 24°/16°, solo CSS. Están minificados en una sola línea
 (~45-100 KB cada uno) y **no se editan a mano**.
 
 Para cambiarlos (ajustar medidas, colores, animaciones, añadir otra
@@ -114,12 +117,15 @@ máquina, cambiar un modelo por otro):
 ```sh
 # Editar las medidas o la paleta en tools/printer_art.py
 python3 tools/printer_art.py
-# Los tres SVG se regeneran en src/assets/printers/
+# Los SVG se regeneran en src/assets/printers/
 ```
 
 Después de regenerar, revisar en el navegador que el componente
 `src/components/TresDMachines.astro` sigue mostrando bien las tres
-máquinas (se cargan con lazy fetch al hacer scroll).
+máquinas (se cargan con lazy fetch al hacer scroll). El láser se inserta con
+`LazyMachineSvg.astro`; en `LaserAssembly` el scroll fija el tiempo de su
+animación (`--t`), así que si cambian los tiempos de `laser()` hay que
+actualizar las constantes `T_*` del script de ese componente.
 
 Si se añade una máquina nueva (ej. una Prusa), tocar:
 1. `tools/printer_art.py` (función de dibujo + añadir a OUT).
