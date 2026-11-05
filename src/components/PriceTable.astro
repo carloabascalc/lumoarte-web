@@ -42,23 +42,23 @@ const fmt = (n: number) =>
 
     <div class="pt-tables" data-reveal data-reveal-delay="0.06">
       {groups.map((g) => (
-        <table class="pt-table">
+        <table class="pt-table" role="table">
           <caption class="pt-cat">{g.category}</caption>
-          <thead>
-            <tr>
-              <th scope="col">Material</th>
-              <th scope="col">Grosor</th>
-              <th scope="col">Lámina</th>
-              <th scope="col" class="pt-num">Precio (sin IVA)</th>
+          <thead role="rowgroup">
+            <tr role="row">
+              <th scope="col" role="columnheader">Material</th>
+              <th scope="col" role="columnheader">Grosor</th>
+              <th scope="col" role="columnheader">Lámina</th>
+              <th scope="col" role="columnheader" class="pt-num">Precio (sin IVA)</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody role="rowgroup">
             {g.items.map((i) => (
-              <tr>
-                <th scope="row" class="pt-name">{i.name}</th>
-                <td>{i.spec ?? "—"}</td>
-                <td>{i.size ?? "—"}</td>
-                <td class="pt-num pt-price">${fmt(i.price)} {currency}</td>
+              <tr role="row">
+                <th scope="row" role="rowheader" class="pt-name">{i.name}</th>
+                <td role="cell">{i.spec ?? "—"}</td>
+                <td role="cell">{i.size ?? "—"}</td>
+                <td role="cell" class="pt-num pt-price">${fmt(i.price)} {currency}</td>
               </tr>
             ))}
           </tbody>
@@ -167,20 +167,64 @@ const fmt = (n: number) =>
     max-width: 760px;
   }
 
-  @media (max-width: 880px) {
+  @media (max-width: 920px) {
     .pt-tables {
       grid-template-columns: 1fr;
     }
   }
 
+  /* En teléfono las cuatro columnas no caben. Cada fila pasa a dos renglones:
+     material y precio arriba, grosor y lámina abajo. Cambiar `display` puede
+     borrar la semántica de tabla, por eso el marcado lleva `role` explícitos. */
   @media (max-width: 480px) {
+    .pt-table,
+    .pt-table thead,
+    .pt-table tbody,
+    .pt-cat {
+      display: block;
+    }
+
     .pt-table {
       font-size: 0.875rem;
     }
+
+    .pt-table tr {
+      display: grid;
+      grid-template-columns: 4.5em minmax(0, 1fr) auto;
+      gap: 2px 12px;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--color-surface);
+    }
+
+    .pt-table thead tr {
+      background: var(--color-bg-alt);
+    }
+
+    .pt-table tbody tr:last-child {
+      border-bottom: none;
+    }
+
     .pt-table thead th,
     .pt-table tbody th,
     .pt-table tbody td {
-      padding: 9px 12px;
+      padding: 0;
+      border-bottom: none;
+    }
+
+    .pt-table tr > :nth-child(1) {
+      grid-column: 1 / 3;
+    }
+
+    .pt-table tr > :nth-child(2) {
+      grid-area: 2 / 1;
+    }
+
+    .pt-table tr > :nth-child(3) {
+      grid-area: 2 / 2;
+    }
+
+    .pt-table tr > :nth-child(4) {
+      grid-area: 1 / 3 / 3 / 4;
     }
   }
 </style>
