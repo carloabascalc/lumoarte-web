@@ -12,9 +12,13 @@ import pathlib
 
 OUT = pathlib.Path(__file__).resolve().parent.parent / "src/assets/printers"
 
-AZ = math.radians(24)
-EL = math.radians(16)
-CA, SA, CE, SE = math.cos(AZ), math.sin(AZ), math.cos(EL), math.sin(EL)
+def set_view(az_deg=24, el_deg=16):
+    global AZ, EL, CA, SA, CE, SE
+    AZ, EL = math.radians(az_deg), math.radians(el_deg)
+    CA, SA, CE, SE = math.cos(AZ), math.sin(AZ), math.cos(EL), math.sin(EL)
+
+
+set_view()
 
 # Paleta del sitio (Base.astro) + neutros cálidos para los materiales de cada máquina.
 LINE = "#2b1d12"
@@ -70,6 +74,7 @@ class Art:
     def __init__(self, name, S, ox, oy, w=480, h=560):
         self.name, self.S, self.ox, self.oy, self.w, self.h = name, S, ox, oy, w, h
         self.defs, self.body, self.css, self.uid = [], [], [], 0
+        self.root_attrs = {}
 
     def p(self, x, y, z):
         return (
@@ -149,6 +154,19 @@ class Art:
             f'<linearGradient id="{i}" gradientUnits="userSpaceOnUse" x1="{n(x1)}" y1="{n(y1)}" x2="{n(x2)}" y2="{n(y2)}">{ss}</linearGradient>'
         )
         return f"url(#{i})"
+
+    def lin_box(self, stops):
+        """Degradado horizontal relativo al objeto: una sola definición sirve para muchas capas."""
+        i = self.nid()
+        ss = "".join(f'<stop offset="{st[0]}" stop-color="{st[1]}"/>' for st in stops)
+        self.defs.append(f'<linearGradient id="{i}">{ss}</linearGradient>')
+        return f"url(#{i})"
+
+    def ell_z(self, x, y, z, R, fill, stroke=None, sw=None):
+        """Círculo horizontal: en esta proyección siempre es una elipse sin girar."""
+        q = self.p(x, y, z)
+        extra = f' stroke="{stroke}" stroke-width="{sw}"' if stroke else ""
+        self.add(f'<ellipse cx="{n(q[0])}" cy="{n(q[1])}" rx="{n(R * self.S)}" ry="{n(R * self.S * SE)}" fill="{fill}"{extra}/>')
 
     def lin3(self, a, b, stops):
         p, q = self.p(*a), self.p(*b)
@@ -337,16 +355,18 @@ class Art:
         vec = {"x": (1, 0, 0), "y": (0, 1, 0), "z": (0, 0, 1)}[axis]
         return self.v(*mul3(vec, amount))
 
-    def write(self):
+    def write(self, outdir=None):
         reduced = f"@media (prefers-reduced-motion:reduce){{svg.{self.name}-art *{{animation:none!important}}}}"
         style = "".join(self.css) + reduced
+        attrs = "".join(f' {k}="{v}"' for k, v in self.root_attrs.items())
         svg = (
             f'<svg xmlns="http://www.w3.org/2000/svg" class="{self.name}-art" viewBox="0 0 {self.w} {self.h}" '
-            f'preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">'
+            f'preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"{attrs}>'
             f"<style>{style}</style><defs>{''.join(self.defs)}</defs>{''.join(self.body)}</svg>\n"
         )
-        OUT.mkdir(parents=True, exist_ok=True)
-        (OUT / f"{self.name}.svg").write_text(svg)
+        folder = outdir or OUT
+        folder.mkdir(parents=True, exist_ok=True)
+        (folder / f"{self.name}.svg").write_text(svg)
         return len(svg)
 
 
@@ -496,13 +516,14 @@ def ams2(a, x0, x1, y0, y1, z0, colors, active, pulse_cls):
     a.path(a.rr(((x0 + x1) / 2 - 42, y0 - 2, zb - 10), (1, 0, 0), (0, 0, 1), 84, 8, 3), "#4b4137")
 
 
-def h2c():
+def h2c(name="h2c", w=480, h=560, S=0.525, ox=78, oy=497, outdir=None, floor_ams=False):
+    set_view()
     W, D, H = 492, 514, 626
-    a = Art("h2c", S=0.525, ox=78, oy=497)
+    a = Art(name, S=S, ox=ox, oy=oy, w=w, h=h)
     T = 18
     t_print = 14.5
     t_fade0, t_fade1 = 16, 17
-    stage(a, shadow=a.p(W * 0.56, D * 0.42, 0) + (205, 74))
+    stage(a, shadow=a.p(W * (0.9 if floor_ams else 0.56), D * 0.42, 0) + ((S * 620, S * 170) if floor_ams else (205, 74)))
 
     Zp = 322
     Hp = 112
@@ -517,24 +538,24 @@ def h2c():
         return [(0, 0, dyu), (t_print, 0, dyd), (t_fade1, 0, dyd), (T, 0, dyu)]
 
     kf = a.translate_kf("bed", T, bed_stops())
-    a.animate("h2c-bed", kf, T)
+    a.animate(f"{name}-bed", kf, T)
     kf = a.keyframes("pfade", T, [(0, "opacity:1"), (t_fade0, "opacity:1"), (t_fade1, "opacity:0"), (T - 0.01, "opacity:0"), (T, "opacity:1")])
-    a.animate("h2c-pfade", kf, T)
+    a.animate(f"{name}-pfade", kf, T)
     kf = a.keyframes("cap", T, [(0, "opacity:0"), (0.25, "opacity:1"), (t_fade0, "opacity:1"), (t_fade1, "opacity:0"), (T, "opacity:0")])
-    a.animate("h2c-cap", kf, T)
+    a.animate(f"{name}-cap", kf, T)
     xs = zigzag(0, t_print, 0.95, 46)
     ys = zigzag(0, t_print, 2.4, 20)
     park = [(t_print + 1.1, -112), (T - 0.9, -112), (T, 46)]
     kf = a.translate_kf("hx", T, [(t, *a.along("x", d)) for t, d in xs + park])
-    a.animate("h2c-hx", kf, T, "cubic-bezier(.45,.05,.55,.95)")
+    a.animate(f"{name}-hx", kf, T, "cubic-bezier(.45,.05,.55,.95)")
     kf = a.translate_kf("hy", T, [(t, *a.along("y", d)) for t, d in ys + [(t_print + 1.1, 34), (T - 0.9, 34), (T, 20)]])
-    a.animate("h2c-hy", kf, T, "cubic-bezier(.45,.05,.55,.95)")
+    a.animate(f"{name}-hy", kf, T, "cubic-bezier(.45,.05,.55,.95)")
     kf = a.keyframes("tip", T, [(0, "opacity:.95"), (t_print, "opacity:.95"), (t_print + 0.6, "opacity:0"), (T - 0.5, "opacity:0"), (T, "opacity:.95")])
-    a.animate("h2c-tip", kf, T)
+    a.animate(f"{name}-tip", kf, T)
     kf = a.keyframes("pulse", 2.4, [(0, "opacity:1"), (1.2, "opacity:.55"), (2.4, "opacity:1")])
-    a.animate("h2c-pulse", kf, 2.4, "ease-in-out")
+    a.animate(f"{name}-pulse", kf, 2.4, "ease-in-out")
     kf = a.keyframes("prog", T, [(0, "transform:scaleX(0)"), (t_print, "transform:scaleX(1)"), (t_fade1, "transform:scaleX(1)"), (T, "transform:scaleX(0)")])
-    a.animate("h2c-prog", kf, T)
+    a.animate(f"{name}-prog", kf, T)
 
     side = a.lin3((W, 0, H), (W, D, 0), [(0, "#4a4138"), (0.55, "#37302a"), (1, "#27211c")])
     top = a.lin3((0, 0, H), (W, D, H), [(0, "#3c342d"), (1, "#2c2520")])
@@ -559,7 +580,7 @@ def h2c():
     a.close()
 
     a.path(a.rr((62, 112, H), (1, 0, 0), (0, 1, 0), 396, 300, 12), "#191512", op=0.55)
-    ams2(a, 66, 454, 118, 404, H + 2, ["cream", "teal", "olive", "honey"], 3, "h2c-pulse")
+    ams2(a, 66, 454, 118, 404, H + 2, ["cream", "teal", "olive", "honey"], 3, f"{name}-pulse")
 
     # Profundidad comprimida: en axonométrico estricto la pared izquierda taparía medio interior.
     DOOR = (30, 24, 410, 512)
@@ -591,7 +612,7 @@ def h2c():
 
     BX0, BX1, BY0, BY1 = 72, 424, 10, 214
     cx, cy = 246, 112
-    a.open(cls="h2c-bed")
+    a.open(cls=f"{name}-bed")
     a.box(104, 126, BY1, IY, z_bed - 20, z_bed - 8, side="#2a231d", top="#4a4036")
     a.box(384, 406, BY1, IY, z_bed - 20, z_bed - 8, side="#2a231d", top="#4a4036")
     a.box(BX0, BX1, BY0, BY1, z_bed - 16, z_bed, front="#1a1612", side="#120e0b")
@@ -617,13 +638,13 @@ def h2c():
     cc = a.clip(cut)
     outline = gear_outline(cx, cy, 58, 72, 12)
     a.open(clip=cc)
-    a.open(cls="h2c-pfade")
-    a.open(cls="h2c-bed")
+    a.open(cls=f"{name}-pfade")
+    a.open(cls=f"{name}-bed")
     prism_sides(a, outline, z_bed, z_bed + Hp, ["#8a4a14", "#a85f1c", "#c87a2a", "#dc9543"])
     a.close()
     a.close()
     a.close()
-    a.open(cls="h2c-cap")
+    a.open(cls=f"{name}-cap")
     capd = a.poly([(px, py, Zp) for px, py in outline])
     a.path(capd, "#eeaa58")
     a.path(a.ellipse_z(cx, cy, Zp, 44), stroke="#c87a2a", sw=0.5, op=0.9)
@@ -640,7 +661,7 @@ def h2c():
 
     by = cy + 44
     bz = Zp + 96
-    a.open(cls="h2c-hy")
+    a.open(cls=f"{name}-hy")
     a.box(x0, x1, by - 14, by + 14, bz - 15, bz + 15, front="#1b1612", top="#352c25")
     rail = a.lin3((0, by - 14, bz + 11), (0, by - 14, bz - 2), [(0, "#e6e0d5"), (1, "#8d8478")])
     a.path(a.poly([(x0, by - 14, bz - 2), (x1, by - 14, bz - 2), (x1, by - 14, bz + 11), (x0, by - 14, bz + 11)]), rail)
@@ -649,7 +670,7 @@ def h2c():
         q = a.p(bx, by - 14, bz + 4.5)
         bolts += f'<circle cx="{n(q[0])}" cy="{n(q[1])}" r="1.1"/>'
     a.add(f'<g fill="#3a3027">{bolts}</g>')
-    a.open(cls="h2c-hx")
+    a.open(cls=f"{name}-hx")
     hy = cy
     tg = a.lin3((cx - 46, hy - 30, 0), (cx + 46, hy - 30, 0), [(0, "#f0ebe2"), (0.55, "#cfc9bd"), (1, "#a9a296")])
     a.rbox(cx - 46, cx + 46, hy - 30, hy + 36, Zp + 58, Zp + 156, 14, tg, "#7f786d", "#efe9df", shade_f="#b5aea2", shade_s="#8c857a", edge="#3b3027", sw=0.7)
@@ -664,7 +685,7 @@ def h2c():
     a.path(a.poly([(cx - 8, hy, Zp + 16), (cx + 8, hy, Zp + 16), (cx + 3, hy, Zp + 3), (cx, hy, Zp), (cx - 3, hy, Zp + 3)]), a.lin3((cx - 8, hy, 0), (cx + 8, hy, 0), [(0, "#f0c27c"), (1, "#8a5a18")]))
     q = a.p(cx, hy, Zp)
     tip = a.rad(q[0], q[1], 9, [(0, "#ffdca8", 1), (0.35, "#ff8a2a", 0.7), (1, "#ff8a2a", 0)])
-    a.add(f'<circle cx="{n(q[0])}" cy="{n(q[1])}" r="9" fill="{tip}" class="h2c-tip"/>')
+    a.add(f'<circle cx="{n(q[0])}" cy="{n(q[1])}" r="9" fill="{tip}" class="{name}-tip"/>')
     a.close()
     a.close()
     a.close()  # clip interior
@@ -706,11 +727,13 @@ def h2c():
     a.rect(72, 12, 62, 40, "#2c241d", rx=3)
     a.add('<path d="M84 42 L118 42 L126 30 L94 30Z" fill="#6e6256"/><path d="M100 36 l6 -14 l6 14Z" fill="#e09a4a"/>')
     a.rect(12, 67, SW - 24, 4.4, "#3a3027", rx=2.2)
-    a.add(f'<rect x="12" y="67" width="{SW - 24}" height="4.4" rx="2.2" fill="#e09a4a" class="h2c-prog"/>')
+    a.add(f'<rect x="12" y="67" width="{SW - 24}" height="4.4" rx="2.2" fill="#e09a4a" class="{name}-prog"/>')
     a.close()
-    a.css.append(".h2c-prog{transform-origin:12px 69px}")
+    a.css.append(f".{name}-prog{{transform-origin:12px 69px}}")
 
-    return a.write()
+    if floor_ams:
+        ams2(a, W + 36, W + 36 + 388, 40, 326, 0, ["cream", "honey", "olive", "rust"], 1, f"{name}-pulse")
+    return a.write(outdir)
 
 
 def touch_screen(a, x, z, w, h, y, prog_cls):
@@ -731,6 +754,7 @@ def touch_screen(a, x, z, w, h, y, prog_cls):
 
 
 def h3c():
+    set_view()
     W, D, Hb = 493, 571, 548
     a = Art("h3c", S=0.5, ox=70, oy=512)
     stage(a, shadow=a.p(W * 0.56, D * 0.42, 0) + (200, 70))
@@ -1213,6 +1237,7 @@ def ams_lite(a, x, y):
 
 
 def a2l():
+    set_view()
     a = Art("a2l", S=0.5, ox=20, oy=486)
     T = A2L_T
     t_print = 16.5
