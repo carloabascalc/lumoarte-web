@@ -4,6 +4,7 @@ import Nav from "../components/Nav.astro";
 import ServicePageHero from "../components/ServicePageHero.astro";
 import TresDShowcase from "../components/TresDShowcase.astro";
 import TresDAssembly from "../components/TresDAssembly.astro";
+import TresDMachines from "../components/TresDMachines.astro";
 import Gallery from "../components/Gallery.astro";
 import FAQ from "../components/FAQ.astro";
 import InstagramCTA from "../components/InstagramCTA.astro";
@@ -20,46 +21,16 @@ const noindex = !EMD_ENABLED;
 const technologies = [
   {
     label: "FDM — plástico fundido",
-    eyebrow: "Bambu Lab H2C · Línea de impresoras Bambu Lab",
+    eyebrow: "Línea de impresoras Bambu Lab",
     description:
       "Imprimimos con filamentos termoplásticos en máquinas Bambu Lab. La H2C imprime hasta cuatro colores en una misma pieza con una velocidad y consistencia de nivel industrial.",
-    materiales: ["Gran variedad de colores"],
+    materiales: ["PLA", "PETG", "TPU", "ABS", "ASA", "Nylon", "Fibra de carbono", "Gran variedad de colores"],
     usos: [
       "Producción en serie de piezas y productos",
       "Souvenirs, llaveros y merch por lote",
       "Prototipos funcionales",
       "Piezas mecánicas y repuestos",
     ],
-  },
-  {
-    label: "Resina — alta definición",
-    eyebrow: "Resina · MSLA / DLP",
-    description:
-      "La impresión por resina captura detalle a nivel de micras — superficies lisas y geometría imposible para FDM. Es nuestra herramienta para piezas pequeñas, intricadas o que necesitan un acabado premium directamente desde la máquina.",
-    materiales: ["Gran variedad de colores"],
-    usos: [
-      "Piezas pequeñas de detalle fino, por lote",
-      "Joyería y prototipos para fundición",
-      "Moldes y matrices de precisión",
-    ],
-  },
-];
-
-const machines = [
-  {
-    name: "Bambu Lab H2C",
-    spec: "Volumen 256 × 256 × 256 mm · Multi-color hasta 4 filamentos",
-    note: "Para piezas multicolor, producción por lote y prototipos rápidos.",
-  },
-  {
-    name: "Formato XL",
-    spec: "Volumen 300 × 300 × 400 mm",
-    note: "Para piezas grandes que normalmente requerirían dividir el modelo.",
-  },
-  {
-    name: "Impresora de resina",
-    spec: "Volumen ≈ 150 × 80 × 165 mm · Resolución de fotograbado",
-    note: "Para detalle fino y piezas pequeñas con superficie lisa.",
   },
 ];
 
@@ -82,14 +53,14 @@ const faqs = [
       "Lo ideal es un STL o STEP listo para imprimir, con paredes cerradas y geometría sólida. Si solo tienes un dibujo, una foto o una idea, podemos modelarlo desde cero — el modelado 3D se cotiza por separado dependiendo de la complejidad. También aceptamos OBJ, 3MF y archivos de Fusion 360 / SolidWorks.",
   },
   {
-    question: "¿Cómo elijo entre FDM y resina?",
+    question: "¿Cómo elijo el material?",
     answer:
-      "FDM (filamento) es ideal para piezas funcionales, prototipos, repuestos, soportes y piezas grandes. Es más resistente y económico. Resina es para alta definición — piezas pequeñas de detalle fino, joyería y moldes. Si no estás seguro, mándanos el archivo y te recomendamos sin compromiso.",
+      "PLA es el de uso general: souvenirs, llaveros y piezas decorativas por lote. PETG para piezas durables o de exterior, TPU cuando la pieza debe ser flexible, y ABS o ASA cuando necesita más resistencia. Para piezas técnicas también imprimimos en nylon y fibra de carbono. Si no estás seguro, mándanos el archivo y te recomendamos sin compromiso.",
   },
   {
     question: "¿Cuál es el tamaño máximo que pueden imprimir?",
     answer:
-      "En una sola pieza FDM imprimimos hasta 30 × 30 × 40 cm. En multi-color hasta 25.6 × 25.6 × 25.6 cm (Bambu Lab H2C). En resina hasta 15 × 8 × 16.5 cm. Para piezas más grandes, las dividimos en módulos que se ensamblan después con casi ninguna línea visible.",
+      "En una sola pieza imprimimos hasta 33 × 32 × 32.5 cm, también en multicolor. Para piezas más grandes, las dividimos en módulos que se ensamblan después con casi ninguna línea visible.",
   },
   {
     question: "¿Pintan o dan acabado a la pieza?",
@@ -105,7 +76,7 @@ const faqs = [
 ---
 
 <Base
-  title="Impresión 3D en serie en Cancún — FDM y resina | Lumo Cancún"
+  title="Impresión 3D en serie en Cancún — FDM multicolor | Lumo Cancún"
   description="Impresión 3D en serie en Cancún con impresoras Bambu Lab: productos, souvenirs y refacciones por lote para negocios. Del prototipo a la producción, precio por volumen."
   canonical={EMD_ENABLED ? `${emdUrl}/` : service.slug}
   ogImage="/og/impresion-3d.jpg"
@@ -119,9 +90,9 @@ const faqs = [
     <ServicePageHero
       eyebrow="Impresión 3D en Cancún"
       title="Del prototipo a la producción en serie, en <em>Cancún</em>"
-      subtitle="Imprimimos en 3D por lote con máquinas Bambu Lab — FDM multicolor, formato XL y resina de alta definición. Productos, souvenirs y piezas para tu negocio, con precio por volumen y sin enviarlos fuera de la ciudad."
+      subtitle="Imprimimos en 3D por lote con máquinas Bambu Lab — FDM multicolor y materiales técnicos. Productos, souvenirs y piezas para tu negocio, con precio por volumen y sin enviarlos fuera de la ciudad."
       primaryCta={{ label: "Cotiza tu producción", href: "#cotiza" }}
-      secondaryCta={{ label: "Ver tecnologías", href: "#tecnologias" }}
+      secondaryCta={{ label: "Ver cómo imprimimos", href: "#tecnologias" }}
       service="3d"
     >
       <TresDShowcase slot="showcase" />
@@ -132,12 +103,12 @@ const faqs = [
     <section class="tech section" id="tecnologias">
       <div class="container">
         <div class="section-header">
-          <p class="tech-eyebrow" data-reveal>Dos tecnologías, un mismo taller</p>
+          <p class="tech-eyebrow" data-reveal>Nuestra tecnología</p>
           <h2 class="section-title" data-reveal data-reveal-delay="0.06">
-            Elegimos la técnica según la pieza
+            Elegimos el material según la pieza
           </h2>
           <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
-            FDM y resina son procesos complementarios. Te recomendamos cuál usar
+            Imprimimos en FDM con impresoras Bambu Lab. Te recomendamos el material
             sin compromiso, evaluando geometría, tamaño, detalle y uso final.
           </p>
         </div>
@@ -165,33 +136,7 @@ const faqs = [
       </div>
     </section>
 
-    <section class="machines section" id="maquinas">
-      <div class="container">
-        <div class="section-header">
-          <p class="machines-eyebrow" data-reveal>Equipo del taller</p>
-          <h2 class="section-title" data-reveal data-reveal-delay="0.06">
-            Tamaños y características
-          </h2>
-          <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
-            Máquinas trabajando en paralelo. Esto se traduce en tiempos
-            de entrega cortos, capacidad para piezas grandes y la flexibilidad
-            de dividir lotes complejos sin renegociar plazos.
-          </p>
-        </div>
-        <ul class="machines-grid" role="list">
-          {machines.map((m, i) => (
-            <li class="machine-card" data-reveal data-reveal-delay={`${0.04 + i * 0.06}`}>
-              <h3 class="machine-name">{m.name}</h3>
-              <p class="machine-spec">{m.spec}</p>
-              <p class="machine-note">{m.note}</p>
-            </li>
-          ))}
-        </ul>
-        <p class="lead-time" data-reveal>
-          <strong>Tiempos de entrega:</strong> habitualmente menos de una semana. Pedidos urgentes se cotizan en el momento.
-        </p>
-      </div>
-    </section>
+    <TresDMachines />
 
     <Gallery
       filterService="impresion-3d"
@@ -221,8 +166,7 @@ const faqs = [
     background: var(--color-bg-alt);
   }
 
-  .tech-eyebrow,
-  .machines-eyebrow {
+  .tech-eyebrow {
     font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: 0.18em;
@@ -233,7 +177,7 @@ const faqs = [
 
   .tech-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: 24px;
     perspective: 1400px;
   }
@@ -250,6 +194,33 @@ const faqs = [
     transform-style: preserve-3d;
     isolation: isolate;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  @media (min-width: 900px) {
+    .tech-card {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-rows: min-content;
+      column-gap: 56px;
+      row-gap: 24px;
+    }
+
+    .tech-card > :not(.tech-card-section) {
+      grid-column: 1;
+    }
+
+    .tech-card-description {
+      grid-row: 3 / span 2;
+    }
+
+    .tech-card-section {
+      grid-column: 2;
+      grid-row: 1 / span 3;
+    }
+
+    .tech-card-section + .tech-card-section {
+      grid-row: 4;
+    }
   }
 
   .tech-card:hover {
@@ -353,69 +324,9 @@ const faqs = [
     background: var(--color-accent);
   }
 
-  .machines {
-    background: var(--color-bg);
-  }
-
-  .machines-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1px;
-    list-style: none;
-    background: var(--color-surface);
-    border: 1px solid var(--color-surface);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 32px;
-  }
-
-  .machine-card {
-    background: var(--color-bg);
-    padding: 32px 28px;
-  }
-
-  .machine-name {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: 8px;
-  }
-
-  .machine-spec {
-    color: var(--color-accent);
-    font-size: 0.875rem;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    margin-bottom: 12px;
-  }
-
-  .machine-note {
-    color: var(--color-muted);
-    font-size: 0.9375rem;
-    line-height: 1.65;
-  }
-
-  .lead-time {
-    color: var(--color-muted);
-    font-size: 0.9375rem;
-    line-height: 1.7;
-    border-left: 3px solid var(--color-accent);
-    padding-left: 20px;
-  }
-
-  .lead-time strong {
-    color: var(--color-text);
-    font-weight: 600;
-  }
-
   @media (max-width: 768px) {
     .tech-card {
       padding: 32px 28px;
-    }
-
-    .machine-card {
-      padding: 28px 24px;
     }
   }
 </style>

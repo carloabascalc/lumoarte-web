@@ -218,8 +218,8 @@ export const PRICING: Record<string, PricingContent> = {
       {
         name: "Material",
         points: [
-          "Gramos de filamento o resina usados",
-          "Según tecnología (FDM o resina) y acabado",
+          "Gramos de filamento usados",
+          "Según el tipo de material y el acabado",
           "Solo pagas el material de tu pieza",
         ],
       },

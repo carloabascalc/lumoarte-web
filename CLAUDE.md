@@ -11,7 +11,7 @@ asegura que Claude trabaje con el mismo contexto en las dos máquinas.
 Sitio web de **Lumo Cancún** — producción en serie en Cancún:
 
 - Corte láser (CO₂ y fibra)
-- Impresión 3D (FDM y resina)
+- Impresión 3D (FDM con impresoras Bambu Lab: H2C, A2L y, próximamente, H3C)
 - Plotter / sublimación / recuerdos
 
 El sitio está pensado para **B2B por volumen** (hoteles, agencias de eventos,
@@ -50,10 +50,12 @@ rewrites/redirects viven en `vercel.json`.
 ```
 src/
 ├── assets/            Imágenes optimizadas por Astro (gallery, logos, sectores, services)
+│                      printers/*.svg: modelos animados, generados con tools/printer_art.py (no editar a mano)
 ├── components/        Componentes .astro (Hero, Nav, Footer, Gallery, Contact, etc.)
 ├── data/              SOURCE OF TRUTH — todo el contenido editable del sitio
 │   ├── services.ts      Datos corporativos: SITE, ORG_ID, teléfono, dirección, JSON-LD base
 │   ├── pricing.ts       Precios de láser, 3D, plotter, recuerdos
+│   ├── machines.ts      Impresoras de «Equipo del taller» (H2C, A2L, H3C)
 │   ├── products.ts      Catálogo /productos/
 │   ├── segments.ts      Sectores (hotel, corp, souvenirs, eventos)
 │   ├── cases.ts         Casos de éxito B2B
@@ -264,6 +266,7 @@ Estas reglas son del cliente (Adriano). **Respetarlas siempre**, aunque
 4. **No mencionar "Riviera Maya"** — operamos en Cancún.
 5. Teléfono único: **998 188 8048**. No listar otros números.
 6. Fundador: **Adriano Abascal**, arquitecto, afiliado a Abascal Arquitectos.
+7. **No mencionar impresión en resina ni "formato XL"** como equipo o servicio: solo las impresoras Bambu Lab (H2C, A2L y H3C próximamente).
 
 ---
 
