@@ -1,14 +1,16 @@
 ---
 import { services, getServiceUrl, isExternalService } from "../data/services";
-import MachineArt from "./MachineArt.astro";
+import LazyArt from "./LazyArt.astro";
+import laser from "../assets/art/cortadora-laser.svg?url";
+import printer from "../assets/art/impresion-3d.svg?url";
+import souvenirs from "../assets/art/souvenirs.svg?url";
 
 // Every service card uses an on-brand illustration so the set reads as one
-// intentional family. The laser one is animated ("cortando y funcionando");
-// swap any for a real photo/video once Adriano sends machine media.
-const artByService: Record<string, "laser" | "printer" | "recuerdo"> = {
-  "corte-laser": "laser",
-  "impresion-3d": "printer",
-  "recuerdos-cancun": "recuerdo",
+// intentional family (same modeler as «Equipo del taller»).
+const artByService: Record<string, { src: string; alt: string }> = {
+  "corte-laser": { src: laser, alt: "Cortadora láser CO2 cortando una lámina de MDF" },
+  "impresion-3d": { src: printer, alt: "Impresora Bambu Lab H2C con dos AMS imprimiendo un engrane" },
+  "recuerdos-cancun": { src: souvenirs, alt: "Exhibidor de madera con llaveros Cancún y peces y tiburones articulados" },
 };
 ---
 
@@ -39,7 +41,7 @@ const artByService: Record<string, "laser" | "printer" | "recuerdo"> = {
           <li class={`servicio-card servicio-card--${s.id}`} data-reveal data-reveal-delay={`${0.05 + i * 0.06}`} data-tilt>
             <Wrapper class="servicio-link" {...wrapperAttrs}>
               <div class="servicio-media">
-                <MachineArt machine={artByService[s.id]} class="servicio-media-art" />
+                <LazyArt {...artByService[s.id]} />
               </div>
               <span class="servicio-glare" aria-hidden="true"></span>
               <div class="servicio-body">

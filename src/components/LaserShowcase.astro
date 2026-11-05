@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
-import MachineArt from "./MachineArt.astro";
+import LazyArt from "./LazyArt.astro";
+import cortadora from "../assets/art/cortadora-laser.svg?url";
 import imgBack from "../assets/gallery/gal-06.jpg";
 import imgFront from "../assets/gallery/gal-12.jpg";
 ---
@@ -19,7 +20,7 @@ import imgFront from "../assets/gallery/gal-12.jpg";
     />
   </div>
   <div class="hero-card hero-card--main">
-    <MachineArt machine="laser" class="hero-img" />
+    <LazyArt src={cortadora} alt="Cortadora láser CO2 cortando etiquetas en una lámina de MDF" />
   </div>
   <div class="hero-card hero-card--front">
     <Image
@@ -60,17 +61,18 @@ import imgFront from "../assets/gallery/gal-12.jpg";
     display: block;
   }
 
+  /* La máquina se lee completa: la tarjeta crece y las fotos solo pisan su esquina. */
   .hero-card--main {
-    width: 64%;
+    width: 74%;
     aspect-ratio: 4 / 3;
-    top: 12%;
-    left: 2%;
+    top: 13%;
+    left: 0;
     z-index: 3;
     transform: rotate(-2deg);
   }
 
   .hero-card--back {
-    width: 46%;
+    width: 38%;
     aspect-ratio: 1 / 1;
     top: 0;
     right: 0;
@@ -80,10 +82,10 @@ import imgFront from "../assets/gallery/gal-12.jpg";
   }
 
   .hero-card--front {
-    width: 50%;
+    width: 40%;
     aspect-ratio: 1 / 1;
     bottom: 0;
-    left: 22%;
+    right: 3%;
     z-index: 4;
     transform: rotate(-5deg);
   }
