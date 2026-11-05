@@ -7,7 +7,7 @@ import Article from "../../layouts/Article.astro";
   description="Comparativa práctica entre impresión 3D FDM y resina: precisión, costo, materiales, tamaño máximo, tiempos y casos de uso reales."
   slug="fdm-vs-resina"
   datePublished="2026-05-27"
-  dateModified="2026-06-20"
+  dateModified="2026-11-04"
   readingTime="7 min"
   topic="Impresión 3D"
 >
@@ -16,9 +16,9 @@ import Article from "../../layouts/Article.astro";
   En impresión 3D hay dos tecnologías que dominan el mercado actual:
   <strong>FDM</strong> (Fused Deposition Modeling, depósito de filamento
   fundido) y <strong>SLA/MSLA</strong> (resina curada con luz UV). En Lumo
-  operamos ambas — impresoras <a href="https://bambulab.com" target="_blank" rel="noopener">Bambu Lab</a>
-  para FDM e impresión en resina. Cuál conviene para tu proyecto depende
-  de cinco factores. Aquí los desglosamos.
+  imprimimos en FDM con impresoras <a href="https://bambulab.com" target="_blank" rel="noopener">Bambu Lab</a>;
+  esta guía te ayuda a saber si tu pieza es para FDM o si conviene buscar
+  resina. Depende de cinco factores. Aquí los desglosamos.
 </p>
 
 <h2>1. Precisión y acabado superficial</h2>
@@ -44,15 +44,15 @@ import Article from "../../layouts/Article.astro";
     <tr><th>Máquina</th><th>Tecnología</th><th>Volumen</th></tr>
   </thead>
   <tbody>
-    <tr><td>Bambu Lab H2C</td><td>FDM multicolor</td><td>256 × 256 × 256 mm</td></tr>
-    <tr><td>Formato XL</td><td>FDM XL</td><td>300 × 300 × 400 mm</td></tr>
-    <tr><td>Resina</td><td>Resina MSLA</td><td>≈ 150 × 80 × 165 mm</td></tr>
+    <tr><td>Bambu Lab H2C</td><td>FDM multicolor</td><td>330 × 320 × 320 mm</td></tr>
+    <tr><td>Bambu Lab A2L</td><td>FDM multicolor</td><td>330 × 320 × 325 mm</td></tr>
+    <tr><td>Bambu Lab H3C (próximamente)</td><td>FDM multimaterial</td><td>330 × 320 × 325 mm</td></tr>
   </tbody>
 </table>
 <p>
-  La resina pierde aquí por física: la cama es más pequeña porque la luz
-  UV debe llegar uniforme a toda la superficie. Si tu pieza supera los
-  150 × 80 mm, va en FDM o se imprime en partes para luego pegar.
+  La resina pierde aquí por física: la cama de una impresora típica es
+  mucho más pequeña porque la luz UV debe llegar uniforme a toda la
+  superficie. Por eso las piezas grandes van en FDM.
 </p>
 
 <h2>3. Materiales y propiedades mecánicas</h2>
@@ -128,7 +128,7 @@ import Article from "../../layouts/Article.astro";
     <tr><td>Prototipo funcional con movimiento</td><td>FDM (PETG / ABS)</td><td>Resistencia mecánica + reparable.</td></tr>
     <tr><td>Piezas pequeñas de detalle fino</td><td>Resina</td><td>Superficie lisa y detalle imposible en FDM.</td></tr>
     <tr><td>Producción en serie (decenas a miles de piezas)</td><td>FDM</td><td>El más económico por pieza en volumen.</td></tr>
-    <tr><td>Pieza grande en una sola impresión</td><td>FDM formato XL</td><td>Cama de 300 × 300 × 400 mm.</td></tr>
+    <tr><td>Pieza grande en una sola impresión</td><td>FDM</td><td>Cama de 330 × 320 × 325 mm.</td></tr>
     <tr><td>Multicolor en una sola pieza</td><td>FDM (Bambu Lab H2C)</td><td>Hasta 4 colores simultáneos sin pintar.</td></tr>
   </tbody>
 </table>
@@ -158,18 +158,18 @@ import Article from "../../layouts/Article.astro";
   La pregunta no es "qué es mejor" sino "qué necesita tu pieza". Si
   privilegias <strong>detalle visual</strong>, usa resina. Si privilegias
   <strong>tamaño, costo o resistencia mecánica</strong>, usa FDM. Si dudas,
-  mándanos el archivo y te decimos cuál tecnología te conviene — sin
+  mándanos el archivo y te decimos si se puede en FDM — sin
   compromiso.
 </p>
 
 <p class="source-note">
   <strong>Sobre estas cifras.</strong> Las alturas de capa, volúmenes de
-  impresión, tiempos y precios en MXN de esta guía salen de nuestras propias
-  máquinas y pruebas de taller en Cancún (Bambu Lab y resina) y se
+  impresión y tiempos de FDM de esta guía salen de nuestras propias
+  máquinas y pruebas de taller en Cancún (Bambu Lab) y se
   actualizan conforme cambia el equipo y el costo de los
-  materiales. Las propiedades generales de cada material — como la resistencia
-  a temperatura del PLA, PETG o ABS — siguen los datos típicos que publican los
-  fabricantes y pueden variar según la marca y las condiciones de uso. Para tu
+  materiales. Los datos de resina y las propiedades generales de cada material
+  — como la resistencia a temperatura del PLA, PETG o ABS — siguen los datos
+  típicos que publican los fabricantes y pueden variar según la marca y las condiciones de uso. Para tu
   pieza, la cifra exacta va siempre en la cotización.
 </p>
 

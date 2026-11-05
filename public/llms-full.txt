@@ -1,6 +1,6 @@
 # Lumo Cancún — Información completa
 
-> Taller de producción en serie en Cancún, México: corte láser, grabado láser e impresión 3D (FDM multicolor y resina) por volumen. Fabricamos para hoteles y restaurantes, marcas y corporativos, tiendas de souvenirs y mayoristas, y eventos, bodas y agencias — lotes de decenas a miles de piezas idénticas, con precio por volumen. No somos carpintería ni fabricamos muebles.
+> Taller de producción en serie en Cancún, México: corte láser, grabado láser e impresión 3D (FDM multicolor) por volumen. Fabricamos para hoteles y restaurantes, marcas y corporativos, tiendas de souvenirs y mayoristas, y eventos, bodas y agencias — lotes de decenas a miles de piezas idénticas, con precio por volumen. No somos carpintería ni fabricamos muebles.
 
 Fundado por Adriano Abascal, arquitecto. Cotización inmediata por WhatsApp. Atención en español. Lunes a sábado, 9:00 a 18:00.
 
@@ -10,7 +10,7 @@ Fundado por Adriano Abascal, arquitecto. Cotización inmediata por WhatsApp. Ate
 
 Lumo Cancún nació en Cancún como una extensión del estudio de arquitectura de Adriano Abascal. Empezamos con una cortadora láser para resolver maquetas, piezas a medida y elementos decorativos para los proyectos del despacho. Pronto llegaron negocios que querían esas piezas por cientos — y la producción en serie se volvió el centro del taller.
 
-Hoy producimos con impresoras 3D Bambu Lab y de resina, y con la misma cortadora láser de los inicios (área útil de 130 × 90 cm). Todo se fabrica a partir de un archivo digital: cada pieza del lote sale igual, y reponer un pedido es un mensaje por WhatsApp.
+Hoy producimos con impresoras 3D Bambu Lab y con la misma cortadora láser de los inicios (área útil de 130 × 90 cm). Todo se fabrica a partir de un archivo digital: cada pieza del lote sale igual, y reponer un pedido es un mensaje por WhatsApp.
 
 Servimos a hoteles y restaurantes, marcas y corporativos, tiendas de souvenirs y mayoristas, y wedding planners y agencias de eventos. Instagram: @_lumoarte.
 
@@ -83,17 +83,12 @@ Cortamos y grabamos en serie con láser CO₂ sobre acrílico, MDF, triplay, car
 ### Impresión 3D
 URL: https://lumocancun.com/servicios/impresion-3d/
 
-Producción por lote con dos tecnologías:
-
-FDM (depósito de filamento fundido):
-- Bambu Lab H2C: 256 × 256 × 256 mm, multicolor hasta 4 colores.
-- Formato XL: 300 × 300 × 400 mm.
-- Materiales: PLA, PETG, TPU, ABS/ASA, PA-CF.
+Producción por lote en FDM (depósito de filamento fundido):
+- Bambu Lab H2C: 330 × 320 × 320 mm, multicolor hasta 4 filamentos; para materiales técnicos (TPU, ASA, ABS, nylon y fibra de carbono).
+- Bambu Lab A2L, varias unidades: 330 × 320 × 325 mm, multicolor con AMS; para pedidos en volumen.
+- Bambu Lab H3C, próximamente: 330 × 320 × 325 mm, hasta 9 materiales y colores con cambiador de herramientas.
+- Materiales: PLA, PETG, TPU, ABS/ASA, nylon, fibra de carbono.
 - Usos: producción en serie de piezas y productos, souvenirs y merch por lote, prototipos, refacciones.
-
-Resina:
-- Volumen ≈ 150 × 80 × 165 mm, alta definición.
-- Usos: piezas pequeñas de detalle fino por lote, joyería y prototipos para fundición, moldes.
 
 - Formatos aceptados: STL, OBJ, 3MF, STEP.
 - Tiempos: habitualmente menos de una semana. Producciones por lote se calendarizan al cotizar.
@@ -118,7 +113,7 @@ No. Somos un taller de fabricación digital (corte láser e impresión 3D a part
 Cotización inmediata por WhatsApp. Los proyectos habitualmente se entregan en menos de una semana. Producciones grandes se calendarizan al cotizar.
 
 ### ¿Cuál es el tamaño máximo que pueden fabricar?
-Corte láser: 130 × 90 cm en una sola pieza. Impresión 3D: hasta 300 × 300 × 400 mm en FDM XL.
+Corte láser: 130 × 90 cm en una sola pieza. Impresión 3D: hasta 330 × 320 × 325 mm en una sola pieza.
 
 ### ¿Qué archivos aceptan?
 Vectores en AI, EPS, SVG, PDF, DXF para láser. STL, OBJ, 3MF, STEP para impresión 3D. Vectorizamos tu logo en JPG o PNG nítido cuando es sencillo.
