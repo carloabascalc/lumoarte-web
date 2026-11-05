@@ -101,6 +101,31 @@ npm run preview      # Sirve el build localmente
 **Deploy:** cada `git push` a `main` dispara un deploy automático en Vercel. Las
 ramas de feature generan preview deploys en URLs tipo `lumoarte-<hash>.vercel.app`.
 
+### Arte generado de las impresoras
+
+Los SVG animados de la sección "Equipo del taller"
+(`src/assets/printers/{h2c,a2l,h3c}.svg`) se generan con un script
+Python: `tools/printer_art.py`. Están minificados en una sola línea
+(~45-100 KB cada uno) y **no se editan a mano**.
+
+Para cambiarlos (ajustar medidas, colores, animaciones, añadir otra
+máquina, cambiar un modelo por otro):
+
+```sh
+# Editar las medidas o la paleta en tools/printer_art.py
+python3 tools/printer_art.py
+# Los tres SVG se regeneran en src/assets/printers/
+```
+
+Después de regenerar, revisar en el navegador que el componente
+`src/components/TresDMachines.astro` sigue mostrando bien las tres
+máquinas (se cargan con lazy fetch al hacer scroll).
+
+Si se añade una máquina nueva (ej. una Prusa), tocar:
+1. `tools/printer_art.py` (función de dibujo + añadir a OUT).
+2. `src/data/machines.ts` (añadir entrada a `MACHINES`).
+3. `src/components/TresDMachines.astro` (import del nuevo SVG + map en `art`).
+
 ---
 
 ## 5. Flujo de trabajo con Claude Code
