@@ -7,6 +7,7 @@ import ServicePdfs from "../../components/ServicePdfs.astro";
 import PricingFormula from "../../components/PricingFormula.astro";
 import TresDShowcase from "../../components/TresDShowcase.astro";
 import TresDAssembly from "../../components/TresDAssembly.astro";
+import TresDMachines from "../../components/TresDMachines.astro";
 import Gallery from "../../components/Gallery.astro";
 import FAQ from "../../components/FAQ.astro";
 import CrossServices from "../../components/CrossServices.astro";
@@ -31,24 +32,6 @@ const technologies = [
       "Prototipos funcionales",
       "Piezas mecánicas y repuestos",
     ],
-  },
-];
-
-const machines = [
-  {
-    name: "Bambu Lab H2C",
-    spec: "Volumen 330 × 320 × 320 mm · Multi-color hasta 4 filamentos",
-    note: "Nuestra máquina para materiales técnicos: TPU, ASA, ABS, nylon y fibra de carbono. También piezas multicolor, producción por lote y prototipos rápidos.",
-  },
-  {
-    name: "Bambu Lab A2L · Varias unidades",
-    spec: "Volumen 330 × 320 × 325 mm · Multicolor con AMS",
-    note: "Varias impresoras trabajando en paralelo para pedidos en volumen.",
-  },
-  {
-    name: "Bambu Lab H3C · Próximamente",
-    spec: "Volumen 330 × 320 × 325 mm · Hasta 9 materiales y colores con cambiador de herramientas",
-    note: "Se suma a nuestro equipo: piezas multicolor y multimaterial por lote, con más capacidad de producción.",
   },
 ];
 
@@ -182,33 +165,7 @@ const faqs = [
       </div>
     </section>
 
-    <section class="machines section" id="maquinas">
-      <div class="container">
-        <div class="section-header">
-          <p class="machines-eyebrow" data-reveal>Equipo del taller</p>
-          <h2 class="section-title" data-reveal data-reveal-delay="0.06">
-            Tamaños y características
-          </h2>
-          <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
-            Máquinas trabajando en paralelo. Esto se traduce en tiempos
-            de entrega cortos, capacidad para piezas grandes y la flexibilidad
-            de dividir lotes complejos sin renegociar plazos.
-          </p>
-        </div>
-        <ul class="machines-grid" role="list">
-          {machines.map((m, i) => (
-            <li class="machine-card" data-reveal data-reveal-delay={`${0.04 + i * 0.06}`}>
-              <h3 class="machine-name">{m.name}</h3>
-              <p class="machine-spec">{m.spec}</p>
-              <p class="machine-note">{m.note}</p>
-            </li>
-          ))}
-        </ul>
-        <p class="lead-time" data-reveal>
-          <strong>Tiempos de entrega:</strong> habitualmente menos de una semana. Pedidos urgentes se cotizan en el momento.
-        </p>
-      </div>
-    </section>
+    <TresDMachines />
 
     <PricingFormula serviceId="impresion-3d" />
 
@@ -240,8 +197,7 @@ const faqs = [
     background: var(--color-bg-alt);
   }
 
-  .tech-eyebrow,
-  .machines-eyebrow {
+  .tech-eyebrow {
     font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: 0.18em;
@@ -399,70 +355,9 @@ const faqs = [
     background: var(--color-accent);
   }
 
-  /* ── Machines ──────────────────────────────────────── */
-  .machines {
-    background: var(--color-bg);
-  }
-
-  .machines-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1px;
-    list-style: none;
-    background: var(--color-surface);
-    border: 1px solid var(--color-surface);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 32px;
-  }
-
-  .machine-card {
-    background: var(--color-bg);
-    padding: 32px 28px;
-  }
-
-  .machine-name {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: 8px;
-  }
-
-  .machine-spec {
-    color: var(--color-accent);
-    font-size: 0.875rem;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    margin-bottom: 12px;
-  }
-
-  .machine-note {
-    color: var(--color-muted);
-    font-size: 0.9375rem;
-    line-height: 1.65;
-  }
-
-  .lead-time {
-    color: var(--color-muted);
-    font-size: 0.9375rem;
-    line-height: 1.7;
-    border-left: 3px solid var(--color-accent);
-    padding-left: 20px;
-  }
-
-  .lead-time strong {
-    color: var(--color-text);
-    font-weight: 600;
-  }
-
   @media (max-width: 768px) {
     .tech-card {
       padding: 32px 28px;
-    }
-
-    .machine-card {
-      padding: 28px 24px;
     }
   }
 </style>

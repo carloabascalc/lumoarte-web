@@ -107,6 +107,7 @@ natural lo que quieres y él encuentra dónde cambiarlo.
 |---|---|
 | Teléfono, dirección, email, redes | `src/data/services.ts` (objeto `SITE`) |
 | Precios de corte láser, 3D, plotter | `src/data/pricing.ts` |
+| Impresoras de «Equipo del taller» | `src/data/machines.ts` |
 | Productos del catálogo `/productos/` | `src/data/products.ts` |
 | Sectores (hotel, corp, eventos) | `src/data/segments.ts` |
 | Casos de éxito | `src/data/cases.ts` |

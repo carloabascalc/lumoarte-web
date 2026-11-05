@@ -1,0 +1,181 @@
+---
+import { MACHINES } from "../data/machines";
+import h2c from "../assets/printers/h2c.svg?url";
+import a2l from "../assets/printers/a2l.svg?url";
+import h3c from "../assets/printers/h3c.svg?url";
+
+const art = { h2c, a2l, h3c };
+---
+
+<section class="machines section" id="maquinas">
+  <div class="container">
+    <div class="section-header">
+      <p class="machines-eyebrow" data-reveal>Equipo del taller</p>
+      <h2 class="section-title" data-reveal data-reveal-delay="0.06">
+        Tamaños y características
+      </h2>
+      <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
+        Máquinas trabajando en paralelo. Esto se traduce en tiempos
+        de entrega cortos, capacidad para piezas grandes y la flexibilidad
+        de dividir lotes complejos sin renegociar plazos.
+      </p>
+    </div>
+    <ul class="machines-grid" role="list">
+      {MACHINES.map((m, i) => (
+        <li class="machine-card" data-reveal data-reveal-delay={`${0.04 + i * 0.06}`}>
+          <div class="machine-art" role="img" aria-label={m.alt} data-machine-art={art[m.id]}>
+            <noscript><img src={art[m.id]} alt="" width="480" height="560" /></noscript>
+          </div>
+          <div class="machine-body">
+            <h3 class="machine-name">{m.name}</h3>
+            <p class="machine-spec">{m.spec}</p>
+            <p class="machine-note">{m.note}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+    <p class="lead-time" data-reveal>
+      <strong>Tiempos de entrega:</strong> habitualmente menos de una semana. Pedidos urgentes se cotizan en el momento.
+    </p>
+  </div>
+</section>
+
+<style>
+  .machines {
+    background: var(--color-bg);
+  }
+
+  .machines-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+  }
+
+  .machines-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    list-style: none;
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+
+  .machine-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg);
+  }
+
+  .machine-card + .machine-card {
+    border-top: 1px solid var(--color-surface);
+  }
+
+  .machine-art {
+    aspect-ratio: 6 / 7;
+    background: linear-gradient(#f8f2e7, #ece1cf);
+    overflow: hidden;
+  }
+
+  .machine-art :global(svg),
+  .machine-art img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .machine-body {
+    padding: 28px 24px 32px;
+  }
+
+  .machine-name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 8px;
+  }
+
+  .machine-spec {
+    color: var(--color-accent);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    margin-bottom: 12px;
+  }
+
+  .machine-note {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  .lead-time {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    border-left: 3px solid var(--color-accent);
+    padding-left: 20px;
+  }
+
+  .lead-time strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  @media (min-width: 620px) and (max-width: 899px) {
+    .machine-card {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .machine-art {
+      flex: 0 0 46%;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .machines-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .machine-card + .machine-card {
+      border-top: 0;
+      border-left: 1px solid var(--color-surface);
+    }
+
+    .machine-body {
+      padding: 32px 28px 36px;
+    }
+  }
+</style>
+
+<script>
+  // Los modelos pesan: se descargan al acercarse y solo se animan mientras están a la vista.
+  const watch = () => {
+    const arts = document.querySelectorAll<HTMLElement>("[data-machine-art]");
+    if (!arts.length) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const el = e.target as HTMLElement;
+          el.style.setProperty("--play", e.isIntersecting ? "running" : "paused");
+          if (e.isIntersecting && !el.dataset.loaded) {
+            el.dataset.loaded = "true";
+            fetch(el.dataset.machineArt as string)
+              .then((r) => r.text())
+              .then((svg) => {
+                el.innerHTML = svg;
+              });
+          }
+        }
+      },
+      { rootMargin: "400px" },
+    );
+    arts.forEach((el) => io.observe(el));
+  };
+  document.addEventListener("astro:page-load", watch);
+</script>

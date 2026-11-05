@@ -50,10 +50,12 @@ rewrites/redirects viven en `vercel.json`.
 ```
 src/
 ├── assets/            Imágenes optimizadas por Astro (gallery, logos, sectores, services)
+│                      printers/*.svg: modelos animados, generados con tools/printer_art.py (no editar a mano)
 ├── components/        Componentes .astro (Hero, Nav, Footer, Gallery, Contact, etc.)
 ├── data/              SOURCE OF TRUTH — todo el contenido editable del sitio
 │   ├── services.ts      Datos corporativos: SITE, ORG_ID, teléfono, dirección, JSON-LD base
 │   ├── pricing.ts       Precios de láser, 3D, plotter, recuerdos
+│   ├── machines.ts      Impresoras de «Equipo del taller» (H2C, A2L, H3C)
 │   ├── products.ts      Catálogo /productos/
 │   ├── segments.ts      Sectores (hotel, corp, souvenirs, eventos)
 │   ├── cases.ts         Casos de éxito B2B
