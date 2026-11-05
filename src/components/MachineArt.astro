@@ -3,13 +3,16 @@
  * On-brand line illustrations of the workshop machines, used as service-card
  * art while real machine photos/video are pending from Adriano.
  *
- *  - "laser"   → CO2 laser cutter with an animated cutting head + beam + sparks
- *                (fulfils the "máquina cortando y funcionando" request).
+ *  - "laser"   → generated CO₂ laser cutter (tools/printer_art.py → laser.svg),
+ *                lazy-loaded; same house style as the printer drawings.
  *  - "printer" → enclosed FDM 3D printer (Bambu-style) with a printed piece.
  *
  * Palette is pulled from the site tokens so the set reads as intentional.
  * Animations respect prefers-reduced-motion.
  */
+import LazyMachineSvg from "./LazyMachineSvg.astro";
+import laserSvg from "../assets/printers/laser.svg?url";
+
 interface Props {
   machine: "laser" | "printer" | "recuerdo";
   class?: string;
@@ -19,69 +22,7 @@ const { machine, class: className } = Astro.props;
 
 <div class:list={["machine-art", `machine-art--${machine}`, className]} aria-hidden="true">
   {machine === "laser" && (
-    <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">
-      <rect width="400" height="300" fill="url(#ma-bg)" />
-      <defs>
-        <linearGradient id="ma-bg" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#f7f1e6" />
-          <stop offset="1" stop-color="#efe6d6" />
-        </linearGradient>
-        <linearGradient id="ma-wood" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#cf9a68" />
-          <stop offset="1" stop-color="#b9835180" />
-        </linearGradient>
-      </defs>
-
-      {/* faint floor lines */}
-      <g stroke="#2b1d12" stroke-opacity="0.07" stroke-width="1.5">
-        <line x1="40" y1="248" x2="360" y2="248" />
-        <line x1="64" y1="268" x2="336" y2="268" />
-      </g>
-
-      {/* machine frame */}
-      <g fill="none" stroke="#2b1d12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.85">
-        <path d="M58 86 L58 238" />
-        <path d="M342 86 L342 238" />
-        <path d="M50 86 L350 86" />
-        {/* gantry rail */}
-        <path d="M70 104 L330 104" stroke-width="2.5" stroke-opacity="0.55" />
-      </g>
-
-      {/* material sheet + engraved motifs */}
-      <g>
-        <rect x="84" y="208" width="232" height="22" rx="3" fill="url(#ma-wood)" stroke="#8a5c33" stroke-width="1" stroke-opacity="0.5" />
-        <line x1="84" y1="213" x2="316" y2="213" stroke="#fff" stroke-opacity="0.35" stroke-width="1.5" />
-        <g fill="#b34000" fill-opacity="0.7">
-          <path d="M112 219 l2 -4 2 4 4 1 -4 1 -2 4 -2 -4 -4 -1 z" />
-          <path d="M296 219 l2 -4 2 4 4 1 -4 1 -2 4 -2 -4 -4 -1 z" />
-          <circle cx="150" cy="219" r="1.6" />
-          <circle cx="260" cy="219" r="1.6" />
-        </g>
-      </g>
-
-      {/* moving carriage: head + beam + sparks */}
-      <g class="ma-carriage">
-        {/* glow beam */}
-        <line class="ma-beam-glow" x1="140" y1="96" x2="140" y2="208" stroke="#ff6a1a" stroke-width="9" stroke-opacity="0.18" stroke-linecap="round" />
-        {/* core beam */}
-        <line class="ma-beam" x1="140" y1="96" x2="140" y2="208" stroke="#ff5a1f" stroke-width="2.4" stroke-linecap="round" />
-        {/* contact glow */}
-        <ellipse class="ma-contact" cx="140" cy="208" rx="7" ry="2.6" fill="#ff7a2a" fill-opacity="0.85" />
-        {/* head */}
-        <g stroke="#2b1d12" stroke-width="2.5" stroke-linejoin="round" fill="#fbf6ec">
-          <rect x="126" y="70" width="28" height="22" rx="3" />
-          <path d="M133 92 L147 92 L140 100 Z" fill="#3a2a1e" stroke="none" />
-        </g>
-        <rect x="132" y="76" width="16" height="4" rx="2" fill="#b34000" />
-        {/* sparks */}
-        <g fill="#ffb066">
-          <circle class="ma-spark ma-spark--1" cx="140" cy="206" r="1.8" />
-          <circle class="ma-spark ma-spark--2" cx="140" cy="206" r="1.4" />
-          <circle class="ma-spark ma-spark--3" cx="140" cy="206" r="2.1" />
-          <circle class="ma-spark ma-spark--4" cx="140" cy="206" r="1.5" />
-        </g>
-      </g>
-    </svg>
+    <LazyMachineSvg src={laserSvg} width={640} height={480} class="ma-laser" />
   )}
 
   {machine === "printer" && (
@@ -228,44 +169,12 @@ const { machine, class: className } = Astro.props;
     height: 100%;
   }
 
-  /* ── Laser: carriage sweep + beam pulse + sparks ─────── */
-  .ma-carriage {
-    animation: ma-sweep 4.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  /* The generated laser is 4:3 like the card media; centre it if the box differs. */
+  .machine-art--laser {
+    display: flex;
+    align-items: center;
+    background: var(--color-bg-alt);
   }
-  @keyframes ma-sweep {
-    0%   { transform: translateX(0); }
-    50%  { transform: translateX(118px); }
-    100% { transform: translateX(0); }
-  }
-
-  .ma-beam,
-  .ma-beam-glow,
-  .ma-contact {
-    animation: ma-beam 0.55s steps(2, end) infinite;
-    transform-origin: center;
-  }
-  @keyframes ma-beam {
-    0%, 100% { opacity: 1; }
-    50%      { opacity: 0.55; }
-  }
-
-  .ma-spark {
-    animation: ma-spark 0.9s ease-out infinite;
-    opacity: 0;
-  }
-  .ma-spark--1 { animation-delay: 0s;    }
-  .ma-spark--2 { animation-delay: 0.22s; }
-  .ma-spark--3 { animation-delay: 0.45s; }
-  .ma-spark--4 { animation-delay: 0.68s; }
-  @keyframes ma-spark {
-    0%   { opacity: 0;   transform: translate(0, 0) scale(1); }
-    20%  { opacity: 0.9; }
-    100% { opacity: 0;   transform: translate(var(--sx, -8px), -14px) scale(0.3); }
-  }
-  .ma-spark--1 { --sx: -9px;  }
-  .ma-spark--2 { --sx: 7px;   }
-  .ma-spark--3 { --sx: -4px;  }
-  .ma-spark--4 { --sx: 11px;  }
 
   /* ── 3D printer: nozzle drift + piece breathing ──────── */
   .ma-nozzle {
@@ -314,11 +223,6 @@ const { machine, class: className } = Astro.props;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .ma-carriage,
-    .ma-beam,
-    .ma-beam-glow,
-    .ma-contact,
-    .ma-spark,
     .ma-nozzle,
     .ma-print,
     .ma-head,
@@ -327,6 +231,5 @@ const { machine, class: className } = Astro.props;
     .ma-twinkle {
       animation: none;
     }
-    .ma-spark { opacity: 0.6; }
   }
 </style>

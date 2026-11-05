@@ -1,0 +1,69 @@
+---
+/**
+ * Inserta un dibujo animado generado por tools/printer_art.py (src/assets/printers/*.svg).
+ * Pesan 45-100 KB: se descargan al acercarse al viewport y solo se animan mientras se ven.
+ *
+ * scrub: la página controla el tiempo de la animación con la variable --t (p. ej. con el
+ * scroll) y la animación queda en pausa; el observer no toca --play.
+ */
+interface Props {
+  src: string;
+  width: number;
+  height: number;
+  class?: string;
+  id?: string;
+  scrub?: boolean;
+}
+const { src, width, height, class: className, id, scrub = false } = Astro.props;
+---
+
+<div
+  class:list={["lazy-machine", className]}
+  id={id}
+  data-machine-svg={src}
+  data-scrub={scrub ? "" : undefined}
+  style={`aspect-ratio: ${width} / ${height};${scrub ? " --play: paused;" : ""}`}
+  aria-hidden="true"
+>
+  <noscript><img src={src} alt="" width={width} height={height} /></noscript>
+</div>
+
+<style>
+  .lazy-machine {
+    width: 100%;
+  }
+  .lazy-machine :global(svg),
+  .lazy-machine img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<script>
+  const watch = () => {
+    const els = document.querySelectorAll<HTMLElement>("[data-machine-svg]");
+    if (!els.length) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const el = e.target as HTMLElement;
+          if (!("scrub" in el.dataset)) {
+            el.style.setProperty("--play", e.isIntersecting ? "running" : "paused");
+          }
+          if (e.isIntersecting && !el.dataset.loaded) {
+            el.dataset.loaded = "true";
+            fetch(el.dataset.machineSvg as string)
+              .then((r) => r.text())
+              .then((svg) => {
+                el.innerHTML = svg;
+              });
+          }
+        }
+      },
+      { rootMargin: "400px" },
+    );
+    els.forEach((el) => io.observe(el));
+  };
+  document.addEventListener("astro:page-load", watch);
+</script>

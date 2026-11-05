@@ -1,163 +1,29 @@
 ---
-// Laser parallax — a celosía (architectural screen) being cut from MDF.
-// Twelve hexagonal cutouts cut sequentially, each one with sparks + heat
-// halo at the active point. After all cuts complete, the cutout pieces
-// fall away and the finished celosía panel rises with a dramatic shadow.
-
-const cols = [92, 211, 329, 448];
-const rows = [49, 120, 191];
-const cuts = rows.flatMap((cy) => cols.map((cx) => ({ cx, cy })));
-
-// Flat-top hexagon, side=26 → width=52, height≈45
-const hexPath = "M -26,0 L -13,-22.5 L 13,-22.5 L 26,0 L 13,22.5 L -13,22.5 Z";
-
-const sheetWidth = 540;
-const sheetHeight = 240;
+// El proceso de corte, contado con el scroll: la cortadora CO₂ generada por
+// tools/printer_art.py corta una hoja de MDF en una serie de doce piezas y al final
+// las piezas se levantan. El scroll fija el tiempo de su animación CSS (--t).
+import LazyMachineSvg from "./LazyMachineSvg.astro";
+import laserSvg from "../assets/printers/laser.svg?url";
 ---
 
 <section class="laser-assembly assembly" aria-labelledby="laser-assembly-title">
+  <div class="container assembly-header">
+    <p class="assembly-eyebrow">El proceso</p>
+    <h2 class="assembly-title section-title" id="laser-assembly-title">
+      De la lámina<br/>a la <em>serie.</em>
+    </h2>
+    <p class="assembly-sub">
+      El láser sigue la línea pieza por pieza: una hoja de MDF se
+      convierte en un lote de piezas idénticas, listas para tu negocio.
+    </p>
+  </div>
+
   <div class="assembly-wrap" id="laser-assembly-wrap">
-    <div class="assembly-stage">
+    <div class="assembly-stage" id="laser-assembly-stage">
       <div class="assembly-grid-bg" aria-hidden="true"></div>
 
-      <div class="container assembly-header">
-        <p class="assembly-eyebrow">El proceso</p>
-        <h2 class="assembly-title section-title" id="laser-assembly-title">
-          De la lámina<br/>a la <em>celosía.</em>
-        </h2>
-        <p class="assembly-sub">
-          El láser sigue la línea, el material se separa, los cortes
-          se vuelven patrón. Una pieza arquitectónica, hecha del calor
-          que traza un haz de luz.
-        </p>
-      </div>
-
-      <div class="laser-canvas" aria-hidden="true">
-        <svg
-          class="laser-svg"
-          viewBox={`-30 -30 ${sheetWidth + 60} ${sheetHeight + 80}`}
-          preserveAspectRatio="xMidYMid meet"
-        >
-          <defs>
-            <pattern id="mdf" patternUnits="userSpaceOnUse" width="240" height="6">
-              <rect width="240" height="6" fill="#c89669"/>
-              <line x1="0" y1="0" x2="240" y2="0" stroke="#b9885d" stroke-width="1" opacity="0.55"/>
-              <line x1="0" y1="3" x2="240" y2="3" stroke="#ad7e54" stroke-width="0.5" opacity="0.35"/>
-            </pattern>
-
-            <pattern id="mdf-hole" patternUnits="userSpaceOnUse" width="240" height="6">
-              <rect width="240" height="6" fill="#3e2a18"/>
-              <line x1="0" y1="0" x2="240" y2="0" stroke="#1f140a" stroke-width="1" opacity="0.7"/>
-              <line x1="0" y1="3" x2="240" y2="3" stroke="#2a1c10" stroke-width="0.5" opacity="0.5"/>
-            </pattern>
-
-            <filter id="piece-lift-shadow" x="-60%" y="-60%" width="220%" height="220%">
-              <feDropShadow dx="0" dy="6" stdDeviation="4" flood-color="#1a0e04" flood-opacity="0.42"/>
-            </filter>
-
-            <radialGradient id="heat-glow">
-              <stop offset="0%" stop-color="#fff5d8" stop-opacity="0.95"/>
-              <stop offset="35%" stop-color="#ffb060" stop-opacity="0.55"/>
-              <stop offset="100%" stop-color="#a53a04" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-
-          <!-- The whole celosía panel lifts as one at the end -->
-          <g class="laser-panel" id="laser-panel">
-            <rect
-              x="0" y="0" width={sheetWidth} height={sheetHeight}
-              fill="url(#mdf)" rx="4"
-              stroke="rgba(20, 10, 4, 0.18)" stroke-width="0.6"
-            />
-
-            {/* Holes — revealed when cutouts fall away */}
-            {cuts.map((c, i) => (
-              <g class="laser-hole" data-hole data-idx={i}
-                 style={`transform: translate(${c.cx}px, ${c.cy}px); opacity: 0;`}>
-                <path d={hexPath} fill="url(#mdf-hole)"/>
-                <path d={hexPath} fill="none" stroke="rgba(12, 6, 2, 0.55)" stroke-width="0.6"/>
-              </g>
-            ))}
-
-            {/* Cutout pieces — same wood as sheet, lift away post-cut */}
-            {cuts.map((c, i) => (
-              <g class="laser-piece" data-piece data-idx={i}
-                 transform={`translate(${c.cx} ${c.cy})`}>
-                <path d={hexPath} fill="url(#mdf)"/>
-              </g>
-            ))}
-
-            {/* Active laser cut — terracotta stroke, drawing animation */}
-            {cuts.map((c, i) => (
-              <path
-                d={hexPath}
-                transform={`translate(${c.cx}, ${c.cy})`}
-                fill="none"
-                stroke="var(--color-accent)"
-                stroke-width="1.4"
-                stroke-linejoin="round"
-                stroke-linecap="round"
-                pathLength="100"
-                stroke-dasharray="100"
-                stroke-dashoffset="100"
-                class="laser-cut-path"
-                data-cut-path
-                data-idx={i}
-                data-cx={c.cx}
-                data-cy={c.cy}
-                style="filter: drop-shadow(0 0 3px rgba(165, 58, 4, 0.85));"
-              />
-            ))}
-
-            {/* Scorch marks — faint dashed outlines that linger after the cut */}
-            {cuts.map((c, i) => (
-              <path
-                d={hexPath}
-                transform={`translate(${c.cx}, ${c.cy})`}
-                fill="none"
-                stroke="rgba(28, 14, 6, 0.45)"
-                stroke-width="0.7"
-                stroke-dasharray="2 2.4"
-                class="laser-scar"
-                data-scar
-                data-idx={i}
-                style="opacity: 0;"
-              />
-            ))}
-          </g>
-
-          {/* Laser head — outside the panel so it stays put when panel lifts */}
-          <g id="laser-tip" style="opacity: 0;">
-            {/* Pulse rings — emanate continuously while cutting */}
-            <circle r="2" fill="none" stroke="rgba(255, 200, 130, 0.6)" stroke-width="0.8"
-                    class="pulse-ring" style="animation-delay: 0s;"/>
-            <circle r="2" fill="none" stroke="rgba(255, 200, 130, 0.5)" stroke-width="0.7"
-                    class="pulse-ring" style="animation-delay: 0.18s;"/>
-            <circle r="2" fill="none" stroke="rgba(255, 200, 130, 0.4)" stroke-width="0.6"
-                    class="pulse-ring" style="animation-delay: 0.36s;"/>
-
-            {/* Heat halo */}
-            <circle r="18" fill="url(#heat-glow)" class="laser-halo"/>
-
-            {/* Bright core */}
-            <circle r="4.5" fill="rgba(255, 230, 180, 0.7)"/>
-            <circle r="2.2" fill="rgba(255, 248, 230, 0.95)"/>
-            <circle r="1.0" fill="#fff"
-                    style="filter: drop-shadow(0 0 4px rgba(255, 220, 160, 1)) drop-shadow(0 0 9px rgba(255, 130, 50, 0.95));"/>
-
-            {/* Sparks — fly outward, fade, loop */}
-            <g class="sparks">
-              <circle class="spark" cx="0" cy="0" r="1.4" fill="#fff"/>
-              <circle class="spark" cx="0" cy="0" r="1.1" fill="#ffcc70"/>
-              <circle class="spark" cx="0" cy="0" r="1.5" fill="#fff5d8"/>
-              <circle class="spark" cx="0" cy="0" r="1.0" fill="#ffb060"/>
-              <circle class="spark" cx="0" cy="0" r="1.2" fill="#fff"/>
-              <circle class="spark" cx="0" cy="0" r="0.9" fill="#ffa040"/>
-              <circle class="spark" cx="0" cy="0" r="1.3" fill="#fff5d8"/>
-              <circle class="spark" cx="0" cy="0" r="0.9" fill="#ffcc70"/>
-            </g>
-          </g>
-        </svg>
+      <div class="laser-canvas">
+        <LazyMachineSvg src={laserSvg} width={640} height={480} scrub id="laser-machine" />
       </div>
 
       <p class="assembly-hint" aria-hidden="true">
@@ -172,6 +38,7 @@ const sheetHeight = 240;
   .laser-assembly {
     background: var(--color-bg);
     position: relative;
+    padding-top: 120px;
   }
 
   .assembly-wrap {
@@ -189,8 +56,9 @@ const sheetHeight = 240;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    /* --stage-top: alto del nav + barras fijas de la página (lo mide el script). */
+    padding: var(--stage-top, var(--nav-h)) 0 56px;
     background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
-    --canvas-scale: 1;
   }
 
   .assembly-grid-bg {
@@ -210,8 +78,6 @@ const sheetHeight = 240;
     position: relative;
     z-index: 4;
     text-align: center;
-    margin-top: -32vh;
-    pointer-events: none;
   }
 
   .assembly-eyebrow {
@@ -235,94 +101,17 @@ const sheetHeight = 240;
   }
 
   .laser-canvas {
-    position: absolute;
-    left: 50%;
-    top: 74%;
-    transform: translate(-50%, -50%) scale(var(--canvas-scale));
+    position: relative;
     z-index: 2;
-    width: 620px;
-    pointer-events: none;
-  }
-
-  .laser-svg {
-    width: 100%;
-    height: auto;
-    overflow: visible;
-  }
-
-  .laser-piece {
-    will-change: transform;
-    transition: filter 0.3s ease;
-  }
-
-  .laser-piece[data-lifting] {
-    filter: url(#piece-lift-shadow);
-  }
-
-  .laser-hole {
-    will-change: opacity;
-    transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .laser-scar {
-    transition: opacity 0.5s ease;
-  }
-
-  .laser-cut-path {
-    transition: opacity 0.4s ease;
-  }
-
-  .laser-halo {
-    transform-origin: 0 0;
-    animation: halo-pulse 0.55s ease-in-out infinite alternate;
-    animation-play-state: paused;
-  }
-  .laser-assembly.is-active .laser-halo { animation-play-state: running; }
-
-  @keyframes halo-pulse {
-    from { opacity: 0.7; transform: scale(0.92); }
-    to { opacity: 1; transform: scale(1.18); }
-  }
-
-  .pulse-ring {
-    transform-origin: 0 0;
-    animation: pulse-ring 0.85s ease-out infinite;
-    animation-play-state: paused;
-    opacity: 0;
-  }
-  .laser-assembly.is-active .pulse-ring { animation-play-state: running; }
-
-  @keyframes pulse-ring {
-    0%   { transform: scale(0.8); opacity: 0.85; }
-    100% { transform: scale(5);   opacity: 0;    }
-  }
-
-  /* Sparks fly outward from origin (= laser tip), fade, loop */
-  .spark {
-    transform-origin: 0 0;
-    animation: spark-fly 0.6s ease-out infinite;
-    animation-play-state: paused;
-    opacity: 0;
-  }
-  .laser-assembly.is-active .spark { animation-play-state: running; }
-  .spark:nth-child(1) { --dx: 14px;  --dy: -8px;  animation-delay: 0s; }
-  .spark:nth-child(2) { --dx: -10px; --dy: -11px; animation-delay: 0.075s; }
-  .spark:nth-child(3) { --dx: 13px;  --dy: 5px;   animation-delay: 0.15s; }
-  .spark:nth-child(4) { --dx: -7px;  --dy: 10px;  animation-delay: 0.225s; }
-  .spark:nth-child(5) { --dx: 5px;   --dy: -13px; animation-delay: 0.3s; }
-  .spark:nth-child(6) { --dx: -13px; --dy: 3px;   animation-delay: 0.375s; }
-  .spark:nth-child(7) { --dx: 9px;   --dy: 11px;  animation-delay: 0.45s; }
-  .spark:nth-child(8) { --dx: -5px;  --dy: -7px;  animation-delay: 0.525s; }
-
-  @keyframes spark-fly {
-    0%   { transform: translate(0, 0) scale(1); opacity: 1; }
-    60%  { opacity: 0.6; }
-    100% { transform: translate(var(--dx), var(--dy)) scale(0.3); opacity: 0; }
+    width: min(620px, 92vw, calc((100vh - var(--stage-top, var(--nav-h)) - 96px) * 4 / 3));
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 22px 48px rgba(20, 10, 4, 0.10);
   }
 
   .assembly-hint {
     position: absolute;
-    bottom: 32px;
+    bottom: 24px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 5;
@@ -336,6 +125,7 @@ const sheetHeight = 240;
     align-items: center;
     gap: 0.5em;
     margin: 0;
+    white-space: nowrap;
   }
 
   .assembly-hint b {
@@ -347,61 +137,55 @@ const sheetHeight = 240;
 
   .assembly-hint-of { color: var(--color-muted); opacity: 0.6; }
 
-  @media (max-width: 980px) {
-    .assembly-stage { --canvas-scale: 0.74; }
-  }
-
   @media (max-width: 640px) {
+    .laser-assembly { padding-top: 80px; }
     .assembly-wrap { height: 220vh; }
-    .assembly-stage { --canvas-scale: 0.5; }
-    .assembly-header { margin-top: -18vh; }
     .assembly-sub { font-size: 0.95rem; max-width: 320px; }
-    .assembly-hint { white-space: nowrap; bottom: 24px; font-size: 0.66rem; letter-spacing: 0.14em; }
-    .laser-canvas { width: 540px; }
+    .assembly-hint { font-size: 0.66rem; letter-spacing: 0.14em; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .assembly-wrap { height: auto; }
-    .assembly-stage { position: static; height: auto; padding: 100px 0; }
-    .laser-cut-path { stroke-dashoffset: 0 !important; }
-    .laser-piece { opacity: 0 !important; }
-    .laser-hole { opacity: 1 !important; }
-    #laser-tip { display: none; }
+    .assembly-stage { position: static; height: auto; padding: 48px 0 100px; }
+    .assembly-hint { display: none; }
   }
 </style>
 
 <script>
+  // Tiempos del ciclo de laser() en tools/printer_art.py (segundos).
+  const T_SHEET = 0.9;  // hoja entera, aún sin cortar
+  const T_START = 1.2;  // empieza el primer corte
+  const T_DONE = 18.0;  // termina el corte número doce
+  const T_LIFT = 20.2;  // piezas levantadas
+
   function initLaserAssembly() {
     const wrap = document.getElementById('laser-assembly-wrap');
+    const stage = document.getElementById('laser-assembly-stage');
+    const machine = document.getElementById('laser-machine');
     const grid = wrap?.querySelector<HTMLElement>('.assembly-grid-bg');
     const hintLabel = document.getElementById('laser-hint-label');
     const hintStage = document.getElementById('laser-hint-stage');
-    const tip = document.getElementById('laser-tip') as SVGGElement | null;
-    const cutPaths = wrap ? Array.from(wrap.querySelectorAll<SVGPathElement>('[data-cut-path]')) : [];
-    const pieces = wrap ? Array.from(wrap.querySelectorAll<SVGGElement>('[data-piece]')) : [];
-    const holes = wrap ? Array.from(wrap.querySelectorAll<SVGGElement>('[data-hole]')) : [];
-    const scars = wrap ? Array.from(wrap.querySelectorAll<SVGPathElement>('[data-scar]')) : [];
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (!wrap || !cutPaths.length || !pieces.length || reduced) return;
+    if (!wrap || !machine || reduced) return;
 
-    const N = cutPaths.length;
-
-    // Phase windows.
     const cutsStart = 0.05;
-    const cutsTotal = 0.55;
-    const cutWindow = cutsTotal / N;
-    const cutFadeWindow = 0.04;
     const liftStart = 0.62;
     const liftEnd = 0.96;
 
-    const meta = cutPaths.map((p) => ({
-      cx: parseFloat(p.dataset.cx || '0'),
-      cy: parseFloat(p.dataset.cy || '0'),
-    }));
-
     const clamp = (v: number, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, v));
-    const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const lerp = (a: number, b: number, k: number) => a + (b - a) * clamp(k);
+
+    // Las barras fijas (nav y, en páginas de servicio, la barra de PDFs) tapan la parte de
+    // arriba de la escena; la máquina se centra en lo que queda visible.
+    function measure() {
+      const bar = document.querySelector<HTMLElement>('.service-pdfs');
+      let top = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
+      if (bar && getComputedStyle(bar).position === 'sticky') {
+        top = (parseFloat(getComputedStyle(bar).top) || 0) + bar.offsetHeight;
+      }
+      stage?.style.setProperty('--stage-top', `${Math.round(top)}px`);
+    }
 
     let pending = false;
 
@@ -410,81 +194,26 @@ const sheetHeight = 240;
       const rect = wrap!.getBoundingClientRect();
       const total = rect.height - window.innerHeight;
       if (total <= 0) return;
-      const scrolled = -rect.top;
-      const rawP = clamp(scrolled / total);
+      const p = clamp(-rect.top / total);
 
       if (grid) {
-        const o = rawP < 0.35 ? (rawP / 0.35) * 0.5
-                : rawP < 0.92 ? 0.5 - ((rawP - 0.35) / 0.57) * 0.4
-                : Math.max(0, 0.1 - ((rawP - 0.92) / 0.08) * 0.1);
+        const o = p < 0.35 ? (p / 0.35) * 0.5
+                : p < 0.92 ? 0.5 - ((p - 0.35) / 0.57) * 0.4
+                : Math.max(0, 0.1 - ((p - 0.92) / 0.08) * 0.1);
         grid.style.opacity = String(o);
       }
 
+      let t: number;
+      if (p < cutsStart) t = lerp(T_SHEET, T_START, p / cutsStart);
+      else if (p < liftStart) t = lerp(T_START, T_DONE, (p - cutsStart) / (liftStart - cutsStart));
+      else t = lerp(T_DONE, T_LIFT, (p - liftStart) / (liftEnd - liftStart));
+      machine!.style.setProperty('--t', `-${t.toFixed(3)}s`);
+
       if (hintLabel && hintStage) {
-        if (rawP < cutsStart) { hintLabel.textContent = 'Lámina entera'; hintStage.textContent = '01'; }
-        else if (rawP < liftStart) { hintLabel.textContent = 'Cortando'; hintStage.textContent = '02'; }
+        if (p < cutsStart) { hintLabel.textContent = 'Lámina entera'; hintStage.textContent = '01'; }
+        else if (p < liftStart) { hintLabel.textContent = 'Cortando'; hintStage.textContent = '02'; }
         else { hintLabel.textContent = 'Piezas listas'; hintStage.textContent = '03'; }
       }
-
-      // Cuts — proceed sequentially. After each cut, stroke fades + scar fades in.
-      let activeIdx = -1;
-      let activeLocalP = 0;
-      cutPaths.forEach((path, i) => {
-        const phaseStart = cutsStart + i * cutWindow;
-        const phaseEnd = cutsStart + (i + 1) * cutWindow;
-        const phaseP = clamp((rawP - phaseStart) / (phaseEnd - phaseStart));
-        const eased = ease(phaseP);
-        path.style.strokeDashoffset = String((1 - eased) * 100);
-
-        if (rawP >= phaseStart && rawP < phaseEnd) {
-          activeIdx = i;
-          activeLocalP = eased;
-        }
-
-        const scar = scars[i];
-        if (rawP >= phaseEnd) {
-          const fade = clamp((rawP - phaseEnd) / cutFadeWindow);
-          path.style.opacity = String(1 - fade);
-          if (scar) scar.style.opacity = String(fade);
-        } else {
-          path.style.opacity = '1';
-          if (scar) scar.style.opacity = '0';
-        }
-      });
-
-      // Laser tip — follows the leading edge of the active cut path.
-      if (tip) {
-        if (activeIdx >= 0 && rawP < liftStart) {
-          const path = cutPaths[activeIdx];
-          const len = path.getTotalLength();
-          const pt = path.getPointAtLength(activeLocalP * len);
-          const m = meta[activeIdx];
-          tip.setAttribute('transform', `translate(${pt.x + m.cx}, ${pt.y + m.cy})`);
-          tip.style.opacity = '1';
-        } else {
-          tip.style.opacity = '0';
-        }
-      }
-
-      // Cutout pieces lift away from the sheet — holes appear behind.
-      pieces.forEach((piece, i) => {
-        const m = meta[i];
-        const stagger = i * 0.012;
-        const localP = clamp((rawP - liftStart - stagger) / (liftEnd - liftStart));
-        const e = ease(localP);
-        const ty = -e * 56;
-        const sc = 1 + e * 0.05;
-        piece.setAttribute('transform', `translate(${m.cx}, ${m.cy + ty}) scale(${sc})`);
-
-        if (e > 0.08) {
-          piece.setAttribute('data-lifting', '');
-        } else {
-          piece.removeAttribute('data-lifting');
-        }
-
-        const hole = holes[i];
-        if (hole) hole.style.opacity = String(e);
-      });
     }
 
     function onScroll() {
@@ -494,17 +223,9 @@ const sheetHeight = 240;
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
+    window.addEventListener('resize', () => { measure(); onScroll(); }, { passive: true });
+    measure();
     tick();
-
-    // Pause continuous CSS animations (sparks/halo/pulse) when off-screen.
-    const section = wrap!.closest('.laser-assembly') as HTMLElement | null;
-    if (section && 'IntersectionObserver' in window) {
-      const io = new IntersectionObserver(([entry]) => {
-        section.classList.toggle('is-active', entry.isIntersecting);
-      }, { rootMargin: '120px' });
-      io.observe(wrap!);
-    }
   }
 
   initLaserAssembly();

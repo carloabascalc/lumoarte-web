@@ -1301,7 +1301,189 @@ def a2l():
     return a.write()
 
 
+# ── Láser CO₂ genérico (clase 1390: cama 1300 × 900 mm, cabe una hoja de 122 × 81 cm) ──
+# Sin marca ni modelo: Lumo no publica qué equipo usa. La tapa es acrílico ámbar,
+# como en los equipos reales, y deja ver la cama sin abrirla.
+LZ_T = 26.0
+# Sin animación (prefers-reduced-motion) queda la hoja ya cortada: los atributos base
+# muestran ese estado y los keyframes los sobrescriben al animar.
+WOOD = ("#d4a373", "#b98351", "#8a5a30")
+
+
+def laser():
+    W, D = 1880, 1300
+    CW = 360                       # columna de control a la izquierda: así no tapa la cama
+    Zf, Zl, Zt = 80, 860, 1080     # base sobre ruedas, labio frontal, techo
+    Zb, Zs = 820, 823              # cama de panal, superficie de la hoja (MDF 3 mm)
+    YH = 1060                      # frente de la caja del tubo
+    a = Art("laser", S=0.262, ox=0, oy=0, w=640, h=480)
+    pts = [a.p(x, y, z) for x in (0, W) for y in (0, D) for z in (0, Zt)]
+    x0, x1 = min(q[0] for q in pts), max(q[0] for q in pts)
+    y0, y1 = min(q[1] for q in pts), max(q[1] for q in pts)
+    a.ox, a.oy = (640 - (x1 - x0)) / 2 - x0, (480 - (y1 - y0)) / 2 - y0 + 6
+    T = LZ_T
+    DLY = "var(--t,0s)"
+
+    # Recorrido: doce hexágonos en serie (4 × 3), fila por fila.
+    R = 112
+    sx0, sx1, sy0, sy1 = 490, 1710, 130, 940
+    scx = (sx0 + sx1) / 2
+    centers = [(scx + (i - 1.5) * 290, 275 + j * 260) for j in range(3) for i in range(4)]
+    hexv = lambda cx, cy: [(cx + R * math.cos(math.radians(60 * k)), cy + R * math.sin(math.radians(60 * k))) for k in range(6)]
+    park = (1720, 1000)
+    t_start, t_hex, t_travel = 1.2, 1.4, 0.35
+    t_cut = t_hex - t_travel
+    path, windows = [(0, *park), (t_start, *park)], []
+    for i, (cx, cy) in enumerate(centers):
+        ts = t_start + i * t_hex
+        vs = hexv(cx, cy)
+        path.append((ts + t_travel, *vs[0]))
+        for k in range(1, 7):
+            path.append((ts + t_travel + t_cut * k / 6, *vs[k % 6]))
+        windows.append((ts + t_travel, ts + t_hex))
+    t_done = windows[-1][1]
+    t_home = t_done + 1.0
+    path += [(t_home, *park), (T, *park)]
+    t_lift0, t_lift1 = t_home - 0.4, t_home + 1.0
+    t_out0, t_out1 = 23.6, 24.6
+
+    kx = a.translate_kf("hx", T, [(t, *a.along("x", x - park[0])) for t, x, _ in path])
+    a.animate("laser-hx", kx, T, delay=DLY)
+    ky = a.translate_kf("gy", T, [(t, *a.along("y", y - park[1])) for t, _, y in path])
+    a.animate("laser-gy", ky, T, delay=DLY)
+    fire = [(0, "opacity:0")]
+    for w0, w1 in windows:
+        fire += [(w0 - 0.01, "opacity:0"), (w0, "opacity:1"), (w1, "opacity:1"), (w1 + 0.01, "opacity:0")]
+    fire.append((T, "opacity:0"))
+    a.animate("laser-fire", a.keyframes("fire", T, fire), T, delay=DLY)
+    a.animate("laser-sheet", a.keyframes("sheet", T, [(0, "opacity:0"), (0.8, "opacity:1"), (t_out0, "opacity:1"), (t_out1, "opacity:0"), (T, "opacity:0")]), T, delay=DLY)
+    a.animate("laser-hole", a.keyframes("hole", T, [(0, "opacity:0"), (t_lift0, "opacity:0"), (t_lift1, "opacity:1"), (T, "opacity:1")]), T, delay=DLY)
+    up = a.along("z", 46)
+    a.animate("laser-lift", a.translate_kf("lift", T, [(0, 0, 0), (t_lift0, 0, 0), (t_lift1, *up), (T, *up)]), T, "cubic-bezier(.22,1,.36,1)", delay=DLY)
+    a.animate("laser-prog", a.keyframes("prog", T, [(0, "transform:scaleX(0)"), (t_start, "transform:scaleX(0)"), (t_done, "transform:scaleX(1)"), (t_out0, "transform:scaleX(1)"), (t_out1, "transform:scaleX(0)"), (T, "transform:scaleX(0)")]), T, delay=DLY)
+    a.animate("laser-pulse", a.keyframes("pulse", 2.4, [(0, "opacity:1"), (1.2, "opacity:.55"), (2.4, "opacity:1")]), 2.4, "ease-in-out")
+    for i, (w0, w1) in enumerate(windows):
+        a.animate(f"laser-k{i}", a.keyframes(f"k{i}", T, [(0, "stroke-dashoffset:100"), (w0, "stroke-dashoffset:100"), (w1, "stroke-dashoffset:0"), (T, "stroke-dashoffset:0")]), T, delay=DLY)
+        a.animate(f"laser-g{i}", a.keyframes(f"g{i}", T, [(0, "opacity:0"), (w0 - 0.01, "opacity:0"), (w0, "opacity:1"), (w1, "opacity:1"), (w1 + 0.45, "opacity:0"), (T, "opacity:0")]), T, delay=DLY)
+        a.animate(f"laser-e{i}", a.keyframes(f"e{i}", T, [(0, "opacity:0"), (w1, "opacity:0"), (w1 + 0.01, "opacity:1"), (T, "opacity:1")]), T, delay=DLY)
+
+    stage(a, shadow=a.p(W * 0.5, D * 0.45, 0) + (300, 70))
+
+    for (cx, cy) in ((90, 90), (W - 90, 90), (W - 90, D - 90)):
+        a.path(a.cylz_path(cx, cy, 0, Zf, 34), a.cylz_grad(cx, cy, 0, 34, [(0, "#3a3027"), (0.5, "#5e5347"), (1, "#241c15")]))
+
+    # Caja del tubo (detrás de la cama). Su frente es la pared trasera de la cavidad.
+    a.box(CW, W, YH, D, Zl, Zt, top="#efe9dd")
+    a.path(a.poly([(CW, YH, Zb), (W, YH, Zb), (W, YH, Zt), (CW, YH, Zt)]), a.lin3((0, YH, Zt), (0, YH, Zb), [(0, "#e8e1d4"), (1, "#c9c0b0")]))
+    a.path(a.rr((CW + 170, YH, 948), (1, 0, 0), (0, 0, 1), 1180, 92, 14), "#2a231d")
+    a.path(a.rr((CW + 200, YH, 972), (1, 0, 0), (0, 0, 1), 1120, 44, 22), a.lin3((0, YH, 1016), (0, YH, 972), [(0, "#f4eee3"), (0.5, "#9fc0bd"), (1, "#3f7f80")]), op=0.85)
+    a.path(a.poly([(CW + 230, YH, 994), (CW + 1290, YH, 994)], close=False), stroke=HONEY, sw=2.2, op=0, cls="laser-fire", cap="round")
+
+    # Columna de control (lejos de la cámara: se dibuja antes que la cavidad)
+    a.box(0, CW, 0, D, Zf, Zt, front=a.lin3((0, 0, 0), (CW, 0, 0), [(0, "#f7f3ea"), (1, "#e9e3d6")]), side=a.lin3((CW, 0, Zt), (CW, D, Zl), [(0, "#e2dccf"), (1, "#bfb7a8")]), top="#fdfaf3", stroke=LINE, sw=0.6)
+    a.path(a.rr((50, 0, 860), (1, 0, 0), (0, 0, 1), 260, 170, 12), "#0b0806", stroke="#5a4f44", sw=0.6)
+    a.path(a.rr((70, 0, 900), (1, 0, 0), (0, 0, 1), 220, 14, 7), "#3a3027")
+    a.open(tf=a.matrix((70, 0, 914), (1, 0, 0), (0, 0, -1)))
+    a.add('<rect width="220" height="14" rx="7" fill="#e09a4a" class="laser-prog"/>')
+    a.close()
+    for k, c in enumerate(("#c87a2a", "#6e6256", "#6e6256")):
+        a.path(a.rr((70 + k * 40, 0, 960), (1, 0, 0), (0, 0, 1), 26, 26, 5), c)
+    a.path(a.rr((200, 0, 960), (1, 0, 0), (0, 0, 1), 90, 40, 6), "#2c241d")
+    a.path(a.circle((250, 0, 690), (70, 0, 0), (0, 0, 70)), "#f2c94c", stroke="#8a6a12", sw=0.5)
+    a.path(a.circle((250, 0, 690), (46, 0, 0), (0, 0, 46)), RUST)
+    a.path(a.circle((250, 0, 698), (34, 0, 0), (0, 0, 30)), "#c2531a")
+    a.path(a.circle((90, 0, 690), (26, 0, 0), (0, 0, 26)), "#4a4037", stroke="#241c15", sw=0.5)
+    a.path(a.circle((90, 0, 600), (12, 0, 0), (0, 0, 12)), HONEY, cls="laser-pulse")
+    a.glyphs("CO2", (60, 0, 520), 60, "#8c857a")
+    a.path(a.poly([(0, 0, Zl - 40), (CW, 0, Zl - 40)], close=False), stroke=RUST, sw=1.4, op=0.85)
+
+    # Cavidad: panal, hoja, piezas
+    a.path(a.poly([(CW, 40, Zb), (W - 40, 40, Zb), (W - 40, YH, Zb), (CW, YH, Zb)]), "#2a231d")
+    d = ""
+    for gx in range(CW + 40, W - 40, 40):
+        d += a.poly([(gx, 40, Zb), (gx, YH, Zb)], close=False)
+    for gy in range(70, YH, 40):
+        d += a.poly([(CW, gy, Zb), (W - 40, gy, Zb)], close=False)
+    a.path(d, stroke="#6e6256", sw=0.35, op=0.55)
+
+    a.open(cls="laser-sheet")
+    a.path(a.poly([(sx0, sy0, Zb), (sx1, sy0, Zb), (sx1, sy0, Zs), (sx0, sy0, Zs)]), WOOD[2])
+    a.path(a.poly([(sx1, sy0, Zb), (sx1, sy1, Zb), (sx1, sy1, Zs), (sx1, sy0, Zs)]), WOOD[1])
+    # Las piezas reusan el degradado de la hoja: antes del corte no se distinguen de ella.
+    mdf = a.lin3((sx0, sy1, Zs), (sx1, sy0, Zs), [(0, "#dcae80"), (1, WOOD[0])])
+    a.path(a.poly([(sx0, sy0, Zs), (sx1, sy0, Zs), (sx1, sy1, Zs), (sx0, sy1, Zs)]), mdf)
+    for (cx, cy) in centers:
+        a.path(a.poly([(x, y, Zs) for x, y in hexv(cx, cy)]), "#3d2412", op=0, cls="laser-hole")
+    for i, (cx, cy) in enumerate(centers):
+        vs = hexv(cx, cy)
+        a.add(f'<path d="{a.poly([(x, y, Zs) for x, y in vs + [vs[0]]], close=False)}" fill="none" stroke="#4a2a12" stroke-width="1.1" stroke-linejoin="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="0" class="laser-k{i}"/>')
+    a.open(cls="laser-lift")
+    for i, (cx, cy) in enumerate(centers):
+        vs = hexv(cx, cy)
+        a.open(cls="laser-hole", op=0)  # el canto de 3 mm solo se ve con la pieza en el aire
+        prism_sides(a, vs, Zb, Zs, [WOOD[2], WOOD[1], WOOD[1], WOOD[0]])
+        a.close()
+        a.path(a.poly([(x, y, Zs) for x, y in vs]), mdf)
+        a.path(a.poly([(x, y, Zs) for x, y in vs]), stroke="#4a2a12", sw=0.8, cls=f"laser-e{i}")
+    a.close()
+    for i, (cx, cy) in enumerate(centers):
+        vs = hexv(cx, cy)
+        a.add(f'<path d="{a.poly([(x, y, Zs) for x, y in vs + [vs[0]]], close=False)}" fill="none" stroke="#ffb060" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="0" opacity="0" class="laser-k{i} laser-g{i}"/>')
+    a.close()
+
+    # Rieles Y y pórtico con cabezal
+    for rx in (CW + 60, W - 60):
+        a.box(rx - 16, rx + 16, 40, YH, Zl, Zl + 26, front="#4a4037", side="#3a3027", top="#8c857a")
+    gy0, gz0 = park[1], Zl + 26
+    a.open(cls="laser-gy")
+    a.box(CW + 60, W - 60, gy0 - 22, gy0 + 22, gz0, gz0 + 40, front=a.lin3((0, gy0 - 22, gz0 + 40), (0, gy0 - 22, gz0), [(0, "#cfc9bd"), (1, "#8c857a")]), side="#6e665c", top="#e6e0d5")
+    a.path(a.poly([(CW + 60, gy0 - 22, gz0 + 30), (W - 60, gy0 - 22, gz0 + 30)], close=False), stroke="#5e5347", sw=0.5)
+    hx = park[0]
+    a.open(cls="laser-hx")
+    a.box(hx - 40, hx + 40, gy0 - 56, gy0 - 22, gz0 - 6, gz0 + 70, front=a.lin3((hx - 40, gy0 - 56, 0), (hx + 40, gy0 - 56, 0), [(0, "#f0ebe2"), (1, "#bdb6aa")]), side="#9a9286", top="#fbf8f2", stroke=LINE, sw=0.4)
+    cone = [(hx - 14, gy0 - 39, gz0 - 6), (hx + 14, gy0 - 39, gz0 - 6), (hx + 4, gy0 - 39, Zs + 14), (hx - 4, gy0 - 39, Zs + 14)]
+    a.path(a.poly(cone), a.lin3((hx - 14, gy0 - 39, 0), (hx + 14, gy0 - 39, 0), [(0, "#e3c08a"), (1, "#8a5a18")]))
+    tip = a.p(hx, gy0 - 39, Zs)
+    a.open(cls="laser-fire", op=0)
+    a.path(a.poly([(hx, gy0 - 39, Zs + 14), (hx, gy0 - 39, Zs)], close=False), stroke="#fff1d6", sw=1.4)
+    glow = a.rad(tip[0], tip[1], 13, [(0, "#fff5d8", 0.95), (0.35, "#ffb060", 0.6), (1, RUST, 0)])
+    a.add(f'<circle cx="{n(tip[0])}" cy="{n(tip[1])}" r="13" fill="{glow}"/>')
+    a.close()
+    a.close()
+    a.close()
+
+    # Frente y costado derecho de la base, labio
+    a.path(a.poly([(CW, 0, Zf), (W, 0, Zf), (W, 0, Zl), (CW, 0, Zl)]), a.lin3((0, 0, Zl), (0, 0, Zf), [(0, "#f7f3ea"), (1, "#e4ddcf")]))
+    a.path(a.poly([(W, 0, Zf), (W, D, Zf), (W, D, Zt), (W, YH, Zt), (W, YH, Zl), (W, 0, Zl)]), a.lin3((W, 0, Zt), (W, D, Zf), [(0, "#e2dccf"), (1, "#bfb7a8")]))
+    a.path(a.poly([(CW, 0, Zl), (W, 0, Zl), (W, 40, Zl), (CW, 40, Zl)]), "#fdfaf3")
+    for px0 in (CW + 60, CW + 790):
+        a.path(a.rr((px0, 0, 140), (1, 0, 0), (0, 0, 1), 650, 520, 18), "#efe9dd", stroke="#c9c0b0", sw=0.6)
+        a.path(a.poly([(px0 + 560, 0, 380), (px0 + 560, 0, 460)], close=False), stroke="#8c857a", sw=1.6, cap="round")
+    a.path(a.poly([(CW, 0, Zl - 40), (W, 0, Zl - 40)], close=False), stroke=RUST, sw=1.4, op=0.85)
+    for vz in range(260, 480, 40):
+        a.path(a.poly([(W, 200, vz), (W, 600, vz)], close=False), stroke="#8c857a", sw=1.2, op=0.6)
+    a.path(a.poly([(CW, 0, Zf), (W, 0, Zf), (W, 0, Zl), (CW, 0, Zl)]) + a.poly([(W, 0, Zf), (W, D, Zf), (W, D, Zt), (W, YH, Zt), (W, YH, Zl), (W, 0, Zl)]), stroke=LINE, sw=0.6, op=0.5)
+
+    # Tapa de acrílico ámbar: frente inclinado, techo y costado
+    yl = 320
+    front = [(CW, 20, Zl), (W, 20, Zl), (W, yl, Zt), (CW, yl, Zt)]
+    top = [(CW, yl, Zt), (W, yl, Zt), (W, YH, Zt), (CW, YH, Zt)]
+    side = [(W, 20, Zl), (W, YH, Zl), (W, YH, Zt), (W, yl, Zt)]
+    for poly in (front, top, side):
+        a.path(a.poly(poly), a.lin3(poly[3], poly[1], [(0, "#e9a65a", 0.34), (0.5, HONEY, 0.22), (1, "#7d2b02", 0.3)]))
+    a.path(a.poly([(CW + 60, 20, Zl), (CW + 420, 20, Zl), (CW + 180, yl, Zt)]), "#fff6e8", op=0.08)
+    fr = "#2e2620"
+    a.path(a.poly(front) + a.poly(top) + a.poly(side), stroke=fr, sw=2.4)
+    a.path(a.poly([(CW, yl, Zt), (W, yl, Zt)], close=False), stroke=fr, sw=3.2)
+    hy_, hz_ = 20 + 0.86 * (yl - 20), Zl + 0.86 * (Zt - Zl)
+    a.path(a.poly([(CW + 560, hy_, hz_ + 12), (CW + 960, hy_, hz_ + 12)], close=False), stroke="#2e2620", sw=3.4, cap="round")
+    a.path(a.poly([(CW + 570, hy_, hz_ + 18), (CW + 950, hy_, hz_ + 18)], close=False), stroke="#8c8072", sw=0.7, op=0.8)
+
+    a.css.append(".laser-prog{transform-box:fill-box;transform-origin:0 50%}")
+    return a.write()
+
 if __name__ == "__main__":
     print("h2c", h2c())
     print("h3c", h3c())
     print("a2l", a2l())
+    print("laser", laser())
