@@ -1,0 +1,726 @@
+---
+import { getImage } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import Footer from "../../components/Footer.astro";
+import { SHIPPING, SHOP, forSale, mxn, shopLines } from "../../data/shop";
+import { shopImage } from "../../data/shopImages";
+import { SITE } from "../../data/services";
+
+const thumbs: Record<string, string> = {};
+for (const f of forSale()) {
+  if (!f.image) continue;
+  thumbs[f.name] = (await getImage({ src: shopImage(f.image), width: 160 })).src;
+}
+
+const shopData = {
+  lines: shopLines(),
+  thumbs,
+  shipping: SHIPPING,
+  maxPerLine: SHOP.maxPerLine,
+  whatsapp: SITE.whatsapp,
+};
+
+const ESTADOS = [
+  "Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas", "Chihuahua",
+  "Ciudad de México", "Coahuila", "Colima", "Durango", "Estado de México", "Guanajuato", "Guerrero",
+  "Hidalgo", "Jalisco", "Michoacán", "Morelos", "Nayarit", "Nuevo León", "Oaxaca", "Puebla",
+  "Querétaro", "Quintana Roo", "San Luis Potosí", "Sinaloa", "Sonora", "Tabasco", "Tamaulipas",
+  "Tlaxcala", "Veracruz", "Yucatán", "Zacatecas",
+];
+---
+
+<Base
+  title="Tu carrito | Tienda Lumo Cancún"
+  description="Revisa tu pedido de la tienda de Lumo Cancún, elige envío o recoger en Cancún y confírmalo."
+  canonical="/tienda/carrito/"
+  pageAccent="3d"
+  noindex
+>
+  <Nav variant="solid" ctaHref="/#cotiza" />
+  <main>
+    <Breadcrumb
+      items={[{ label: "Inicio", href: "/" }, { label: "Tienda", href: "/tienda/" }, { label: "Carrito" }]}
+      backHref="/tienda/"
+      backLabel="Seguir comprando"
+    />
+
+    <section class="cart">
+      <div class="container">
+        <h1 class="cart-title">Tu carrito</h1>
+
+        <div class="cart-empty" data-cart-empty hidden>
+          <p>Tu carrito está vacío.</p>
+          <a href="/tienda/" class="btn btn-primary">Ver la tienda</a>
+        </div>
+
+        <div class="cart-grid" data-cart-full hidden>
+          <div class="cart-main">
+            <h2 class="cart-h2">Piezas</h2>
+            <ul class="cart-lines" data-cart-lines role="list"></ul>
+            <p class="cart-notice" data-cart-notice role="status" aria-live="polite"></p>
+
+            <form class="cart-form" data-cart-form novalidate>
+              <h2 class="cart-h2">Entrega</h2>
+              <div class="cart-delivery">
+                <label class="cart-radio">
+                  <input type="radio" name="entrega" value="envio" checked />
+                  <span>
+                    <strong>Envío a domicilio</strong>
+                    <small>
+                      Paquetería a todo México: {mxn(SHIPPING.flat)}, gratis desde {mxn(SHIPPING.freeFrom)}.
+                    </small>
+                  </span>
+                </label>
+                <label class="cart-radio">
+                  <input type="radio" name="entrega" value="recoger" />
+                  <span>
+                    <strong>Recoger en Cancún</strong>
+                    <small>Sin costo, en el taller: {SITE.address.street}.</small>
+                  </span>
+                </label>
+              </div>
+
+              <h2 class="cart-h2">Tus datos</h2>
+              <div class="cart-fields">
+                <label class="cart-field">
+                  <span>Nombre completo</span>
+                  <input type="text" name="nombre" autocomplete="name" required />
+                  <em data-error></em>
+                </label>
+                <label class="cart-field">
+                  <span>Teléfono (WhatsApp)</span>
+                  <input type="tel" name="telefono" autocomplete="tel" inputmode="tel" required />
+                  <em data-error></em>
+                </label>
+              </div>
+
+              <div class="cart-fields" data-address>
+                <label class="cart-field cart-field--wide">
+                  <span>Calle y número</span>
+                  <input type="text" name="calle" autocomplete="address-line1" required />
+                  <em data-error></em>
+                </label>
+                <label class="cart-field">
+                  <span>Colonia</span>
+                  <input type="text" name="colonia" autocomplete="address-line2" required />
+                  <em data-error></em>
+                </label>
+                <label class="cart-field">
+                  <span>Código postal</span>
+                  <input type="text" name="cp" autocomplete="postal-code" inputmode="numeric" maxlength="5" required />
+                  <em data-error></em>
+                </label>
+                <label class="cart-field">
+                  <span>Ciudad</span>
+                  <input type="text" name="ciudad" autocomplete="address-level2" required />
+                  <em data-error></em>
+                </label>
+                <label class="cart-field">
+                  <span>Estado</span>
+                  <select name="estado" autocomplete="address-level1" required>
+                    <option value="">Elige…</option>
+                    {ESTADOS.map((e) => <option value={e}>{e}</option>)}
+                  </select>
+                  <em data-error></em>
+                </label>
+              </div>
+
+              <label class="cart-field cart-field--wide">
+                <span>Notas del pedido (opcional)</span>
+                <textarea name="notas" rows="2"></textarea>
+              </label>
+            </form>
+          </div>
+
+          <aside class="cart-summary" aria-label="Resumen del pedido">
+            <h2 class="cart-h2">Resumen</h2>
+            <dl>
+              <div><dt>Subtotal</dt><dd data-subtotal></dd></div>
+              <div><dt data-ship-label>Envío</dt><dd data-ship></dd></div>
+              <div class="cart-total"><dt>Total</dt><dd data-total></dd></div>
+            </dl>
+            <p class="cart-hint" data-free-hint></p>
+            <button type="button" class="btn btn-primary cart-submit" data-cart-submit>
+              Enviar pedido por WhatsApp
+            </button>
+            <p class="cart-fine">
+              Se abre WhatsApp con tu pedido listo. Al enviarlo te confirmamos existencia
+              y te mandamos la liga de pago. Precios en pesos mexicanos.
+              Consulta <a href="/tienda/envios-y-devoluciones/">envíos y devoluciones</a> y el
+              <a href="/aviso-de-privacidad/">aviso de privacidad</a>.
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+
+  <script type="application/json" id="shop-data" set:html={JSON.stringify(shopData)} />
+</Base>
+
+<script>
+  import { clearCart, readCart, writeCart, CART_EVENT } from "../../scripts/cart";
+  import type { CartLine } from "../../scripts/cart";
+
+  interface Line {
+    sku: string;
+    name: string;
+    variant: string;
+    price: number;
+    stock: number;
+    href: string;
+  }
+  interface ShopData {
+    lines: Line[];
+    thumbs: Record<string, string>;
+    shipping: { flat: number; freeFrom: number; pickup: number };
+    maxPerLine: number;
+    whatsapp: string;
+  }
+
+  const money = (n: number) => `$${n.toLocaleString("es-MX")}`;
+
+  function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string) {
+    const node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+
+  function bootCart() {
+    const dataEl = document.getElementById("shop-data");
+    const full = document.querySelector<HTMLElement>("[data-cart-full]");
+    const empty = document.querySelector<HTMLElement>("[data-cart-empty]");
+    const list = document.querySelector<HTMLElement>("[data-cart-lines]");
+    const form = document.querySelector<HTMLFormElement>("[data-cart-form]");
+    const submit = document.querySelector<HTMLButtonElement>("[data-cart-submit]");
+    const notice = document.querySelector<HTMLElement>("[data-cart-notice]");
+    if (!dataEl || !full || !empty || !list || !form || !submit || !notice) return;
+    if (full.dataset.booted === "1") return;
+    full.dataset.booted = "1";
+
+    const shop = JSON.parse(dataEl.textContent ?? "{}") as ShopData;
+    const catalog = new Map(shop.lines.map((l) => [l.sku, l]));
+    const address = form.querySelector<HTMLElement>("[data-address]");
+    const q = (sel: string) => document.querySelector<HTMLElement>(sel);
+
+    const entrega = () => new FormData(form).get("entrega") === "recoger" ? "recoger" : "envio";
+    const limitOf = (l: Line) => Math.min(shop.maxPerLine, l.stock);
+
+    /** Quita lo que ya no existe o se agotó y recorta al tope; avisa si cambió algo. */
+    function reconcile(): CartLine[] {
+      const raw = readCart();
+      const clean: CartLine[] = [];
+      let changed = false;
+      for (const line of raw) {
+        const item = catalog.get(line.sku);
+        if (!item || item.stock <= 0) {
+          changed = true;
+          continue;
+        }
+        const qty = Math.min(line.qty, limitOf(item));
+        if (qty !== line.qty) changed = true;
+        clean.push({ sku: line.sku, qty });
+      }
+      if (changed) {
+        notice.textContent = "Ajustamos tu carrito a las piezas disponibles.";
+        writeCart(clean);
+      }
+      return clean;
+    }
+
+    function totals(lines: CartLine[]) {
+      const subtotal = lines.reduce((s, l) => s + (catalog.get(l.sku)?.price ?? 0) * l.qty, 0);
+      const pickup = entrega() === "recoger";
+      const ship = pickup ? shop.shipping.pickup : subtotal >= shop.shipping.freeFrom ? 0 : shop.shipping.flat;
+      return { subtotal, ship, total: subtotal + ship, pickup };
+    }
+
+    function render() {
+      const lines = reconcile();
+      const has = lines.length > 0;
+      full!.hidden = !has;
+      empty!.hidden = has;
+      list!.replaceChildren();
+      if (!has) return;
+
+      for (const line of lines) {
+        const item = catalog.get(line.sku)!;
+        const li = el("li", "cart-line");
+
+        const thumb = shop.thumbs[item.name];
+        if (thumb) {
+          const img = el("img", "cart-line-img");
+          img.src = thumb;
+          img.alt = "";
+          img.width = 80;
+          img.height = 60;
+          li.append(img);
+        }
+
+        const info = el("div", "cart-line-info");
+        const name = el("a", "cart-line-name", item.name);
+        name.href = item.href;
+        info.append(name, el("span", "cart-line-variant", `${item.variant} · ${money(item.price)} c/u`));
+        li.append(info);
+
+        const qty = el("div", "cart-line-qty");
+        const minus = el("button", "", "−");
+        minus.type = "button";
+        minus.setAttribute("aria-label", `Quitar una pieza de ${item.name} ${item.variant}`);
+        const plus = el("button", "", "+");
+        plus.type = "button";
+        plus.setAttribute("aria-label", `Agregar una pieza de ${item.name} ${item.variant}`);
+        plus.disabled = line.qty >= limitOf(item);
+        const count = el("span", "", String(line.qty));
+        minus.addEventListener("click", () => change(line.sku, line.qty - 1));
+        plus.addEventListener("click", () => change(line.sku, line.qty + 1));
+        qty.append(minus, count, plus);
+        li.append(qty);
+
+        li.append(el("span", "cart-line-total", money(item.price * line.qty)));
+
+        const remove = el("button", "cart-line-remove", "Quitar");
+        remove.type = "button";
+        remove.setAttribute("aria-label", `Quitar ${item.name} ${item.variant} del carrito`);
+        remove.addEventListener("click", () => change(line.sku, 0));
+        li.append(remove);
+
+        list!.append(li);
+      }
+
+      const t = totals(lines);
+      q("[data-subtotal]")!.textContent = money(t.subtotal);
+      q("[data-ship-label]")!.textContent = t.pickup ? "Recoger en Cancún" : "Envío";
+      q("[data-ship]")!.textContent = t.ship === 0 ? "Gratis" : money(t.ship);
+      q("[data-total]")!.textContent = `${money(t.total)} MXN`;
+      const missing = shop.shipping.freeFrom - t.subtotal;
+      q("[data-free-hint]")!.textContent =
+        !t.pickup && missing > 0 ? `Te faltan ${money(missing)} para el envío gratis.` : "";
+    }
+
+    function change(sku: string, qty: number) {
+      notice!.textContent = "";
+      const lines = readCart()
+        .map((l) => (l.sku === sku ? { ...l, qty } : l))
+        .filter((l) => l.qty > 0);
+      writeCart(lines);
+    }
+
+    function syncDelivery() {
+      const pickup = entrega() === "recoger";
+      if (address) {
+        address.hidden = pickup;
+        address.querySelectorAll<HTMLInputElement | HTMLSelectElement>("input, select").forEach((f) => {
+          f.disabled = pickup;
+        });
+      }
+      render();
+    }
+
+    function validate(): boolean {
+      let firstBad: HTMLElement | null = null;
+      form!.querySelectorAll<HTMLInputElement | HTMLSelectElement>("input[required], select[required]").forEach((f) => {
+        if (f.disabled) return;
+        const value = f.value.trim();
+        let msg = "";
+        if (!value) msg = "Falta este dato.";
+        else if (f.name === "telefono" && value.replace(/\D/g, "").length < 10) msg = "Escribe los 10 dígitos.";
+        else if (f.name === "cp" && !/^\d{5}$/.test(value)) msg = "Son 5 dígitos.";
+        const slot = f.closest(".cart-field")?.querySelector<HTMLElement>("[data-error]");
+        if (slot) slot.textContent = msg;
+        f.setAttribute("aria-invalid", msg ? "true" : "false");
+        if (msg && !firstBad) firstBad = f;
+      });
+      if (firstBad) (firstBad as HTMLElement).focus();
+      return !firstBad;
+    }
+
+    function message(lines: CartLine[]): string {
+      const d = new FormData(form!);
+      const get = (k: string) => String(d.get(k) ?? "").trim();
+      const t = totals(lines);
+      const out = ["Hola, quiero hacer este pedido de la tienda:", ""];
+      for (const l of lines) {
+        const item = catalog.get(l.sku)!;
+        out.push(`• ${l.qty} × ${item.name} · ${item.variant}: ${money(item.price * l.qty)}`);
+      }
+      out.push("", `Subtotal: ${money(t.subtotal)}`);
+      out.push(t.pickup ? "Entrega: recoger en el taller de Cancún" : `Envío: ${t.ship === 0 ? "gratis" : money(t.ship)}`);
+      out.push(`Total: ${money(t.total)} MXN`, "", `Nombre: ${get("nombre")}`, `Teléfono: ${get("telefono")}`);
+      if (!t.pickup) {
+        out.push(`Dirección: ${get("calle")}, ${get("colonia")}, CP ${get("cp")}, ${get("ciudad")}, ${get("estado")}`);
+      }
+      if (get("notas")) out.push(`Notas: ${get("notas")}`);
+      return out.join("\n");
+    }
+
+    form.querySelectorAll('input[name="entrega"]').forEach((r) => r.addEventListener("change", syncDelivery));
+    form.addEventListener("submit", (e) => e.preventDefault());
+    submit.addEventListener("click", () => {
+      const lines = reconcile();
+      if (lines.length === 0 || !validate()) return;
+      const url = `https://wa.me/${shop.whatsapp}?text=${encodeURIComponent(message(lines))}`;
+      try {
+        sessionStorage.setItem("lumo-last-order", url);
+      } catch {
+        // Sin almacenamiento: la página de gracias solo no ofrece reabrir WhatsApp.
+      }
+      window.open(url, "_blank", "noopener");
+      clearCart();
+      window.location.assign("/tienda/gracias/");
+    });
+
+    document.addEventListener(CART_EVENT, () => {
+      if (document.body.contains(full)) render();
+    });
+    syncDelivery();
+  }
+
+  bootCart();
+  document.addEventListener("astro:page-load", bootCart);
+</script>
+
+<style>
+  .cart {
+    padding: 40px 0 96px;
+    min-height: 60vh;
+  }
+
+  .cart-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 32px;
+  }
+
+  .cart-h2 {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin: 32px 0 12px;
+  }
+
+  .cart-main > .cart-h2:first-child,
+  .cart-summary .cart-h2 {
+    margin-top: 0;
+  }
+
+  .cart-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    color: var(--color-muted);
+  }
+
+  .cart-empty[hidden],
+  .cart-grid[hidden] {
+    display: none;
+  }
+
+  .cart-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+
+  .cart-lines {
+    list-style: none;
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    background: var(--color-bg);
+  }
+
+  .cart-lines :global(.cart-line) {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr) auto auto;
+    grid-template-areas: "img info qty total" "img info remove remove";
+    column-gap: 16px;
+    row-gap: 4px;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--color-surface);
+  }
+
+  .cart-lines :global(.cart-line:last-child) {
+    border-bottom: none;
+  }
+
+  .cart-lines :global(.cart-line-img) {
+    grid-area: img;
+    width: 80px;
+    height: 60px;
+    object-fit: contain;
+  }
+
+  .cart-lines :global(.cart-line-info) {
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .cart-lines :global(.cart-line-name) {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  .cart-lines :global(.cart-line-variant) {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  .cart-lines :global(.cart-line-qty) {
+    grid-area: qty;
+    display: flex;
+    align-items: center;
+    border: 1.5px solid var(--color-surface);
+    border-radius: 4px;
+  }
+
+  .cart-lines :global(.cart-line-qty button) {
+    width: 40px;
+    height: 40px;
+    font-size: 1.125rem;
+    color: var(--color-text);
+  }
+
+  .cart-lines :global(.cart-line-qty button:disabled) {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .cart-lines :global(.cart-line-qty span) {
+    min-width: 28px;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .cart-lines :global(.cart-line-total) {
+    grid-area: total;
+    min-width: 64px;
+    text-align: right;
+    font-weight: 600;
+  }
+
+  .cart-lines :global(.cart-line-remove) {
+    grid-area: remove;
+    justify-self: end;
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    padding: 6px 0;
+  }
+
+  .cart-lines :global(.cart-line-remove:hover) {
+    color: var(--color-accent);
+  }
+
+  .cart-notice {
+    min-height: 1.5em;
+    margin-top: 8px;
+    font-size: 0.875rem;
+    color: var(--color-accent);
+  }
+
+  .cart-delivery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .cart-radio {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    border: 1.5px solid var(--color-surface);
+    border-radius: 8px;
+    background: var(--color-bg);
+    cursor: pointer;
+  }
+
+  .cart-radio:has(input:checked) {
+    border-color: var(--color-accent);
+    background: #fff;
+  }
+
+  .cart-radio input {
+    accent-color: var(--color-accent);
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  .cart-radio span {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .cart-radio small {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    line-height: 1.45;
+  }
+
+  .cart-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .cart-fields[hidden] {
+    display: none;
+  }
+
+  .cart-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .cart-field--wide {
+    grid-column: 1 / -1;
+  }
+
+  .cart-field input,
+  .cart-field select,
+  .cart-field textarea {
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 12px 14px;
+    min-height: 48px;
+    border: 1.5px solid var(--color-surface);
+    border-radius: 4px;
+    background: #fff;
+    color: var(--color-text);
+    width: 100%;
+  }
+
+  .cart-field input:focus-visible,
+  .cart-field select:focus-visible,
+  .cart-field textarea:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+    border-color: var(--color-accent);
+  }
+
+  .cart-field [aria-invalid="true"] {
+    border-color: #b3261e;
+  }
+
+  .cart-field em {
+    font-style: normal;
+    font-size: 0.8125rem;
+    font-weight: 400;
+    color: #b3261e;
+    min-height: 1.2em;
+  }
+
+  .cart-summary {
+    position: sticky;
+    top: calc(var(--nav-h) + 24px);
+    padding: 24px;
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    background: var(--color-bg-alt);
+  }
+
+  .cart-summary dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 0;
+  }
+
+  .cart-summary dt {
+    color: var(--color-muted);
+  }
+
+  .cart-summary .cart-total {
+    margin-top: 8px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-surface);
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .cart-summary .cart-total dt {
+    color: var(--color-text);
+  }
+
+  .cart-hint {
+    min-height: 1.4em;
+    font-size: 0.875rem;
+    color: var(--color-accent);
+    margin-top: 4px;
+  }
+
+  .cart-submit {
+    width: 100%;
+    justify-content: center;
+    min-height: 52px;
+    margin-top: 12px;
+  }
+
+  .cart-fine {
+    margin-top: 16px;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--color-muted);
+  }
+
+  .cart-fine a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 900px) {
+    .cart-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .cart-summary {
+      position: static;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .cart-lines :global(.cart-line) {
+      grid-template-columns: 56px minmax(0, 1fr) auto;
+      grid-template-areas: "img info total" "img qty remove";
+      row-gap: 10px;
+      padding: 14px;
+    }
+
+    .cart-lines :global(.cart-line-img) {
+      width: 56px;
+      height: 44px;
+      align-self: start;
+    }
+
+    .cart-lines :global(.cart-line-qty) {
+      justify-self: start;
+    }
+
+    .cart-delivery,
+    .cart-fields {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

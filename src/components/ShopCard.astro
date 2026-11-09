@@ -1,0 +1,138 @@
+---
+import { Image } from "astro:assets";
+import { shopImage } from "../data/shopImages";
+import { figureStock, figureUrl, minPrice, mxn } from "../data/shop";
+import type { ShopFigure } from "../data/shop";
+
+interface Props {
+  figure: ShopFigure;
+  /** La primera fila de la vitrina carga sin lazy (LCP). */
+  eager?: boolean;
+}
+
+const { figure, eager = false } = Astro.props;
+const onSale = figure.status === "venta";
+const soldOut = onSale && figureStock(figure) === 0;
+const Tag = onSale ? "a" : "div";
+---
+
+<Tag class:list={["shop-card", !onSale && "shop-card--soon"]} {...(onSale ? { href: figureUrl(figure) } : {})}>
+  <div class="shop-card-art">
+    {figure.image ? (
+      <Image
+        src={shopImage(figure.image)}
+        alt={figure.imageAlt ?? figure.name}
+        widths={[320, 480, 640]}
+        sizes="(max-width: 600px) 90vw, (max-width: 960px) 45vw, 360px"
+        loading={eager ? "eager" : "lazy"}
+      />
+    ) : (
+      <span class="shop-card-num" aria-hidden="true">{figure.num}</span>
+    )}
+  </div>
+  <div class="shop-card-body">
+    <p class="shop-card-kicker">{figure.num} · {figure.species}</p>
+    <h3 class="shop-card-name">{figure.name}</h3>
+    {figure.epithet && <p class="shop-card-epithet">{figure.epithet}</p>}
+    <p class="shop-card-price">
+      {!onSale && <span class="shop-card-tag">Próximamente</span>}
+      {onSale && soldOut && <span class="shop-card-tag">Agotado por ahora</span>}
+      {onSale && !soldOut && <>Desde <strong>{mxn(minPrice)}</strong></>}
+    </p>
+  </div>
+</Tag>
+
+<style>
+  .shop-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg);
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    overflow: hidden;
+    color: var(--color-text);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  a.shop-card:hover,
+  a.shop-card:focus-visible {
+    transform: translateY(-3px);
+    border-color: var(--color-accent);
+    box-shadow: 0 12px 28px rgba(26, 15, 6, 0.1);
+  }
+
+  a.shop-card:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  .shop-card-art {
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: var(--color-bg-alt);
+  }
+
+  .shop-card-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .shop-card-num {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    font-weight: 600;
+    color: var(--color-surface);
+  }
+
+  .shop-card-body {
+    padding: 20px 24px 24px;
+  }
+
+  .shop-card-kicker {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 8px;
+  }
+
+  .shop-card-name {
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  .shop-card-epithet {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    margin-top: 4px;
+  }
+
+  .shop-card-price {
+    margin-top: 16px;
+    font-size: 0.9375rem;
+  }
+
+  .shop-card-price strong {
+    font-size: 1.125rem;
+    color: var(--color-accent);
+  }
+
+  .shop-card-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--color-bg-alt);
+    color: var(--color-muted);
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+
+  .shop-card--soon {
+    opacity: 0.85;
+  }
+</style>

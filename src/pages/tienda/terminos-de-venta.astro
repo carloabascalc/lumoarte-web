@@ -1,0 +1,59 @@
+---
+import ShopLegal from "../../components/ShopLegal.astro";
+import { SHOP } from "../../data/shop";
+import { SITE } from "../../data/services";
+---
+
+<ShopLegal
+  title="Términos de venta"
+  metaTitle="Términos de venta de la tienda | Lumo Cancún"
+  description="Términos y condiciones de compra en la tienda en línea de Lumo Cancún: precios, pedidos, pago, entrega y devoluciones."
+  canonical="/tienda/terminos-de-venta/"
+  updated="noviembre de 2026"
+>
+  <h2>Quién vende</h2>
+  <p>
+    La tienda en línea es de {SITE.name}, con domicilio en {SITE.address.street}, {SITE.address.city},
+    {SITE.address.state}, México. Contacto: WhatsApp {SITE.whatsappDisplay}.
+  </p>
+
+  <h2>Productos y precios</h2>
+  <ul>
+    <li>Los precios están en pesos mexicanos (MXN) y son el precio final por pieza.</li>
+    <li>El costo de envío se muestra en el carrito antes de confirmar el pedido.</li>
+    <li>Las imágenes son ilustrativas; el tono de los colores puede variar ligeramente entre piezas.</li>
+    <li>Las figuras tienen piezas pequeñas: no son aptas para menores de 3 años.</li>
+  </ul>
+
+  <h2>Pedidos y pago</h2>
+  <ul>
+    <li>El pedido se arma en el carrito y se confirma por WhatsApp.</li>
+    <li>El pedido queda en firme cuando se recibe el pago completo.</li>
+    <li>Si una pieza se agota antes de confirmar, te avisamos para ajustar el pedido antes de cobrar.</li>
+  </ul>
+
+  <h2>Entrega</h2>
+  <p>
+    Enviamos a todo México por paquetería o puedes recoger en Cancún. Los costos y condiciones están
+    en <a href="/tienda/envios-y-devoluciones/">envíos y devoluciones</a>.
+  </p>
+
+  <h2>Devoluciones</h2>
+  <p>
+    Si una pieza llega dañada o con defecto la reponemos sin costo, siempre que lo reportes dentro de
+    los {SHOP.claimDays} días naturales siguientes a la entrega. El detalle está en
+    <a href="/tienda/envios-y-devoluciones/">envíos y devoluciones</a>.
+  </p>
+
+  <h2>Compras por volumen</h2>
+  <p>
+    Estos términos aplican a la venta al público en la tienda. Los pedidos por lote para negocios se
+    cotizan aparte: <a href="/#cotiza">cotiza tu producción</a>.
+  </p>
+
+  <h2>Datos personales</h2>
+  <p>
+    Los datos que compartes para tu pedido se usan solo para prepararlo, cobrarlo y entregarlo.
+    Consulta el <a href="/aviso-de-privacidad/">aviso de privacidad</a>.
+  </p>
+</ShopLegal>

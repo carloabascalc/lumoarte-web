@@ -1,0 +1,81 @@
+---
+// Página de texto de la tienda (envíos, términos): mismo marco para todas.
+import Base from "../layouts/Base.astro";
+import Nav from "./Nav.astro";
+import Breadcrumb from "./Breadcrumb.astro";
+import Footer from "./Footer.astro";
+import WhatsAppButton from "./WhatsAppButton.astro";
+
+interface Props {
+  title: string;
+  metaTitle: string;
+  description: string;
+  canonical: string;
+  updated: string;
+}
+
+const { title, metaTitle, description, canonical, updated } = Astro.props;
+---
+
+<Base title={metaTitle} description={description} canonical={canonical} pageAccent="3d">
+  <Nav variant="solid" ctaHref="/#cotiza" />
+  <main>
+    <Breadcrumb items={[{ label: "Inicio", href: "/" }, { label: "Tienda", href: "/tienda/" }, { label: title }]} />
+    <article class="legal">
+      <div class="container">
+        <header class="legal-header">
+          <h1 class="legal-title">{title}</h1>
+          <p class="legal-updated">Última actualización: {updated}</p>
+        </header>
+        <div class="legal-body">
+          <slot />
+        </div>
+      </div>
+    </article>
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Base>
+
+<style>
+  .legal {
+    padding: 48px 0 96px;
+  }
+
+  .legal-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 8px;
+  }
+
+  .legal-updated {
+    color: var(--color-muted);
+    font-size: 0.875rem;
+    margin-bottom: 32px;
+  }
+
+  .legal-body {
+    max-width: 68ch;
+  }
+
+  .legal-body :global(h2) {
+    font-size: 1.375rem;
+    margin: 36px 0 12px;
+  }
+
+  .legal-body :global(p),
+  .legal-body :global(li) {
+    line-height: 1.75;
+    margin-bottom: 12px;
+  }
+
+  .legal-body :global(ul) {
+    padding-left: 20px;
+    margin-bottom: 12px;
+  }
+
+  .legal-body :global(a) {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

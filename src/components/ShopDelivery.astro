@@ -1,0 +1,60 @@
+---
+// Resumen de entrega y pago que se repite en la vitrina y en cada figura.
+import { SHIPPING, SHOP, mxn } from "../data/shop";
+import { SITE } from "../data/services";
+
+const payLine =
+  SHOP.checkout === "mercadopago"
+    ? "Pago en línea con tarjeta, OXXO o transferencia."
+    : "Confirmas tu pedido por WhatsApp y ahí mismo te mandamos la liga de pago.";
+---
+
+<ul class="shop-delivery" role="list">
+  <li>
+    <strong>Envío a todo México</strong>
+    <span>{mxn(SHIPPING.flat)} por pedido; gratis en compras desde {mxn(SHIPPING.freeFrom)}.</span>
+  </li>
+  <li>
+    <strong>Recoger en Cancún</strong>
+    <span>Sin costo, en el taller: {SITE.address.street}.</span>
+  </li>
+  <li>
+    <strong>Pago</strong>
+    <span>{payLine}</span>
+  </li>
+</ul>
+
+<style>
+  .shop-delivery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    list-style: none;
+  }
+
+  .shop-delivery li {
+    padding: 20px 24px;
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    background: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .shop-delivery strong {
+    font-weight: 600;
+  }
+
+  .shop-delivery span {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 800px) {
+    .shop-delivery {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

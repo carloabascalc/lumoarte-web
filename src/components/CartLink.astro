@@ -1,0 +1,71 @@
+---
+// Acceso al carrito en el Nav. Solo aparece cuando hay piezas, para no
+// meter una acción de tienda en las páginas B2B de quien no está comprando.
+---
+
+<a href="/tienda/carrito/" class="cart-link" data-cart-link hidden aria-label="Carrito">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><path d="M3 6h18" /><path d="M16 10a4 4 0 0 1-8 0" />
+  </svg>
+  <span class="cart-link-count" data-cart-count>0</span>
+</a>
+
+<script>
+  import { cartCount, CART_EVENT } from "../scripts/cart";
+
+  function syncCartLink() {
+    const n = cartCount();
+    document.querySelectorAll<HTMLAnchorElement>("[data-cart-link]").forEach((link) => {
+      link.hidden = n === 0;
+      link.setAttribute("aria-label", `Carrito: ${n} ${n === 1 ? "pieza" : "piezas"}`);
+      const badge = link.querySelector("[data-cart-count]");
+      if (badge) badge.textContent = String(n);
+    });
+  }
+
+  syncCartLink();
+  document.addEventListener("astro:page-load", syncCartLink);
+  document.addEventListener(CART_EVENT, syncCartLink);
+</script>
+
+<style>
+  .cart-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    color: var(--color-text);
+    transition: color 0.2s;
+  }
+
+  .cart-link[hidden] {
+    display: none;
+  }
+
+  .cart-link:hover {
+    color: var(--color-accent);
+  }
+
+  :global(.nav--overlay:not(.scrolled)) .cart-link {
+    color: #fff;
+  }
+
+  .cart-link-count {
+    position: absolute;
+    top: 4px;
+    right: 2px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    line-height: 18px;
+    text-align: center;
+  }
+</style>

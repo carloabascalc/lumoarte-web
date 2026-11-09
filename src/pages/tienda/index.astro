@@ -1,0 +1,236 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import ShopCard from "../../components/ShopCard.astro";
+import ShopDelivery from "../../components/ShopDelivery.astro";
+import Contact from "../../components/Contact.astro";
+import Footer from "../../components/Footer.astro";
+import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import { FIGURES, VARIANTS, forSale, figureUrl, mxn } from "../../data/shop";
+import { absUrl, ORG_ID } from "../../data/services";
+
+const collectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  url: absUrl("/tienda/"),
+  name: "Tienda — Lumo Cancún",
+  about: { "@id": ORG_ID },
+  mainEntity: {
+    "@type": "ItemList",
+    name: "Bestrijes: figuras articuladas de Lumo Cancún",
+    itemListElement: forSale().map((f, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: absUrl(figureUrl(f)),
+      name: `${f.name} — ${f.species}`,
+    })),
+  },
+};
+---
+
+<Base
+  title="Tienda: Bestrijes, figuras articuladas de Cancún | Lumo Cancún"
+  description="Compra en línea los Bestrijes de Lumo Cancún: figuras articuladas de animales del Caribe, como figura, llavero o imán. Envío a todo México o recoge en Cancún."
+  canonical="/tienda/"
+  pageAccent="3d"
+  extraSchemas={[collectionSchema]}
+>
+  <Nav variant="solid" ctaHref="/#cotiza" />
+  <main>
+    <Breadcrumb items={[{ label: "Inicio", href: "/" }, { label: "Tienda" }]} />
+
+    <header class="shop-hero">
+      <div class="container">
+        <p class="shop-eyebrow">Tienda</p>
+        <h1 class="shop-title">Bestrijes: figuras articuladas de <em>Cancún</em></h1>
+        <p class="shop-lede">
+          Los Bestrijes son la colección de figuras articuladas de Lumo Cancún:
+          animales del Caribe mexicano con nombre propio, que caben en la mano y
+          se mueven al tocarlos. Cada uno se vende como figura, llavero o imán,
+          de existencia, con envío a todo México.
+        </p>
+      </div>
+    </header>
+
+    <section class="shop-grid-section">
+      <div class="container">
+        <h2 class="sr-only">La colección</h2>
+        <div class="shop-grid">
+          {FIGURES.map((f, i) => <ShopCard figure={f} eager={i < 3} />)}
+        </div>
+      </div>
+    </section>
+
+    <section class="shop-info">
+      <div class="container">
+        <h2 class="section-title">Precios y entrega</h2>
+        <div class="shop-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Presentación</th>
+                <th scope="col">Cómo es</th>
+                <th scope="col">Precio</th>
+              </tr>
+            </thead>
+            <tbody>
+              {VARIANTS.map((v) => (
+                <tr>
+                  <th scope="row">{v.label}</th>
+                  <td>{v.desc}</td>
+                  <td class="shop-table-price">{mxn(v.price)} MXN</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <ShopDelivery />
+        <p class="shop-b2b">
+          ¿Los quieres para tu tienda, hotel o evento? Por lote se cotizan aparte:
+          mira <a href="/sectores/souvenirs-mayoreo/">souvenirs por mayoreo</a> o
+          <a href="/productos/llaveros-con-logo/">llaveros con logo</a>.
+          Detalles de entrega en <a href="/tienda/envios-y-devoluciones/">envíos y devoluciones</a>.
+        </p>
+      </div>
+    </section>
+  </main>
+  <div class="page-end">
+    <Contact />
+    <Footer />
+  </div>
+  <WhatsAppButton />
+</Base>
+
+<style>
+  .shop-hero {
+    padding: 56px 0 32px;
+    background: var(--color-bg-alt);
+  }
+
+  .shop-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+  }
+
+  .shop-title {
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    line-height: 1.08;
+    max-width: 18ch;
+    margin-bottom: 20px;
+  }
+
+  .shop-title em {
+    color: var(--color-accent);
+  }
+
+  .shop-lede {
+    color: var(--color-muted);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    max-width: 62ch;
+  }
+
+  .shop-grid-section {
+    padding: 48px 0 64px;
+    background: var(--color-bg-alt);
+  }
+
+  .shop-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .shop-info {
+    padding: 80px 0 96px;
+  }
+
+  .shop-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    background: var(--color-bg);
+    margin: 16px 0 24px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--color-surface);
+    vertical-align: top;
+  }
+
+  thead th {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  tbody tr:last-child th,
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody th {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  td {
+    color: var(--color-muted);
+  }
+
+  .shop-table-price {
+    color: var(--color-text);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .shop-b2b {
+    margin-top: 24px;
+    color: var(--color-muted);
+    max-width: 70ch;
+    line-height: 1.7;
+  }
+
+  .shop-b2b a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 960px) {
+    .shop-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .shop-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .shop-info {
+      padding: 56px 0 64px;
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+    }
+  }
+</style>

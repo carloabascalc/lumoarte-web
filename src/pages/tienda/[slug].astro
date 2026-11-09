@@ -1,0 +1,531 @@
+---
+import { Image, getImage } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import ShopCard from "../../components/ShopCard.astro";
+import ShopDelivery from "../../components/ShopDelivery.astro";
+import Contact from "../../components/Contact.astro";
+import Footer from "../../components/Footer.astro";
+import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import { SHOP, VARIANTS, forSale, figureUrl, mxn, skuOf, stockOf } from "../../data/shop";
+import type { ShopFigure } from "../../data/shop";
+import { shopImage } from "../../data/shopImages";
+import { SITE, absUrl, ORG_ID } from "../../data/services";
+
+export function getStaticPaths() {
+  return forSale().map((figure) => ({ params: { slug: figure.slug }, props: { figure } }));
+}
+
+interface Props {
+  figure: ShopFigure;
+}
+
+const { figure } = Astro.props;
+const image = shopImage(figure.image ?? "");
+const url = figureUrl(figure);
+
+const options = VARIANTS.map((v) => ({ ...v, sku: skuOf(figure, v.id), stock: stockOf(figure, v.id) }));
+const firstAvailable = options.find((o) => o.stock > 0);
+const soldOut = !firstAvailable;
+const others = forSale().filter((f) => f.id !== figure.id).slice(0, 3);
+
+const schemaImage = await getImage({ src: image, width: 1200, format: "png" });
+
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "@id": `${absUrl(url)}#product`,
+  name: `${figure.name} — ${figure.species.toLowerCase()} articulado`,
+  description: figure.summary,
+  image: new URL(schemaImage.src, Astro.site).href,
+  url: absUrl(url),
+  category: "Figuras articuladas",
+  brand: { "@type": "Brand", name: "Bestrijes" },
+  manufacturer: { "@id": ORG_ID },
+  offers: options.map((o) => ({
+    "@type": "Offer",
+    name: `${figure.name} · ${o.label}`,
+    sku: o.sku,
+    price: o.price,
+    priceCurrency: "MXN",
+    availability: o.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+    itemCondition: "https://schema.org/NewCondition",
+    url: absUrl(url),
+    seller: { "@id": ORG_ID },
+  })),
+};
+---
+
+<Base
+  title={`${figure.name}, ${figure.species.toLowerCase()} articulado: figura, llavero o imán | Lumo Cancún`}
+  description={`${figure.name}, «${figure.epithet.toLowerCase()}»: ${figure.species.toLowerCase()} articulado de la colección Bestrijes. Desde ${mxn(Math.min(...VARIANTS.map((v) => v.price)))} MXN, con envío a todo México o entrega en Cancún.`}
+  canonical={url}
+  pageAccent="3d"
+  extraSchemas={[productSchema]}
+>
+  <Nav variant="solid" ctaHref="/#cotiza" />
+  <main>
+    <Breadcrumb
+      items={[{ label: "Inicio", href: "/" }, { label: "Tienda", href: "/tienda/" }, { label: figure.name }]}
+      backHref="/tienda/"
+      backLabel="Tienda"
+    />
+
+    <section class="pdp">
+      <div class="container pdp-grid">
+        <div class="pdp-art">
+          <Image
+            src={image}
+            alt={figure.imageAlt ?? figure.name}
+            widths={[480, 720, 960]}
+            sizes="(max-width: 860px) 92vw, 560px"
+            loading="eager"
+          />
+        </div>
+
+        <div class="pdp-buy" data-pdp data-max-line={SHOP.maxPerLine}>
+          <p class="pdp-kicker">Bestrijes · {figure.num} · {figure.species}</p>
+          <h1 class="pdp-name">{figure.name}</h1>
+          <p class="pdp-epithet">{figure.epithet}</p>
+          <p class="pdp-summary">{figure.summary}</p>
+
+          <fieldset class="pdp-options">
+            <legend>Presentación</legend>
+            {options.map((o) => (
+              <label class:list={["pdp-option", o.stock === 0 && "is-out"]}>
+                <input
+                  type="radio"
+                  name="variant"
+                  value={o.sku}
+                  data-price={o.price}
+                  data-stock={o.stock}
+                  disabled={o.stock === 0}
+                  checked={o.sku === firstAvailable?.sku}
+                />
+                <span class="pdp-option-main">
+                  <span class="pdp-option-label">{o.label}</span>
+                  <span class="pdp-option-desc">{o.stock === 0 ? "Agotado por ahora" : o.desc}</span>
+                </span>
+                <span class="pdp-option-price">{mxn(o.price)}</span>
+              </label>
+            ))}
+          </fieldset>
+
+          {soldOut ? (
+            <p class="pdp-soldout">
+              {figure.name} está agotado por ahora.
+              <a href={`https://wa.me/${SITE.whatsapp}`} target="_blank" rel="noopener noreferrer">Escríbenos por WhatsApp</a>
+              y te avisamos cuando vuelva.
+            </p>
+          ) : (
+            <div class="pdp-actions">
+              <div class="pdp-qty">
+                <button type="button" data-qty-step="-1" aria-label="Quitar una pieza">−</button>
+                <input type="number" data-qty inputmode="numeric" min="1" value="1" aria-label="Cantidad" />
+                <button type="button" data-qty-step="1" aria-label="Agregar una pieza">+</button>
+              </div>
+              <button type="button" class="btn btn-primary pdp-add" data-add>Agregar al carrito</button>
+            </div>
+          )}
+          <p class="pdp-feedback" data-feedback role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pdp-story">
+      <div class="container pdp-story-grid">
+        <div>
+          <h2 class="section-title">Quién es {figure.name}</h2>
+          {figure.story?.map((p) => <p class="pdp-p">{p}</p>)}
+          {figure.saying && (
+            <>
+              <h3 class="pdp-saying-title">{figure.sayingTitle}</h3>
+              <p class="pdp-p">{figure.saying}</p>
+            </>
+          )}
+        </div>
+        <dl class="pdp-facts">
+          {figure.facts?.map(([k, v]) => (
+            <div>
+              <dt>{k}</dt>
+              <dd>{v}</dd>
+            </div>
+          ))}
+          <div>
+            <dt>Colección</dt>
+            <dd>Bestrijes, {figure.num}</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="pdp-delivery">
+      <div class="container">
+        <h2 class="section-title">Entrega y pago</h2>
+        <ShopDelivery />
+      </div>
+    </section>
+
+    {others.length > 0 && (
+      <section class="pdp-more">
+        <div class="container">
+          <h2 class="section-title">Otros bestrijes</h2>
+          <div class="pdp-more-grid">
+            {others.map((f) => <ShopCard figure={f} />)}
+          </div>
+        </div>
+      </section>
+    )}
+  </main>
+  <div class="page-end">
+    <Contact />
+    <Footer />
+  </div>
+  <WhatsAppButton />
+</Base>
+
+<script>
+  import { addToCart, readCart } from "../../scripts/cart";
+
+  function bootPdp() {
+    const root = document.querySelector<HTMLElement>("[data-pdp]");
+    if (!root || root.dataset.booted === "1") return;
+    root.dataset.booted = "1";
+
+    const qtyInput = root.querySelector<HTMLInputElement>("[data-qty]");
+    const addBtn = root.querySelector<HTMLButtonElement>("[data-add]");
+    const feedback = root.querySelector<HTMLElement>("[data-feedback]");
+    if (!qtyInput || !addBtn || !feedback) return;
+
+    const maxLine = Number(root.dataset.maxLine) || 20;
+    const selected = () => root.querySelector<HTMLInputElement>('input[name="variant"]:checked');
+    const limit = () => Math.min(maxLine, Number(selected()?.dataset.stock ?? 0));
+    const inCart = () => readCart().find((l) => l.sku === selected()?.value)?.qty ?? 0;
+
+    function clamp() {
+      const room = Math.max(1, limit() - inCart());
+      const n = Math.round(Number(qtyInput!.value)) || 1;
+      qtyInput!.value = String(Math.min(room, Math.max(1, n)));
+    }
+
+    root.querySelectorAll<HTMLButtonElement>("[data-qty-step]").forEach((b) =>
+      b.addEventListener("click", () => {
+        qtyInput.value = String((Number(qtyInput.value) || 1) + Number(b.dataset.qtyStep));
+        clamp();
+      }),
+    );
+    qtyInput.addEventListener("change", clamp);
+    root.querySelectorAll('input[name="variant"]').forEach((r) =>
+      r.addEventListener("change", () => {
+        feedback.textContent = "";
+        clamp();
+      }),
+    );
+
+    addBtn.addEventListener("click", () => {
+      const pick = selected();
+      if (!pick) return;
+      if (inCart() >= limit()) {
+        feedback.innerHTML = `Ya tienes en el carrito todas las piezas disponibles de esta presentación. <a href="/tienda/carrito/">Ver carrito</a>`;
+        return;
+      }
+      clamp();
+      const total = addToCart(pick.value, Number(qtyInput.value), limit());
+      feedback.innerHTML = `Agregado: llevas ${total} en el carrito. <a href="/tienda/carrito/">Ver carrito</a>`;
+      qtyInput.value = "1";
+    });
+  }
+
+  bootPdp();
+  document.addEventListener("astro:page-load", bootPdp);
+</script>
+
+<style>
+  .pdp {
+    padding: 40px 0 72px;
+    background: var(--color-bg-alt);
+  }
+
+  .pdp-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+
+  .pdp-art {
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+  }
+
+  .pdp-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .pdp-kicker {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 12px;
+  }
+
+  .pdp-name {
+    font-size: clamp(2.5rem, 6vw, 3.75rem);
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+
+  .pdp-epithet {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--color-muted);
+    margin-top: 8px;
+  }
+
+  .pdp-summary {
+    margin-top: 16px;
+    line-height: 1.7;
+    max-width: 52ch;
+  }
+
+  .pdp-options {
+    border: none;
+    margin-top: 24px;
+    display: grid;
+    gap: 8px;
+  }
+
+  .pdp-options legend {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 8px;
+  }
+
+  .pdp-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    min-height: 56px;
+    border: 1.5px solid var(--color-surface);
+    border-radius: 8px;
+    background: var(--color-bg);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .pdp-option:has(input:checked) {
+    border-color: var(--color-accent);
+    background: #fff;
+  }
+
+  .pdp-option:has(input:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .pdp-option.is-out {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .pdp-option input {
+    accent-color: var(--color-accent);
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .pdp-option-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pdp-option-label {
+    font-weight: 600;
+  }
+
+  .pdp-option-desc {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    line-height: 1.4;
+  }
+
+  .pdp-option-price {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .pdp-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .pdp-qty {
+    display: flex;
+    align-items: stretch;
+    border: 1.5px solid var(--color-surface);
+    border-radius: 4px;
+    background: var(--color-bg);
+  }
+
+  .pdp-qty button {
+    width: 44px;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+
+  .pdp-qty button:hover {
+    color: var(--color-accent);
+  }
+
+  .pdp-qty input {
+    width: 48px;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font: inherit;
+    font-weight: 600;
+    color: var(--color-text);
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
+
+  .pdp-qty input::-webkit-outer-spin-button,
+  .pdp-qty input::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  .pdp-add {
+    flex: 1;
+    justify-content: center;
+    min-height: 48px;
+  }
+
+  .pdp-feedback {
+    min-height: 1.6em;
+    margin-top: 12px;
+    font-size: 0.9375rem;
+  }
+
+  .pdp-feedback :global(a),
+  .pdp-soldout a {
+    color: var(--color-accent);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .pdp-soldout {
+    margin-top: 24px;
+    color: var(--color-muted);
+  }
+
+  .pdp-story {
+    padding: 80px 0;
+  }
+
+  .pdp-story-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: start;
+  }
+
+  .pdp-p {
+    line-height: 1.75;
+    margin-bottom: 16px;
+    max-width: 62ch;
+  }
+
+  .pdp-saying-title {
+    font-size: 1.25rem;
+    margin: 32px 0 12px;
+  }
+
+  .pdp-facts {
+    border: 1px solid var(--color-surface);
+    border-radius: 8px;
+    background: var(--color-bg);
+  }
+
+  .pdp-facts div {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--color-surface);
+  }
+
+  .pdp-facts div:last-child {
+    border-bottom: none;
+  }
+
+  .pdp-facts dt {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .pdp-facts dd {
+    margin-top: 2px;
+  }
+
+  .pdp-delivery {
+    padding: 0 0 80px;
+  }
+
+  .pdp-more {
+    padding: 72px 0 96px;
+    background: var(--color-bg-alt);
+  }
+
+  .pdp-more-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 860px) {
+    .pdp {
+      padding: 24px 0 56px;
+    }
+
+    .pdp-grid,
+    .pdp-story-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .pdp-art {
+      padding: 20px;
+    }
+
+    .pdp-story {
+      padding: 56px 0;
+    }
+
+    .pdp-more-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

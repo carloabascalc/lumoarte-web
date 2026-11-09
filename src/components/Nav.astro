@@ -5,6 +5,7 @@ import { SITE, services, getServiceUrl, isExternalService } from "../data/servic
 import type { ServiceId } from "../data/services";
 import { segments } from "../data/segments";
 import { products } from "../data/products";
+import CartLink from "./CartLink.astro";
 
 interface Props {
   variant?: "overlay" | "solid" | "emd";
@@ -40,6 +41,8 @@ const navClass = isEmd ? "nav nav--solid nav--emd" : `nav nav--${variant}`;
       <a href={serviciosHref} class="nav-link nav-link--desktop">Servicios</a>
       {!isEmd && <a href="/sectores/" class="nav-link nav-link--desktop">Sectores</a>}
       {!isEmd && <a href="/productos/" class="nav-link nav-link--desktop">Productos</a>}
+      {!isEmd && <a href="/tienda/" class="nav-link nav-link--desktop">Tienda</a>}
+      {!isEmd && <CartLink />}
       {!isEmd && (
         <a
           href={ctaHref}
@@ -110,6 +113,7 @@ const navClass = isEmd ? "nav nav--solid nav--emd" : `nav nav--${variant}`;
       {products.map((p) => (
         <a href={p.slug} class="nav-drawer-link nav-drawer-sub">{p.name}</a>
       ))}
+      <a href="/tienda/" class="nav-drawer-link nav-drawer-link--head">Tienda</a>
       <a href={ctaHref} class="btn btn-primary nav-drawer-cta">Cotiza tu producción</a>
     </div>
   )}

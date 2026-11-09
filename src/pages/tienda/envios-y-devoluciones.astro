@@ -1,0 +1,50 @@
+---
+import ShopLegal from "../../components/ShopLegal.astro";
+import { SHIPPING, SHOP, mxn } from "../../data/shop";
+import { SITE } from "../../data/services";
+---
+
+<ShopLegal
+  title="Envíos y devoluciones"
+  metaTitle="Envíos y devoluciones de la tienda | Lumo Cancún"
+  description={`Tienda de Lumo Cancún: envío a todo México por ${mxn(SHIPPING.flat)}, gratis desde ${mxn(SHIPPING.freeFrom)}, o recoge sin costo en Cancún. Qué hacer si una pieza llega dañada.`}
+  canonical="/tienda/envios-y-devoluciones/"
+  updated="noviembre de 2026"
+>
+  <h2>Envíos a todo México</h2>
+  <ul>
+    <li>El envío por paquetería cuesta <strong>{mxn(SHIPPING.flat)} MXN por pedido</strong>, sin importar cuántas piezas lleve.</li>
+    <li>En compras desde <strong>{mxn(SHIPPING.freeFrom)} MXN</strong> el envío es gratis.</li>
+    <li>Enviamos solo dentro de la República Mexicana.</li>
+    <li>Cada pedido sale con guía de rastreo, que te mandamos por WhatsApp al entregarlo a la paquetería.</li>
+    <li>El tiempo de entrega depende de la paquetería y del destino.</li>
+  </ul>
+
+  <h2>Recoger en Cancún</h2>
+  <p>
+    Puedes recoger tu pedido sin costo en el taller: {SITE.address.street}, {SITE.address.city},
+    {SITE.address.state}. Te avisamos por WhatsApp cuando esté listo. Horario: lunes a sábado de
+    9:00 a 18:00.
+  </p>
+
+  <h2>Existencias</h2>
+  <p>
+    La tienda vende piezas ya hechas. Si al confirmar tu pedido alguna pieza ya no está disponible,
+    te avisamos antes de cobrar para que elijas otra o la quites del pedido.
+  </p>
+
+  <h2>Devoluciones y piezas dañadas</h2>
+  <ul>
+    <li>Si una pieza llega dañada o con defecto, <strong>la reponemos sin costo</strong>.</li>
+    <li>Tienes <strong>{SHOP.claimDays} días naturales</strong> desde que recibes el pedido para reportarlo.</li>
+    <li>Repórtalo por WhatsApp al {SITE.whatsappDisplay} con una foto de la pieza y de la caja.</li>
+    <li>Fuera de esos casos no hay cambios ni devoluciones.</li>
+  </ul>
+
+  <h2>Contacto</h2>
+  <p>
+    Cualquier duda sobre tu pedido se atiende por
+    <a href={`https://wa.me/${SITE.whatsapp}`} target="_blank" rel="noopener noreferrer">WhatsApp al {SITE.whatsappDisplay}</a>.
+    Consulta también los <a href="/tienda/terminos-de-venta/">términos de venta</a>.
+  </p>
+</ShopLegal>

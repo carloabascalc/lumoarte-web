@@ -18,6 +18,10 @@ El sitio está pensado para **B2B por volumen** (hoteles, agencias de eventos,
 corporativo). Los textos no deben prometer piezas únicas ni "mismo día"
 (ver reglas en §7).
 
+La excepción es la **tienda** (`/tienda/`): venta al público, pieza por pieza,
+de figuras **ya hechas y en existencia** (colección Bestrijes). No es trabajo
+a la medida: lo personalizado sigue siendo por volumen y se cotiza.
+
 ### Dominios
 
 | Dominio | Rol |
@@ -62,6 +66,8 @@ src/
 │   ├── segments.ts      Sectores (hotel, corp, souvenirs, eventos)
 │   ├── cases.ts         Casos de éxito B2B
 │   ├── catalog.ts       Productos destacados en home
+│   ├── shop.ts          Tienda /tienda/: precios por presentación, envío y figuras
+│   ├── shopStock.json   Existencias de la tienda, generado con tools/shop_stock.py (no editar a mano)
 │   └── galleryImages.ts Alt text por nombre de archivo (clave para SEO/AI)
 ├── layouts/
 │   ├── Base.astro       Layout maestro: <head>, JSON-LD, Nav, Footer, Analytics
@@ -75,6 +81,7 @@ src/
 │   ├── 404.astro
 │   ├── servicios/              corte-laser.astro, impresion-3d.astro
 │   ├── productos/              [slug].astro + index.astro (data-driven)
+│   ├── tienda/                 Vitrina, [slug].astro por figura, carrito, gracias y páginas de envíos/términos
 │   ├── sectores/               [slug].astro + index.astro (data-driven)
 │   └── recursos/               Artículos E-E-A-T (fdm vs resina, etc.)
 ├── scripts/           TS del cliente (animations, cardTilt, assembly: avance por scroll de esas secciones)
@@ -290,6 +297,8 @@ Estas reglas son del cliente (Adriano). **Respetarlas siempre**, aunque
 1. **Nunca escribir "Lumo Arte"**. Solo "Lumo" o "Lumo Cancún".
 2. **No usar fotos de la "desatadora de nudos"** en ningún sitio.
 3. **No prometer "mismo día" ni "piezas únicas"** — el foco es volumen B2B.
+   La tienda (`/tienda/`) vende piezas sueltas de existencia, pero tampoco
+   promete entrega el mismo día ni piezas hechas a la medida.
 4. **No mencionar "Riviera Maya"** — operamos en Cancún.
 5. Teléfono único: **998 188 8048**. No listar otros números.
 6. Fundador: **Adriano Abascal**, arquitecto, afiliado a Abascal Arquitectos.
