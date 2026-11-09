@@ -912,7 +912,7 @@ def cone(a, x, y, z0, z1, r0, r1, fill):
 
 
 def laser_proceso(name="laser-proceso", w=640, h=556):
-    """«De la lámina a la celosía»: el scroll mueve el pórtico, corta los hexágonos y apila las piezas (ver LaserAssembly.astro)."""
+    """«De la lámina a la serie»: el scroll mueve el pórtico, corta los hexágonos y apila las piezas (ver LaserAssembly.astro)."""
     W, D, Zf, Hh = 900, 700, 70, 150
     Xw0, Xw1, Yw0, Yw1 = 50, 850, 34, 680
     Zbed, T = 44, 9
