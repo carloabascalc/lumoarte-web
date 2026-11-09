@@ -38,6 +38,8 @@ export interface Segment {
   audience: string;
   /** Hero photos: [back, main, front] — filenames in src/assets/{gallery,catalogo}. */
   images: [string, string, string];
+  /** Illustration that replaces the main hero photo (see SectorShowcase). */
+  heroArt?: 'souvenirs';
   /** Homepage card photo (distinct per segment). */
   cardImage: string;
   /** `href` links a product to its /productos/* page. */
@@ -145,6 +147,7 @@ export const segments: Segment[] = [
       'Fabricante de souvenirs de Cancún por mayoreo: llaveros, dijes y figuras en acrílico, MDF e impresión 3D para tiendas, hoteles y revendedores.',
     audience: 'Tiendas de souvenirs, revendedores y mayoristas',
     images: ['souv-tiburones.jpg', 'souv-llaveros-cancun.jpg', 'souv-peces.jpg'],
+    heroArt: 'souvenirs',
     cardImage: 'souv-llaveros-cancun.jpg',
     productos: [
       { name: 'Llaveros de Cancún', desc: 'Grabados en madera o acrílico, o impresos en 3D a color.', href: '/productos/llaveros-con-logo/' },

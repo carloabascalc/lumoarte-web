@@ -1,21 +1,30 @@
 ---
 // Sector hero showcase — same stacked-card look as LaserShowcase, but with
-// three real shop photos chosen per segment in src/data/segments.ts.
+// three real shop photos chosen per segment in src/data/segments.ts. A segment
+// can swap the main card for an animated illustration; the side cards stay real.
 import { Image } from "astro:assets";
+import LazyArt from "./LazyArt.astro";
+import souvenirs from "../assets/art/souvenirs.svg?url";
 import { segmentImage, segmentAlt } from "../data/segmentImages";
+
+const ART = {
+  souvenirs: { src: souvenirs, alt: "Exhibidor de madera con llaveros Cancún y peces y tiburones articulados" },
+};
 
 interface Props {
   images: [string, string, string];
+  art?: keyof typeof ART;
 }
-const [back, main, front] = Astro.props.images;
+const { images, art } = Astro.props;
+const [back, main, front] = images;
 ---
 
-<div class="hero-stack">
+<div class:list={["hero-stack", { "hero-stack--art": art }]}>
   <div class="hero-card hero-card--back">
     <Image src={segmentImage(back)} alt={segmentAlt(back)} widths={[400, 600]} sizes="(max-width: 540px) 60vw, 320px" quality={80} loading="eager" decoding="async" class="hero-img" />
   </div>
   <div class="hero-card hero-card--main">
-    <Image src={segmentImage(main)} alt={segmentAlt(main)} widths={[480, 720]} sizes="(max-width: 540px) 80vw, 420px" quality={80} loading="eager" fetchpriority="high" decoding="async" class="hero-img" />
+    {art ? <LazyArt {...ART[art]} /> : <Image src={segmentImage(main)} alt={segmentAlt(main)} widths={[480, 720]} sizes="(max-width: 540px) 80vw, 420px" quality={80} loading="eager" fetchpriority="high" decoding="async" class="hero-img" />}
   </div>
   <div class="hero-card hero-card--front">
     <Image src={segmentImage(front)} alt={segmentAlt(front)} widths={[400, 600]} sizes="(max-width: 540px) 60vw, 300px" quality={80} loading="eager" decoding="async" class="hero-img" />
@@ -73,6 +82,23 @@ const [back, main, front] = Astro.props.images;
     left: 22%;
     z-index: 4;
     transform: rotate(-5deg);
+  }
+
+  /* Una ilustración se lee completa: la tarjeta crece y las fotos solo pisan su esquina. */
+  .hero-stack--art .hero-card--main {
+    width: 74%;
+    top: 13%;
+    left: 0;
+  }
+
+  .hero-stack--art .hero-card--back {
+    width: 38%;
+  }
+
+  .hero-stack--art .hero-card--front {
+    width: 40%;
+    left: auto;
+    right: 3%;
   }
 
   .hero-stack:hover .hero-card--main { transform: rotate(-1deg) translateY(-4px); }

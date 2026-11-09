@@ -51,7 +51,9 @@ rewrites/redirects viven en `vercel.json`.
 src/
 ├── assets/            Imágenes optimizadas por Astro (gallery, logos, sectores, services)
 │                      printers/*.svg: modelos animados, generados con tools/printer_art.py (no editar a mano)
+│                      art/*.svg: ilustraciones de las secciones, generadas con tools/site_art.py (no editar a mano)
 ├── components/        Componentes .astro (Hero, Nav, Footer, Gallery, Contact, etc.)
+│                      LazyArt carga un SVG animado al acercarse; AssemblyStage es el escenario de las secciones «assembly»
 ├── data/              SOURCE OF TRUTH — todo el contenido editable del sitio
 │   ├── services.ts      Datos corporativos: SITE, ORG_ID, teléfono, dirección, JSON-LD base
 │   ├── pricing.ts       Precios de láser, 3D, plotter, recuerdos
@@ -75,7 +77,7 @@ src/
 │   ├── productos/              [slug].astro + index.astro (data-driven)
 │   ├── sectores/               [slug].astro + index.astro (data-driven)
 │   └── recursos/               Artículos E-E-A-T (fdm vs resina, etc.)
-├── scripts/           TS del cliente (animations, cardTilt)
+├── scripts/           TS del cliente (animations, cardTilt, assembly: avance por scroll de esas secciones)
 public/
 ├── images/            Assets estáticos que NO pasan por Astro Image
 └── og/                Imágenes Open Graph
