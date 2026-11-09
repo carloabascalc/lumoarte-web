@@ -358,12 +358,38 @@ const isEmpty = images.length === 0;
   }
 
   /* ── Progress dots ─────────────────────────────────── */
+  /* Hay un punto por foto y pueden ser decenas: la fila se desplaza por dentro
+     para no ensanchar la página, y el difuminado avisa que hay más a los lados. */
   .filmstrip-dots {
+    position: relative;
     display: flex;
-    justify-content: center;
     gap: 8px;
-    margin-top: 24px;
-    padding: 0 24px;
+    margin-top: 20px;
+    padding: 4px 24px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+  }
+
+  .filmstrip-dots::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .filmstrip-dots {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Márgenes automáticos en vez de justify-content: center: centran los puntos
+     si caben y, si no caben, los primeros no quedan fuera de alcance a la izquierda. */
+  .dot:first-child {
+    margin-left: auto;
+  }
+
+  .dot:last-child {
+    margin-right: auto;
   }
 
   /* Visible dot is 6px, but the button has 24x24 click target via padding +
@@ -394,8 +420,11 @@ const isEmpty = images.length === 0;
       padding: 80px 0 72px;
     }
 
+    /* A esta altura una foto vertical mide ~213 px: con el mínimo de 300 px
+       quedaba una franja oscura junto a la foto. */
     .film-item {
       height: 320px;
+      min-width: 0;
     }
 
     .arrow {
@@ -420,8 +449,9 @@ const isEmpty = images.length === 0;
   const lightbox = document.getElementById("lightbox");
   const lightboxImg = document.getElementById("lightboxImg") as HTMLImageElement | null;
   const lightboxClose = document.getElementById("lightboxClose");
+  const dotsRow = document.getElementById("filmstripDots");
 
-  if (filmstrip && arrowLeft && arrowRight && lightbox && lightboxImg && lightboxClose && filmstrip.dataset.booted !== "1") {
+  if (filmstrip && arrowLeft && arrowRight && lightbox && lightboxImg && lightboxClose && dotsRow && filmstrip.dataset.booted !== "1") {
     filmstrip.dataset.booted = "1";
     // ── Arrow navigation ──────────────────────────────────
     arrowLeft.addEventListener("click", () => {
@@ -491,21 +521,36 @@ const isEmpty = images.length === 0;
     });
 
     // ── Progress dots ─────────────────────────────────────
-    const dots = document.querySelectorAll<HTMLButtonElement>(".dot");
+    const dots = dotsRow.querySelectorAll<HTMLButtonElement>(".dot");
+    let activeDot = 0;
+
+    // Las fotos no miden todas lo mismo: se ubican por su posición real.
+    const photoLeft = (i: number) => items[i].offsetLeft - filmstrip!.offsetLeft;
 
     function updateDots() {
-      const itemWidth = filmstrip!.querySelector<HTMLElement>(".film-item")?.offsetWidth ?? 0;
-      const gap = 8;
-      const index = Math.round(filmstrip!.scrollLeft / (itemWidth + gap));
+      const { scrollLeft, scrollWidth, clientWidth } = filmstrip!;
+      let index = 0;
+      // Al final de la tira la última foto ya no alcanza a alinearse a la izquierda.
+      if (scrollLeft >= scrollWidth - clientWidth - 1) {
+        index = items.length - 1;
+      } else {
+        items.forEach((_, i) => {
+          if (Math.abs(photoLeft(i) - scrollLeft) < Math.abs(photoLeft(index) - scrollLeft)) index = i;
+        });
+      }
+      if (index === activeDot) return;
+      activeDot = index;
       dots.forEach((dot, i) => dot.classList.toggle("dot--active", i === index));
+      // La fila sigue a la foto para que el punto activo nunca quede fuera de vista.
+      const dot = dots[index];
+      dotsRow!.scrollTo({ left: dot.offsetLeft - (dotsRow!.clientWidth - dot.offsetWidth) / 2 });
     }
 
     filmstrip.addEventListener("scroll", updateDots, { passive: true });
 
     dots.forEach((dot, i) => {
       dot.addEventListener("click", () => {
-        const itemWidth = filmstrip!.querySelector<HTMLElement>(".film-item")?.offsetWidth ?? 0;
-        filmstrip!.scrollTo({ left: i * (itemWidth + 8), behavior: "smooth" });
+        filmstrip!.scrollTo({ left: photoLeft(i), behavior: "smooth" });
       });
     });
   }

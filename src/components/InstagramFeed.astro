@@ -251,4 +251,9 @@ const tiles = [
     .igfeed-grid--embeds { grid-template-columns: repeat(2, 1fr); }
     .igfeed-follow { padding: 8px 14px; }
   }
+
+  /* Más angosto que esto, el identificador y «Seguir» no caben en una línea. */
+  @media (max-width: 365px) {
+    .igfeed-head { flex-wrap: wrap; }
+  }
 </style>

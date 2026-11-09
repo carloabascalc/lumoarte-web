@@ -248,10 +248,14 @@ const articleSchema = {
     font-weight: 600;
   }
 
+  .article-body :global(.table-wrap) {
+    overflow-x: auto;
+    margin: 18px 0 24px;
+  }
+
   .article-body :global(table) {
     width: 100%;
     border-collapse: collapse;
-    margin: 18px 0 24px;
     font-size: 0.9375rem;
   }
 
@@ -266,6 +270,17 @@ const articleSchema = {
   .article-body :global(th) {
     font-weight: 600;
     background: var(--color-bg-alt);
+  }
+
+  @media (max-width: 480px) {
+    .article-body :global(table) {
+      font-size: 0.875rem;
+    }
+
+    .article-body :global(th),
+    .article-body :global(td) {
+      padding: 8px;
+    }
   }
 
   .article-body :global(blockquote) {
