@@ -34,7 +34,7 @@ const collectionSchema = {
   url: absUrl("/recursos/"),
   name: "Recursos — Lumo Cancún",
   description:
-    "Guías técnicas sobre fabricación digital: corte láser, impresión 3D y técnicas de impresión.",
+    "Guías técnicas de fabricación digital escritas desde el taller: cómo preparar un archivo para corte láser y cómo elegir entre impresión 3D FDM y resina.",
   publisher: { "@id": ORG_ID },
   hasPart: articles.map((a) => ({
     "@type": "Article",
@@ -48,7 +48,7 @@ const collectionSchema = {
 
 <Base
   title="Recursos — Guías de fabricación digital | Lumo Cancún"
-  description="Guías técnicas sobre fabricación digital en Cancún: cómo preparar archivos de corte láser, cuándo usar FDM vs resina, diferencias entre sublimación y vinil."
+  description="Guías de fabricación digital desde nuestro taller en Cancún: cómo preparar un archivo para corte láser y cuándo conviene FDM o resina en impresión 3D."
   canonical="/recursos"
   ogImage="/og/default.jpg"
   extraSchemas={[collectionSchema]}
