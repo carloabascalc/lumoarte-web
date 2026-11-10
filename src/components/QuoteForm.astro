@@ -25,6 +25,10 @@ const WA_NUMBER = SITE.whatsapp;
 // Announcement-only services (linkable: false) never appear in the form.
 const quoteServices = services.filter((s) => s.linkable !== false);
 
+// The client script only needs id → name. Serialising the full services
+// array leaked dead URLs (recuerdos, its PDFs, EMD routes) into every page.
+const serviceNames = services.map(({ id, name }) => ({ id, name }));
+
 // Services without an entry here skip the material/tipo selects —
 // only descripción + datos.
 const optionsByService: Partial<Record<ServiceId, { materiales: string[]; tipos: string[] }>> = {
@@ -581,7 +585,7 @@ const optionsByService: Partial<Record<ServiceId, { materiales: string[]; tipos:
   }
 </style>
 
-<script define:vars={{ WA_NUMBER, optionsByService, defaultService, servicesData: services }}>
+<script define:vars={{ WA_NUMBER, optionsByService, defaultService, servicesData: serviceNames }}>
   const form = document.getElementById("quoteForm");
   if (!form) {
     // Astro can hot-reload; bail safely.
