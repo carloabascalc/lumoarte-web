@@ -21,13 +21,13 @@ const {
 <section class={`service-hero service-hero--${service}`}>
   <div class="container service-hero-grid">
     <div class="service-hero-text">
-      <p class="service-hero-eyebrow" data-reveal>
+      <p class="service-hero-eyebrow enter">
         <span class="service-hero-dash" aria-hidden="true"></span>
         {eyebrow}
       </p>
-      <h1 class="service-hero-title" data-reveal data-reveal-delay="0.06" set:html={title}></h1>
-      <p class="service-hero-sub" data-reveal data-reveal-delay="0.12">{subtitle}</p>
-      <div class="service-hero-ctas" data-reveal data-reveal-delay="0.18">
+      <h1 class="service-hero-title enter" style="--enter-delay: 0.06s" set:html={title}></h1>
+      <p class="service-hero-sub enter" style="--enter-delay: 0.12s">{subtitle}</p>
+      <div class="service-hero-ctas enter" style="--enter-delay: 0.18s">
         <a href={primaryCta.href} class="btn btn-primary">{primaryCta.label}</a>
         {secondaryCta && (
           <a href={secondaryCta.href} class="service-hero-cta-secondary">
@@ -38,7 +38,7 @@ const {
       </div>
     </div>
 
-    <div class="service-hero-showcase" data-reveal data-reveal-delay="0.10">
+    <div class="service-hero-showcase enter" style="--enter-delay: 0.1s">
       <slot name="showcase" />
     </div>
   </div>

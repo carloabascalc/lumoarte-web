@@ -381,6 +381,19 @@ schemas.push(...extraSchemas);
     transform: translateY(28px);
   }
 
+  /* Entrada de los héroes (lo que se ve sin hacer scroll) solo con CSS: corre
+     desde el primer pintado, sin esperar al JS. Con data-reveal el H1 quedaba
+     oculto hasta que cargaba motion y en móvil lento Chrome no registraba LCP.
+     Uso: class="enter" style="--enter-delay: .06s". */
+  @media (prefers-reduced-motion: no-preference) {
+    .enter {
+      animation: lumo-enter 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--enter-delay, 0s) both;
+    }
+  }
+  @keyframes lumo-enter {
+    from { opacity: 0; transform: translateY(16px); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.001ms !important;

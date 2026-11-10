@@ -44,52 +44,6 @@ export function staggerChildren(selector: string, childSelector: string, startDe
   }, { margin: "0px 0px -10% 0px" });
 }
 
-export function heroIntro() {
-  if (prefersReduced) return;
-
-  const eyebrow = document.querySelector<HTMLElement>(".hero-eyebrow");
-  const titleLines = document.querySelectorAll<HTMLElement>(".hero-title-line");
-  const sub = document.querySelector<HTMLElement>(".hero-sub");
-  const cta = document.querySelector<HTMLElement>(".hero-ctas, .hero-cta");
-  const scrollHint = document.querySelector<HTMLElement>(".hero-scroll");
-
-  if (eyebrow) {
-    animate(
-      eyebrow,
-      { opacity: [0, 1], transform: ["translateY(12px)", "translateY(0px)"] },
-      { duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] },
-    );
-  }
-
-  if (titleLines.length) {
-    animate(
-      titleLines,
-      { opacity: [0, 1], transform: ["translateY(110%)", "translateY(0%)"] },
-      { duration: 0.9, delay: stagger(0.09, { startDelay: 0.25 }), ease: [0.22, 1, 0.36, 1] },
-    );
-  }
-
-  if (sub) {
-    animate(
-      sub,
-      { opacity: [0, 1], transform: ["translateY(16px)", "translateY(0px)"] },
-      { duration: 0.8, delay: 0.65, ease: [0.22, 1, 0.36, 1] },
-    );
-  }
-
-  if (cta) {
-    animate(
-      cta,
-      { opacity: [0, 1], transform: ["translateY(12px) scale(0.96)", "translateY(0px) scale(1)"] },
-      { ...spring, delay: 0.8 },
-    );
-  }
-
-  if (scrollHint) {
-    animate(scrollHint, { opacity: [0, 1] }, { duration: 0.6, delay: 1.2 });
-  }
-}
-
 export function heroParallax() {
   if (prefersReduced) return;
   const bg = document.querySelector<HTMLElement>(".hero-bg");
@@ -290,7 +244,6 @@ function heroMarqueePause() {
 
 export function initAll() {
   pageTransitions();
-  heroIntro();
   heroParallax();
   heroMarqueePause();
   revealOnScroll();
