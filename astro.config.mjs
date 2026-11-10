@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import { lastModified } from './src/lib/lastmod.mjs';
 
 // https://astro.build/config
 export default defineConfig({
@@ -27,6 +28,9 @@ export default defineConfig({
         } else {
           item.priority = 0.3;
         }
+        // Fecha real de la última edición (git), nunca la hora del build.
+        const lastmod = lastModified(item.url);
+        if (lastmod) item.lastmod = lastmod;
         return item;
       },
     }),

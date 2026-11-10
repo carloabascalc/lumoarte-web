@@ -5,6 +5,7 @@ import { SITE, services, absUrl, ORG_ID, FOUNDER_ID, CATALOG_ID } from "../data/
 import { segments } from "../data/segments";
 import { products } from "../data/products";
 import PageTransition from "../components/PageTransition.astro";
+import { lastModified } from "../lib/lastmod.mjs";
 
 interface Props {
   title?: string;
@@ -205,7 +206,32 @@ else if (schemaType === "Service" && schemaData) {
     ...schemaData,
   });
 }
-schemas.push(...extraSchemas);
+
+// Freshness: real last-edit date from git (src/lib/lastmod.mjs), never the
+// build time. If the page already ships its own page node (CollectionPage,
+// AboutPage, Article) the date goes there; otherwise a WebPage carries it.
+const PAGE_TYPES = ["WebPage", "CollectionPage", "AboutPage", "Article"];
+const dateModified = canonicalURL && !noindex ? lastModified(Astro.url.pathname) : undefined;
+const pageNodeIndex = extraSchemas.findIndex((s) => PAGE_TYPES.includes(String(s["@type"])));
+schemas.push(
+  ...extraSchemas.map((s, i) =>
+    i === pageNodeIndex && dateModified && !s.dateModified ? { ...s, dateModified } : s,
+  ),
+);
+if (dateModified && pageNodeIndex === -1) {
+  const serviceId = schemaType === "Service" ? schemaData?.["@id"] : undefined;
+  schemas.push({
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${canonicalURL}#webpage`,
+    url: canonicalURL,
+    name: title,
+    inLanguage: "es-MX",
+    isPartOf: { "@id": websiteSchema["@id"] },
+    ...(serviceId ? { about: { "@id": serviceId } } : {}),
+    dateModified,
+  });
+}
 ---
 
 <!doctype html>
