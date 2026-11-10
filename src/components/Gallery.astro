@@ -177,6 +177,10 @@ const isEmpty = images.length === 0;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     padding: 0 24px;
+    /* Same as the padding, so the first snap point is scrollLeft 0. Without it
+       the browser scrolled the strip 24px on load, and that automatic scroll
+       made Chrome stop measuring LCP on the home page. */
+    scroll-padding-inline: 24px;
     cursor: grab;
     scrollbar-width: none;
     -ms-overflow-style: none;
