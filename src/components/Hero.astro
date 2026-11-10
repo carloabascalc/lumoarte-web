@@ -594,6 +594,11 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
         return;
       }
 
+      // The HTML already holds the final value: freeze its width so the
+      // count-up never rewraps the proof line and shoves the marquee (CLS).
+      el.style.minWidth = `${el.getBoundingClientRect().width}px`;
+      el.style.textAlign = 'right';
+
       const duration = Math.max(600, Math.min(1800, target * 6));
       const start = performance.now();
       function tick(now: number) {
