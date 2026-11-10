@@ -10,7 +10,7 @@ import TresDAssembly from "../../components/TresDAssembly.astro";
 import TresDMachines from "../../components/TresDMachines.astro";
 import Gallery from "../../components/Gallery.astro";
 import FAQ from "../../components/FAQ.astro";
-import CrossServices from "../../components/CrossServices.astro";
+import ServiceLinks from "../../components/ServiceLinks.astro";
 import QuoteForm from "../../components/QuoteForm.astro";
 import Contact from "../../components/Contact.astro";
 import Footer from "../../components/Footer.astro";
@@ -129,6 +129,12 @@ const faqs = [
 
     <TresDAssembly />
 
+    <Gallery
+      filterService="impresion-3d"
+      title="Trabajos de impresión 3D"
+      subtitle="Producción por lote salida de nuestras Bambu Lab: llaveros, figuras, trofeos y piezas en serie."
+    />
+
     <section class="tech section" id="tecnologias">
       <div class="container">
         <div class="section-header">
@@ -165,23 +171,17 @@ const faqs = [
       </div>
     </section>
 
-    <TresDMachines />
-
     <PricingFormula serviceId="impresion-3d" />
 
-    <Gallery
-      filterService="impresion-3d"
-      title="Trabajos de impresión 3D"
-      subtitle="Producción por lote salida de nuestras Bambu Lab: llaveros, figuras, trofeos y piezas en serie."
-    />
-
-    <CrossServices excludeId="impresion-3d" />
+    <TresDMachines />
 
     <FAQ
       title="Preguntas frecuentes sobre impresión 3D"
       subtitle="Las dudas que nos hacen más seguido. Si la tuya no aparece, mándanos un WhatsApp."
       items={faqs}
     />
+
+    <ServiceLinks excludeId="impresion-3d" />
 
     <QuoteForm defaultService="impresion-3d" />
   </main>
