@@ -185,7 +185,7 @@ export const segments: Segment[] = [
     images: ['evento-cajas.jpg', 'gal-35.jpg', 'evento-cajas-corazon.jpg'],
     cardImage: 'evento-cajas.jpg',
     productos: [
-      { name: 'Recuerdos para invitados', desc: 'Llaveros, dijes y piezas grabadas con nombres o fecha.' },
+      { name: 'Recuerdos para invitados', desc: 'Llaveros personalizados, dijes y piezas grabadas con nombres o fecha.', href: '/productos/llaveros-con-logo/' },
       { name: 'Cajas y dulceros', desc: 'Cajas de MDF y acrílico para regalos y mesas de dulces.' },
       { name: 'Números de mesa y señalética', desc: 'Del mismo diseño para todo el evento.', href: '/productos/placas-y-senaletica/' },
       { name: 'Piezas con nombre', desc: 'Paletas, gafetes y lugares de mesa personalizados por invitado.' },

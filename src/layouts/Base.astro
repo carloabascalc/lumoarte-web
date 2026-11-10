@@ -379,7 +379,6 @@ schemas.push(...extraSchemas);
   html.js .film-item {
     opacity: 0;
     transform: translateY(28px);
-    will-change: opacity, transform;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -398,13 +397,23 @@ schemas.push(...extraSchemas);
   body {
     font-family: var(--font-body);
     color: var(--color-text);
-    background:
-      radial-gradient(ellipse 60vw 80vh at 100% 0%, rgba(200, 122, 42, 0.06), transparent 60%),
-      radial-gradient(ellipse 50vw 60vh at 0% 70%, rgba(165, 58, 4, 0.045), transparent 60%),
-      var(--color-bg);
-    background-attachment: fixed;
+    background: var(--color-bg);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* El resplandor de fondo va en una capa fija propia: con
+     background-attachment: fixed el navegador repinta toda la página en cada
+     cuadro de scroll. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 60vw 80vh at 100% 0%, rgba(200, 122, 42, 0.06), transparent 60%),
+      radial-gradient(ellipse 50vw 60vh at 0% 70%, rgba(165, 58, 4, 0.045), transparent 60%);
   }
 
   /* Per-page accent overrides — service pages route their identity through cascading tokens */
@@ -448,16 +457,17 @@ schemas.push(...extraSchemas);
   .page-end::before {
     content: "";
     position: absolute;
-    inset: 0;
+    inset: -6%;
     background: radial-gradient(
-      ellipse 70% 45%
-        at calc(82% + var(--glow-shift-x, 0%)) calc(15% + var(--glow-shift-y, 0%)),
+      ellipse 70% 45% at 80% 19%,
       rgba(200, 122, 42, 0.22),
       transparent 65%
     );
     pointer-events: none;
     z-index: 0;
-    transition: background 0.5s linear;
+    /* El resplandor se desplaza con transform (lo mueve la GPU) en vez de
+       repintar el degradado en cada cuadro. */
+    transform: translate3d(var(--glow-shift-x, 0%), var(--glow-shift-y, 0%), 0);
   }
 
   img {

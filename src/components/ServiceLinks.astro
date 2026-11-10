@@ -1,0 +1,112 @@
+---
+// Cierre compacto de una página de servicio: a dónde seguir según el negocio,
+// el producto o la otra técnica. Sustituye a varias secciones largas que
+// repetían lo mismo antes del formulario.
+import { segments } from "../data/segments";
+import { products } from "../data/products";
+import { services, getServiceUrl, isExternalService, type ServiceId } from "../data/services";
+
+interface Props {
+  excludeId: ServiceId;
+  /** Guía de /recursos/ relacionada con el servicio. */
+  guide?: { href: string; label: string };
+}
+
+const { excludeId, guide } = Astro.props;
+const others = services.filter((s) => s.id !== excludeId && s.linkable !== false);
+---
+
+<section class="svc-links" aria-labelledby="svc-links-title">
+  <div class="container">
+    <h2 class="svc-links-title" id="svc-links-title">Encuentra lo tuyo más rápido</h2>
+    <div class="svc-links-grid">
+      <div class="svc-links-group">
+        <h3>Por tipo de negocio</h3>
+        <ul role="list">
+          {segments.map((s) => <li><a href={s.slug}>{s.name}</a></li>)}
+        </ul>
+      </div>
+      <div class="svc-links-group">
+        <h3>Por producto</h3>
+        <ul role="list">
+          {products.map((p) => <li><a href={p.slug}>{p.name}</a></li>)}
+        </ul>
+      </div>
+      <div class="svc-links-group">
+        <h3>También hacemos</h3>
+        <ul role="list">
+          {others.map((s) => (
+            <li>
+              <a href={getServiceUrl(s)} {...(isExternalService(s) ? { target: "_blank", rel: "noopener" } : {})}>{s.name}</a>
+            </li>
+          ))}
+          {guide && <li><a href={guide.href}>{guide.label}</a></li>}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .svc-links {
+    padding: 72px 0;
+    background: var(--color-bg-alt);
+  }
+
+  .svc-links-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: 32px;
+  }
+
+  .svc-links-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  .svc-links-group h3 {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 12px;
+  }
+
+  .svc-links-group ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .svc-links-group a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 8px 16px;
+    border: 1px solid var(--color-surface);
+    border-radius: 999px;
+    background: var(--color-bg);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .svc-links-group a:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 860px) {
+    .svc-links {
+      padding: 56px 0;
+    }
+
+    .svc-links-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+</style>

@@ -40,7 +40,10 @@ const fmt = (n: number) =>
       </p>
     </div>
 
-    <div class="pt-tables" data-reveal data-reveal-delay="0.06">
+    <details class="fold">
+      <summary>Ver la lista completa ({allPrices.length} materiales)</summary>
+      <div class="fold-body">
+    <div class="pt-tables">
       {groups.map((g) => (
         <table class="pt-table" role="table">
           <caption class="pt-cat">{g.category}</caption>
@@ -66,7 +69,9 @@ const fmt = (n: number) =>
       ))}
     </div>
 
-    <p class="pt-note" data-reveal>{note}</p>
+    <p class="pt-note">{note}</p>
+      </div>
+    </details>
   </div>
 </section>
 
@@ -87,6 +92,47 @@ const fmt = (n: number) =>
   .section-subtitle strong {
     color: var(--color-text);
     font-weight: 600;
+  }
+
+
+  /* Detalle plegado: el dato sigue en el HTML, pero no alarga la página. */
+  .fold > summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 12px 20px;
+    border: 1.5px solid var(--color-surface);
+    border-radius: 8px;
+    background: var(--color-bg);
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .fold > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .fold > summary::after {
+    content: "+";
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--color-accent);
+  }
+
+  .fold[open] > summary::after {
+    content: "–";
+  }
+
+  .fold > summary:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .fold-body {
+    margin-top: 24px;
   }
 
   .pt-tables {

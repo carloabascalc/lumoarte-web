@@ -139,13 +139,35 @@ function ambientDrift(selector: string, intensityX = 6, intensityY = 4) {
       const rect = section.getBoundingClientRect();
       const vh = window.innerHeight;
       const progress = Math.max(-1, Math.min(1, (rect.top + rect.height / 2 - vh / 2) / vh));
-      section.style.setProperty("--glow-shift-x", `${progress * intensityX}%`);
-      section.style.setProperty("--glow-shift-y", `${progress * intensityY}%`);
+      section.style.setProperty("--glow-shift-x", `${(progress * intensityX).toFixed(2)}%`);
+      section.style.setProperty("--glow-shift-y", `${(progress * intensityY).toFixed(2)}%`);
       raf = 0;
     });
   };
-  onScroll();
-  window.addEventListener("scroll", onScroll, { passive: true });
+
+  // Solo escucha el scroll mientras la sección está a la vista, y suelta todo
+  // al cambiar de página para que las escuchas no se acumulen.
+  const ctrl = new AbortController();
+  let listening = false;
+  const io = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting && !listening) {
+      listening = true;
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true, signal: ctrl.signal });
+    } else if (!entry.isIntersecting && listening) {
+      listening = false;
+      window.removeEventListener("scroll", onScroll);
+    }
+  });
+  io.observe(section);
+  document.addEventListener(
+    "astro:before-swap",
+    () => {
+      io.disconnect();
+      ctrl.abort();
+    },
+    { once: true },
+  );
 }
 
 export function materialsAmbient() {
@@ -252,10 +274,25 @@ export function pageTransitions() {
   });
 }
 
+// La cinta de fotos del hero solo corre mientras el hero está a la vista.
+function heroMarqueePause() {
+  const hero = document.querySelector<HTMLElement>(".hero");
+  const tracks = document.querySelectorAll<HTMLElement>(".marquee-track");
+  if (!hero || !tracks.length) return;
+  const io = new IntersectionObserver(([entry]) => {
+    tracks.forEach((t) => {
+      t.style.animationPlayState = entry.isIntersecting ? "running" : "paused";
+    });
+  });
+  io.observe(hero);
+  document.addEventListener("astro:before-swap", () => io.disconnect(), { once: true });
+}
+
 export function initAll() {
   pageTransitions();
   heroIntro();
   heroParallax();
+  heroMarqueePause();
   revealOnScroll();
   staggerChildren(".materials-grid", ".material-card", 0.05);
   galleryReveal();

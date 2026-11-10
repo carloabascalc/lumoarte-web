@@ -55,9 +55,12 @@ const showPriceList = !!(hasPriceList && preciosPdf);
     </div>
 
     <!-- Detalle -->
+    <details class="fold pf-fold">
+      <summary>Ver el desglose de cada concepto</summary>
+      <div class="fold-body">
     <div class="pf-grid">
-      {componentes.map((c, i) => (
-        <div class="pf-card" data-reveal data-reveal-delay={`${0.04 + i * 0.05}`}>
+      {componentes.map((c) => (
+        <div class="pf-card">
           <h4 class="pf-card-name">{c.name}</h4>
           <ul class="pf-card-list" role="list">
             {c.points.map((p) => <li>{p}</li>)}
@@ -68,11 +71,13 @@ const showPriceList = !!(hasPriceList && preciosPdf);
 
     <!-- Tarifas (solo cuando hay cifras reales) -->
     {tarifas && (
-      <div class="pf-tarifas" data-reveal data-reveal-delay="0.1">
+      <div class="pf-tarifas">
         <span class="pf-tarifas-label">Tarifas</span>
         <p class="pf-tarifas-body" set:html={tarifas} />
       </div>
     )}
+      </div>
+    </details>
 
     <div class="pf-actions" data-reveal data-reveal-delay="0.12">
       {showPriceList ? (
@@ -211,6 +216,51 @@ const showPriceList = !!(hasPriceList && preciosPdf);
   }
 
   /* ── Detalle ── */
+
+  /* Detalle plegado: el dato sigue en el HTML, pero no alarga la página. */
+  .fold > summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 12px 20px;
+    border: 1.5px solid var(--color-surface);
+    border-radius: 8px;
+    background: var(--color-bg);
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .fold > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .fold > summary::after {
+    content: "+";
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--color-accent);
+  }
+
+  .fold[open] > summary::after {
+    content: "–";
+  }
+
+  .fold > summary:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .fold-body {
+    margin-top: 24px;
+  }
+
+  .pf-fold {
+    margin-bottom: 32px;
+  }
+
   .pf-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

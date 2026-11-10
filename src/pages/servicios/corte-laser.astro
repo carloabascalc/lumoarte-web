@@ -10,9 +10,8 @@ import LaserShowcase from "../../components/LaserShowcase.astro";
 import LaserAssembly from "../../components/LaserAssembly.astro";
 import Materials from "../../components/Materials.astro";
 import Gallery from "../../components/Gallery.astro";
+import ServiceLinks from "../../components/ServiceLinks.astro";
 import FAQ from "../../components/FAQ.astro";
-import CrossServices from "../../components/CrossServices.astro";
-import InstagramCTA from "../../components/InstagramCTA.astro";
 import QuoteForm from "../../components/QuoteForm.astro";
 import Contact from "../../components/Contact.astro";
 import Footer from "../../components/Footer.astro";
@@ -21,39 +20,6 @@ import { getService, absUrl } from "../../data/services";
 
 const service = getService("corte-laser");
 
-
-const sectores = [
-  {
-    label: "Hoteles y restaurantes",
-    description:
-      "Posavasos, menús, llaveros de habitación, señalética y amenidades grabadas con tu marca — en lotes y con reposición.",
-  },
-  {
-    label: "Marcas y corporativos",
-    description:
-      "Regalos corporativos, placas, reconocimientos, kits de bienvenida y displays con el logo de tu empresa, por cientos.",
-  },
-  {
-    label: "Tiendas de souvenirs y mayoreo",
-    description:
-      "Llaveros, imanes y recuerdos de Cancún fabricados por lote para tiendas, hoteles y revendedores.",
-  },
-  {
-    label: "Eventos y bodas",
-    description:
-      "Números de mesa, recuerdos, señalética y decoración para eventos de cientos de invitados, iguales pieza a pieza.",
-  },
-  {
-    label: "Retail y señalética",
-    description:
-      "Señalética interior, displays, exhibidores y lettering volumétrico para sucursales y puntos de venta.",
-  },
-  {
-    label: "Líneas de producto",
-    description:
-      "Si vendes un producto cortado o grabado, lo fabricamos para ti en serie — cajas, empaques, kits y piezas de línea.",
-  },
-];
 
 const serviceSchema = {
   "@id": `${absUrl(service.slug)}#service`,
@@ -119,6 +85,16 @@ const faqs = [
     answer:
       'Cobramos por lo que realmente lleva tu pieza: el material que usa y el tiempo que tarda la máquina, más manejo e IVA. Sin precios inflados, y en volumen el costo por pieza baja. Puedes ver el desglose completo en la sección "¿Cómo calculamos tu precio?" y descargar la guía paso a paso en PDF: <a href="https://lumocancun.com/como-cotizamos-corte-laser.pdf" target="_blank" rel="noopener noreferrer">¿Cómo te cobramos? (PDF)</a>.',
   },
+  {
+    question: "¿Para qué tipo de negocios cortan y graban en serie?",
+    answer:
+      "Para negocios que necesitan la misma pieza muchas veces y que vuelven a pedirla. Hoteles y restaurantes: posavasos, menús, llaveros de habitación, señalética y amenidades grabadas con su marca, en lotes y con reposición. Marcas y corporativos: regalos corporativos, placas, reconocimientos, kits de bienvenida y displays con el logo de la empresa, por cientos. Tiendas de souvenirs y mayoreo: llaveros, imanes y recuerdos de Cancún por lote para tiendas, hoteles y revendedores. Eventos y bodas: números de mesa, recuerdos, señalética y decoración para eventos de cientos de invitados, iguales pieza a pieza. Retail y señalética: señalética interior, displays, exhibidores y lettering volumétrico para sucursales y puntos de venta. Líneas de producto: si vendes un producto cortado o grabado, lo fabricamos en serie, como cajas, empaques, kits y piezas de línea.",
+  },
+  {
+    question: "¿Pueden combinar corte láser e impresión 3D en un mismo pedido?",
+    answer:
+      "Sí. Muchos pedidos combinan las dos técnicas: un llavero de acrílico con una pieza impresa, o un display con partes cortadas y partes impresas. Cotizamos todo el lote en una sola conversación.",
+  },
 ];
 
 ---
@@ -158,63 +134,26 @@ const faqs = [
 
     <Materials />
 
-    <PricingFormula serviceId="corte-laser" preciosPdf={service.preciosPdf} />
-
-    <PriceTable serviceId="corte-laser" />
-
-
-    <section class="sectores section">
-      <div class="container">
-        <div class="section-header">
-          <p class="sectores-eyebrow" data-reveal>Para quién trabajamos</p>
-          <h2 class="section-title" data-reveal data-reveal-delay="0.06">
-            Negocios que producen con nosotros
-          </h2>
-          <p class="section-subtitle" data-reveal data-reveal-delay="0.12">
-            Fabricamos en serie para negocios que necesitan la misma pieza
-            muchas veces — y que vuelven a pedirla.
-          </p>
-        </div>
-        <ul class="sectores-grid" role="list">
-          {sectores.map((s, i) => (
-            <li class="sector-card" data-reveal data-reveal-delay={`${0.04 + i * 0.04}`}>
-              <h3 class="sector-name">{s.label}</h3>
-              <p class="sector-description">{s.description}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-
     <Gallery
       filterService="corte-laser"
       title="Trabajos de corte láser"
       subtitle="Una selección del taller — productos terminados, lifestyle y trabajos a escala industrial."
     />
 
-    <InstagramCTA />
+    <PricingFormula serviceId="corte-laser" preciosPdf={service.preciosPdf} />
 
-    <CrossServices excludeId="corte-laser" />
-
-    <section class="recurso-relacionado">
-      <div class="container">
-        <p class="rr-eyebrow">Lectura recomendada</p>
-        <a class="rr-card" href="/recursos/preparar-archivo-corte-laser/">
-          <div class="rr-text">
-            <p class="rr-topic">Corte láser</p>
-            <h3 class="rr-title">Cómo preparar un archivo para corte láser</h3>
-            <p class="rr-excerpt">Formatos aceptados, regla de trazos vs rellenos, escala real, capas y los cinco errores más comunes.</p>
-          </div>
-          <span class="rr-arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </section>
+    <PriceTable serviceId="corte-laser" />
 
     <FAQ
       title="Preguntas frecuentes sobre corte láser"
       subtitle="Las dudas que nos hacen más seguido. Si la tuya no aparece, mándanos un WhatsApp."
       items={faqs}
       downloadCta={{ href: "/como-cotizamos-corte-laser.pdf", label: "¿Cómo te cobramos? (PDF)" }}
+    />
+
+    <ServiceLinks
+      excludeId="corte-laser"
+      guide={{ href: "/recursos/preparar-archivo-corte-laser/", label: "Guía: cómo preparar tu archivo" }}
     />
 
     <QuoteForm defaultService="corte-laser" />
@@ -226,149 +165,3 @@ const faqs = [
   <WhatsAppButton />
 </Base>
 
-<style>
-  .sectores {
-    background: var(--color-bg-alt);
-  }
-
-  .sectores-eyebrow {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-    margin-bottom: 16px;
-  }
-
-  .sectores-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    list-style: none;
-    background: var(--color-surface);
-    border: 1px solid var(--color-surface);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  @media (max-width: 880px) {
-    .sectores-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 560px) {
-    .sectores-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .sector-card {
-    background: var(--color-bg);
-    padding: 36px 32px;
-    transition: background 0.25s ease;
-  }
-
-  .sector-card:hover {
-    background: #fff;
-  }
-
-  .sector-name {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: 12px;
-  }
-
-  .sector-description {
-    color: var(--color-muted);
-    font-size: 0.9375rem;
-    line-height: 1.65;
-  }
-
-  @media (max-width: 768px) {
-    .sector-card {
-      padding: 28px 24px;
-    }
-  }
-
-  /* ── Recurso relacionado ── */
-  .recurso-relacionado {
-    padding: 48px 0;
-    background: var(--color-bg-alt);
-    border-top: 1px solid var(--color-surface);
-  }
-
-  .rr-eyebrow {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-muted);
-    margin-bottom: 14px;
-  }
-
-  .rr-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    background: var(--color-bg);
-    border: 1px solid var(--color-surface);
-    border-radius: 8px;
-    padding: 28px 32px;
-    transition: border-color 0.2s ease, background 0.2s ease;
-    color: inherit;
-  }
-
-  .rr-card:hover {
-    border-color: var(--color-accent);
-    background: #fff;
-  }
-
-  .rr-card:hover .rr-arrow {
-    transform: translateX(4px);
-  }
-
-  .rr-topic {
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-    margin-bottom: 8px;
-  }
-
-  .rr-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.125rem, 2vw, 1.5rem);
-    font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: 10px;
-    line-height: 1.25;
-  }
-
-  .rr-excerpt {
-    color: var(--color-muted);
-    font-size: 0.9375rem;
-    line-height: 1.6;
-    max-width: 640px;
-  }
-
-  .rr-arrow {
-    font-size: 1.5rem;
-    color: var(--color-accent);
-    flex-shrink: 0;
-    transition: transform 0.2s ease;
-  }
-
-  @media (max-width: 640px) {
-    .rr-card {
-      padding: 22px 20px;
-    }
-    .rr-arrow {
-      display: none;
-    }
-  }
-</style>
