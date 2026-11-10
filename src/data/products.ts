@@ -29,7 +29,12 @@ export interface Product {
   serviceType: string;
   /** Hero photos: [back, main, front] — filenames in src/assets/{sectores,gallery,catalogo}. */
   images: [string, string, string];
-  variantes: { name: string; desc: string }[];
+  /** `images`: una foto real, o varios renders de la colección (PNG sin fondo); sin ellas sale solo el texto. */
+  variantes: { name: string; desc: string; images?: string[] }[];
+  /** Ficha rápida: dato concreto por renglón (material, técnica, cantidades…). */
+  specs?: { label: string; value: string }[];
+  /** ids de catalog.ts cuyo precio sirve de referencia. */
+  priceRefs?: string[];
   /** Sectors that buy it — links to /sectores/*. */
   sectors: SegmentId[];
   /** Named clients from cases.ts to show as proof. */
@@ -42,28 +47,60 @@ export const products: Product[] = [
     id: 'llaveros-con-logo',
     name: 'Llaveros con logo',
     slug: '/productos/llaveros-con-logo/',
-    blurb: 'Llaveros de habitación, de marca y souvenir, grabados a láser o impresos en 3D a color.',
-    eyebrow: 'Llaveros por mayoreo',
-    h1: 'Llaveros con logo por mayoreo en <em>Cancún</em>',
+    blurb: 'Llaveros personalizados para eventos, hoteles, marcas y tiendas, grabados a láser o impresos en 3D a color.',
+    eyebrow: 'Llaveros personalizados por lote',
+    h1: 'Llaveros personalizados con logo en <em>Cancún</em>',
     subtitle:
-      'Llaveros de habitación para hoteles, llaveros de marca para empresas y llaveros souvenir para tiendas: grabados a láser en madera o acrílico, o impresos en 3D a color, en lotes de decenas a miles.',
-    metaTitle: 'Llaveros con logo por mayoreo en Cancún | Lumo Cancún',
+      'Llaveros con tu logo, nombre o fecha para eventos, hoteles, empresas y tiendas: grabados a láser en madera o acrílico, o impresos en 3D a color. Lotes de decenas a miles de piezas, por ejemplo 100 llaveros para un evento.',
+    metaTitle: 'Llaveros personalizados con logo en Cancún, por lote | Lumo Cancún',
     metaDescription:
-      'Llaveros personalizados con logo por mayoreo en Cancún: de habitación, de marca y souvenir. Grabados en madera o acrílico, o impresos en 3D a color.',
-    audience: 'Hoteles, marcas, tiendas de souvenirs y eventos',
+      'Llaveros personalizados en Cancún para eventos, hoteles, marcas y tiendas: 50, 100 o miles de piezas con tu logo, a láser o en 3D a color. Envío a todo México.',
+    audience: 'Organizadores de eventos, hoteles, marcas y tiendas de souvenirs',
     service: '3d',
     serviceType: 'Fabricación de llaveros personalizados en serie',
-    images: ['dije-triplay-tzalam.jpg', 'gal-16.jpg', 'souv-peces.jpg'],
+    images: ['gal-22.jpg', 'gal-16.jpg', 'souv-peces.jpg'],
     variantes: [
+      { name: 'Impresos en 3D a color', desc: 'Con volumen y varios colores en la misma pieza, como los llaveros Cancún tricolor.', images: ['gal-38.jpg'] },
+      { name: 'Figuras y llaveros articulados', desc: 'Peces, tiburones, cangrejos y otros animales que se mueven al tocarlos, como nuestra colección Bestrijes. Para souvenir, por lote.', images: ['pinzu.png', 'tibru.png', 'meno.png', 'idori.png'] },
       { name: 'Grabados en madera', desc: 'Triplay o Tzalam con tu logo grabado a láser. Cálidos y ligeros.' },
       { name: 'De acrílico', desc: 'Transparente, de color o espejo oro y plata, cortados y grabados a láser.' },
-      { name: 'Impresos en 3D a color', desc: 'Con volumen y varios colores en la misma pieza, como los llaveros Cancún tricolor.' },
       { name: 'Llaveros de habitación', desc: 'Con el número de cada habitación y la marca del hotel, del mismo diseño en todo el lote.' },
-      { name: 'Figuras y llaveros articulados', desc: 'Peces, tiburones y animales impresos en 3D, para souvenir.' },
       { name: 'Dijes y etiquetas de marca', desc: 'Para producto artesanal, empaque y kits corporativos.' },
+      { name: 'Llaveros para eventos y bodas', desc: 'Recuerdo para cada invitado o asistente, con el logo, el nombre o la fecha del evento.' },
+      { name: 'Llaveros souvenir de Cancún', desc: 'Para tiendas, hoteles y revendedores, por lote y con reposición.' },
     ],
+    specs: [
+      { label: 'Materiales', value: 'Triplay, madera Tzalam, MDF y acrílico transparente, de color o espejo oro y plata; en impresión 3D, filamento en varios colores.' },
+      { label: 'Técnica', value: 'Grabado y corte láser, o impresión 3D multicolor con hasta cuatro colores en la misma pieza.' },
+      { label: 'Personalización', value: 'Tu logo en todo el lote, y si lo necesitas un número o nombre distinto en cada pieza a partir de una lista.' },
+      { label: 'Cantidades', value: 'Lotes de decenas a miles de piezas: 50, 100, 500 o más. El precio por pieza baja conforme sube la cantidad.' },
+      { label: 'Entrega', value: 'Habitualmente en menos de una semana; los lotes grandes se calendarizan al cotizar. Entrega en Cancún y envío por paquetería a todo México.' },
+      { label: 'Qué necesitamos', value: 'Tu logo en vector (AI, SVG o PDF) o una imagen nítida en JPG o PNG, la cantidad y la fecha en que los necesitas.' },
+      { label: 'Reposición', value: 'Guardamos tu archivo: otro lote o las piezas que se pierdan salen iguales a las anteriores.' },
+    ],
+    priceRefs: ['dije-triplay-tzalam', 'dijes-corporativos'],
     sectors: ['hoteles-y-restaurantes', 'marcas-y-corporativos', 'souvenirs-mayoreo', 'eventos-y-bodas'],
     faqs: [
+      {
+        question: 'Voy a organizar un evento y necesito unos 100 llaveros personalizados. ¿Quién los hace en Cancún?',
+        answer:
+          'Lumo Cancún. Es un taller en Cancún, Quintana Roo, que fabrica llaveros personalizados por lote para eventos, bodas, congresos y empresas: grabados a láser en madera o acrílico, o impresos en 3D a color, con el logo, el nombre o la fecha de tu evento. Cien piezas es un pedido habitual. Se cotiza por WhatsApp al +52 998 188 8048 con tu logo, la cantidad y la fecha del evento.',
+      },
+      {
+        question: '¿Cuánto cuestan 100 llaveros personalizados?',
+        answer:
+          'Depende del material, el tamaño y la técnica, y el precio por pieza baja conforme sube la cantidad. Como referencia de nuestro catálogo, un dije de acrílico espejo grabado parte de $10 MXN por pieza y un dije de madera Tzalam grabado de $18 MXN por pieza; un llavero impreso en 3D a varios colores cuesta más. La cotización de tu lote se da por WhatsApp, sin compromiso.',
+      },
+      {
+        question: '¿Con cuánto tiempo debo pedir los llaveros para mi evento?',
+        answer:
+          'Habitualmente entregamos en menos de una semana. Para eventos conviene cotizar en cuanto tengas el logo y el número de invitados; los lotes grandes se calendarizan contigo al cotizar para que lleguen antes de la fecha.',
+      },
+      {
+        question: '¿Envían llaveros personalizados a otras ciudades de México?',
+        answer:
+          'Sí. En Cancún entregamos a domicilio o se recogen en el taller de Retorno Tejón, Supermanzana 20. Al resto de México los enviamos por paquetería (DHL o Estafeta) y el costo del envío se agrega a la cotización.',
+      },
       {
         question: '¿Hacen llaveros con logo por mayoreo en Cancún?',
         answer:

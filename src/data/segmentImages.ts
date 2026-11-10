@@ -16,6 +16,19 @@ const sectores = import.meta.glob<{ default: ImageMetadata }>(
   { eager: true },
 );
 
+// Renders de la colección Bestrijes (fondo transparente).
+const bestrijes = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/tienda/*.png",
+  { eager: true },
+);
+
+const bestrijeAlts: Record<string, string> = {
+  "pinzu.png": "PINZU, cangrejo articulado rojo de la colección Bestrijes de Lumo Cancún",
+  "tibru.png": "TIBRU, tiburón articulado gris de la colección Bestrijes de Lumo Cancún",
+  "meno.png": "MENO, pez payaso articulado naranja de la colección Bestrijes de Lumo Cancún",
+  "idori.png": "IDORI, pez cirujano articulado azul de la colección Bestrijes de Lumo Cancún",
+};
+
 // Photos shot for the sector pages (src/assets/sectores), from the LUMO album.
 const sectorAlts: Record<string, string> = {
   "hotel-cuadros.jpg": "Lote de cuadros enmarcados producidos para hotelería, apilados en el taller",
@@ -36,7 +49,8 @@ export function segmentImage(file: string): ImageMetadata {
   const mod =
     sectores[`../assets/sectores/${file}`] ??
     gallery[`../assets/gallery/${file}`] ??
-    catalogo[`../assets/catalogo/${file}`];
+    catalogo[`../assets/catalogo/${file}`] ??
+    bestrijes[`../assets/tienda/${file}`];
   if (!mod) throw new Error(`Falta imagen de sector: ${file}`);
   return mod.default;
 }
@@ -44,6 +58,7 @@ export function segmentImage(file: string): ImageMetadata {
 /** Descriptive alt for a sector, gallery or catalog photo. */
 export function segmentAlt(file: string): string {
   if (sectorAlts[file]) return sectorAlts[file];
+  if (bestrijeAlts[file]) return bestrijeAlts[file];
   if (altByFile[file]) return altByFile[file];
   const id = file.replace(/\.jpg$/, "");
   return CATALOG.find((p) => p.id === id)?.name ?? "";

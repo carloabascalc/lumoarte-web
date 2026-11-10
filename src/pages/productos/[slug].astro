@@ -16,7 +16,8 @@ import WhatsAppButton from "../../components/WhatsAppButton.astro";
 import { products, type Product } from "../../data/products";
 import { SITE, absUrl, ORG_ID } from "../../data/services";
 import { segmentImage, segmentAlt } from "../../data/segmentImages";
-import { getImage } from "astro:assets";
+import { getImage, Image } from "astro:assets";
+import { CATALOG } from "../../data/catalog";
 
 export function getStaticPaths() {
   return products.map((product) => ({
@@ -37,6 +38,25 @@ const faqs = [
 ];
 
 const others = products.filter((p) => p.id !== product.id);
+
+const withPhoto = product.variantes.filter((v) => v.images?.length);
+const textOnly = product.variantes.filter((v) => !v.images?.length);
+
+const mxn = (n: number) => `$${n.toLocaleString("es-MX")}`;
+const priceRefs = (product.priceRefs ?? [])
+  .map((id) => CATALOG.find((c) => c.id === id))
+  .filter((c) => c !== undefined);
+const specs = [
+  ...(product.specs ?? []),
+  ...(priceRefs.length
+    ? [
+        {
+          label: "Precio de referencia",
+          value: `${priceRefs.map((c) => `${c.name}: ${c.from ? "desde " : ""}${mxn(c.price)} MXN ${c.unit ?? ""}`.trim()).join(". ")}. Cada lote se cotiza según pieza, material y cantidad.`,
+        },
+      ]
+    : []),
+];
 
 // Production photos as ImageObjects (hashed /_astro URLs resolved at build).
 const schemaImages = await Promise.all(
@@ -112,14 +132,46 @@ const serviceSchema = {
           <p class="productos-eyebrow" data-reveal>En serie, con tu marca</p>
           <h2 class="section-title" data-reveal data-reveal-delay="0.06">Opciones</h2>
         </div>
-        <ul class:list={["productos-grid", { "productos-grid--two": product.variantes.length % 3 !== 0 }]} role="list">
-          {product.variantes.map((p, i) => (
-            <li class="producto" data-reveal data-reveal-delay={`${0.04 + i * 0.04}`}>
-              <h3 class="producto-name">{p.name}</h3>
-              <p class="producto-desc">{p.desc}</p>
-            </li>
-          ))}
-        </ul>
+        {withPhoto.length > 0 && (
+          <ul class:list={["opciones-fotos", { "opciones-fotos--two": withPhoto.length === 2 }]} role="list">
+            {withPhoto.map((v, i) => {
+              const files = v.images ?? [];
+              const renders = files.length > 1;
+              return (
+              <li class="opcion" data-reveal data-reveal-delay={`${0.04 + i * 0.05}`}>
+                <div class:list={["opcion-media", { "opcion-media--renders": renders }]}>
+                  {files.map((file) => (
+                    <Image
+                      src={segmentImage(file)}
+                      alt={segmentAlt(file)}
+                      widths={renders ? [200, 320, 480] : [480, 720, 960]}
+                      sizes={renders ? "(max-width: 640px) 42vw, 260px" : "(max-width: 640px) 100vw, 580px"}
+                      quality={75}
+                      loading="lazy"
+                      class="opcion-img"
+                    />
+                  ))}
+                  <span class="opcion-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                </div>
+                <div class="opcion-body">
+                  <h3 class="producto-name">{v.name}</h3>
+                  <p class="producto-desc">{v.desc}</p>
+                </div>
+              </li>
+              );
+            })}
+          </ul>
+        )}
+        {textOnly.length > 0 && (
+          <ul class:list={["productos-grid", { "productos-grid--two": textOnly.length % 3 !== 0 }]} role="list">
+            {textOnly.map((p, i) => (
+              <li class="producto" data-reveal data-reveal-delay={`${0.04 + i * 0.04}`}>
+                <h3 class="producto-name">{p.name}</h3>
+                <p class="producto-desc">{p.desc}</p>
+              </li>
+            ))}
+          </ul>
+        )}
         <p class="productos-services" data-reveal>
           Con <a href="/servicios/corte-laser/">corte láser</a> e
           <a href="/servicios/impresion-3d/">impresión 3D</a> — en acrílico,
@@ -127,6 +179,29 @@ const serviceSchema = {
         </p>
       </div>
     </section>
+
+    {specs.length > 0 && (
+      <section class="ficha" id="ficha">
+        <div class="container ficha-inner">
+          <div class="ficha-head">
+            <p class="ficha-eyebrow" data-reveal>Lo esencial</p>
+            <h2 class="ficha-title" data-reveal data-reveal-delay="0.06">Antes de <em>cotizar</em></h2>
+            <p class="ficha-lede" data-reveal data-reveal-delay="0.1">
+              Lo que conviene saber de {product.name.toLowerCase()} para pedir tu lote.
+            </p>
+            <a href="#cotiza" class="btn btn-primary ficha-cta" data-reveal data-reveal-delay="0.14">Cotiza tu producción</a>
+          </div>
+          <dl class="ficha-list">
+            {specs.map((s) => (
+              <div class="ficha-row">
+                <dt>{s.label}</dt>
+                <dd>{s.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+    )}
 
     {product.cases && <BusinessCases clients={product.cases} title="Trabajos reales" />}
 
@@ -235,6 +310,185 @@ const serviceSchema = {
   @media (max-width: 560px) {
     .productos-grid {
       grid-template-columns: 1fr;
+    }
+  }
+
+  /* Opciones con foto: mismo tratamiento que las tarjetas de sector. */
+  .opciones-fotos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    list-style: none;
+    margin-bottom: 24px;
+  }
+
+  .opcion {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg);
+    border: 1px solid var(--color-surface);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .opcion:hover {
+    transform: translateY(-4px);
+    border-color: rgba(165, 58, 4, 0.25);
+    box-shadow: 0 18px 40px rgba(20, 10, 4, 0.1);
+  }
+
+  .opcion-media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--color-surface);
+  }
+
+  .opcion-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .opcion:hover .opcion-img {
+    transform: scale(1.04);
+  }
+
+  .opcion-num {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.875rem;
+    color: #fff;
+    background: rgba(15, 15, 15, 0.55);
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+
+  .opcion-body {
+    padding: 22px 22px 24px;
+  }
+
+  .opciones-fotos--two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .opciones-fotos--two .opcion-media {
+    aspect-ratio: 16 / 10;
+  }
+
+  /* Renders sin fondo: van completos, en cuadrícula, sobre el tono cálido del sitio. */
+  .opcion-media--renders {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 8px 20px;
+    padding: 28px 36px;
+    background: var(--color-bg-alt);
+  }
+
+  .opcion-media--renders .opcion-img {
+    object-fit: contain;
+  }
+
+  .opcion:hover .opcion-media--renders .opcion-img {
+    transform: scale(1.06);
+  }
+
+  /* Ficha: banda oscura, como el cierre de página. */
+  .ficha {
+    padding: 104px 0;
+    background: var(--color-bg-ink);
+    color: var(--color-text-on-dark);
+  }
+
+  .ficha-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 72px;
+    align-items: start;
+  }
+
+  .ficha-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent-honey);
+    margin-bottom: 16px;
+  }
+
+  .ficha-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .ficha-title em {
+    color: var(--color-accent-honey);
+  }
+
+  .ficha-lede {
+    line-height: 1.75;
+    opacity: 0.8;
+    max-width: 36ch;
+    margin-bottom: 32px;
+  }
+
+  .ficha-list {
+    border-top: 1px solid rgba(245, 233, 216, 0.16);
+  }
+
+  .ficha-row {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: 24px;
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(245, 233, 216, 0.16);
+  }
+
+  .ficha-row dt {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .ficha-row dd {
+    line-height: 1.7;
+    opacity: 0.82;
+  }
+
+  @media (max-width: 960px) {
+    .opciones-fotos {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ficha {
+      padding: 72px 0;
+    }
+
+    .ficha-inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .opciones-fotos {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .ficha-row {
+      grid-template-columns: 1fr;
+      gap: 6px;
+      padding: 18px 0;
     }
   }
 
