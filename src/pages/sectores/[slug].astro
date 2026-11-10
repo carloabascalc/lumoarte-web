@@ -45,7 +45,7 @@ const schemaImages = await Promise.all(
       contentUrl: new URL(img.src, SITE.url).href,
       caption: segmentAlt(file),
       creditText: SITE.name,
-      creator: { "@type": "Organization", "@id": ORG_ID, name: SITE.name },
+      creator: { "@id": ORG_ID },
       copyrightNotice: `© ${new Date().getFullYear()} ${SITE.name}`,
     };
   }),

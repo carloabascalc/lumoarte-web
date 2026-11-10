@@ -17,8 +17,10 @@ import Contact from "../../components/Contact.astro";
 import Footer from "../../components/Footer.astro";
 import WhatsAppButton from "../../components/WhatsAppButton.astro";
 import { getService, absUrl } from "../../data/services";
+import { PRICING } from "../../data/pricing";
 
 const service = getService("corte-laser");
+const rates = PRICING["corte-laser"].rates!;
 
 
 const serviceSchema = {
@@ -33,14 +35,31 @@ const serviceSchema = {
     priceCurrency: "MXN",
     businessFunction: "http://purl.org/goodrelations/v1#Sell",
     eligibleCustomerType: "http://purl.org/goodrelations/v1#Business",
-    eligibleRegion: { "@type": "Country", name: "MX" },
-    priceSpecification: {
-      "@type": "UnitPriceSpecification",
-      priceCurrency: "MXN",
-      valueAddedTaxIncluded: false,
-      description:
-        "Precio por pieza según material y tiempo de máquina; el costo unitario baja conforme sube la cantidad. Cotización por lote vía WhatsApp.",
-    },
+    eligibleRegion: { "@type": "Country", name: "México" },
+    // Las mismas tarifas que muestra la franja "¿Cómo calculamos tu precio?".
+    priceSpecification: [
+      {
+        "@type": "UnitPriceSpecification",
+        name: "Tiempo de máquina",
+        price: rates.machinePerMinute,
+        priceCurrency: "MXN",
+        unitCode: "MIN",
+        unitText: "minuto de corte",
+        valueAddedTaxIncluded: false,
+        description:
+          "Precio por pieza = material + tiempo de máquina + manejo (4%) + IVA; el costo unitario baja conforme sube la cantidad. Cotización por lote vía WhatsApp.",
+      },
+      {
+        "@type": "UnitPriceSpecification",
+        name: "Diseño y ajustes de archivo",
+        price: rates.designPerHour,
+        priceCurrency: "MXN",
+        unitCode: "HUR",
+        unitText: "hora",
+        valueAddedTaxIncluded: false,
+        description: "Solo cuando el archivo lo requiere.",
+      },
+    ],
   },
 };
 
