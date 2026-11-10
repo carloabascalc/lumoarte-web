@@ -1,5 +1,8 @@
 ---
 import Article from "../../layouts/Article.astro";
+import { PRICING } from "../../data/pricing";
+
+const designPerHour = PRICING["corte-laser"].rates!.designPerHour;
 ---
 
 <Article
@@ -7,7 +10,7 @@ import Article from "../../layouts/Article.astro";
   description="Guía práctica para preparar archivos vectoriales que cortan limpio a la primera: trazos vs rellenos, escala, capas, formatos aceptados y errores comunes."
   slug="preparar-archivo-corte-laser"
   datePublished="2026-05-27"
-  dateModified="2026-06-20"
+  dateModified="2026-11-10"
   readingTime="6 min"
   topic="Corte láser"
 >
@@ -60,7 +63,9 @@ import Article from "../../layouts/Article.astro";
 <p>
   La convención que usamos en Lumo: <strong>rojo (#FF0000) = corte</strong>,
   <strong>negro = grabado</strong>. Si tu archivo no respeta esto, lo
-  acomodamos sin costo — pero si lo entregas así, ahorras tiempo de revisión.
+  acomodamos nosotros: un ajuste sencillo va incluido en la cotización, y si el
+  archivo necesita más trabajo, el ajuste se cobra a ${designPerHour} MXN por
+  hora. Entregarlo así te ahorra tiempo y costo de revisión.
 </p>
 
 <h2>Escala real y unidades</h2>
@@ -124,10 +129,10 @@ import Article from "../../layouts/Article.astro";
     <tr><th>Material</th><th>Grosor máximo</th><th>Notas</th></tr>
   </thead>
   <tbody>
-    <tr><td>MDF</td><td>6 mm</td><td>Hasta 9 mm con pasadas múltiples.</td></tr>
+    <tr><td>MDF</td><td>6 mm</td><td>Hasta 9 mm con pasadas múltiples; para 12 mm, consúltanos.</td></tr>
     <tr><td>Madera (contrachapado, balsa)</td><td>6 mm</td><td>El nudo y la humedad afectan el corte.</td></tr>
     <tr><td>Acrílico</td><td>8 mm</td><td>Canto pulido directo del láser.</td></tr>
-    <tr><td>Cartón / papel</td><td>4 mm</td><td>Excelente para maquetas e invitaciones.</td></tr>
+    <tr><td>Cartón / papel</td><td>4 mm</td><td>Ideal para invitaciones y empaques.</td></tr>
     <tr><td>Tela / fieltro</td><td>3 mm</td><td>Sellado de bordes para evitar deshilachado.</td></tr>
     <tr><td>Piel / cuero</td><td>3 mm</td><td>Curva los cantos según el grosor.</td></tr>
   </tbody>
