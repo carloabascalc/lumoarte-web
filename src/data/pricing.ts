@@ -49,6 +49,9 @@ export interface PricingContent {
   /** Etiquetas de los "chips" que suman al precio final. */
   flow: string[];
   componentes: PricingComponente[];
+  /** Tarifas reales en MXN sin IVA. Alimentan la franja `tarifas` y el
+   *  UnitPriceSpecification del schema, para que ambos digan lo mismo. */
+  rates?: { machinePerMinute: number; designPerHour: number };
   /** Franja oscura de tarifas. Solo cuando hay cifras reales. */
   tarifas?: string; // permite <strong>…</strong>
   /** Si true, muestra el botón a la lista de precios (PDF real existe). */
@@ -82,6 +85,8 @@ const TIPOS_GENERICOS = (noun: string): PricingTipo[] => [
     accent: "var(--color-accent-honey)",
   },
 ];
+
+const LASER_RATES = { machinePerMinute: 14, designPerHour: 600 };
 
 export const PRICING: Record<string, PricingContent> = {
   "corte-laser": {
@@ -125,7 +130,7 @@ export const PRICING: Record<string, PricingContent> = {
         points: [
           "Simulado en software especializado",
           "Redondeado al minuto + 30% de preparación",
-          "$14 MXN por minuto de corte",
+          `$${LASER_RATES.machinePerMinute} MXN por minuto de corte`,
         ],
       },
       {
@@ -145,8 +150,9 @@ export const PRICING: Record<string, PricingContent> = {
         ],
       },
     ],
+    rates: LASER_RATES,
     tarifas:
-      "Máquina <strong>$14 MXN / min</strong> · Diseño y ajustes <strong>$600 MXN / hr</strong> <span class=\"pf-tarifas-note\">(solo cuando el archivo lo requiere)</span>",
+      `Máquina <strong>$${LASER_RATES.machinePerMinute} MXN / min</strong> · Diseño y ajustes <strong>$${LASER_RATES.designPerHour} MXN / hr</strong> <span class="pf-tarifas-note">(solo cuando el archivo lo requiere)</span>`,
     hasPriceList: true,
     formulaPdf: "/como-cotizamos-corte-laser.pdf",
     materiales: {

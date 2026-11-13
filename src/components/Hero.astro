@@ -47,24 +47,24 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
   </div>
 
   <div class="container hero-content">
-    <p class="hero-kicker" data-reveal>
+    <p class="hero-kicker enter">
       <span class="hero-kicker-line" aria-hidden="true"></span>
       Corte láser · Impresión 3D
     </p>
 
     <h1 class="sr-only">Producción en serie en Cancún: corte láser e impresión 3D por volumen.</h1>
-    <div class="hero-title" data-reveal data-reveal-delay="0.06" aria-hidden="true">
+    <div class="hero-title enter" style="--enter-delay: 0.06s" aria-hidden="true">
       <span class="title-line title-line--top">Producción en serie</span>
       <span class="title-line title-line--bottom">en <em class="title-em">Cancún.</em></span>
     </div>
 
-    <p class="hero-sub" data-reveal data-reveal-delay="0.12">
+    <p class="hero-sub enter" style="--enter-delay: 0.12s">
       Corte láser e impresión 3D por volumen para hoteles, restaurantes,
       marcas, tiendas de souvenirs y eventos. Tu pieza, en lotes de decenas
       a miles — idénticas y listas para entregar.
     </p>
 
-    <div class="hero-ctas" data-reveal data-reveal-delay="0.18">
+    <div class="hero-ctas enter" style="--enter-delay: 0.18s">
       <a href="#cotiza" class="btn btn-primary hero-cta">Cotiza tu producción</a>
       <a href="#sectores" class="hero-cta-text">
         ¿Para quién fabricamos?
@@ -72,13 +72,13 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
       </a>
     </div>
 
-    <p class="hero-proof" data-reveal data-reveal-delay="0.24">
+    <p class="hero-proof enter" style="--enter-delay: 0.24s">
       <strong><span data-count="200" data-prefix="+">+200</span> proyectos</strong> fabricados y entregados en Cancún
     </p>
   </div>
 
   {/* Marquee — two rows, opposite directions, variable sizes */}
-  <div class="hero-marquee" aria-hidden="true" data-reveal data-reveal-delay="0.30">
+  <div class="hero-marquee enter" aria-hidden="true" style="--enter-delay: 0.3s">
     <div class="marquee-row marquee-row--top">
       <div class="marquee-track marquee-track--ltr">
         {rowA.map((item, i) => {
@@ -593,6 +593,11 @@ const sizeFor = (i: number) => sizes[i % sizes.length];
         el.textContent = `${prefix}${target}${suffix}`;
         return;
       }
+
+      // The HTML already holds the final value: freeze its width so the
+      // count-up never rewraps the proof line and shoves the marquee (CLS).
+      el.style.minWidth = `${el.getBoundingClientRect().width}px`;
+      el.style.textAlign = 'right';
 
       const duration = Math.max(600, Math.min(1800, target * 6));
       const start = performance.now();

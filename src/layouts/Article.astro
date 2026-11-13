@@ -82,11 +82,11 @@ const articleSchema = {
 
     <article class="article-page">
       <header class="article-header container">
-        {topic && <p class="article-eyebrow" data-reveal>{topic}</p>}
-        <h1 class="article-title" data-reveal data-reveal-delay="0.06">
+        {topic && <p class="article-eyebrow enter">{topic}</p>}
+        <h1 class="article-title enter" style="--enter-delay: 0.06s">
           {title}
         </h1>
-        <p class="article-meta" data-reveal data-reveal-delay="0.12">
+        <p class="article-meta enter" style="--enter-delay: 0.12s">
           Por <a href="/sobre-nosotros/">Adriano Abascal</a>
           <span aria-hidden="true">·</span>
           <time datetime={datePublished}>{fmtDate(datePublished)}</time>

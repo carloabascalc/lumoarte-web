@@ -5,11 +5,13 @@ import { SITE, services, absUrl, ORG_ID, FOUNDER_ID, CATALOG_ID } from "../data/
 import { segments } from "../data/segments";
 import { products } from "../data/products";
 import PageTransition from "../components/PageTransition.astro";
+import { lastModified } from "../lib/lastmod.mjs";
 
 interface Props {
   title?: string;
   description?: string;
-  canonical?: string;
+  /** Path or URL. `false` omits canonical and og:url (404 page). */
+  canonical?: string | false;
   ogImage?: string;
   schemaType?: "WebSite" | "LocalBusiness" | "Service";
   schemaData?: Record<string, unknown>;
@@ -36,11 +38,11 @@ const {
 // Normalise the canonical to a trailing slash so it matches the sitemap and the
 // directory URLs Vercel actually serves. Mismatched slash vs no-slash was making
 // GSC file the sitemap URLs as "Alternative page with proper canonical tag".
-const _canonical = new URL(canonical ?? Astro.url.pathname, Astro.site);
+const _canonical = new URL(canonical || Astro.url.pathname, Astro.site);
 if (!/\.[a-z0-9]+$/i.test(_canonical.pathname) && !_canonical.pathname.endsWith("/")) {
   _canonical.pathname += "/";
 }
-const canonicalURL = _canonical.href;
+const canonicalURL = canonical === false ? undefined : _canonical.href;
 const ogImageURL = new URL(ogImage, Astro.site).href;
 
 // One business entity (LocalBusiness) + founder + catalog, emitted on every
@@ -122,7 +124,6 @@ const businessSchema = {
     { "@type": "City", name: "Cancún" },
     { "@type": "City", name: "Playa del Carmen" },
     { "@type": "City", name: "Tulum" },
-    { "@type": "Place", name: "Riviera Maya" },
     { "@type": "City", name: "Mérida" },
     { "@type": "Country", name: "México" },
   ],
@@ -205,7 +206,32 @@ else if (schemaType === "Service" && schemaData) {
     ...schemaData,
   });
 }
-schemas.push(...extraSchemas);
+
+// Freshness: real last-edit date from git (src/lib/lastmod.mjs), never the
+// build time. If the page already ships its own page node (CollectionPage,
+// AboutPage, Article) the date goes there; otherwise a WebPage carries it.
+const PAGE_TYPES = ["WebPage", "CollectionPage", "AboutPage", "Article"];
+const dateModified = canonicalURL && !noindex ? lastModified(Astro.url.pathname) : undefined;
+const pageNodeIndex = extraSchemas.findIndex((s) => PAGE_TYPES.includes(String(s["@type"])));
+schemas.push(
+  ...extraSchemas.map((s, i) =>
+    i === pageNodeIndex && dateModified && !s.dateModified ? { ...s, dateModified } : s,
+  ),
+);
+if (dateModified && pageNodeIndex === -1) {
+  const serviceId = schemaType === "Service" ? schemaData?.["@id"] : undefined;
+  schemas.push({
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${canonicalURL}#webpage`,
+    url: canonicalURL,
+    name: title,
+    inLanguage: "es-MX",
+    isPartOf: { "@id": websiteSchema["@id"] },
+    ...(serviceId ? { about: { "@id": serviceId } } : {}),
+    dateModified,
+  });
+}
 ---
 
 <!doctype html>
@@ -219,14 +245,14 @@ schemas.push(...extraSchemas);
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex,nofollow" />}
-    <link rel="canonical" href={canonicalURL} />
+    {canonicalURL && <link rel="canonical" href={canonicalURL} />}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:locale" content="es_MX" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalURL} />
+    {canonicalURL && <meta property="og:url" content={canonicalURL} />}
     <meta property="og:image" content={ogImageURL} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -379,6 +405,19 @@ schemas.push(...extraSchemas);
   html.js .film-item {
     opacity: 0;
     transform: translateY(28px);
+  }
+
+  /* Entrada de los héroes (lo que se ve sin hacer scroll) solo con CSS: corre
+     desde el primer pintado, sin esperar al JS. Con data-reveal el H1 quedaba
+     oculto hasta que cargaba motion y en móvil lento Chrome no registraba LCP.
+     Uso: class="enter" style="--enter-delay: .06s". */
+  @media (prefers-reduced-motion: no-preference) {
+    .enter {
+      animation: lumo-enter 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--enter-delay, 0s) both;
+    }
+  }
+  @keyframes lumo-enter {
+    from { opacity: 0; transform: translateY(16px); }
   }
 
   @media (prefers-reduced-motion: reduce) {
