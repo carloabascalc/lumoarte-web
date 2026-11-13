@@ -1,4 +1,5 @@
 ---
+import { MIN_ORDER_FAQ, INVOICE_FAQ } from "../../data/faqs";
 import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
@@ -27,13 +28,10 @@ export function getStaticPaths() {
 
 const { segment } = Astro.props as { segment: Segment };
 
-// Range + past fact, never a promised capacity or a hard minimum.
 const faqs = [
   ...segment.faqs,
-  {
-    question: "¿Desde cuántas piezas trabajan?",
-    answer: "Trabajamos lotes de decenas a miles de piezas. Como referencia, hemos entregado lotes de alrededor de 1,500 piezas en un solo pedido (cuadros enmarcados para un hotel en Cancún). Entre más piezas, menor el costo por pieza; cada lote se cotiza según la pieza, el material y la cantidad.",
-  },
+  MIN_ORDER_FAQ,
+  INVOICE_FAQ,
 ];
 
 // Production photos as ImageObjects (hashed /_astro URLs resolved at build).

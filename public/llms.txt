@@ -86,6 +86,8 @@
 
 - Precio por volumen: entre más piezas, menor el costo por pieza. Cada lote se
   cotiza por WhatsApp según pieza, material y cantidad.
+- Sin pedido mínimo: se puede pedir cualquier cantidad; el fuerte son los lotes.
+- Factura: sí, emite factura (CFDI).
 - Corte láser — lista de precios de materiales en HTML (MXN, sin IVA, 2026):
   https://lumocancun.com/servicios/corte-laser/#precios-materiales
   Lámina completa desde $63 (MDF 2.7 mm) hasta $953 (acrílico transparente 6 mm). Ejemplos:
