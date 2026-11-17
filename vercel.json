@@ -24,6 +24,14 @@
     }
   ],
   "redirects": [
+    { "source": "/(contacto|buzon-de-quejas-y-sugerencias){/}?", "destination": "/#cotiza", "permanent": true },
+    { "source": "/preguntas-frecuentes{/}?", "destination": "/#faq", "permanent": true },
+    { "source": "/(galeria|galeria-corte-laser-artistico){/}?", "destination": "/servicios/corte-laser/#galeria", "permanent": true },
+    { "source": "/materiales-corte-laser-artistico{/}?", "destination": "/servicios/corte-laser/#materiales", "permanent": true },
+    { "source": "/servicios-corte-laser-artistico{/}?", "destination": "/servicios/corte-laser/", "permanent": true },
+    { "source": "/(politicas-de-privacidad|terminos-y-condiciones){/}?", "destination": "/aviso-de-privacidad/", "permanent": true },
+    { "source": "/proximamente{/}?", "destination": "/", "permanent": true },
+    { "source": "/(blog|decoracion|arte-decorativo|category|tag|author)/:path*{/}?", "destination": "/recursos/", "permanent": true },
     { "source": "/servicios/impresion-gran-formato", "destination": "/", "permanent": true },
     { "source": "/servicios/impresion-gran-formato/", "destination": "/", "permanent": true },
     { "source": "/precios-impresion-gran-formato.pdf", "destination": "/", "permanent": true },

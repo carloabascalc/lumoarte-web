@@ -26,7 +26,7 @@ corporativo). Los textos no deben prometer piezas únicas ni "mismo día"
 | `www.lumocancun.com` | Alias de `lumocancun.com`. |
 | `cortelasercancun.com` | EMD para la landing de corte láser. Se sirve con rewrite en `vercel.json`. |
 | `impresion3dcancun.com` | EMD para la landing de impresión 3D. Idem. |
-| `lumoarte.com` | Dominio heredado — todavía está en el proyecto de Vercel pero NO se usa en el código. |
+| `lumoarte.com` | Dominio heredado (el WordPress viejo). Desde 2026-11-17 es dominio-redirect 301 → `lumocancun.com` en Vercel (DNS en GoDaddy). Sus URLs viejas (`/contacto`, `/galeria…`, `/preguntas-frecuentes`, etc.) tienen redirect a su equivalente en `vercel.json` — no borrarlos. |
 
 Los tres dominios activos apuntan al **mismo proyecto de Vercel** (`lumoarte`) y las
 rewrites/redirects viven en `vercel.json`.
