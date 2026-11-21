@@ -17,7 +17,9 @@ export default defineConfig({
         !page.includes('/cortelasercancun') &&
         !page.includes('/impresion3dcancun') &&
         // Informational only (Lumo no imprime gran formato) — kept noindex.
-        !page.includes('/recursos/sublimacion-vs-vinil'),
+        !page.includes('/recursos/sublimacion-vs-vinil') &&
+        // Página de calificación que se manda por WhatsApp — noindex.
+        !page.includes('/califica/'),
       serialize(item) {
         if (item.url === 'https://lumocancun.com/') {
           item.priority = 1.0;

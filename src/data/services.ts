@@ -111,6 +111,8 @@ export const SITE = {
   // Facebook Page → Settings → Nombre de usuario.
   facebook: 'https://www.facebook.com/profile.php?id=61590896720550',
   gbp: 'https://www.google.com/maps?cid=2574885880611067538',
+  // Opens Google's "write a review" box for the same place as `gbp`.
+  gbpReview: 'https://search.google.com/local/writereview?placeid=ChIJIXu8ARErTI8Rktb96hDVuyM',
   geo: { lat: 21.1546364, lng: -86.8257604 },
   // Horario oficial del Google Business Profile (Lun–Sáb 9–18, Dom cerrado)
   hours: {
