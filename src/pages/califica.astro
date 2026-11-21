@@ -13,6 +13,8 @@ const starPath =
 <Base
   title="Califica tu pedido · Lumo Cancún"
   description="¿Cómo te fue con tu pedido de corte láser o impresión 3D en Lumo Cancún? Califícanos en un minuto: tu opinión nos ayuda a mejorar."
+  ogImage="/og/califica-resena-2026-11.jpg"
+  ogImageAlt="Lumo Cancún: ¿Cómo te fue con tu pedido? Cinco estrellas y una caja de corazón cortada en láser."
   noindex
 >
   <Nav variant="solid" ctaHref="/#cotiza" />
@@ -145,6 +147,9 @@ const starPath =
 </Base>
 
 <script>
+  // 5 estrellas → paso de reseña en Google; 1–4 → encuesta que abre WhatsApp con
+  // las respuestas. Las animaciones (estrellas, cambio de paso, chips) se apagan
+  // con prefers-reduced-motion: ahí todo cambia al instante, como antes.
   type Step = "stars" | "google" | "survey" | "thanks";
 
   function bootRate() {
@@ -156,19 +161,61 @@ const starPath =
     const labels: string[] = JSON.parse(root.dataset.labels ?? "[]");
     const steps = root.querySelectorAll<HTMLElement>(".rate-step");
     const stars = root.querySelector<HTMLElement>(".stars")!;
+    const starEls = Array.from(stars.querySelectorAll<HTMLElement>(".star"));
     const caption = root.querySelector<HTMLElement>(".stars-caption")!;
     const nextBtn = root.querySelector<HTMLButtonElement>(".rate-next")!;
     const form = root.querySelector<HTMLFormElement>(".survey")!;
     const retry = root.querySelector<HTMLAnchorElement>(".survey-retry")!;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     let rating = 0;
     let viaPointer = false;
     let advanceTimer = 0;
+    let swapTimer = 0;
+    // El siguiente paso sigue apareciendo 450 ms después del toque; el fade-out
+    // corre en los últimos LEAVE ms de esa espera, no se suma.
+    const AUTO_MS = 450;
+    const LEAVE = 180;
+
+    // Reinicia una animación CSS (la clase se quita sola al terminar).
+    const replay = (el: HTMLElement, cls: string) => {
+      if (reduce.matches) return;
+      el.classList.remove(cls);
+      void el.offsetWidth; // reflow para que la animación arranque de nuevo
+      el.classList.add(cls);
+    };
+    root.addEventListener("animationend", (e) => {
+      const t = e.target as HTMLElement;
+      if (t.matches(".star svg")) t.parentElement?.classList.remove("is-pop");
+      else if (t.matches(".star")) t.classList.remove("is-burst");
+      else if (t === caption) caption.classList.remove("is-swap");
+      else if (t.matches(".chips")) t.parentElement?.classList.remove("is-shake");
+    });
+
+    // Animaciones de estrellas cortadas por un cambio de paso no deben repetirse al volver.
+    const settleStars = () => starEls.forEach((s) => s.classList.remove("is-pop", "is-burst"));
+
+    const enter = (name: Step) => {
+      settleStars();
+      steps.forEach((s) => {
+        s.classList.remove("is-leaving", "is-entering");
+        s.hidden = s.dataset.step !== name;
+      });
+      const step = root.querySelector<HTMLElement>(`[data-step="${name}"]`);
+      step?.querySelector<HTMLElement>(".rate-title")?.focus({ preventScroll: true });
+      root.scrollIntoView({ block: "start" });
+      if (step && !reduce.matches) {
+        step.classList.add("is-entering");
+        window.setTimeout(() => step.classList.remove("is-entering"), 700);
+      }
+    };
 
     const show = (name: Step) => {
-      steps.forEach((s) => (s.hidden = s.dataset.step !== name));
-      const heading = root.querySelector<HTMLElement>(`[data-step="${name}"] .rate-title`);
-      heading?.focus({ preventScroll: true });
-      root.scrollIntoView({ block: "start" });
+      window.clearTimeout(swapTimer);
+      const current = Array.from(steps).find((s) => !s.hidden);
+      if (reduce.matches || !current || current.dataset.step === name) return enter(name);
+      current.classList.remove("is-entering");
+      current.classList.add("is-leaving");
+      swapTimer = window.setTimeout(() => enter(name), LEAVE);
     };
 
     const paint = (n: number) => {
@@ -188,10 +235,17 @@ const starPath =
       rating = Number((e.target as HTMLInputElement).value);
       paint(rating);
       caption.textContent = labels[rating - 1] ?? "";
+      replay(caption, "is-swap");
+      settleStars();
+      starEls.forEach((star, i) => {
+        if (i < rating) replay(star, "is-pop");
+        // halo en la estrella elegida; con 5, en todas
+        if (i === rating - 1 || rating === 5) replay(star, "is-burst");
+      });
       nextBtn.hidden = false;
       window.clearTimeout(advanceTimer);
       // A tap goes straight on; keyboard users move with arrows and confirm with the button.
-      if (viaPointer) advanceTimer = window.setTimeout(advance, 450);
+      if (viaPointer) advanceTimer = window.setTimeout(advance, reduce.matches ? AUTO_MS : AUTO_MS - LEAVE);
       viaPointer = false;
     });
 
@@ -237,16 +291,17 @@ const starPath =
         q.classList.toggle("is-invalid", !answered);
         const err = q.querySelector<HTMLElement>(".survey-error");
         if (err) err.hidden = Boolean(answered);
+        if (!answered) replay(q, "is-shake");
         if (!answered && !firstInvalid) firstInvalid = q;
       });
       if (firstInvalid) {
-        (firstInvalid as HTMLElement).scrollIntoView({ block: "center", behavior: "smooth" });
+        (firstInvalid as HTMLElement).scrollIntoView({ block: "center", behavior: reduce.matches ? "auto" : "smooth" });
         (firstInvalid as HTMLElement).querySelector<HTMLInputElement>("input")?.focus({ preventScroll: true });
         return;
       }
       const url = buildMessage();
       retry.href = url;
-      window.open(url, "_blank", "noopener");
+      window.open(url, "_blank", "noopener"); // dentro del click: los bloqueadores de pop-ups lo permiten
       show("thanks");
     });
   }
@@ -256,335 +311,150 @@ const starPath =
 </script>
 
 <style>
-  .rate {
-    background: var(--color-bg);
-    padding: calc(var(--nav-h) + 56px) 0 96px;
-    min-height: 80vh;
-  }
+  /* Mismo layout y colores; añade animación de estrellas (hover, presión, pop
+     en secuencia con halo), transición entre pasos y "Continuar" con su espacio
+     reservado (sin saltos). Todo lo que se mueve se apaga con prefers-reduced-motion. */
 
-  .rate-inner {
-    max-width: 640px;
-  }
+  .rate { background: var(--color-bg); padding: calc(var(--nav-h) + 56px) 0 96px; min-height: 80vh; }
+  .rate .rate-inner { max-width: 640px; }
+  .rate .rate-step[hidden] { display: none; }
+  .rate .rate-eyebrow { font-size: .8125rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 16px; }
+  .rate .rate-title { font-family: var(--font-display); font-size: clamp(2rem, 6vw, 2.75rem); font-weight: 600; line-height: 1.12; letter-spacing: -.015em; color: var(--color-text); margin-bottom: 16px; outline: none; }
+  .rate .rate-lead { font-size: 1.0625rem; line-height: 1.7; color: var(--color-muted); margin-bottom: 32px; }
+  .rate .rate-lead a, .rate .rate-small a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 3px; }
+  .rate .rate-small { font-size: .9375rem; line-height: 1.6; color: var(--color-muted); }
+  .rate .visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
-  .rate-step[hidden] {
-    display: none;
+  /* ---------- Stars ---------- */
+  .rate .stars-field { border: 0; padding: 0; margin: 0 0 24px; }
+  .rate .stars { display: flex; gap: 8px; }
+  .rate .star {
+    --i: 0;
+    position: relative; display: grid; place-items: center;
+    width: 56px; height: 56px; border-radius: 8px; cursor: pointer;
+    -webkit-tap-highlight-color: transparent; touch-action: manipulation;
   }
-
-  .rate-eyebrow {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-    margin-bottom: 16px;
+  .rate .star:nth-child(2) { --i: 1; }
+  .rate .star:nth-child(3) { --i: 2; }
+  .rate .star:nth-child(4) { --i: 3; }
+  .rate .star:nth-child(5) { --i: 4; }
+  .rate .star input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; z-index: 1; }
+  .rate .star svg {
+    fill: transparent; stroke: var(--color-accent-honey); stroke-width: 1.4; stroke-linejoin: round;
+    transform-origin: 50% 55%;
+    transition:
+      fill .2s ease calc(var(--i) * 28ms),
+      filter .3s ease,
+      transform .32s cubic-bezier(.34, 1.56, .64, 1);
+    will-change: transform;
   }
-
-  .rate-title {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 6vw, 2.75rem);
-    font-weight: 600;
-    line-height: 1.12;
-    letter-spacing: -0.015em;
-    color: var(--color-text);
-    margin-bottom: 16px;
-    outline: none;
+  /* soft halo that bursts out when a star is chosen */
+  .rate .star::after {
+    content: ""; position: absolute; inset: 6px; border-radius: 50%;
+    border: 2px solid var(--color-accent-honey); opacity: 0; transform: scale(.5);
+    pointer-events: none;
   }
+  .rate .star:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 
-  .rate-lead {
-    font-size: 1.0625rem;
-    line-height: 1.7;
-    color: var(--color-muted);
-    margin-bottom: 32px;
-  }
-
-  .rate-lead a,
-  .rate-small a {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .rate-small {
-    font-size: 0.9375rem;
-    line-height: 1.6;
-    color: var(--color-muted);
-  }
-
-  .visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
-  /* ── Estrellas ─────────────────────────────────────────────── */
-  .stars-field {
-    border: 0;
-    padding: 0;
-    margin: 0 0 24px;
-  }
-
-  .stars {
-    display: flex;
-    gap: 8px;
-  }
-
-  .star {
-    position: relative;
-    display: grid;
-    place-items: center;
-    width: 56px;
-    height: 56px;
-    border-radius: 8px;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .star input {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    margin: 0;
-    cursor: pointer;
-  }
-
-  .star svg {
-    fill: transparent;
-    stroke: var(--color-accent-honey);
-    stroke-width: 1.4;
-    stroke-linejoin: round;
-    transition: fill 0.15s ease, transform 0.15s ease;
-  }
-
-  .star:has(input:focus-visible) {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-  }
-
-  .stars[data-fill="1"] .star:nth-child(-n + 1) svg,
-  .stars[data-fill="2"] .star:nth-child(-n + 2) svg,
-  .stars[data-fill="3"] .star:nth-child(-n + 3) svg,
-  .stars[data-fill="4"] .star:nth-child(-n + 4) svg,
-  .stars[data-fill="5"] .star:nth-child(-n + 5) svg {
+  .rate .stars[data-fill="1"] .star:nth-child(-n+1) svg,
+  .rate .stars[data-fill="2"] .star:nth-child(-n+2) svg,
+  .rate .stars[data-fill="3"] .star:nth-child(-n+3) svg,
+  .rate .stars[data-fill="4"] .star:nth-child(-n+4) svg,
+  .rate .stars[data-fill="5"] .star:nth-child(-n+5) svg {
     fill: var(--color-accent-honey);
+    filter: drop-shadow(0 2px 5px rgba(200, 122, 42, .35));
+  }
+  @media (hover: hover) {
+    .rate .star:hover svg { transform: translateY(-3px) scale(1.1); }
+  }
+  .rate .star:active svg { transform: scale(.88); transition-duration: .2s, .3s, .08s; }
+  .rate .star:has(input:checked) svg { transform: scale(1.12); }
+
+  /* select: each filled star pops in sequence; the chosen one keeps its 1.12 scale */
+  .rate .star.is-pop svg { animation: star-pop .36s cubic-bezier(.34, 1.56, .64, 1) calc(var(--i) * 25ms) both; }
+  .rate .star.is-pop:has(input:checked) svg { --end: 1.12; }
+  .rate .star.is-burst::after { animation: star-ring .45s cubic-bezier(.22, 1, .36, 1) calc(var(--i) * 25ms + 30ms) both; }
+  @keyframes star-pop {
+    0%   { transform: scale(1); }
+    35%  { transform: scale(1.32) rotate(-8deg); }
+    65%  { transform: scale(.94) rotate(2deg); }
+    100% { transform: scale(var(--end, 1)); }
+  }
+  @keyframes star-ring {
+    0%   { opacity: .55; transform: scale(.5); }
+    100% { opacity: 0;   transform: scale(1.45); }
   }
 
-  .star:has(input:checked) svg {
-    transform: scale(1.12);
-  }
+  .rate .stars-caption { margin-top: 12px; font-weight: 500; color: var(--color-text); min-height: 1.5em; }
+  .rate .stars-caption.is-swap { animation: caption-in .32s cubic-bezier(.22, 1, .36, 1) both; }
+  @keyframes caption-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
-  .stars-caption {
-    margin-top: 12px;
-    font-weight: 500;
-    color: var(--color-text);
-    min-height: 1.5em;
-  }
+  /* "Continuar": space is reserved from the start, so nothing below jumps when it appears */
+  .rate .rate-next { transition: background .2s, transform .1s, opacity .3s ease, visibility 0s; }
+  .rate .rate-next[hidden] { display: inline-flex; visibility: hidden; opacity: 0; transform: translateY(6px); transition: none; }
 
-  .rate-next[hidden] {
-    display: none;
-  }
+  /* ---------- Step transitions ---------- */
+  .rate .rate-step.is-leaving { animation: step-out .18s cubic-bezier(.4, 0, 1, 1) both; pointer-events: none; }
+  .rate .rate-step.is-entering > * { animation: step-in .46s cubic-bezier(.22, 1, .36, 1) both; }
+  .rate .rate-step.is-entering > :nth-child(2) { animation-delay: 40ms; }
+  .rate .rate-step.is-entering > :nth-child(3) { animation-delay: 80ms; }
+  .rate .rate-step.is-entering > :nth-child(4) { animation-delay: 120ms; }
+  .rate .rate-step.is-entering > :nth-child(n+5) { animation-delay: 160ms; }
+  @keyframes step-out { to { opacity: 0; transform: translateY(-10px); } }
+  @keyframes step-in  { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
-  /* ── Cinco estrellas ───────────────────────────────────────── */
-  .google-tips {
-    margin: 0 0 32px;
-    padding-left: 24px;
-    display: grid;
-    gap: 12px;
-    line-height: 1.6;
-    color: var(--color-text);
-  }
+  /* ---------- Google step ---------- */
+  .rate .google-tips { margin: 0 0 32px; padding-left: 24px; display: grid; gap: 12px; line-height: 1.6; color: var(--color-text); }
+  .rate .rate-cta { width: 100%; justify-content: center; padding: 16px 24px; font-size: 1rem; }
+  .rate .rate-cta span { display: inline-block; transition: transform .25s cubic-bezier(.22, 1, .36, 1); }
+  @media (hover: hover) { .rate .rate-cta:hover span { transform: translateX(4px); } }
+  .rate .btn:active { transform: scale(.98); }
+  .rate .btn-text { display: inline-block; margin-top: 24px; padding: 8px 0; font-size: .9375rem; color: var(--color-muted); background: none; border: 0; cursor: pointer; font-family: var(--font-body); transition: color .2s ease; }
+  .rate .btn-text:hover { color: var(--color-accent); }
 
-  .rate-cta {
-    width: 100%;
-    justify-content: center;
-    padding: 16px 24px;
-    font-size: 1rem;
+  /* ---------- Survey ---------- */
+  .rate .survey { display: grid; gap: 32px; }
+  .rate .survey-q { border: 0; padding: 0; margin: 0; min-width: 0; }
+  .rate .survey-label { display: flex; gap: 12px; align-items: baseline; padding: 0; margin-bottom: 16px; font-weight: 500; font-size: 1.0625rem; line-height: 1.45; color: var(--color-text); }
+  .rate .survey-num { flex-shrink: 0; display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--page-accent-soft); color: var(--color-accent); font-size: .8125rem; font-weight: 600; }
+  .rate .survey-optional { font-weight: 400; color: var(--color-muted); font-size: .9375rem; }
+  .rate .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .rate .chip { position: relative; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  .rate .chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .rate .chip span {
+    display: inline-block; padding: 10px 16px; border: 1.5px solid var(--color-surface); border-radius: 999px;
+    background: #fff; font-size: .9375rem; line-height: 1.3; color: var(--color-text);
+    transition: border-color .2s ease, background .2s ease, color .2s ease, transform .18s cubic-bezier(.34, 1.56, .64, 1);
   }
-
-  .btn-text {
-    display: inline-block;
-    margin-top: 24px;
-    padding: 8px 0;
-    font-size: 0.9375rem;
-    color: var(--color-muted);
-    background: none;
-    border: 0;
-    cursor: pointer;
-    font-family: var(--font-body);
-  }
-
-  .btn-text:hover {
-    color: var(--color-accent);
-  }
-
-  /* ── Encuesta ──────────────────────────────────────────────── */
-  .survey {
-    display: grid;
-    gap: 32px;
-  }
-
-  .survey-q {
-    border: 0;
-    padding: 0;
-    margin: 0;
-    min-width: 0;
-  }
-
-  .survey-label {
-    display: flex;
-    gap: 12px;
-    align-items: baseline;
-    padding: 0;
-    margin-bottom: 16px;
-    font-weight: 500;
-    font-size: 1.0625rem;
-    line-height: 1.45;
-    color: var(--color-text);
-  }
-
-  .survey-num {
-    flex-shrink: 0;
-    display: inline-grid;
-    place-items: center;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--page-accent-soft);
-    color: var(--color-accent);
-    font-size: 0.8125rem;
-    font-weight: 600;
-  }
-
-  .survey-optional {
-    font-weight: 400;
-    color: var(--color-muted);
-    font-size: 0.9375rem;
-  }
-
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .chip {
-    position: relative;
-    cursor: pointer;
-  }
-
-  .chip input {
-    position: absolute;
-    opacity: 0;
-    inset: 0;
-    margin: 0;
-    cursor: pointer;
-  }
-
-  .chip span {
-    display: inline-block;
-    padding: 10px 16px;
-    border: 1.5px solid var(--color-surface);
-    border-radius: 999px;
-    background: #fff;
-    font-size: 0.9375rem;
-    line-height: 1.3;
-    color: var(--color-text);
-    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
-  }
-
-  .chip:hover span {
-    border-color: var(--color-accent);
-  }
-
-  .chip input:checked + span {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
-    color: #fff;
-  }
-
-  .chip input:focus-visible + span {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-  }
-
-  .survey-q.is-invalid .chip span {
-    border-color: var(--color-accent-dark);
-  }
-
-  .survey-error {
-    margin-top: 8px;
-    font-size: 0.875rem;
-    color: var(--color-accent-dark);
-    font-weight: 500;
-  }
-
-  .survey-error[hidden] {
-    display: none;
-  }
-
-  .survey textarea {
-    font-family: var(--font-body);
-    font-size: 1rem;
-    color: var(--color-text);
-    background: #fff;
-    border: 1.5px solid var(--color-surface);
-    border-radius: 6px;
-    padding: 12px 16px;
-    width: 100%;
-    min-height: 112px;
-    resize: vertical;
-    outline: none;
-    transition: border-color 0.25s ease, box-shadow 0.25s ease;
-  }
-
-  .survey textarea:focus {
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 4px rgba(165, 58, 4, 0.1);
-  }
-
-  .survey-submit {
-    width: 100%;
-    justify-content: center;
-    padding: 16px 24px;
-    font-size: 1rem;
-    gap: 10px;
-  }
-
-  .survey-hint {
-    margin-top: -16px;
-    font-size: 0.875rem;
-    color: var(--color-muted);
-    text-align: center;
-  }
+  .rate .chip:hover span { border-color: var(--color-accent); }
+  .rate .chip:active span { transform: scale(.95); }
+  .rate .chip input:checked + span { background: var(--color-accent); border-color: var(--color-accent); color: #fff; animation: chip-pop .3s cubic-bezier(.34, 1.56, .64, 1); }
+  .rate .chip input:focus-visible + span { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  @keyframes chip-pop { 0% { transform: scale(.94); } 60% { transform: scale(1.04); } 100% { transform: scale(1); } }
+  .rate .survey-q.is-invalid .chip span { border-color: var(--color-accent-dark); }
+  .rate .survey-q.is-shake .chips { animation: shake .4s cubic-bezier(.36, .07, .19, .97); }
+  @keyframes shake { 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
+  .rate .survey-error { margin-top: 8px; font-size: .875rem; color: var(--color-accent-dark); font-weight: 500; animation: caption-in .25s ease both; }
+  .rate .survey-error[hidden] { display: none; }
+  .rate .survey textarea { font-family: var(--font-body); font-size: 1rem; color: var(--color-text); background: #fff; border: 1.5px solid var(--color-surface); border-radius: 6px; padding: 12px 16px; width: 100%; min-height: 112px; resize: vertical; outline: none; transition: border-color .25s ease, box-shadow .25s ease; }
+  .rate .survey textarea:focus { border-color: var(--color-accent); box-shadow: 0 0 0 4px #a53a041a; }
+  .rate .survey-submit { width: 100%; justify-content: center; padding: 16px 24px; font-size: 1rem; gap: 10px; }
+  .rate .survey-hint { margin-top: -16px; font-size: .875rem; color: var(--color-muted); text-align: center; }
 
   @media (max-width: 480px) {
-    .rate {
-      padding: calc(var(--nav-h) + 32px) 0 112px;
-    }
-
-    .stars {
-      gap: 4px;
-    }
-
-    .star {
-      width: 52px;
-      height: 52px;
-    }
+    .rate { padding: calc(var(--nav-h) + 32px) 0 112px; }
+    .rate .stars { gap: 4px; }
+    .rate .star { width: 52px; height: 52px; }
   }
 
+  /* ---------- Reduced motion: no movement at all, same instant behaviour as before ---------- */
   @media (prefers-reduced-motion: reduce) {
-    .star svg,
-    .chip span {
-      transition: none;
-    }
-
-    .star:has(input:checked) svg {
-      transform: none;
-    }
+    .rate .star svg, .rate .chip span, .rate .rate-next, .rate .btn-text, .rate .rate-cta span { transition: none; }
+    .rate .star svg, .rate .star:hover svg, .rate .star:active svg, .rate .star:has(input:checked) svg,
+    .rate .chip:active span, .rate .btn:active, .rate .rate-cta:hover span { transform: none; }
+    .rate .star.is-pop svg, .rate .star.is-burst::after, .rate .stars-caption.is-swap,
+    .rate .rate-step.is-leaving, .rate .rate-step.is-entering > *, .rate .chip input:checked + span,
+    .rate .survey-q.is-shake .chips, .rate .survey-error { animation: none; }
+    .rate .star::after { display: none; }
   }
 </style>
